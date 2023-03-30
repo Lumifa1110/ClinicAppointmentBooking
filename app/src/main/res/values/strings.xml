@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">HYV_HPV_ClinicBooking</string>
     <string name="title_homepage">HYV-HPV HOME</string>
-    <string name="labelHome">HOME</string>
     <string name="labelSearch">SEARCH</string>
     <string name="labelLogin">LOG IN</string>
+    <string name="labelLogout">LOG OUT</string>
     <string name="labelRegister">REGISTER</string>
     <string name="labelAbout">ABOUT APP</string>
     <string name="labelSetting">SETTING</string>
+    <string name="labelUser">PROFILE</string>
+    <string name="labelDoctor">DOCTOR</string>
+    <string name="labelAppoinment">APPOINMENT</string>
 </resources>

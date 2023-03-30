@@ -12,10 +12,10 @@
         android:theme="@style/Theme.HYV_HPV_ClinicBooking"
         tools:targetApi="31">
         <activity
-            android:name=".HomePage"
+            android:name=".DoctorHomePage"
             android:exported="false" />
         <activity
-            android:name=".HomePageGuest"
+            android:name=".HomePage"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
