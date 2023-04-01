@@ -8,9 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="scarlet">#FF2400</color>
+    <color name="crimson">#DC143C</color>
     <color name="blue">#0000FF</color>
     <color name="dark_blue">#00008B</color>
     <color name="green">#00FF00</color>
     <color name="yellow">#FFFF00</color>
     <color name="main_color">#4ED5F9</color>
+    <color name="bluepastel">#AEC6CF</color>
+    <color name="seagreen">#00FFCD</color>
+    <color name="aero">#C9FFE5</color>
 </resources>

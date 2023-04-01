@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.DoctorHomePage">
+    tools:context=".Activity.UserHomePage">
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                 android:layout_marginBottom="2dp"
                 android:gravity="center">
                 <ImageView
-                    android:src="@drawable/schedule"
+                    android:src="@drawable/view_schedule"
                     app:tint="@color/dark_blue"
                     android:layout_width="25dp"
                     android:layout_height="25dp"/>
@@ -124,12 +124,12 @@
                 android:layout_marginBottom="2dp"
                 android:gravity="center">
                 <ImageView
-                    android:src="@drawable/patient"
+                    android:src="@drawable/prescription"
                     app:tint="@color/dark_blue"
                     android:layout_width="25dp"
                     android:layout_height="25dp"/>
                 <TextView
-                    android:text="@string/labelPatient"
+                    android:text="@string/labelPrescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
