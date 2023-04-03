@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg"
-    tools:context=".LoginPage">
+    android:background="@drawable/bg_login_register"
+    tools:context=".Activity.LoginPage">
     <TextView
         android:id="@+id/loginTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="170dp"
         android:text="HYV-HPV HEALTH"
         android:textColor="@color/dark_blue"
         android:textSize="40sp"
@@ -24,11 +24,10 @@
         android:id="@+id/button"
         android:layout_width="25sp"
         android:layout_height="3sp"
-        android:text="L"
         android:backgroundTint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="@+id/loginTV"
         app:layout_constraintTop_toBottomOf="@+id/loginTV"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -63,8 +62,9 @@
             android:layout_marginHorizontal="20sp"
             android:layout_marginVertical="30sp"
             android:background="@drawable/custom_et"
+            android:drawableLeft="@drawable/username"
             android:drawablePadding="10dp"
-            android:hint="Tài Khoản"
+            android:hint="Số Điện Thoại"
             android:padding="10dp"
             android:textSize="18sp"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -81,25 +81,27 @@
                 android:background="@drawable/custom_et"
                 android:hint="Mật Khẩu"
                 android:inputType="textPassword"
+                android:drawableLeft="@drawable/padlock"
+                android:drawablePadding="10dp"
                 android:padding="10dp"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-            <ImageButton
-                android:id="@+id/showPassword"
-                android:layout_width="24sp"
-                android:layout_height="24sp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="36dp"
-                android:background="@null"
-                android:scaleType="fitXY"
-                android:tag="showPassword"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/invisible"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/showPassword"-->
+<!--                android:layout_width="24sp"-->
+<!--                android:layout_height="24sp"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:layout_marginEnd="36dp"-->
+<!--                android:background="@null"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:tag="showPassword"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:srcCompat="@drawable/invisible"-->
+<!--                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -134,7 +136,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="10sp"
         android:text="Hoặc"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,10 +144,11 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
@@ -182,4 +185,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_left"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chưa có tài khoản? " />
+        <TextView
+            android:id="@+id/dangKi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng Kí"
+            android:textStyle="bold"
+            android:textColor="#444EFF"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

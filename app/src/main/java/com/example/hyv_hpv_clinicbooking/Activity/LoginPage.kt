@@ -1,16 +1,15 @@
-package com.example.hyv_hpv_clinicbooking
+package com.example.hyv_hpv_clinicbooking.Activity
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
-import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
+import com.example.hyv_hpv_clinicbooking.R
 
 class LoginPage : AppCompatActivity() {
     val REQUEST_CODE = 1111;
@@ -20,6 +19,7 @@ class LoginPage : AppCompatActivity() {
     var loginBTN: Button?= null
     var showPassword: ImageButton?= null
     var backBTN: ImageButton?= null
+    var dangKi: TextView?= null
     lateinit var sharedPreferences: SharedPreferences
 
 
@@ -36,7 +36,8 @@ class LoginPage : AppCompatActivity() {
         password = findViewById(R.id.passwordET)
         loginBTN = findViewById(R.id.loginBTN)
         backBTN = findViewById(R.id.backBTN)
-        showPassword = findViewById(R.id.showPassword)
+        dangKi = findViewById(R.id.dangKi)
+//        showPassword = findViewById(R.id.showPassword)
 
         //Lưu đăng nhập
         sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE)
@@ -49,7 +50,7 @@ class LoginPage : AppCompatActivity() {
         editor.commit()
 
         if(isLogin == "Login") {
-            val intent = Intent(this, HomePage::class.java)
+            val intent = Intent(this, UserHomePage::class.java)
             startActivityForResult(intent, REQUEST_CODE)
         }
 
@@ -57,7 +58,7 @@ class LoginPage : AppCompatActivity() {
             println(username?.text)
             println(password?.text)
             if(patient_username == username?.text.toString() && patient_password == password?.text.toString()) {
-                val intent = Intent(this, HomePage::class.java)
+                val intent = Intent(this, UserHomePage::class.java)
                 startActivityForResult(intent, REQUEST_CODE)
 //                val editor = sharedPreferences.edit()
 //                editor.clear()
@@ -81,16 +82,21 @@ class LoginPage : AppCompatActivity() {
 
         }
 
-        showPassword?.setOnClickListener {
-            if(showPassword?.tag == "showPassword") {
-                showPassword?.setTag("hidePassword")
-                password?.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
-                showPassword?.setBackgroundResource(R.drawable.view)
+//        showPassword?.setOnClickListener {
+//            if(showPassword?.tag == "showPassword") {
+//                showPassword?.setTag("hidePassword")
+//                password?.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
+//                showPassword?.setBackgroundResource(R.drawable.view)
+//
+//            }else if(showPassword?.tag == "hidePassword") {
+//                showPassword?.setTag("showPassword")
+//                password?.setTransformationMethod(PasswordTransformationMethod.getInstance())
+//            }
+//        }
 
-            }else if(showPassword?.tag == "hidePassword") {
-                showPassword?.setTag("showPassword")
-                password?.setTransformationMethod(PasswordTransformationMethod.getInstance())
-            }
+        dangKi?.setOnClickListener {
+            val intent = Intent(this, RegisterPage::class.java)
+            startActivity(intent)
         }
     }
 }

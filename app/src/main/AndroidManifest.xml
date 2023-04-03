@@ -12,6 +12,12 @@
         android:theme="@style/Theme.HYV_HPV_ClinicBooking"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.DoctorChooseFreeTime"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.RegisterPage"
+            android:exported="false" />
+        <activity
             android:name=".Activity.DoctorHomePage"
             android:exported="false" />
         <activity
@@ -19,6 +25,9 @@
             android:exported="false" />
         <activity
             android:name=".Activity.DoctorDetailPage"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.LoginPage"
             android:exported="false" />
         <activity
             android:name=".Activity.DoctorListPage"
