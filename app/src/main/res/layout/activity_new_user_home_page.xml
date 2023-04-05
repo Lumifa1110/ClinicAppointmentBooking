@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg_3"
     tools:context=".NewUserHomePage">
 
     <LinearLayout
@@ -14,30 +15,75 @@
         android:background="@drawable/gradient_bg_2"
         android:orientation="vertical"
         android:paddingTop="20dp"
-        android:paddingBottom="20dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:padding="3dp"
-            android:id="@+id/icon_notification"
-            android:src="@drawable/bell"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end"/>
+        <LinearLayout
+            android:id="@+id/avatarBarLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_gravity="center_vertical|start"
+                android:id="@+id/avatarCardView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="250dp">
+                <ImageView
+                    android:id="@+id/userAvatar"
+                    android:contentDescription="@string/description"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar" />
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/iconNotification"
+                android:src="@drawable/bell"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|end"
+                android:contentDescription="@string/description" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/userGreetings"
+            android:id="@+id/userGreeting1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:text="Chúc một ngày tốt lành"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/topPanelLL"
+            app:layout_constraintStart_toStartOf="@+id/topPanelLL"
+            app:layout_constraintTop_toTopOf="@+id/topPanelLL"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <TextView
+            android:id="@+id/userGreeting2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_weight="1"
-            android:text="Xin chào Người dùng"
+            android:text="Chào Vũ, bạn thế nào?"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/topPanelLL"
             app:layout_constraintStart_toStartOf="@+id/topPanelLL"
@@ -45,33 +91,53 @@
             tools:layout_editor_absoluteX="40dp"
             tools:layout_editor_absoluteY="48dp" />
 
-        <LinearLayout
-            android:id="@+id/searchBarLL"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:layout_marginStart="-20dp"
+            android:layout_marginEnd="-20dp">
+
             <ImageView
-                android:padding="3dp"
-                android:id="@+id/icon_search"
-                android:src="@mipmap/icon_search"
-                android:layout_width="34dp"
-                android:layout_height="34dp" />
-            <EditText
-                android:id="@+id/searchDoctor"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="126dp" />
-        </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:background="#D1D8E1"
+                android:layout_gravity="bottom"
+                android:contentDescription="@string/description">
+            </ImageView>
+
+            <LinearLayout
+                android:id="@+id/searchBarLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_edittext"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <ImageView
+                    android:padding="3dp"
+                    android:id="@+id/iconSearch"
+                    android:src="@mipmap/icon_search"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp" />
+
+                <EditText
+                    android:id="@+id/searchDoctor"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:ems="10"
+                    android:hint="Tìm kiếm bác sĩ"
+                    android:inputType="textPersonName"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="38dp"
+                    tools:layout_editor_absoluteY="126dp" />
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
