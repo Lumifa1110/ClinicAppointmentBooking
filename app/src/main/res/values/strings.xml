@@ -1,20 +1,29 @@
 <resources>
     <string name="app_name">HYV_HPV_ClinicBooking</string>
     <string name="title_homepage">HYV-HPV HOME</string>
-    <string name="labelHome">HOME</string>
-    <string name="labelSearch">SEARCH</string>
-    <string name="labelLogin">LOG IN</string>
-    <string name="labelLogout">LOG OUT</string>
-    <string name="labelRegister">REGISTER</string>
-    <string name="labelAbout">ABOUT APP</string>
-    <string name="labelSetting">SETTING</string>
-    <string name="labelUser">PROFILE</string>
-    <string name="labelDoctor">DOCTOR</string>
-    <string name="labelAppoinment">BOOKING</string>
-    <string name="labelSchedule">SCHEDULE</string>
-    <string name="labelPrescription">TREATMENT</string>
-    <string name="labelPatient">PATIENT</string>
-    <string name="labelHistory">HISTORY</string>
+    <string name="labelHome">TRANG CHỦ</string>
+    <string name="labelSearch">TÌM KIẾM</string>
+    <string name="labelLogin">ĐĂNG NHẬP</string>
+    <string name="labelLogout">ĐĂNG XUẤT</string>
+    <string name="labelRegister">ĐĂNG KÝ</string>
+    <string name="labelAbout">HỖ TRỢ</string>
+    <string name="labelSetting">CÀI ĐẶT</string>
+    <string name="labelProfile">HỒ SƠ</string>
+    <string name="labelDoctor">BÁC SĨ</string>
+    <string name="labelPatient">BỆNH NHÂN</string>
+    <string name="labelAppoinment">ĐẶT</string>
+    <string name="labelSchedule">LỊCH TRÌNH</string>
+    <string name="labelPrescription">ĐIỀU TRỊ</string>
+    <string name="labelHistory">LỊCH SỬ</string>
+    <string name="labelNotification">THÔNG BÁO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- For Admin Page -->
+    <string name="labelDoctors">BÁC SĨ</string>
+    <string name="labelPatients">BỆNH NHÂN</string>
+    <string name="labelAllUsers">TẤT CẢ</string>
+    <string name="labelAccount">TÀI KHOẢN</string>
+    <string name="labelUsers">NGƯỜI DÙNG</string>
+    <string name="description">Description</string>
+    <string name="admin_name">Lumia Lumifa</string>
 </resources>

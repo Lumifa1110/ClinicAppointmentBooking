@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/adminHome"
+        android:title="@string/labelHome"
+        android:icon="@drawable/home"/>
+    <item
+        android:id="@+id/adminDoctors"
+        android:title="@string/labelDoctors"
+        android:icon="@drawable/doctors"/>
+    <item
+        android:id="@+id/adminPatients"
+        android:title="@string/labelPatients"
+        android:icon="@drawable/patients"/>
+    <item
+        android:id="@+id/adminUser"
+        android:title="@string/labelProfile"
+        android:icon="@drawable/user"/>
+</menu>
