@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewUserHomePage">
+
+    <LinearLayout
+        android:id="@+id/topPanelLL"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="@drawable/gradient_bg_2"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:padding="3dp"
+            android:id="@+id/icon_notification"
+            android:src="@drawable/bell"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"/>
+
+        <TextView
+            android:id="@+id/userGreetings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:text="Xin chào Người dùng"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/topPanelLL"
+            app:layout_constraintStart_toStartOf="@+id/topPanelLL"
+            app:layout_constraintTop_toTopOf="@+id/topPanelLL"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <LinearLayout
+            android:id="@+id/searchBarLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <ImageView
+                android:padding="3dp"
+                android:id="@+id/icon_search"
+                android:src="@mipmap/icon_search"
+                android:layout_width="34dp"
+                android:layout_height="34dp" />
+            <EditText
+                android:id="@+id/searchDoctor"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="38dp"
+                tools:layout_editor_absoluteY="126dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

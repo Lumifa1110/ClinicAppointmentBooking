@@ -20,6 +20,8 @@
         <activity
             android:name=".Activity.RegisterPage"
             android:exported="false" />
+            android:name=".NewUserHomePage"
+            android:exported="false" />
         <activity
             android:name=".Activity.DoctorHomePage"
             android:exported="false" />
