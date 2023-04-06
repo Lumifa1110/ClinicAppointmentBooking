@@ -16,6 +16,10 @@
     <string name="labelPrescription">ĐIỀU TRỊ</string>
     <string name="labelHistory">LỊCH SỬ</string>
     <string name="labelNotification">THÔNG BÁO</string>
+    <string name="labelAppointmentHistory">CUỘC HẸN ĐÃ ĐẶT</string>
+    <string name="labelUserProfile">THÔNG TIN CÁ NHÂN</string>
+    <string name="labelOncomingAppointment">Cuộc hẹn sắp tới</string>
+    <string name="labelSeeAll">Xem tất cả</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- For Admin Page -->
