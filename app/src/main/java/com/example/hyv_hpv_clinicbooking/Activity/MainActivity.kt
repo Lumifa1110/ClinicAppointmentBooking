@@ -12,9 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Write a message to the database
-
-
-        val intent = Intent(this, DoctorChooseFreeTime::class.java)
+        val intent = Intent(this, AdminHomePage::class.java)
         startActivity(intent)
 
     }
