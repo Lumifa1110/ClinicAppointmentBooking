@@ -6,12 +6,12 @@ import android.widget.GridView
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorDetailAdapter
-import com.example.hyv_hpv_clinicbooking.Model.Doctor
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 
 class DoctorDetailPage : AppCompatActivity() {
     var adapter : DoctorDetailAdapter? = null
-    var doctor: Doctor?= null
+    var doctor: BacSi?= null
 
     var nameTV: TextView?= null
     var imageIV: ImageView?= null
@@ -31,7 +31,7 @@ class DoctorDetailPage : AppCompatActivity() {
         phoneTV = findViewById(R.id.doctorPhone)
 
 
-        doctor = Doctor()
+        doctor = BacSi()
         doctor?.HoTen = "Yogesh Batra"
         doctor?.Image = R.drawable.doctor1
         doctor?.TenChuyenKhoa = "Nha sĩ"

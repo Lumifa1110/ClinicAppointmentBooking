@@ -6,20 +6,19 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
-import com.example.hyv_hpv_clinicbooking.Model.Doctor
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 
 
 class DoctorManagement : Fragment() {
 
-    var doctor: Doctor?= null
+    var doctor: BacSi?= null
     var menuItem: MenuItem? = null
     var searchView: SearchView? = null
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: DoctorListAdapter
-    lateinit var doctorList: ArrayList<Doctor>
+    lateinit var doctorList: ArrayList<BacSi>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +31,7 @@ class DoctorManagement : Fragment() {
         recyclerView = view.findViewById(R.id.DoctocView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         doctorList = ArrayList()
-        doctor = Doctor()
+        doctor = BacSi()
         doctor?.HoTen = "Yogesh Batra"
         doctor?.Image = R.drawable.doctor1
         doctor?.TenChuyenKhoa = "Nha sĩ"

@@ -22,5 +22,5 @@
     <color name="primary_color">#444EFF</color>
     <color name="secondary_color">#2F7AE5</color>
     <color name="tertiary_color">#439CEF</color>
-
+    <color name="background_color">#E8E8E8</color>
 </resources>
