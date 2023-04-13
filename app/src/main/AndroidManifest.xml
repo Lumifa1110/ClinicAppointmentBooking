@@ -30,14 +30,14 @@
             android:name=".Activity.RegisterPage"
             android:exported="false" />
         <activity
-            android:name=".NewUserHomePage"
+            android:name=".Activity.NewUserHomePage"
             android:exported="false" />
         <activity
             android:name=".Activity.DoctorHomePage"
             android:exported="false" />
-        <activity
-            android:name=".Activity.UserHomePage"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Activity.UserHomePage"-->
+<!--            android:exported="false" />-->
          <activity
              android:name=".Activity.DoctorDetailPage"
              android:exported="false" />
@@ -48,7 +48,7 @@
              android:name=".Activity.DoctorListPage"
             android:exported="false" />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.UserHomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

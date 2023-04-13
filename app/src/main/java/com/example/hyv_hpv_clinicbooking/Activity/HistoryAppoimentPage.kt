@@ -15,7 +15,6 @@ import com.example.hyv_hpv_clinicbooking.R
 import java.util.*
 import kotlin.collections.ArrayList
 
-@RequiresApi(Build.VERSION_CODES.O)
 class HistoryAppoimentPage : AppCompatActivity() {
     private var doctorList = ArrayList<BacSi>()
     private var appoinments = ArrayList<KeDon>()

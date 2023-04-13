@@ -24,7 +24,6 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:id="@+id/back_button"
-            android:src="@drawable/arrow_left"
             app:tint="@color/white"
             android:layout_centerVertical="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +58,7 @@
             android:padding="10dp"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:text="Họ và tên"/>
 
@@ -72,7 +71,7 @@
             android:textStyle="bold"
             android:textColor="@color/primary_color"
             android:text="Phạm Trần Minh Ngọc"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:background="@drawable/box_date"
             />
 
@@ -94,7 +93,7 @@
             android:padding="10dp"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:text="Ngày khám"/>
 
@@ -107,7 +106,7 @@
             android:textStyle="bold"
             android:textColor="@color/primary_color"
             android:text="08 giờ 30 phút"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:background="@drawable/box_date"
             />
         <TextView
@@ -119,7 +118,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:text="20/03/2023"
-            android:textSize="16dp"
+            android:textSize="14sp"
             />
     </LinearLayout>
 
@@ -145,14 +144,15 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primary_color"
             android:textStyle="bold"
-            android:textSize="18dp"
+            android:textSize="16sp"
             android:text="Chuẩn đoán" />
     </LinearLayout>
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="36dp"
         android:paddingHorizontal="10dp"
         android:id="@+id/chuandoan"
+        android:textSize="14sp"
         android:text="Mắc bệnh đái tháo đường\nsdfsfsdfsfsdfsdfsf"
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/box_date"
@@ -181,7 +181,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primary_color"
             android:textStyle="bold"
-            android:textSize="18dp"
+            android:textSize="16sp"
             android:text="Thuốc điều trị:" />
     </LinearLayout>
 
@@ -197,9 +197,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thêm đơn thuốc"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintTop_toBottomOf="@id/prescriptionRecyclerView"
         android:background="@drawable/wrapper_rounded_primary"
         android:layout_marginTop="6dp"
+        android:textSize="16sp"
         android:paddingHorizontal="10dp"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -227,12 +229,13 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primary_color"
             android:textStyle="bold"
-            android:textSize="18dp"
+            android:textSize="16sp"
             android:text="Lời dặn" />
     </LinearLayout>
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="36dp"
+        android:textSize="14sp"
         android:id="@+id/doctorNote"
         android:padding="10dp"
         android:layout_marginHorizontal="20dp"

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     tools:context=".Activity.DoctorDetailPage">
+
     <ImageView
         android:id="@+id/doctorImage"
         android:layout_width="match_parent"
@@ -16,6 +17,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/relative_layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:id="@+id/back_button"
+            app:tint="@color/primary_color"
+            android:layout_centerVertical="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/arrow_left"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/doctorInforLayout"
         android:layout_width="match_parent"
@@ -36,8 +61,8 @@
                 android:id="@+id/doctorName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bác sĩ: Yogesh Batra"
-                android:textSize="26dp"
+                android:text="Bác sĩ Yogesh Batra"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -53,8 +78,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:padding="2dp"
                     android:src="@drawable/specialist"
                     android:layout_gravity="center"
@@ -66,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chuyên khoa: Nha sĩ"
+                    android:textSize="14sp"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -75,8 +101,8 @@
 
                 <ImageView
                     android:id="@+id/addressIcon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:padding="2dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/location"
@@ -91,7 +117,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/addressIcon"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="24dp"
                     android:textColor="@color/white"
                     android:text="Địa chỉ: 34-36 đường Đinh Tiên Hoàng, TP.HCM" />
 
@@ -104,15 +130,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:padding="2dp"
                     android:scaleType="fitXY"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="6dp"
                     android:src="@drawable/contact"
                     app:tint="@color/white" />
                 <TextView
+                    android:textSize="14sp"
                     android:id="@+id/doctorPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -144,8 +171,8 @@
         android:layout_marginHorizontal="20dp"
         android:id="@+id/timeTilte">
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_gravity="center"
             android:layout_marginEnd="4dp"
             android:scaleType="fitXY"
@@ -154,7 +181,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:text="Thời gian làm việc"
             android:textColor="@color/primary_color"
             android:textStyle="bold" />
@@ -179,56 +206,62 @@
             android:background="@drawable/box_date"
             android:orientation="horizontal">
             <TextView
-                android:paddingStart="5dp"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:textSize="14sp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/primary_color"
                 android:text="Thứ\nHai"/>
             <TextView
-                android:layout_width="45dp"
+                android:textSize="14sp"
+                android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/primary_color"
-                android:layout_height="45dp"
+                android:layout_height="42dp"
                 android:text="Thứ\nBa"/>
             <TextView
-                android:layout_width="45dp"
+                android:textSize="14sp"
+                android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/primary_color"
-                android:layout_height="45dp"
+                android:layout_height="42dp"
                 android:text="Thứ\nTư"/>
             <TextView
-                android:layout_width="45dp"
+                android:textSize="14sp"
+                android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/primary_color"
-                android:layout_height="45dp"
+                android:layout_height="42dp"
                 android:text="Thứ\nNăm"/>
             <TextView
-                android:layout_width="45dp"
+                android:textSize="14sp"
+                android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/primary_color"
-                android:layout_height="45dp"
+                android:layout_height="42dp"
                 android:text="Thứ\nSáu"/>
             <TextView
-                android:layout_width="45dp"
+                android:textSize="14sp"
+                android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/primary_color"
-                android:layout_height="45dp"
+                android:layout_height="42dp"
                 android:text="Thứ\nBảy"/>
         </LinearLayout>
 
         <TextView
+            android:textSize="14sp"
             android:paddingHorizontal="5dp"
             android:layout_width="match_parent"
             android:textColor="@color/white"
             android:gravity="center"
-            android:layout_height="45dp"
+            android:layout_height="42dp"
             android:text="8 Giờ - 4 Giờ"
             android:textStyle="bold" />
     </LinearLayout>
@@ -242,8 +275,8 @@
         app:layout_constraintTop_toBottomOf="@id/timeLinearLayout"
         android:layout_marginTop="4dp">
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_gravity="center"
             android:scaleType="fitXY"
             android:layout_marginEnd="4dp"
@@ -253,7 +286,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/primary_color"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:text="Giới thiệu về bác sĩ"
             android:textStyle="bold" />
     </LinearLayout>
@@ -275,6 +308,7 @@
             android:scrollbars="none"
             >
             <TextView
+                android:textSize="14sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -293,7 +327,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Đặt lịch hẹn"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/white"
             android:background="@drawable/circle_design" />
     </LinearLayout>

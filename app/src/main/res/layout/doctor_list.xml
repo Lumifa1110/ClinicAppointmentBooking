@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="20dp"
     android:layout_marginVertical="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 >
@@ -13,34 +12,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
         android:background="@drawable/wrapper_rounded_primary">
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:textColor="@color/white"
             android:background="@drawable/wrapper_rounded_blue_sky"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="Bác sĩ"
-                android:textSize="18dp"
-                android:background="@drawable/border_righttop_rightbottom"
-                android:padding="10dp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/name"
-                android:textColor="@color/white"
-                android:text="Phạm Trần Minh Ngọc"
-                android:textSize="18dp"
-                android:padding="10dp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:text="Bác sĩ Phạm Trần Minh Ngọc"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:textStyle="bold" />
 
         <LinearLayout
            android:layout_width="match_parent"
@@ -80,8 +65,8 @@
                        android:layout_height="wrap_content"
                        android:orientation="horizontal">
                        <ImageView
-                           android:layout_width="16dp"
-                           android:layout_height="16dp"
+                           android:layout_width="18dp"
+                           android:layout_height="18dp"
                            app:tint="@color/white"
                            android:src="@drawable/specialist"
                            android:layout_gravity="center"
@@ -91,7 +76,7 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:id="@+id/specialist"
-                           android:textSize="16dp"
+                           android:textSize="14sp"
                            android:textColor="@color/white"
                            android:text="Chuyên khoa: Nha sĩ"
                            android:textStyle="bold"/>
@@ -103,8 +88,8 @@
                        android:orientation="horizontal">
 
                        <ImageView
-                           android:layout_width="16dp"
-                           android:layout_height="16dp"
+                           android:layout_width="18dp"
+                           android:layout_height="18dp"
                            android:scaleType="fitXY"
                            app:tint="@color/white"
                            android:layout_gravity="center"
@@ -115,7 +100,7 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:textColor="@color/white"
-                           android:textSize="16dp"
+                           android:textSize="14sp"
                            android:text="Thứ Hai - Thứ Bảy"/>
                    </LinearLayout>
 
@@ -126,8 +111,8 @@
                        android:orientation="horizontal">
 
                        <ImageView
-                           android:layout_width="16dp"
-                           android:layout_height="16dp"
+                           android:layout_width="18dp"
+                           android:layout_height="18dp"
                            android:scaleType="fitXY"
                            android:layout_gravity="center"
                            android:layout_marginEnd="8dp"
@@ -137,7 +122,7 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_gravity="center"
-                           android:textSize="16dp"
+                           android:textSize="14sp"
                            android:textColor="@color/white"
                            android:text="8 giờ  - 16 giờ"/>
                    </LinearLayout>

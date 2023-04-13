@@ -12,9 +12,9 @@ import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.R
 
-@RequiresApi(Build.VERSION_CODES.O)
 class HistoryAppoinmentAdapter(var doctorList: List<BacSi>, var appoinmentList: List<KeDon>) :
     RecyclerView.Adapter<HistoryAppoinmentAdapter.HistoryAppoimentViewHolder>() {
+    var onItemClick: ((Int) -> Unit)? = null
 
     inner class HistoryAppoimentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image : ImageView = itemView.findViewById(R.id.image)
@@ -23,10 +23,14 @@ class HistoryAppoinmentAdapter(var doctorList: List<BacSi>, var appoinmentList: 
 
         val dateTV: TextView = itemView.findViewById(R.id.date)
         val timeTV: TextView = itemView.findViewById(R.id.time)
+
+        init {
+            itemView.setOnClickListener { onItemClick?.invoke(adapterPosition) }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAppoimentViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.doctor_list , parent , false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.appoiment_list, parent , false)
         return HistoryAppoimentViewHolder(view)
     }
 

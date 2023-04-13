@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 
-class DoctorListAdapter(var mList: List<BacSi>) :
-    RecyclerView.Adapter<DoctorListAdapter.DoctorViewHolder>() {
+class DoctorListAdapter(var mList: List<BacSi>) : RecyclerView.Adapter<DoctorListAdapter.DoctorViewHolder>() {
+    var onItemClick: ((Int) -> Unit)? = null
     inner class DoctorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image : ImageView = itemView.findViewById(R.id.image)
         val nameTV : TextView = itemView.findViewById(R.id.name)
         val specialistTV: TextView = itemView.findViewById(R.id.specialist)
+        init {
+            itemView.setOnClickListener { onItemClick?.invoke(adapterPosition) }
+        }
     }
 
     fun setFilteredList(mList: List<BacSi>){

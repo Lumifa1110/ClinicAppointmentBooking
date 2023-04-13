@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
-    tools:context=".Activity.NewUserHomePage">
-
+    tools:context=".Fragment.UserHomeFragment">
     <!--
         Avatar người dùng + Chuông thông báo
     -->
@@ -152,33 +151,14 @@
     <!--
         Thanh điều hướng
     -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/userNavBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/navbar_rounded"
-        app:itemIconTint="@color/nav_items_color"
-        app:itemTextColor="@color/nav_items_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/user_menu" />
 
-    <!--
-        Main View trang chủ
-    -->
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="400dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/userNavBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
