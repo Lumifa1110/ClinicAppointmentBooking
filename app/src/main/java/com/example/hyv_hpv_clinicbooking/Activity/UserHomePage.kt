@@ -9,9 +9,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import com.example.hyv_hpv_clinicbooking.Fragment.DoctorListFragment
-import com.example.hyv_hpv_clinicbooking.Fragment.HistoryAppoimentFragment
-import com.example.hyv_hpv_clinicbooking.Fragment.UserHomeFragment
+import com.example.hyv_hpv_clinicbooking.Fragment.*
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,6 +20,7 @@ class UserHomePage : AppCompatActivity() {
     var userHomeFrament = UserHomeFragment()
     var doctorListFragment = DoctorListFragment()
     var historyAppoimentFragment = HistoryAppoimentFragment()
+    var userProfileFragment = UserProfile()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +60,7 @@ class UserHomePage : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.userProfile -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.container, userProfileFragment).commit()
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> false

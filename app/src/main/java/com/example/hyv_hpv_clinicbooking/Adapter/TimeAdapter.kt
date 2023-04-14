@@ -47,6 +47,7 @@ class TimeAdapter (private var context: Context, private var items: ArrayList<St
             viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
             viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
         }
+
         val time = items[position]
         viewHolder.timeView?.text = time
         return view
