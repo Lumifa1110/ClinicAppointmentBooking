@@ -16,9 +16,11 @@
     <color name="yellow">#FFFF00</color>
     <color name="main_color">#4ED5F9</color>
     <color name="bluepastel">#AEC6CF</color>
+    <color name="darkbluepastel">#779ECD</color>
     <color name="aero">#C9FFE5</color>
     <color name="blue_sky">#0048A8</color>
     <color name="primary_color">#444EFF</color>
     <color name="secondary_color">#2F7AE5</color>
     <color name="tertiary_color">#439CEF</color>
+    <color name="background_color">#E8E8E8</color>
 </resources>

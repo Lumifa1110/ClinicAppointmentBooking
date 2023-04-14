@@ -11,7 +11,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical"
-        android:background="@drawable/box_date"
+        android:background="@drawable/wrapper_rounded_primary"
         >
         <TextView
             android:id="@+id/titleTV"
@@ -19,6 +19,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Bệnh nhân"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:background="@drawable/box_title"
             android:textAlignment="center"/>
         <LinearLayout
@@ -32,16 +34,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1000"
-                android:textSize="18dp"
+                android:textSize="14sp"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 />
             <ImageView
                 android:id="@+id/iconIV"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:src="@drawable/appointment"
                 android:layout_gravity="center"
+                app:tint="@color/white"
                 android:scaleType="fitXY"
                 android:layout_marginStart="5dp"/>
         </LinearLayout>

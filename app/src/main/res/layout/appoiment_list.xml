@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wrapper_rounded_primary"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:padding="15dp">
+        <!--
+            Avatar + Tên + Chuyên khoa
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+            <!--
+                Avatar bác sĩ
+            -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/avatarDoctorCardView"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="250dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/description"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/doctor1" />
+            </androidx.cardview.widget.CardView>
+            <!--
+                Họ tên + chuyên khoa bác sĩ
+            -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Bác sĩ Ngô Anh Vũ"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:tint="@color/white"
+                        android:src="@drawable/specialist"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:id="@+id/specialist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chuyên khoa: Nha khoa"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--
+            Thời gian cuộc hẹn
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/wrapper_rounded_white"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/description"
+                    android:src="@drawable/calendar_white" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Ngày hẹn: Thứ Sáu, ngày 6 tháng 6"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/description"
+                    android:src="@drawable/clock_white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/time"
+                    android:text="Giờ hẹn: 10h00 - 10h30 "
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
