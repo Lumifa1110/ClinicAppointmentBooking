@@ -10,30 +10,37 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginPage : AppCompatActivity() {
-    val REQUEST_CODE = 1111;
+    private val REQUEST_CODE = 1111;
 
-    var username: EditText?= null
-    var password: EditText?= null
-    var loginBTN: Button?= null
-    var showPassword: ImageButton?= null
-    var backBTN: ImageButton?= null
-    var dangKi: TextView?= null
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var usernameET: EditText
+    private lateinit var passwordET: EditText
+    private lateinit var loginBTN: Button
+    private lateinit var showPassword: ImageButton
+    private lateinit var backBTN: ImageButton
+    private lateinit var dangKi: TextView
+    private lateinit var sharedPreferences: SharedPreferences
 
+    // Firebase
+    private lateinit var database : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_page)
+
+        // Init Firebase User reference
+        database = FirebaseDatabase.getInstance().getReference()
 
         val patient_username:String = "patient"
         val patient_password:String = "123"
         val doctor_username:String = "doctor"
         val doctor_password:String = "123"
 
-        username = findViewById(R.id.usernameET)
-        password = findViewById(R.id.passwordET)
+        usernameET = findViewById(R.id.usernameET)
+        passwordET = findViewById(R.id.passwordET)
         loginBTN = findViewById(R.id.loginBTN)
         backBTN = findViewById(R.id.backBTN)
         dangKi = findViewById(R.id.dangKi)
@@ -54,10 +61,10 @@ class LoginPage : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE)
         }
 
-        loginBTN?.setOnClickListener {
-            println(username?.text)
-            println(password?.text)
-            if(patient_username == username?.text.toString() && patient_password == password?.text.toString()) {
+        loginBTN.setOnClickListener {
+            println(usernameET.text)
+            println(passwordET.text)
+            if(patient_username == usernameET.text.toString() && patient_password == passwordET.text.toString()) {
                 val intent = Intent(this, UserHomePage::class.java)
                 startActivityForResult(intent, REQUEST_CODE)
 //                val editor = sharedPreferences.edit()
@@ -67,7 +74,7 @@ class LoginPage : AppCompatActivity() {
 //                editor.commit()
             }
 
-            if(doctor_username == username?.text.toString() && doctor_password == password?.text.toString()) {
+            if(doctor_username == usernameET.text.toString() && doctor_password == passwordET.text.toString()) {
                 val intent = Intent(this, DoctorHomePage::class.java)
                 startActivityForResult(intent, REQUEST_CODE)
 //                val editor = sharedPreferences.edit()
@@ -78,7 +85,7 @@ class LoginPage : AppCompatActivity() {
             }
         }
 
-        backBTN?.setOnClickListener {
+        backBTN.setOnClickListener {
 
         }
 
@@ -94,9 +101,15 @@ class LoginPage : AppCompatActivity() {
 //            }
 //        }
 
-        dangKi?.setOnClickListener {
+        dangKi.setOnClickListener {
             val intent = Intent(this, RegisterPage::class.java)
             startActivity(intent)
         }
+    }
+
+    // Save User login data to Firebase
+    private fun writeUserToFirebase() {
+        val username = usernameET.text.toString()
+        val password = passwordET.text.toString()
     }
 }
