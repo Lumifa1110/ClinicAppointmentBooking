@@ -15,6 +15,9 @@
             android:name=".Activity.AdminHomePage"
             android:exported="false" />
         <activity
+            android:name=".Activity.ProfilePage"
+            android:exported="false" />
+        <activity
             android:name=".Activity.DoctorChooseFreeTime"
             android:exported="false" />
         <activity

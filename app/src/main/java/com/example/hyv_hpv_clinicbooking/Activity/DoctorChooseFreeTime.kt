@@ -1,7 +1,5 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
-import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.GridView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Adapter.DayAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.TimeAdapter
 import com.example.hyv_hpv_clinicbooking.R
-import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 class DoctorChooseFreeTime : AppCompatActivity() {
@@ -75,25 +72,12 @@ class DoctorChooseFreeTime : AppCompatActivity() {
         timeAdapter = morningList?.let { TimeAdapter(this, it) }
         morningTimeView?.adapter = timeAdapter
         morningTimeView?.setOnItemClickListener { adapterView, view, i, l ->
-//            val stream = ByteArrayOutputStream()
-//            imageBitmapList[i].compress(Bitmap.CompressFormat.PNG, 100, stream)
-//            val byteArray: ByteArray = stream.toByteArray()
-//
-//            val intent = Intent(this, ImageViewActivity::class.java)
-//            intent.putExtra("path", pathList[i])
-//            startActivityForResult(intent, REQUEST_CODE)
         }
 
         afternoonAdapter = afternoonList?.let { TimeAdapter(this, it) }
         afternoonTimeView?.adapter = afternoonAdapter
         afternoonTimeView?.setOnItemClickListener { adapterView, view, i, l ->
-//            val stream = ByteArrayOutputStream()
-//            imageBitmapList[i].compress(Bitmap.CompressFormat.PNG, 100, stream)
-//            val byteArray: ByteArray = stream.toByteArray()
-//
-//            val intent = Intent(this, ImageViewActivity::class.java)
-//            intent.putExtra("path", pathList[i])
-//            startActivityForResult(intent, REQUEST_CODE)
+
         }
     }
 }
