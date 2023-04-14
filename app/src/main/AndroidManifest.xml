@@ -12,23 +12,39 @@
         android:theme="@style/Theme.HYV_HPV_ClinicBooking"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.AdminHomePage"
+            android:name=".Activity.HistoryAppoinmentTab"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Activity.ApprovedAppointmentTab"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".Activity.UnapprovedAppointmentTab"-->
+<!--            android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".Activity.DoctorHomePage" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".Activity.DoctorPrescriptionInforPage"
             android:exported="false" />
         <activity
-            android:name=".Activity.DoctorChooseFreeTime"
+            android:name=".Activity.DoctorPrescriptionPage"
             android:exported="false" />
+        <activity
+            android:name=".Activity.PrescriptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AdminHomePage"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Activity.DoctorChooseFreeTime" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.RegisterPage"
             android:exported="false" />
         <activity
-            android:name=".NewUserHomePage"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.DoctorHomePage"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.UserHomePage"
-            android:exported="false" />
+            android:name=".Activity.NewUserHomePage"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Activity.UserHomePage" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.DoctorDetailPage"
             android:exported="false" />
@@ -38,11 +54,8 @@
         <activity
             android:name=".Activity.DoctorListPage"
             android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name=".LoginPage" -->
-        <!-- android:exported="false" /> -->
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.DoctorHomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

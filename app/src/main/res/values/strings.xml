@@ -20,6 +20,11 @@
     <string name="labelUserProfile">THÔNG TIN CÁ NHÂN</string>
     <string name="labelOncomingAppointment">Cuộc hẹn sắp tới</string>
     <string name="labelSeeAll">Xem tất cả</string>
+
+    <!-- For Doctor Page -->
+    <string name="labelAppoinmentList">CUỘC HẸN</string>
+    <string name="labelScheduled">XẾP LỊCH</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- For Admin Page -->

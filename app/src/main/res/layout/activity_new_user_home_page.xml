@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
-    tools:context=".NewUserHomePage">
+    tools:context=".Activity.NewUserHomePage">
 
     <!--
         Avatar người dùng + Chuông thông báo
@@ -180,8 +180,10 @@
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/userNavBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topPanelLL">
+        app:layout_constraintTop_toBottomOf="@+id/topPanelLL"
+        app:layout_constraintVertical_bias="0.0">
 
         <!--
             Cuộc hẹn sắp tới
@@ -226,9 +228,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="15dp"
                 android:background="@drawable/wrapper_rounded_primary"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
                 <!--
                     Avatar + Tên + Chuyên khoa
                 -->
@@ -244,10 +246,11 @@
                         android:id="@+id/avatarDoctorCardView"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="15dp"
                         android:layout_gravity="center_vertical|start"
+                        android:layout_marginEnd="15dp"
                         android:orientation="vertical"
                         app:cardCornerRadius="250dp">
+
                         <ImageView
                             android:id="@+id/doctorAvatar"
                             android:layout_width="40dp"
@@ -264,6 +267,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -271,7 +275,8 @@
                             android:text="Bác sĩ Ngô Anh Vũ"
                             android:textColor="@color/white"
                             android:textSize="14sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -287,46 +292,52 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
                     android:background="@drawable/wrapper_rounded_white"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
                     <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+                        android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginEnd="10dp"
                             android:layout_gravity="center_vertical|end"
+                            android:layout_marginEnd="10dp"
                             android:contentDescription="@string/description"
                             android:src="@drawable/calendar_white" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
                             android:text="Thứ Sáu, ngày 6 tháng 6"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginEnd="10dp"
                             android:layout_gravity="center_vertical|end"
+                            android:layout_marginEnd="10dp"
                             android:contentDescription="@string/description"
                             android:src="@drawable/clock_white" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
                             android:text="10h00 - 10h30 AM"
                             android:textColor="@color/white"
                             android:textSize="12sp" />

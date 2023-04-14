@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/donthuoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/wrapper_rounded_primary">
+        <LinearLayout
+            android:id="@+id/prescriptionTV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/wrapper_rounded_blue_sky">
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="260dp"
+                android:scrollHorizontally="true"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="Oflovid sodium 5ml"/>
+            <TextView
+                android:id="@id/nameTV"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/blue_sky"
+                android:background="@drawable/box_date"
+                android:text="1 Lọ"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="6dp"
+            android:layout_margin="10dp"
+            android:paddingHorizontal="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/wrapper_rounded_white">
+
+            <TextView
+                android:layout_marginTop="2dp"
+                android:id="@+id/usingTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cách dùng: Nhỏ thuốc ngày 4 lần Sáng - Trưa - Chiều - Tối, mỗi lần 1 giọt"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

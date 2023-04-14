@@ -18,7 +18,7 @@ class DoctorDetailAdapter(private var context: Context, private var items: Array
         var iconIV: ImageView?= null
         init {
             titleTV = row?.findViewById(R.id.titleTV)
-            amountTV = row?.findViewById(R.id.amountTV)
+            amountTV = row?.findViewById(R.id.nameTV)
             iconIV = row?.findViewById(R.id.iconIV)
 
         }

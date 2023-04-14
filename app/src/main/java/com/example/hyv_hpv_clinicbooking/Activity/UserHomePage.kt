@@ -1,30 +1,72 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
+import android.content.res.ColorStateList
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.cardview.widget.CardView
-import com.example.hyv_hpv_clinicbooking.Fragment.FragmentUserHomeView
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import com.example.hyv_hpv_clinicbooking.Fragment.DoctorListFragment
+import com.example.hyv_hpv_clinicbooking.Fragment.HistoryAppoimentFragment
+import com.example.hyv_hpv_clinicbooking.Fragment.UserHomeFragment
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class UserHomePage : AppCompatActivity() {
-    var cardHome: CardView? = null
-    var cardUser: CardView? = null
-    var cardSchedule: CardView? = null
-    var cardTreatment: CardView? = null
-    val homeUserFragment = FragmentUserHomeView()
-    val doctorFragment = DoctorHomePage()
+
+    var bottomNavBar: BottomNavigationView? = null
+    var userHomeFrament = UserHomeFragment()
+    var doctorListFragment = DoctorListFragment()
+    var historyAppoimentFragment = HistoryAppoimentFragment()
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_home_page)
-        cardHome = findViewById(R.id.cardNavHome)
-        cardUser = findViewById(R.id.cardNavUser)
-        supportFragmentManager.beginTransaction().replace(R.id.container, homeUserFragment).commit()
-        cardHome!!.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.container, homeUserFragment).commit()
+        bottomNavBar = findViewById(R.id.userNavBar) as BottomNavigationView
+
+
+        supportFragmentManager.beginTransaction().replace(R.id.container, userHomeFrament).commit()
+
+        val doctor = intent.getStringExtra("fragment")
+        if(doctor.equals("doctor_list")) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, doctorListFragment).commit()
+            val item = bottomNavBar?.menu?.getItem(1)
+            val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.nav_items_color))
+
+            item?.iconTintList = colorStateList
         }
-        cardUser!!.setOnClickListener {
-            Toast.makeText(this, "View User Information", Toast.LENGTH_SHORT).show()
+
+        if(doctor.equals("history_appoinment_list")) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, historyAppoimentFragment).commit()
+
         }
+
+        bottomNavBar!!.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.userHome -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.container, userHomeFrament).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.userSearch -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.container, doctorListFragment).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.userHistory -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.container, historyAppoimentFragment).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.userProfile -> {
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> false
+            }
+        }
+
+
     }
 }

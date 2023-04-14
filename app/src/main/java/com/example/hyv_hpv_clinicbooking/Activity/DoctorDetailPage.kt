@@ -1,24 +1,28 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.GridView
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorDetailAdapter
-import com.example.hyv_hpv_clinicbooking.Model.Doctor
+import com.example.hyv_hpv_clinicbooking.Fragment.DoctorListFragment
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DoctorDetailPage : AppCompatActivity() {
     var adapter : DoctorDetailAdapter? = null
-    var doctor: Doctor?= null
+    var doctor: BacSi?= null
 
     var nameTV: TextView?= null
     var imageIV: ImageView?= null
     var specialistTV: TextView?= null
     var addressTV: TextView?= null
     var phoneTV: TextView?= null
-
+    var backBtn: ImageButton ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doctor_detail_page)
@@ -29,17 +33,18 @@ class DoctorDetailPage : AppCompatActivity() {
         specialistTV = findViewById(R.id.doctorSpecialist)
         addressTV = findViewById(R.id.doctorAddress)
         phoneTV = findViewById(R.id.doctorPhone)
+        backBtn = findViewById(R.id.back_button)
+        doctor = intent.getParcelableExtra<BacSi>("doctor") as BacSi
 
-
-        doctor = Doctor()
-        doctor?.HoTen = "Yogesh Batra"
-        doctor?.Image = R.drawable.doctor1
-        doctor?.TenChuyenKhoa = "Nha sĩ"
-        doctor?.DiaChi = "34-36 đường Đinh Tiên Hoàng, phường Đakao, quận 1, TP.HCM"
-        doctor?.SoDienThoai = "0123456789"
-        doctor?.SLBenhNhan = 1234
-        doctor?.SoNamTrongNghe = 4
-        doctor?.SoCuocHen = 100
+//        doctor = BacSi()
+//        doctor?.HoTen = "Yogesh Batra"
+//        doctor?.Image = R.drawable.doctor1
+//        doctor?.TenChuyenKhoa = "Nha sĩ"
+//        doctor?.DiaChi = "34-36 đường Đinh Tiên Hoàng, phường Đakao, quận 1, TP.HCM"
+//        doctor?.SoDienThoai = "0123456789"
+//        doctor?.SLBenhNhan = 1234
+//        doctor?.SoNamTrongNghe = 4
+//        doctor?.SoCuocHen = 100
 
         nameTV?.setText("Bác sĩ " + doctor?.HoTen)
         imageIV?.setImageResource(doctor?.Image!!)
@@ -53,7 +58,15 @@ class DoctorDetailPage : AppCompatActivity() {
         grid.setOnItemClickListener { adapterView, view, i, l ->
             view.isEnabled = false
         }
+
+        backBtn?.setOnClickListener {
+            val intent = Intent(this, UserHomePage::class.java)
+            intent.putExtra("fragment", "doctor_list")
+            startActivity(intent)
+        }
     }
+
+
 
     private fun generateInforData(): ArrayList<Infor> {
         var result = ArrayList<Infor>()

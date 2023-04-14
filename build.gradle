@@ -15,6 +15,13 @@ buildscript {
     }
 }
 
+    ext.kotlin_version = '1.6.10'
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+    }
+
+
+
 plugins {
     id 'com.android.application' version '7.4.1' apply false
     id 'com.android.library' version '7.4.1' apply false
