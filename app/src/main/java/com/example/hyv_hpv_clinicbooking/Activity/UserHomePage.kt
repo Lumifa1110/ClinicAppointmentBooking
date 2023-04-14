@@ -1,7 +1,14 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
+import android.content.res.ColorStateList
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.example.hyv_hpv_clinicbooking.Fragment.DoctorListFragment
 import com.example.hyv_hpv_clinicbooking.Fragment.HistoryAppoimentFragment
 import com.example.hyv_hpv_clinicbooking.Fragment.UserHomeFragment
@@ -15,6 +22,8 @@ class UserHomePage : AppCompatActivity() {
     var userHomeFrament = UserHomeFragment()
     var doctorListFragment = DoctorListFragment()
     var historyAppoimentFragment = HistoryAppoimentFragment()
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_home_page)
@@ -26,12 +35,15 @@ class UserHomePage : AppCompatActivity() {
         val doctor = intent.getStringExtra("fragment")
         if(doctor.equals("doctor_list")) {
             supportFragmentManager.beginTransaction().replace(R.id.container, doctorListFragment).commit()
-            doctorListFragment.setHasOptionsMenu(true)
+            val item = bottomNavBar?.menu?.getItem(1)
+            val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.nav_items_color))
+
+            item?.iconTintList = colorStateList
         }
 
         if(doctor.equals("history_appoinment_list")) {
             supportFragmentManager.beginTransaction().replace(R.id.container, historyAppoimentFragment).commit()
-            historyAppoimentFragment.setHasOptionsMenu(true)
+
         }
 
         bottomNavBar!!.setOnNavigationItemSelectedListener {

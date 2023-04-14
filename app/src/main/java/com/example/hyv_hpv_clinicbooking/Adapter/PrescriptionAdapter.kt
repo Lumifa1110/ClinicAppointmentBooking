@@ -11,10 +11,14 @@ import com.example.hyv_hpv_clinicbooking.R
 
 class PrescriptionAdapter(var mList: List<DonThuoc>) :
     RecyclerView.Adapter<PrescriptionAdapter.PrescriptionViewHolder>() {
+    var onItemClick: ((Int) -> Unit)? = null
     inner class PrescriptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTV : TextView = itemView.findViewById(R.id.nameTV)
-        val amountTV : TextView = itemView.findViewById(R.id.amountTV)
+        val amountTV : TextView = itemView.findViewById(R.id.nameTV)
         val usingTV: TextView = itemView.findViewById(R.id.usingTV)
+        init {
+            itemView.setOnClickListener { onItemClick?.invoke(adapterPosition) }
+        }
     }
 
 

@@ -63,7 +63,7 @@
             android:text="Họ và tên"/>
 
         <TextView
-            android:id="@id/amountTV"
+            android:id="@id/nameTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -147,17 +147,20 @@
             android:textSize="16sp"
             android:text="Chuẩn đoán" />
     </LinearLayout>
+
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:paddingHorizontal="10dp"
         android:id="@+id/chuandoan"
-        android:textSize="14sp"
-        android:text="Mắc bệnh đái tháo đường\nsdfsfsdfsfsdfsdfsf"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/box_date"
+        android:paddingHorizontal="10dp"
+        android:text="Mắc bệnh đái tháo đường\nsdfsfsdfsfsdfsdfsf"
+        android:textSize="14sp"
+        android:textColor="@color/primary_color"
         app:layout_constraintTop_toBottomOf="@+id/chuandoanTitle"
-        android:layout_marginTop="6dp"/>
+        tools:layout_editor_absoluteX="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -187,7 +190,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/prescriptionRecyclerView"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         app:layout_constraintTop_toBottomOf="@id/prescriptionTitle"
@@ -198,7 +201,7 @@
         android:layout_height="wrap_content"
         android:text="Thêm đơn thuốc"
         android:layout_marginHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@id/prescriptionRecyclerView"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
         android:background="@drawable/wrapper_rounded_primary"
         android:layout_marginTop="6dp"
         android:textSize="16sp"
@@ -232,15 +235,18 @@
             android:textSize="16sp"
             android:text="Lời dặn" />
     </LinearLayout>
+
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:textSize="14sp"
         android:id="@+id/doctorNote"
-        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/box_date"
+        android:padding="10dp"
+        android:textSize="14sp"
+        android:textColor="@color/primary_color"
         app:layout_constraintTop_toBottomOf="@+id/noteTitle"
-        android:layout_marginTop="6dp"/>
+        tools:layout_editor_absoluteX="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

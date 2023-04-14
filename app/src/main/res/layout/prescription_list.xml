@@ -35,7 +35,7 @@
                 android:textStyle="bold"
                 android:text="Oflovid sodium 5ml"/>
             <TextView
-                android:id="@id/amountTV"
+                android:id="@id/nameTV"
                 android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

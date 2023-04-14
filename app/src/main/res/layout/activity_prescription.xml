@@ -63,7 +63,7 @@
             android:text="Bác sĩ"/>
 
         <TextView
-            android:id="@id/amountTV"
+            android:id="@id/nameTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -151,7 +151,7 @@
         android:layout_height="40dp"
         android:paddingHorizontal="10dp"
         android:textSize="14sp"
-        android:id="@+id/chuandoan"
+        android:id="@+id/chuandoanTV"
         android:text="Mắc bệnh đái tháo đường\nsdfsfsdfsfsdfsdfsf"
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/box_date"
@@ -163,7 +163,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/prescriptionTitle"
-        app:layout_constraintTop_toBottomOf="@id/chuandoan"
+        app:layout_constraintTop_toBottomOf="@id/chuandoanTV"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:gravity="center"
@@ -237,6 +237,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:textSize="14sp"
+                android:id="@+id/loidanTV"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"/>
         </ScrollView>
