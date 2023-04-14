@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".Fragment.DoctorManagement">
+    tools:context=".Fragment.PatientManagement">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/boxViewList"
@@ -21,7 +21,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
             <TextView
-                android:text="DOCTOR MANAGEMENT"
+                android:text="PATIENT MANAGEMENT"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="26sp"
@@ -42,7 +42,6 @@
                 android:layout_marginRight="20dp"
                 android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
-                android:closeIcon="@drawable/close_search_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -65,16 +64,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="50dp"/>
         </LinearLayout>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addDoctorAccount"
-            android:contentDescription="This is add button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            android:layout_marginEnd="15dp"
-            android:backgroundTint="@color/teal_200"
-            android:src="@drawable/add_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

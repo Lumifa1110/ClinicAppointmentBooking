@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/description"
-    android:background="@color/bluepastel"
+    android:background="@color/background_color"
     app:barrierMargin="0dp"
     tools:context=".Fragment.AdminDashBoard">
 
@@ -23,34 +23,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="@drawable/header_admin_bg"
-                android:gravity="center"
+                android:gravity="top"
                 android:orientation="vertical"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toTopOf="@+id/adminButtons"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <androidx.cardview.widget.CardView
                     android:layout_gravity="center"
                     android:id="@+id/avatarCardView"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
                     app:cardCornerRadius="250dp">
-
                     <ImageView
                         android:id="@+id/adminAvatar"
-                        android:contentDescription="@string/description"
                         android:layout_width="160dp"
                         android:layout_height="160dp"
-                        android:layout_gravity="center"
+                        android:contentDescription="@string/description"
                         android:scaleType="centerCrop"
                         android:src="@drawable/avatar" />
                 </androidx.cardview.widget.CardView>
                 <TextView
                     android:id="@+id/adminName"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/admin_name"
@@ -61,14 +56,15 @@
 
             <LinearLayout
                 android:id="@+id/adminButtons"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/box_items"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:weightSum="3"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutAvatar"
@@ -76,11 +72,11 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/listDoctors"
                     android:layout_gravity="center"
-                    android:backgroundTint="#6B77FF"
+                    android:backgroundTint="#2F7AE5"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="20dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp"
                     app:cardUseCompatPadding="true">
@@ -108,11 +104,12 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/listPatients"
                     android:layout_gravity="center"
-                    android:backgroundTint="#6B77FF"
+                    android:backgroundTint="#2F7AE5"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp"
                     app:cardUseCompatPadding="true">
@@ -125,8 +122,8 @@
                         <ImageView
                             android:src="@drawable/patient"
                             android:contentDescription="@string/description"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             app:tint="@color/white"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -141,11 +138,11 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/listAllUser"
                     android:layout_gravity="center"
-                    android:backgroundTint="#6B77FF"
+                    android:backgroundTint="#2F7AE5"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp"
                     app:cardUseCompatPadding="true">

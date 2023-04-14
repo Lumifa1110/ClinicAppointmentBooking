@@ -15,7 +15,7 @@ class DoctorManagement : Fragment() {
 
     var doctor: BacSi?= null
     var menuItem: MenuItem? = null
-    var searchView: SearchView? = null
+    lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: DoctorListAdapter
     lateinit var doctorList: ArrayList<BacSi>
@@ -28,7 +28,7 @@ class DoctorManagement : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.DoctocView)
+        recyclerView = view.findViewById(R.id.DoctorView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         doctorList = ArrayList()
         doctor = BacSi()
@@ -51,8 +51,8 @@ class DoctorManagement : Fragment() {
         inflater.inflate(R.menu.admin_search, menu)
         menuItem = menu.findItem(R.id.adminSearch)
         searchView = menuItem!!.actionView as SearchView
-        searchView?.queryHint = "Search doctors"
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView!!.queryHint = "Search doctors"
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Handle search query submission
                 return true
@@ -62,6 +62,10 @@ class DoctorManagement : Fragment() {
                 return true
             }
         })
+        searchView!!.setOnCloseListener {
+            searchView!!.clearFocus()
+            false
+        }
         super.onCreateOptionsMenu(menu, inflater)
 
     }
