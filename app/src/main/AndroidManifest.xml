@@ -52,9 +52,6 @@
             android:name=".Activity.LoginPage"
             android:exported="false" />
         <activity
-            android:name=".Activity.DoctorListPage"
-            android:exported="false" />
-        <activity
             android:name=".Activity.DoctorHomePage"
             android:exported="true">
             <intent-filter>

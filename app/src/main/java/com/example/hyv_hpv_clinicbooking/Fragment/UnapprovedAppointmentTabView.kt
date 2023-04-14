@@ -28,11 +28,11 @@ private const val ARG_PARAM2 = "param2"
  */
 class UnapprovedAppointmentTabView : Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private var mList = ArrayList<LichHenKham>()
+    private var appoinmentList = ArrayList<LichHenKham>()
     private lateinit var adapter: DoctorAppoinmentList
     private var timeList = ArrayList<ThoiGian>()
     private var patientList = ArrayList<BenhNhan>()
-    private var newList = ArrayList<LichHenKham>()
+    private var unapprovedList = ArrayList<LichHenKham>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +48,13 @@ class UnapprovedAppointmentTabView : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         var data = Data()
-        mList = data.generateScheduleData()
-        newList = mList.filter { it.MaTrangThai == 0 } as ArrayList<LichHenKham>
+        appoinmentList = data.generateScheduleData()
+        unapprovedList = appoinmentList.filter { it.MaTrangThai == 0 } as ArrayList<LichHenKham>
         timeList = data.generateTimeData()
         patientList = data.generatePatientData()
         println("MA bac si day la :")
 
-        adapter = DoctorAppoinmentList(newList, timeList, patientList)
+        adapter = DoctorAppoinmentList(unapprovedList, timeList, patientList)
         recyclerView.adapter = adapter
 
         adapter?.onItemClick = { index ->
@@ -70,12 +70,12 @@ class UnapprovedAppointmentTabView : Fragment() {
             "Có"
         ) { _, _ ->
             Toast.makeText(requireContext(), "Cuộc hẹn đã duyệt", Toast.LENGTH_LONG).show()
-            mList.forEach { item ->
-                if (item.MaLichHen == newList[index].MaLichHen) {
+            appoinmentList.forEach { item ->
+                if (item.MaLichHen == unapprovedList[index].MaLichHen) {
                     item.MaTrangThai = 1
                 }
             }
-            newList.removeAt(index)
+            unapprovedList.removeAt(index)
             adapter?.notifyDataSetChanged()
 
         }

@@ -20,8 +20,8 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/wrapper_rounded_blue_sky">
             <TextView
                 android:id="@+id/nameTV"
@@ -35,7 +35,7 @@
                 android:textStyle="bold"
                 android:text="Oflovid sodium 5ml"/>
             <TextView
-                android:id="@id/nameTV"
+                android:id="@id/quantity"
                 android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="6dp"
-            android:layout_margin="10dp"
+            android:layout_margin="4dp"
             android:paddingHorizontal="10dp"
             android:orientation="vertical"
             android:background="@drawable/wrapper_rounded_white">

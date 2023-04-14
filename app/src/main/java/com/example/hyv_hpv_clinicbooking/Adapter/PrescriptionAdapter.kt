@@ -14,7 +14,7 @@ class PrescriptionAdapter(var mList: List<DonThuoc>) :
     var onItemClick: ((Int) -> Unit)? = null
     inner class PrescriptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTV : TextView = itemView.findViewById(R.id.nameTV)
-        val amountTV : TextView = itemView.findViewById(R.id.nameTV)
+        val quantityTV : TextView = itemView.findViewById(R.id.quantity)
         val usingTV: TextView = itemView.findViewById(R.id.usingTV)
         init {
             itemView.setOnClickListener { onItemClick?.invoke(adapterPosition) }
@@ -29,7 +29,7 @@ class PrescriptionAdapter(var mList: List<DonThuoc>) :
 
     override fun onBindViewHolder(holder: PrescriptionViewHolder, position: Int) {
         holder.nameTV.text = mList[position].TenThuoc
-        holder.amountTV.text = mList[position].SoLuong.toString() + " " + mList[position].DonVi
+        holder.quantityTV.text = mList[position].SoLuong.toString() + " " + mList[position].DonVi
         holder.usingTV.text = mList[position].CachDung
     }
 

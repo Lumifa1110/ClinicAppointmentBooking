@@ -1,7 +1,9 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.example.hyv_hpv_clinicbooking.Fragment.*
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,8 +17,12 @@ class DoctorHomePage : AppCompatActivity() {
         setContentView(R.layout.activity_doctor_home_page)
         bottomNavBar = findViewById(R.id.doctorNavBar) as BottomNavigationView
 
-
         supportFragmentManager.beginTransaction().replace(R.id.container, doctorHomeFrament).commit()
+
+        val doctor = intent.getStringExtra("fragment")
+        if(doctor.equals("management_appoinment_list")) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, appoinmentManagementFragment).commit()
+        }
 
 
         bottomNavBar!!.setOnNavigationItemSelectedListener {

@@ -79,7 +79,7 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 1
+        kedon.MaBacSi = 2
         kedon.MaBenhNhan = 1
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
@@ -92,7 +92,7 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 1
+        kedon.MaBacSi = 3
         kedon.MaBenhNhan = 1
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
@@ -105,7 +105,7 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 1
+        kedon.MaBacSi = 4
         kedon.MaBenhNhan = 1
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
@@ -118,7 +118,7 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 1
+        kedon.MaBacSi = 5
         kedon.MaBenhNhan = 1
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
@@ -138,7 +138,7 @@ class Data {
         schedule.MaBacSi = 1
         schedule.MaBenhNhan = 1
         schedule.MaThoiGian = 1
-        schedule.MaTrangThai = 0
+        schedule.MaTrangThai = 2
         result.add(schedule)
 
         schedule = LichHenKham()
@@ -154,7 +154,7 @@ class Data {
         schedule.MaBacSi = 1
         schedule.MaBenhNhan = 3
         schedule.MaThoiGian = 3
-        schedule.MaTrangThai = 2
+        schedule.MaTrangThai = 0
         result.add(schedule)
 
         schedule = LichHenKham()

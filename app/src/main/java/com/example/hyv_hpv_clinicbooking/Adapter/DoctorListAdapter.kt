@@ -13,8 +13,8 @@ class DoctorListAdapter(var mList: List<BacSi>) : RecyclerView.Adapter<DoctorLis
     var onItemClick: ((Int) -> Unit)? = null
     inner class DoctorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image : ImageView = itemView.findViewById(R.id.image)
-        val nameTV : TextView = itemView.findViewById(R.id.name)
-        val specialistTV: TextView = itemView.findViewById(R.id.specialist)
+        val nameTV : TextView = itemView.findViewById(R.id.nameTV)
+        val specialistTV: TextView = itemView.findViewById(R.id.specialistTV)
         init {
             itemView.setOnClickListener { onItemClick?.invoke(adapterPosition) }
         }

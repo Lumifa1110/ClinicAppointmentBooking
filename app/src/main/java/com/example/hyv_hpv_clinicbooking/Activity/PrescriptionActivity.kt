@@ -29,7 +29,7 @@ class PrescriptionActivity : AppCompatActivity() {
     private var timeTV: TextView?= null
     private var chuandoanTV: TextView?= null
     private var loidanTV: TextView?= null
-
+    private var peopleTV: TextView?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,24 +43,29 @@ class PrescriptionActivity : AppCompatActivity() {
         timeTV = findViewById(R.id.timeTV)
         chuandoanTV = findViewById(R.id.chuandoanTV)
         loidanTV = findViewById(R.id.loidanTV)
+        peopleTV = findViewById(R.id.peopleTV)
 
+        val people = intent.getStringExtra("people")
+        val name = intent.getStringExtra("name")
+        val prescription = intent.getParcelableExtra<KeDon>("prescription") as KeDon
 
-        val name = intent.getStringExtra("doctor")
-        val appoinment = intent.getParcelableExtra<KeDon>("appoinment") as KeDon
-
-
+        if (people.equals("patient")) {
+            peopleTV?.setText("Bệnh nhân")
+        } else {
+            peopleTV?.setText("Bác sĩ")
+        }
         nameTV?.setText(name)
-        dateTV?.setText(appoinment.Ngay)
-        timeTV?.setText(appoinment.Gio)
-        chuandoanTV?.setText(appoinment.ChuanDoan)
-        loidanTV?.setText(appoinment.LoiDan)
+        dateTV?.setText(prescription.Ngay)
+        timeTV?.setText(prescription.Gio)
+        chuandoanTV?.setText(prescription.ChuanDoan)
+        loidanTV?.setText(prescription.LoiDan)
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val prescriptions = appoinment.DonThuoc.split("\n").toTypedArray()
-        for(prescription in prescriptions) {
-            var item = prescription.split(";").toTypedArray()
+        val medicines = prescription.DonThuoc.split("\n").toTypedArray()
+        for(medicine in medicines) {
+            var item = medicine.split(";").toTypedArray()
             var donthuoc = DonThuoc()
             donthuoc.TenThuoc = item[0]
             donthuoc.SoLuong = item[1].toInt()
@@ -72,9 +77,16 @@ class PrescriptionActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         backBtn?.setOnClickListener {
-            val intent = Intent(this, UserHomePage::class.java)
-            intent.putExtra("fragment", "history_appoinment_list")
-            startActivity(intent)
+            if (people.equals("patient")) {
+                val intent = Intent(this, UserHomePage::class.java)
+                intent.putExtra("fragment", "history_appoinment_list")
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, DoctorHomePage::class.java)
+                intent.putExtra("fragment", "management_appoinment_list")
+                startActivity(intent)
+            }
         }
     }
 }
@@ -106,12 +118,12 @@ data class DonThuoc (
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<KeDon> {
-        override fun createFromParcel(parcel: Parcel): KeDon {
-            return KeDon(parcel)
+    companion object CREATOR : Parcelable.Creator<DonThuoc> {
+        override fun createFromParcel(parcel: Parcel): DonThuoc {
+            return DonThuoc(parcel)
         }
 
-        override fun newArray(size: Int): Array<KeDon?> {
+        override fun newArray(size: Int): Array<DonThuoc?> {
             return arrayOfNulls(size)
         }
     }
