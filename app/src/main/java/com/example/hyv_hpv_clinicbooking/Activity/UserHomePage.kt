@@ -36,13 +36,11 @@ class UserHomePage : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.container, doctorListFragment).commit()
             val item = bottomNavBar?.menu?.getItem(1)
             val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.nav_items_color))
-
             item?.iconTintList = colorStateList
         }
 
         if(doctor.equals("history_appoinment_list")) {
             supportFragmentManager.beginTransaction().replace(R.id.container, historyAppoimentFragment).commit()
-
         }
 
         bottomNavBar!!.setOnNavigationItemSelectedListener {

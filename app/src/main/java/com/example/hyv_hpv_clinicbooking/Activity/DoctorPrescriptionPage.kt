@@ -74,11 +74,9 @@ class DoctorPrescriptionPage : AppCompatActivity() {
 //            donthuoc.CachDung = item[3]
 //            mList.add(donthuoc)
 //        }
-        adapter = PrescriptionAdapter(mList)
-        recyclerView.adapter = adapter
 
         backBtn?.setOnClickListener {
-            val intent = Intent(this, UserHomePage::class.java)
+            val intent = Intent(this, DoctorHomePage::class.java)
             intent.putExtra("fragment", "history_appoinment_list")
             startActivity(intent)
         }
@@ -89,16 +87,27 @@ class DoctorPrescriptionPage : AppCompatActivity() {
         when (requestCode) {
             REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    val editType = data?.getStringExtra("edit_type") as String
-                    if (editType == "update") {
-                        val donThuoc =
-                            data?.getParcelableExtra<DonThuoc>("new_donThuoc") as DonThuoc
+                    val selection = data?.getStringExtra("selection") as String
+                    if (selection == "save_selection") {
+                        val donThuoc = data?.getParcelableExtra<DonThuoc>("new_donThuoc") as DonThuoc
                         mList.add(donThuoc)
-                    } else {
+                        adapter?.notifyDataSetChanged()
+                    }
+                    else if(selection == "edit_selection") {
+                        val index = data?.getIntExtra("index", -1) as Int
+                        val donThuoc = data?.getParcelableExtra<DonThuoc>("new_donThuoc") as DonThuoc
+                        mList[index].TenThuoc = donThuoc.TenThuoc
+                        mList[index].SoLuong = donThuoc.SoLuong
+                        mList[index].DonVi = donThuoc.DonVi
+                        mList[index].CachDung = donThuoc.CachDung
+
+                        adapter?.notifyDataSetChanged()
+                    }
+                    else {
                         val index = data?.getIntExtra("index", -1) as Int
                         mList.removeAt(index)
+                        adapter?.notifyDataSetChanged()
                     }
-
                 }
             }
         }

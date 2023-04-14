@@ -1,10 +1,21 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
+import BenhNhan
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Activity.DoctorPrescriptionPage
+import com.example.hyv_hpv_clinicbooking.Activity.PrescriptionActivity
+import com.example.hyv_hpv_clinicbooking.Adapter.DoctorAppoinmentList
+import com.example.hyv_hpv_clinicbooking.Data
+import com.example.hyv_hpv_clinicbooking.Model.KeDon
+import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
+import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -18,17 +29,14 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class HistoryAppointmentTabView : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var appoinmentList = ArrayList<LichHenKham>()
+    private var timeList = ArrayList<ThoiGian>()
+    private var prescriptionList = ArrayList<KeDon>()
+    private var patientList = ArrayList<BenhNhan>()
+    private var historyAppoinmentList = ArrayList<LichHenKham>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var adapter: DoctorAppoinmentList
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +46,39 @@ class HistoryAppointmentTabView : Fragment() {
         return inflater.inflate(R.layout.fragment_history_appointment_tab_view, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HistoryAppointmentTab.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HistoryAppointmentTabView().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = view.findViewById(R.id.recyclerView)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        var data = Data()
+        appoinmentList = data.generateScheduleData()
+        historyAppoinmentList = appoinmentList.filter { it.MaTrangThai == 2 } as ArrayList<LichHenKham>
+        timeList = data.generateTimeData()
+        patientList = data.generatePatientData()
+        prescriptionList = data.generateKeDonData()
+
+        adapter = DoctorAppoinmentList(historyAppoinmentList, timeList, patientList)
+        recyclerView.adapter = adapter
+
+        adapter?.onItemClick = { index ->
+            val intent = Intent(requireContext(), PrescriptionActivity::class.java)
+            intent.putExtra("people", "doctor")
+            for(patient in patientList) {
+                if(historyAppoinmentList[index].MaBenhNhan == patient.MaBenhNhan) {
+                    intent.putExtra("name", patientList[index].HoTen)
                 }
             }
+            for(prescription in prescriptionList) {
+                if(historyAppoinmentList[index].MaBenhNhan == prescription.MaBenhNhan) {
+                    println(prescription.MaBacSi.toString() + " và " + prescription.MaBenhNhan.toString())
+                    intent.putExtra("prescription", prescription)
+
+                }
+            }
+            startActivity(intent)
+        }
     }
+
 }
+

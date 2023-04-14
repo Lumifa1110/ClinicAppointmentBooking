@@ -50,7 +50,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/nameTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -71,7 +71,7 @@
                         android:scaleType="fitXY"
                         android:layout_marginEnd="8dp"/>
                     <TextView
-                        android:id="@+id/specialist"
+                        android:id="@+id/specialistTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Chuyên khoa: Nha khoa"
@@ -106,7 +106,7 @@
                     android:src="@drawable/calendar_white" />
 
                 <TextView
-                    android:id="@+id/date"
+                    android:id="@+id/dateTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:id="@+id/time"
+                    android:id="@+id/timeTV"
                     android:text="Giờ hẹn: 10h00 - 10h30 "
                     android:textColor="@color/white"
                     android:textSize="14sp" />

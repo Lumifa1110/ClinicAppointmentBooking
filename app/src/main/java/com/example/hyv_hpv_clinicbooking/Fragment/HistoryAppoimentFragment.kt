@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailPage
 import com.example.hyv_hpv_clinicbooking.Activity.PrescriptionActivity
+import com.example.hyv_hpv_clinicbooking.Adapter.DoctorAppoinmentList
 import com.example.hyv_hpv_clinicbooking.Adapter.HistoryAppoinmentAdapter
 import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.KeDon
+import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
+import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +31,9 @@ private const val ARG_PARAM2 = "param2"
  */
 class HistoryAppoimentFragment : Fragment() {
     private var doctorList = ArrayList<BacSi>()
-    private var appoinments = ArrayList<KeDon>()
+    private var appoinments = ArrayList<LichHenKham>()
+    private var prescriptionList = ArrayList<KeDon>()
+    private var timeList = ArrayList<ThoiGian>()
 
 
     private lateinit var recyclerView: RecyclerView
@@ -48,16 +53,22 @@ class HistoryAppoimentFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         var data = Data()
         doctorList = data.generateDoctorData()
-        appoinments = data.generateKeDonData()
-        adapter = HistoryAppoinmentAdapter(doctorList, appoinments)
+        appoinments = data.generateScheduleData()
+        prescriptionList = data.generateKeDonData()
+        adapter = HistoryAppoinmentAdapter(appoinments, timeList, doctorList)
         recyclerView.adapter = adapter
 
         adapter?.onItemClick = { index ->
             val intent = Intent(requireContext(), PrescriptionActivity::class.java)
-            intent.putExtra("name", doctorList[index].HoTen)
-            for(appoinment in appoinments) {
-                if(doctorList[index].MaBacSi == appoinment.MaBacSi) {
-                    intent.putExtra("appoinment", appoinment)
+            intent.putExtra("people", "patient")
+            for(doctor in doctorList) {
+                if(appoinments[index].MaBacSi == doctor.MaBacSi) {
+                    intent.putExtra("name", doctor.HoTen)
+                }
+            }
+            for(prescription in prescriptionList) {
+                if(appoinments[index].MaBacSi == prescription.MaBacSi) {
+                    intent.putExtra("prescription", prescription)
                 }
             }
             startActivity(intent)

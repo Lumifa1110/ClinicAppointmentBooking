@@ -52,7 +52,7 @@
         android:background="@drawable/wrapper_rounded_primary"
         android:layout_marginTop="50dp">
         <TextView
-            android:id="@+id/nameTV"
+            android:id="@+id/peopleTV"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:padding="10dp"
@@ -150,12 +150,14 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:paddingHorizontal="10dp"
+        android:paddingVertical="2dp"
         android:textSize="14sp"
         android:id="@+id/chuandoanTV"
+        android:gravity="center_vertical"
         android:text="Mắc bệnh đái tháo đường\nsdfsfsdfsfsdfsdfsf"
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/box_date"
-        android:textColor="@color/white"
+        android:textColor="@color/blue_sky"
         app:layout_constraintTop_toBottomOf="@+id/chuandoanTitle"
         android:layout_marginTop="6dp"/>
 
@@ -221,12 +223,13 @@
     <LinearLayout
         android:id="@+id/doctorNote"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         app:layout_constraintTop_toBottomOf="@id/noteTitle"
         android:layout_marginTop="4dp"
         android:paddingHorizontal="10dp"
-        android:paddingVertical="6dp"
+        android:paddingVertical="2dp"
         android:layout_marginHorizontal="20dp"
+        android:gravity="center_vertical"
         android:background="@drawable/box_date"
         >
         <ScrollView
@@ -237,9 +240,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:textSize="14sp"
+                android:gravity="center_vertical"
                 android:id="@+id/loidanTV"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"/>
+                android:textColor="@color/blue_sky"/>
         </ScrollView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
