@@ -23,8 +23,10 @@ class DoctorManagement : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        var view = inflater.inflate(R.layout.fragment_doctor_management, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctor_management, container, false)
+
+        return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -41,7 +41,7 @@
             android:name=".Activity.PrescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.AdminHomePage"
+            android:name=".Activity.DoctorHomePage"
             android:exported="false" />
         <activity
             android:name=".Activity.RegisterPage"
@@ -66,8 +66,13 @@
             android:name=".Activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.DoctorHomePage"
-            android:exported="false">
+            android:name=".Activity.AdminHomePage"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 
