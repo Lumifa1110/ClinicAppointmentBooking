@@ -45,7 +45,12 @@
             android:exported="false" />
         <activity
             android:name=".Activity.RegisterPage"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.NewUserHomePage"
             android:exported="false" /> <!-- <activity -->
@@ -62,11 +67,7 @@
             android:exported="false" />
         <activity
             android:name=".Activity.DoctorHomePage"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
 

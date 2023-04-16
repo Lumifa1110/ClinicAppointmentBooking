@@ -1,5 +1,6 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
+import BenhNhan
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -68,7 +69,11 @@ class RegisterPage : AppCompatActivity() {
 
     // Write user to database
     private fun writeNewUser(userId: String, name: String, email: String, phone: String, password: String) {
-        val user = User(name, email, phone, password)
+        val user = BenhNhan(SoDienThoai = phone, Email = email, UserName = name, PassWord = password)
         database.child("Users").child(userId).setValue(user)
+        Toast.makeText(applicationContext
+            , "Register successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
     }
 }

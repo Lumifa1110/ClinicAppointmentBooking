@@ -11,7 +11,7 @@ data class BenhNhan (
     var Email: String = "",
     var GioiTinh: String = "",
     var UserName: String = "",
-    var PasWord: String = "",
+    var PassWord: String = "",
     var MaAdmin: Int = 0,
     var Image: Int = 0
 
@@ -37,7 +37,7 @@ data class BenhNhan (
         parcel.writeString(Email)
         parcel.writeString(GioiTinh)
         parcel.writeString(UserName)
-        parcel.writeString(PasWord)
+        parcel.writeString(PassWord)
         parcel.writeInt(MaAdmin)
         parcel.writeInt(Image)
     }

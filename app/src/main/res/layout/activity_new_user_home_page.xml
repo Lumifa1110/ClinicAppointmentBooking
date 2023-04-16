@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8E8E8"
+    android:background="#FFFFFF"
     tools:context=".Activity.NewUserHomePage">
 
     <!--
@@ -86,7 +86,7 @@
             android:id="@+id/userGreeting2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="30dp"
             android:layout_weight="1"
             android:text="Chào Vũ, bạn thế nào?"
             android:textColor="@color/white"
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 android:layout_gravity="bottom"
-                android:background="#E8E8E8"
+                android:background="#FFFFFF"
                 android:contentDescription="@string/description" />
 
             <LinearLayout
@@ -175,7 +175,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/userNavBar"
@@ -206,7 +206,7 @@
                     android:layout_weight="1"
                     android:text="@string/labelOncomingAppointment"
                     android:textColor="@android:color/primary_text_light"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -219,7 +219,8 @@
                     android:text="@string/labelSeeAll"
                     android:textColor="@color/primary_color"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:focusable="true" />
             </LinearLayout>
 
             <!--
@@ -292,7 +293,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/wrapper_rounded_white"
+                    android:background="@drawable/wrapper_rounded_white_30"
                     android:orientation="vertical"
                     android:padding="15dp">
 
@@ -311,7 +312,7 @@
                             android:src="@drawable/calendar_white" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
@@ -334,7 +335,7 @@
                             android:src="@drawable/clock_white" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
@@ -344,6 +345,55 @@
                     </LinearLayout>
 
                 </LinearLayout>
+            </LinearLayout>
+
+            <!--
+                Danh sách bác sĩ ưu tú
+            -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <!--
+                    Label + See all
+                -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/labelTopDoctor"
+                        android:textColor="@android:color/primary_text_light"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_weight="4"
+                        android:clickable="true"
+                        android:text="@string/labelSeeAll"
+                        android:textColor="@color/primary_color"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:focusable="true" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:orientation="horizontal"
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
