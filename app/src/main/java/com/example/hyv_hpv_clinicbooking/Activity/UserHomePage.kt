@@ -43,6 +43,15 @@ class UserHomePage : AppCompatActivity() {
             bottomNavBar?.menu?.getItem(2)?.isChecked = true
         }
 
+        if(doctor.equals("profile")) {
+            val function = intent.getStringExtra("function")
+            if(function == "edit") {
+                //Cap Nhat DB
+            }
+            supportFragmentManager.beginTransaction().replace(R.id.container, userProfileFragment).commit()
+            bottomNavBar?.menu!!.getItem(3).isChecked = true
+        }
+
         bottomNavBar!!.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.userHome -> {

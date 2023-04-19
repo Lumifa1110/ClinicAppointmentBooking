@@ -44,7 +44,7 @@
             android:name=".Activity.DoctorHomePage"
             android:exported="false" />
         <activity
-            android:name=".Activity.AdminHomePage"
+            android:name=".Activity.UserHomePage"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

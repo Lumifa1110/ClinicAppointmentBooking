@@ -69,6 +69,7 @@ class DoctorProfile : Fragment() {
 
         changePasswordBTN?.setOnClickListener {
             val intent = Intent(requireContext(), ChangePasswordPage::class.java)
+            intent.putExtra("loaiTaiKhoan", "BacSi")
             startActivity(intent)
         }
 

@@ -1,12 +1,16 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
+import BenhNhan
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.core.view.isVisible
 import com.example.hyv_hpv_clinicbooking.Fragment.DoctorProfile
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
@@ -17,10 +21,11 @@ class EditProfilePage : AppCompatActivity() {
     var nameET: EditText?= null
     var phoneET: EditText?= null
     var addressET: EditText?= null
+    var addressTV: TextView?= null
     var emailET: EditText?= null
 
     var taiKhoanBS:BacSi?= null
-    var taiKhoanND:BacSi?= null
+    var taiKhoanBN:BenhNhan?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile_page)
@@ -33,6 +38,8 @@ class EditProfilePage : AppCompatActivity() {
         addressET = findViewById(R.id.addressET)
         emailET = findViewById(R.id.emailET)
 
+        addressTV = findViewById(R.id.addressTV)
+
         val loaiTaiKhoan = intent.getStringExtra("loaiTaiKhoan")
         if(loaiTaiKhoan == "BacSi") {
             taiKhoanBS = intent.getParcelableExtra("taiKhoan")!!
@@ -42,11 +49,28 @@ class EditProfilePage : AppCompatActivity() {
             emailET?.setText(taiKhoanBS?.Email)
         }
 
+        if(loaiTaiKhoan == "BenhNhan") {
+            taiKhoanBN = intent.getParcelableExtra("taiKhoan")!!
+            nameET?.setText(taiKhoanBN?.HoTen)
+            phoneET?.setText(taiKhoanBN?.SoDienThoai)
+            addressET?.setVisibility(View.GONE)
+            addressTV?.setVisibility(View.GONE)
+            emailET?.setText(taiKhoanBN?.Email)
+        }
+
 
         backBTN?.setOnClickListener {
-            val intent = Intent(this, DoctorHomePage::class.java)
-            intent.putExtra("fragment", "profile")
-            startActivity(intent)
+            if(loaiTaiKhoan == "BacSi") {
+                val intent = Intent(this, DoctorHomePage::class.java)
+                intent.putExtra("fragment", "profile")
+                startActivity(intent)
+            }
+
+            if(loaiTaiKhoan == "BenhNhan") {
+                val intent = Intent(this, UserHomePage::class.java)
+                intent.putExtra("fragment", "profile")
+                startActivity(intent)
+            }
         }
         saveBTN?.setOnClickListener {
             taiKhoanBS?.HoTen = nameET?.text.toString()

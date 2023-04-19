@@ -1,10 +1,19 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
+import BenhNhan
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import com.example.hyv_hpv_clinicbooking.Activity.ChangePasswordPage
+import com.example.hyv_hpv_clinicbooking.Activity.EditProfilePage
+import com.example.hyv_hpv_clinicbooking.Activity.LoginPage
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -18,17 +27,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class UserProfile : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    var editBTN: Button?= null
+    var nameTV: TextView?= null
+    var phoneTV: TextView?= null
+    var emailTV: TextView?= null
+    var dangXuatBTN: Button?= null
+    var changePasswordBTN: Button?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +42,42 @@ class UserProfile : Fragment() {
         return inflater.inflate(R.layout.fragment_user_profile, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UserProfile.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UserProfile().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        editBTN = view.findViewById(R.id.editProfileBTN)
+        nameTV = view.findViewById(R.id.name)
+        phoneTV = view.findViewById(R.id.phone)
+        emailTV = view.findViewById(R.id.email)
+        dangXuatBTN = view.findViewById(R.id.dangXuatBTN)
+        changePasswordBTN = view.findViewById(R.id.changePasswordBTN)
+
+        var bnExample: BenhNhan = BenhNhan()
+        bnExample.HoTen = "Hello World"
+        bnExample.SoDienThoai = "0123456789"
+        bnExample.Email = "hihi@gmail.com"
+
+        nameTV?.text = bnExample.HoTen
+        phoneTV?.text = "Số điện thoại: " + bnExample.SoDienThoai
+        emailTV?.text = "Email: " + bnExample.Email
+
+        editBTN?.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfilePage::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            intent.putExtra("taiKhoan", bnExample)
+            startActivity(intent)
+        }
+
+        changePasswordBTN?.setOnClickListener {
+            val intent = Intent(requireContext(), ChangePasswordPage::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            startActivity(intent)
+        }
+
+        dangXuatBTN?.setOnClickListener {
+            val intent = Intent(requireContext(), LoginPage::class.java)
+            startActivity(intent)
+        }
     }
 }
