@@ -7,17 +7,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
+import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter_Admin
+import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 
 
 class DoctorManagement : Fragment() {
 
-    var doctor: BacSi?= null
     var menuItem: MenuItem? = null
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
-    lateinit var adapter: DoctorListAdapter
+    lateinit var adapter: DoctorListAdapter_Admin
     lateinit var doctorList: ArrayList<BacSi>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,21 +33,9 @@ class DoctorManagement : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.DoctorView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        doctorList = ArrayList()
-        doctor = BacSi()
-        doctor?.HoTen = "Yogesh Batra"
-        doctor?.Image = R.drawable.doctor1
-        doctor?.TenChuyenKhoa = "Nha sĩ"
-        doctor?.DiaChi = "34-36 đường Đinh Tiên Hoàng, phường Đakao, quận 1, TP.HCM"
-        doctor?.SoDienThoai = "0123456789"
-        doctor?.SLBenhNhan = 1234
-        doctor?.SoNamTrongNghe = 4
-        doctor?.SoCuocHen = 100
-        doctorList.add(doctor!!)
-        doctorList.add(doctor!!)
-        doctorList.add(doctor!!)
-        doctorList.add(doctor!!)
-        adapter = DoctorListAdapter(doctorList)
+        var data = Data()
+        doctorList = data.generateDoctorData()
+        adapter = DoctorListAdapter_Admin(doctorList)
         recyclerView.adapter = adapter
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
