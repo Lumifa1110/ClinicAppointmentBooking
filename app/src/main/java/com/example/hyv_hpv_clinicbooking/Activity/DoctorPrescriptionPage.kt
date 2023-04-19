@@ -77,7 +77,7 @@ class DoctorPrescriptionPage : AppCompatActivity() {
 
         backBtn?.setOnClickListener {
             val intent = Intent(this, DoctorHomePage::class.java)
-            intent.putExtra("fragment", "history_appoinment_list")
+            intent.putExtra("fragment", "appoinment_management")
             startActivity(intent)
         }
     }

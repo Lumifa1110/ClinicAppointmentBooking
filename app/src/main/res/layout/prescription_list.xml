@@ -35,14 +35,14 @@
                 android:textStyle="bold"
                 android:text="Oflovid sodium 5ml"/>
             <TextView
-                android:id="@id/quantity"
+                android:id="@id/quantityTV"
                 android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/blue_sky"
-                android:background="@drawable/box_date"
+                android:background="@drawable/box_white"
                 android:text="1 Lọ"
                 android:textSize="14sp" />
         </LinearLayout>

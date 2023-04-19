@@ -34,13 +34,13 @@ class UserHomePage : AppCompatActivity() {
         val doctor = intent.getStringExtra("fragment")
         if(doctor.equals("doctor_list")) {
             supportFragmentManager.beginTransaction().replace(R.id.container, doctorListFragment).commit()
-            val item = bottomNavBar?.menu?.getItem(1)
-            val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.nav_items_color))
-            item?.iconTintList = colorStateList
+            bottomNavBar?.menu?.getItem(1)?.isChecked = true
+
         }
 
         if(doctor.equals("history_appoinment_list")) {
             supportFragmentManager.beginTransaction().replace(R.id.container, historyAppoimentFragment).commit()
+            bottomNavBar?.menu?.getItem(2)?.isChecked = true
         }
 
         bottomNavBar!!.setOnNavigationItemSelectedListener {

@@ -20,15 +20,19 @@ class DoctorHomePage : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.container, doctorHomeFrament).commit()
 
         val tab = intent.getStringExtra("fragment")
-        if(tab.equals("profile")) {
+        if(tab.equals("appoinment_management")) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, appoinmentManagementFragment).commit()
+            bottomNavBar?.menu?.getItem(1)?.isChecked = true
+        }
+
+        else if(tab.equals("profile")) {
             val function = intent.getStringExtra("function")
             if(function == "edit") {
                 //Cap Nhat DB
             }
             supportFragmentManager.beginTransaction().replace(R.id.container, doctorProfileFragment).commit()
-            bottomNavBar?.menu!!.get(3).isChecked = true
+            bottomNavBar?.menu!!.getItem(3).isChecked = true
         }
-
 
         bottomNavBar!!.setOnNavigationItemSelectedListener {
             when (it.itemId) {
