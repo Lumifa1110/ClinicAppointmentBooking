@@ -72,7 +72,7 @@
             android:textColor="@color/primary_color"
             android:text="Phạm Trần Minh Ngọc"
             android:textSize="14sp"
-            android:background="@drawable/box_date"
+            android:background="@drawable/box_white"
             />
 
     </LinearLayout>
@@ -99,7 +99,7 @@
 
         <TextView
             android:id="@+id/timeTV"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textAlignment="center"
@@ -107,7 +107,7 @@
             android:textColor="@color/primary_color"
             android:text="08 giờ 30 phút"
             android:textSize="14sp"
-            android:background="@drawable/box_date"
+            android:background="@drawable/box_white"
             />
         <TextView
             android:id="@+id/dateTV"
@@ -154,7 +154,7 @@
         android:layout_height="40dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="6dp"
-        android:background="@drawable/box_date"
+        android:background="@drawable/box_white"
         android:paddingHorizontal="10dp"
         android:text="Mắc bệnh đái tháo đường\nsdfsfsdfsfsdfsdfsf"
         android:textSize="14sp"
@@ -242,7 +242,7 @@
         android:layout_height="40dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="6dp"
-        android:background="@drawable/box_date"
+        android:background="@drawable/box_white"
         android:padding="10dp"
         android:textSize="14sp"
         android:textColor="@color/primary_color"

@@ -14,7 +14,7 @@ class PrescriptionAdapter(var mList: List<DonThuoc>) :
     var onItemClick: ((Int) -> Unit)? = null
     inner class PrescriptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTV : TextView = itemView.findViewById(R.id.nameTV)
-        val quantityTV : TextView = itemView.findViewById(R.id.quantity)
+        val quantityTV : TextView = itemView.findViewById(R.id.quantityTV)
         val usingTV: TextView = itemView.findViewById(R.id.usingTV)
         init {
             itemView.setOnClickListener { onItemClick?.invoke(adapterPosition) }
