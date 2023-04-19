@@ -20,8 +20,8 @@ class AdminProfile : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(com.example.hyv_hpv_clinicbooking.ARG_PARAM1)
-            param2 = it.getString(com.example.hyv_hpv_clinicbooking.ARG_PARAM2)
+//            param1 = it.getString(com.example.hyv_hpv_clinicbooking.ARG_PARAM1)
+//            param2 = it.getString(com.example.hyv_hpv_clinicbooking.ARG_PARAM2)
         }
     }
 
@@ -47,8 +47,8 @@ class AdminProfile : Fragment() {
         fun newInstance(param1: String, param2: String) =
             AdminProfile().apply {
                 arguments = Bundle().apply {
-                    putString(com.example.hyv_hpv_clinicbooking.ARG_PARAM1, param1)
-                    putString(com.example.hyv_hpv_clinicbooking.ARG_PARAM2, param2)
+//                    putString(com.example.hyv_hpv_clinicbooking.ARG_PARAM1, param1)
+//                    putString(com.example.hyv_hpv_clinicbooking.ARG_PARAM2, param2)
                 }
             }
     }
