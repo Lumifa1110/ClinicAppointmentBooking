@@ -1,5 +1,6 @@
 package com.example.hyv_hpv_clinicbooking.Adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,9 +30,7 @@ class DoctorListAdapter_Admin(private var doctorList: List<BacSi>) :
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+    override fun onCreateViewHolder( parent: ViewGroup, viewType: Int
     ): DoctorListAdapter_Admin.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
@@ -64,5 +63,13 @@ class DoctorListAdapter_Admin(private var doctorList: List<BacSi>) :
                 lock = true
             }
         }
+    }
+    fun filterList(filterlist: ArrayList<BacSi>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        doctorList = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
     }
 }
