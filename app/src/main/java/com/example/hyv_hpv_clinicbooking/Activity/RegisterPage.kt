@@ -1,12 +1,15 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
 import BenhNhan
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.hyv_hpv_clinicbooking.R
+import com.example.hyv_hpv_clinicbooking.databinding.ActivityRegisterPageBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -21,6 +24,7 @@ class RegisterPage : AppCompatActivity() {
     private lateinit var registerBtn : Button
 
     private lateinit var database : DatabaseReference
+    private lateinit var auth  : FirebaseAuth
 
     private fun initWidgets() {
         phoneET = findViewById(R.id.phoneET)
@@ -38,17 +42,51 @@ class RegisterPage : AppCompatActivity() {
 
         database = Firebase.database.reference
 
+//        binding = ActivityRegisterPageBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+
+        initListener()
+    }
+
+    private fun initListener() {
         registerBtn.setOnClickListener {
-            if (!editTextIsEmpty()) {
-                // Get EditText input
-                val name = nameET.text.toString()
-                val email = emailET.text.toString()
-                val phone = phoneET.text.toString()
-                val password = passwordET.text.toString()
-                // Generate key
-                val userId = database.push().key
-                writeNewUser(userId!!, name, email, phone, password)
-            }
+            onClickRegister()
+        }
+    }
+
+    private fun onClickRegister() {
+        if (!editTextIsEmpty()) {
+            // Get EditText input
+            val name = nameET.text.toString()
+            val email = emailET.text.toString()
+            val phone = phoneET.text.toString()
+            val password = passwordET.text.toString()
+
+            // Init Firebase Authentication
+            auth = FirebaseAuth.getInstance()
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        // Register success
+                        Toast.makeText(applicationContext
+                            , getString(R.string.toastRegisterSuccess)
+                            , Toast.LENGTH_SHORT)
+                            .show()
+                        // Write user data to Firebase
+                        writeNewUser(user!!.uid, name, email, phone, password)
+                        // Move to Login page
+                        val intent = Intent(this, LoginPage::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Register fail
+                        Toast.makeText(applicationContext
+                            , getString(R.string.toastRegisterFail)
+                            , Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
         }
     }
 
@@ -71,9 +109,5 @@ class RegisterPage : AppCompatActivity() {
     private fun writeNewUser(userId: String, name: String, email: String, phone: String, password: String) {
         val user = BenhNhan(SoDienThoai = phone, Email = email, UserName = name, PassWord = password)
         database.child("Users").child(userId).setValue(user)
-        Toast.makeText(applicationContext
-            , "Register successfully"
-            , Toast.LENGTH_SHORT)
-            .show()
     }
 }
