@@ -23,7 +23,7 @@
             app:layout_constraintRight_toRightOf="parent">
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/PatientTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="QUẢN LÝ BỆNH NHÂN"
@@ -49,18 +49,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageButton
-                android:layout_width="35sp"
-                android:layout_height="35sp"
-                android:scaleType="fitXY"
-                android:background="@null"
-                android:src="@drawable/plus"
-                app:layout_constraintBottom_toTopOf="@+id/searchDoctor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.567"
-                app:layout_constraintStart_toEndOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
@@ -76,7 +64,7 @@
                 android:id="@+id/patientRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20sp"
+                android:layout_marginTop="10sp"
                 android:layout_marginBottom="50dp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,92 +1,52 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import com.example.hyv_hpv_clinicbooking.R
+import com.example.hyv_hpv_clinicbooking.ResetPasswordActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class LoginPage : AppCompatActivity() {
-    private val REQUEST_CODE = 1111;
-
-    private lateinit var usernameET: EditText
+    private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
     private lateinit var loginBTN: Button
     private lateinit var showPassword: ImageButton
     private lateinit var backBTN: ImageButton
     private lateinit var dangKi: TextView
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var resetPasswordBTN: TextView
 
     // Firebase
     private lateinit var database : DatabaseReference
+    private lateinit var auth  : FirebaseAuth
+
+    private fun initWidgets() {
+        emailET = findViewById(R.id.emailET)
+        passwordET = findViewById(R.id.passwordET)
+        loginBTN = findViewById(R.id.loginBTN)
+        backBTN = findViewById(R.id.backBTN)
+        dangKi = findViewById(R.id.dangKi)
+        resetPasswordBTN = findViewById(R.id.resetPasswordBTN)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_page)
 
-        // Init Firebase User reference
-        database = FirebaseDatabase.getInstance().getReference()
+        initWidgets()
 
-        val patient_username:String = "patient"
-        val patient_password:String = "123"
-        val doctor_username:String = "doctor"
-        val doctor_password:String = "123"
+        database = Firebase.database.reference
 
-        usernameET = findViewById(R.id.usernameET)
-        passwordET = findViewById(R.id.passwordET)
-        loginBTN = findViewById(R.id.loginBTN)
-        backBTN = findViewById(R.id.backBTN)
-        dangKi = findViewById(R.id.dangKi)
-//        showPassword = findViewById(R.id.showPassword)
+        initListener()
+    }
 
-        //Lưu đăng nhập
-        sharedPreferences = getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE)
-        //Check đã đăng nhập hay chưa
-        var isLogin = sharedPreferences.getString("isLogin", null);
-        var usernameSave = sharedPreferences.getString("username", null);
-
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.commit()
-
-        if(isLogin == "Login") {
-            val intent = Intent(this, UserHomePage::class.java)
-            startActivityForResult(intent, REQUEST_CODE)
-        }
-
-        loginBTN.setOnClickListener {
-            println(usernameET.text)
-            println(passwordET.text)
-            if(patient_username == usernameET.text.toString() && patient_password == passwordET.text.toString()) {
-                val intent = Intent(this, UserHomePage::class.java)
-                startActivityForResult(intent, REQUEST_CODE)
-//                val editor = sharedPreferences.edit()
-//                editor.clear()
-//                editor.putString("isLogin", "Login")
-//                editor.putString("username", username?.text.toString())
-//                editor.commit()
-            }
-
-            if(doctor_username == usernameET.text.toString() && doctor_password == passwordET.text.toString()) {
-                val intent = Intent(this, DoctorHomePage::class.java)
-                startActivityForResult(intent, REQUEST_CODE)
-//                val editor = sharedPreferences.edit()
-//                editor.clear()
-//                editor.putString("isLogin", "Login")
-//                editor.putString("username", username?.text.toString())
-//                editor.commit()
-            }
-        }
-
+    private fun initListener() {
         backBTN.setOnClickListener {
-
         }
 
 //        showPassword?.setOnClickListener {
@@ -105,11 +65,73 @@ class LoginPage : AppCompatActivity() {
             val intent = Intent(this, RegisterPage::class.java)
             startActivity(intent)
         }
+
+        loginBTN.setOnClickListener {
+            onClickLogin()
+        }
+
+        resetPasswordBTN.setOnClickListener {
+            resetPassword()
+        }
     }
 
-    // Save User login data to Firebase
-    private fun writeUserToFirebase() {
-        val username = usernameET.text.toString()
-        val password = passwordET.text.toString()
+    private fun onClickLogin() {
+        if (!editTextIsEmpty()) {
+            // Get EditText input
+            val email = emailET.text.toString()
+            val password = passwordET.text.toString()
+
+            // Init Firebase Authentication
+            auth = FirebaseAuth.getInstance()
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        // Login success
+                        Toast.makeText(applicationContext
+                            , getString(R.string.toastLoginSuccess)
+                            , Toast.LENGTH_SHORT)
+                            .show()
+                        // Move to Login page
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Login fail
+                        Toast.makeText(applicationContext
+                            , getString(R.string.toastLoginFail)
+                            , Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+        }
+    }
+
+    private fun editTextIsEmpty() : Boolean {
+        if (emailET.text.toString() == "" ||
+            passwordET.text.toString() == "")
+        {
+            Toast.makeText(applicationContext
+                , getString(R.string.toastEmptyEditText)
+                , Toast.LENGTH_SHORT)
+                .show()
+            return true
+        }
+        return false
+    }
+
+    private fun resetPassword() {
+        val email = emailET.text.toString()
+        if (email == "") {
+            Toast.makeText(applicationContext
+                , getString(R.string.toastEmptyEditText)
+                , Toast.LENGTH_SHORT)
+                .show()
+        }
+        else {
+            val intent = Intent(this, ResetPasswordActivity::class.java)
+            intent.putExtra("reset password", email)
+            startActivity(intent)
+        }
     }
 }

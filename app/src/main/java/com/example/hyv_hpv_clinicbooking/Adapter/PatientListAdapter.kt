@@ -13,7 +13,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class PatientListAdapter(private val patientList: List<BenhNhan>) :
     RecyclerView.Adapter<PatientListAdapter.ViewHolder>() {
-
+    var lock: Boolean = true
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,7 +41,13 @@ class PatientListAdapter(private val patientList: List<BenhNhan>) :
         holder.avatar?.setImageResource(R.drawable.anya)
 
         holder.isLock?.setOnClickListener {
-            holder.isLock?.setImageResource(R.drawable.unlock_user)
+            if (lock == true) {
+                holder.isLock?.setImageResource(R.drawable.unlock_user)
+                lock = false
+            } else {
+                holder.isLock?.setImageResource(R.drawable.block_user)
+                lock = true
+            }
         }
     }
 
