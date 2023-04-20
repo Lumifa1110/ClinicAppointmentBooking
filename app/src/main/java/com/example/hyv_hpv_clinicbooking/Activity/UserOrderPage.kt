@@ -1,60 +1,38 @@
-package com.example.hyv_hpv_clinicbooking.Fragment
+package com.example.hyv_hpv_clinicbooking.Activity
 
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.GridView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Adapter.ChooseTimeAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.DayAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.TimeAdapter
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
-import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DoctorChooseFreeTimeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class DoctorChooseFreeTimeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+class UserOrderPage : AppCompatActivity() {
     var customListView: RecyclerView? = null
     var morningList = arrayListOf<KhungGio>()
     var afternoonList = arrayListOf<KhungGio>()
     var lichRanh =  arrayListOf<ThoiGianRanh>()
-//
+    //
     var adapter: DayAdapter? = null
-    var timeAdapter: TimeAdapter? = null
-    var afternoonAdapter: TimeAdapter? = null
-//
+    var timeAdapter: ChooseTimeAdapter? = null
+    var afternoonAdapter: ChooseTimeAdapter? = null
+    //
     var morningTimeView: GridView? = null
     var afternoonTimeView: GridView? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctor_choose_free_time, container, false)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_user_order_page)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        customListView = view.findViewById(R.id.dayRV)
-        morningTimeView = view.findViewById<GridView>(R.id.morningGV)
-        afternoonTimeView = view.findViewById<GridView>(R.id.afternoonGV)
+        customListView = findViewById(R.id.dayRV)
+        morningTimeView = findViewById<GridView>(R.id.morningGV)
+        afternoonTimeView = findViewById<GridView>(R.id.afternoonGV)
 
         morningList = arrayListOf<KhungGio>()
         afternoonList = arrayListOf<KhungGio>()
@@ -190,7 +168,7 @@ class DoctorChooseFreeTimeFragment : Fragment() {
         adapter = DayAdapter(dayList)
         customListView!!.adapter = adapter
         val layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         customListView!!.layoutManager = layoutManager
 
         var CalendarOfDay = arrayListOf<ThoiGianRanh>()
@@ -222,12 +200,11 @@ class DoctorChooseFreeTimeFragment : Fragment() {
         afternoonList.add(KhungGio(14, "16:00 PM", "16:30 PM"))
 
 
-        timeAdapter = TimeAdapter(requireContext(), morningList, CalendarOfDay)
+        timeAdapter = ChooseTimeAdapter(this, morningList, CalendarOfDay)
         morningTimeView?.adapter = timeAdapter
 
 
-        afternoonAdapter = TimeAdapter(requireContext(), afternoonList, CalendarOfDay)
+        afternoonAdapter = ChooseTimeAdapter(this, afternoonList, CalendarOfDay)
         afternoonTimeView?.adapter = afternoonAdapter
-
     }
 }

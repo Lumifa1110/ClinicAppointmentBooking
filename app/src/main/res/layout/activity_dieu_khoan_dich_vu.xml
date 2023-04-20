@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_no_heart"
+    tools:context=".Activity.DieuKhoanDichVu">
+
+    <ImageButton
+        android:id="@+id/backBTN"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="ĐIỀU KHOẢN DỊCH VỤ"
+        android:textColor="@color/white"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="650sp"
+        android:paddingHorizontal="20sp"
+        android:layout_marginBottom="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10sp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="BẢO MẬT"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tChúng tôi rất coi trọng việc bảo mật thông tin của bạn. Để bảo vệ các quyền của bạn một cách hiệu quả hơn, chúng tôi đã cung cấp Chính Sách Bảo Mật trên Phần mềm để giải thích chi tiết về các cách thức bảo mật thông tin của chúng tôi. Vui lòng xem Chính Sách Bảo Mật để hiểu được cách thức chúng tôi thu thập và sử dụng thông tin liên kết với Tài Khoản của bạn và/hoặc việc bạn sử dụng Các Dịch Vụ. Bằng việc sử dụng Các Dịch Vụ hoặc đồng ý với các Điều Khoản Dịch Vụ này, bạn đồng ý cho phép chúng tôi thu thập, sử dụng, tiết lộ và/hoặc xử lý Nội Dung và dữ liệu cá nhân của bạn như mô tả trong Chính Sách Bảo Mật của chúng tôi."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tNgười dùng nào lưu giữ dữ liệu cá nhân của một người dùng khác (“Bên Nhận Thông Tin”) phải:"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="50sp"
+                android:fallbackLineSpacing="true"
+                android:text="○\tTuân thủ mọi điều luật bảo vệ dữ liệu cá nhân hiện hành;"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="50sp"
+                android:fallbackLineSpacing="true"
+                android:text="○\tPhải được Bên Tiết Lộ Thông Tin cho phép truy cập và lưu giữ bằng văn bản hoặc lời nói hoặc bất kỳ mội phương thức nào"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="50sp"
+                android:fallbackLineSpacing="true"
+                android:text="○\tChỉ sử dụng thông tin của Bên Tiết Lộ Thông Tin để đăng ký sử dụng Các Dịch Vụ giúp cho Bên Tiết Lộ Thông Tin trên Phần mềm."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="30sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="ĐIỀU KHOẢN SỬ DỤNG"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tQuyền sử dụng Phần mềm này và Các Dịch Vụ có hiệu lực đến khi bị chấm dứt. Quyền sử dụng này sẽ chấm dứt như quy định trong các Điều Khoản Dịch Vụ này hoặc nếu bạn không tuân thủ bất kỳ điều khoản hay điều kiện nào của các Điều Khoản Dịch Vụ này. Trong trường hợp đó, Chúng tôi sẽ không cần thông báo để áp dụng sự chấm dứt đó."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tBạn xác nhận rằng Chúng tôi có thể hoặc không sàng lọc trước Nội Dung nhưng Chúng tôi và những người được chỉ định sẽ có toàn quyền (nhưng không phải là nghĩa vụ) sàng lọc trước, từ chối, xóa hay gỡ bỏ bất kỳ Nội Dung nào được đăng trên Phần mềm. Không giới hạn các quy định trên, Chúng tôi và những người được chỉ định sẽ có quyền gỡ bỏ bất kỳ Nội Dung nào vi phạm các Điều Khoản Dịch Vụ này, nếu chúng tôi nhận được khiếu nại từ một người dùng khác, nếu chúng tôi nhận được thông báo về sự xâm phạm tài sản trí tuệ hoặc yêu cầu có giá trị pháp lý khác đề nghị gỡ bỏ, hoặc nếu Nội Dung đó là đáng lên án theo cách khác. Chúng tôi cũng có thể chặn đường gửi một nội dung liên lạc (bao gồm nhưng không giới hạn cập nhật thông tin, hoặc gửi câu hỏi thắc mắc) đến hoặc từ Các Dịch Vụ như một phần trong nỗ lực của chúng tôi để bảo vệ Các Dịch Vụ hoặc người dùng của chúng tôi, hoặc để thực thi các điều khoản trong các Điều Khoản và Điều Kiện này."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tBạn xác nhận và đồng ý rằng Chúng tôi có thể truy cập, bảo lưu và tiết lộ thông tin tài khoản của bạn và Nội Dung của bạn nếu luật quy định điều đó hoặc tuân theo lệnh của tòa hoặc theo yêu cầu của bất kỳ cơ quan chính phủ hay cơ quan quản lý nào có thẩm quyền đối với Chúng tôi hoặc vì thiện chí cho rằng sự bảo lưu truy cập hay tiết lộ đó là cần thiết một cách hợp lý để: (a) tuân thủ quy trình pháp lý; (b) thực thi các Điều Khoản Dịch Vụ này; (c) phản hồi một đơn khiếu kiện cho rằng Nội Dung vi phạm quyền của các bên thứ ba; (d) phản hồi yêu cầu của bạn đối với dịch vụ chăm sóc khách hàng; hoặc (e) bảo vệ quyền lợi, tài sản hoặc sự an toàn cá nhân của Chúng tôi, người dùng của Chúng tôi và/hoặc công chúng."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="CÁC QUY ĐỊNH CHUNG"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tChúng tôi bảo lưu tất cả các quyền không được cấp rõ trong đây.
+Chúng tôi có thể điều chỉnh các Điều Khoản Dịch Vụ này vào bất kỳ lúc nào bằng cách đăng các Điều Khoản Dịch Vụ đã chỉnh sửa lên Phần mềm này. Việc bạn tiếp tục sử dụng Phần mềm này sau khi những thay đổi đó đã được đăng sẽ cấu thành việc bạn chấp nhận các Điều Khoản Dịch Vụ đã chỉnh sửa đó."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tBạn không được chuyển nhượng, cấp phép con hay chuyển giao bất kỳ quyền nào đã cấp cho bạn theo đây hoặc lập hợp đồng phụ bất kỳ nghĩa vụ nào của bạn."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tKhông nội dung nào trong các Điều Khoản Dịch Vụ này sẽ cấu thành sự hợp tác, liên doanh hay quan hệ người ủy thác - đại lý giữa bạn và Chúng tôi, cũng không cho phép bạn chịu bất kỳ chi phí hay trách nhiệm pháp lý nào thay mặt Chúng tôi."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="5sp"
+                android:fallbackLineSpacing="true"
+                android:text="Điều Khoản Dịch Vụ này là một phần không tách rời với Chính Sách Bảo Mật và Quy Định Sử Dụng Phần Mềm của chúng tôi. Xin vui lòng đọc thêm các Chính Sách Bảo Mật và Quy Định Sử Dụng Phần Mềm để hiểu rõ các quy định, điều khoản, chính sách và hướng dẫn của chúng tôi trước khi bạn truy cập Phần mềm và/hoặc đăng ký và/hoặc sử dụng các Dịch Vụ trên Phần mềm của chúng tôi."/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

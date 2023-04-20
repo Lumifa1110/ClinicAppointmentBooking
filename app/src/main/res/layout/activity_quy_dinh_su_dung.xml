@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_no_heart"
+    tools:context=".Activity.QuyDinhSuDung">
+
+    <ImageButton
+        android:id="@+id/backBTN"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="QUY ĐỊNH SỬ DỤNG"
+        android:textColor="@color/white"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="650sp"
+        android:paddingHorizontal="20sp"
+        android:layout_marginBottom="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10sp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="GIỚI THIỆU"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:fallbackLineSpacing="true"
+                android:text="\t\t\t\tChào mừng bạn đến với phần mềm Đăng Ký Khám Bệnh Trực Tuyến tại Bệnh viện Chấn Thương Chỉnh Hình (gọi chung là Phần mềm). Vui lòng đọc kỹ các Quy Định Sử Dụng dưới đây trước khi tiếp tục truy cập hoặc sử dụng các dịch vụ của Phần mềm, để bạn biết được các quyền lợi và nghĩa vụ hợp pháp của mình liên quan đến các vấn đề về việc đăng ký khám bệnh, thanh toán, nhận phiếu khám bệnh, tạo hồ sơ bệnh nhân, quản lý và sử dụng thông tin trong hồ sơ bệnh nhân, quản lý phiếu khám bệnh, hoàn tiền, hủy phiếu khám bệnh, sửa thông tin phiếu khám bệnh, cách giải quyết các sự cố.... trong quá trình sử dụng Phần mềm."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="30sp"
+                android:textColor="@color/black"
+                android:text="Các chức năng: "/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="ĐĂNG NHẬP"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tBạn phải đăng nhập mới có thể sử dụng đầy đủ các Dịch vụ của Phần mềm."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tPhần mềm định danh tài khoản của bạn bằng số điện thoại di động bạn đang sử dụng, vì vậy trong trường hợp bạn không còn hoặc mất quyền kiểm soát hay sở hữu đối với số điện thoại di động của mình, bạn hãy liên hệ ngay với chúng tôi qua tổng đài 1900 2115 hoặc email hotro@medpro.com.vn, chúng tôi sẽ hỗ trợ bạn."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="THÔNG TIN BỆNH NHÂN"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tĐịa chỉ email và số điện thoại di động: Bạn nên nhập đầy đủ và chính xác để Phần mềm gửi thông báo, hoặc thông tin phiếu khám bệnh cho bạn qua hình thức email và tin nhắn sms."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tBệnh viện sẽ từ chối khám chữa bệnh và không hoàn tiền nếu Thông tin bệnh nhân khi đăng ký không đúng với thực tế, vì vậy vui lòng kiểm tra thật kỹ các thông tin trước khi bấm tiếp tục."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="THỜI GIAN ĐĂNG KÝ"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tThời gian đăng ký trước ngày khám đến 30 ngày."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tNếu muốn chọn khám vào ngày hôm sau, Bạn phải thực hiện việc đăng ký và hoàn tất thanh toán trước 16h của ngày hôm nay, sau 16h Bạn không thể đăng ký khám vào ngày hôm sau được nữa."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="TIỀN VÀ PHÍ ĐĂNG KÝ KHÁM"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tTiền khám bệnh: là tiền bạn trả cho việc sử dụng dịch vụ khám chữa bệnh của bệnh viện. Giá khám bệnh sẽ thay đổi tùy theo chuyên khoa và do bệnh viện quy định."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tPhí tiện ích: là tiền hỗ trợ cho việc sử dụng dịch vụ đăng ký khám bệnh trực tuyến (đã bao gồm phí các tin nhắn, email...). Bạn vui lòng kiểm tra Tổng tiền thanh toán trước khi thực hiện việc thanh toán."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tKhi bạn thực hiện việc thanh toán, đồng nghĩa với với việc bạn hoàn toàn đồng ý, tự nguyện và không có bất kỳ khiếu nại hoặc khiếu kiện nào về bất kỳ một khoản tiền hoặc phí nào trong quá trình sử dụng phần mềm về sau."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="QUY ĐỊNH KHÁC"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tChúng tôi có quyền chỉnh sửa các Quy Định Sử Dụng Phần Mềm này vào bất kỳ lúc nào mà không cần thông báo cho người dùng. Bạn cần phải định kỳ truy cập và đọc qua Quy Định Sử Dụng này để kịp thời cập nhật và nắm được các quy định của chúng tôi."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tQuy Định Sử Dụng Phần Mềm này là một phần không tách rời với Điều Khoản Dịch Vụ và Chính Sách Bảo Mật của chúng tôi. Xin vui lòng đọc thêm các Điều Khoản Dịch Vụ và Chính Sách Bảo Mật để hiểu rõ các quy định, điều khoản, chính sách và hướng dẫn của chúng tôi trước khi bạn truy cập Phần mềm và/hoặc đăng ký và/hoặc sử dụng các Dịch Vụ trên Phần mềm của chúng tôi."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tTôi đã đọc quy định sử dụng phần mềm này và đồng ý với tất cả các quy định có trong nội dung bên trên và bất kỳ bản chỉnh sửa nào của nội dung bên trên sau này. bằng việc tiếp tục truy cập và sử dụng phần mềm, tôi hiểu rằng tôi đang tạo ra một chữ ký điện tử mà nó có giá trị và hiệu lực tương tự như chữ ký tôi ký bằng tay."/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

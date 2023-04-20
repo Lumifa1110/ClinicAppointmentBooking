@@ -10,9 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.example.hyv_hpv_clinicbooking.Activity.ChangePasswordPage
-import com.example.hyv_hpv_clinicbooking.Activity.EditProfilePage
-import com.example.hyv_hpv_clinicbooking.Activity.LoginPage
+import com.example.hyv_hpv_clinicbooking.Activity.*
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 
@@ -33,6 +31,10 @@ class UserProfile : Fragment() {
     var emailTV: TextView?= null
     var dangXuatBTN: Button?= null
     var changePasswordBTN: Button?=null
+    var chinhsachbm: Button?= null
+    var dieukhoandv: Button?= null
+    var quydinhsd: Button?= null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +54,10 @@ class UserProfile : Fragment() {
         emailTV = view.findViewById(R.id.email)
         dangXuatBTN = view.findViewById(R.id.dangXuatBTN)
         changePasswordBTN = view.findViewById(R.id.changePasswordBTN)
+
+        chinhsachbm = view.findViewById(R.id.chinhsachbmBTN)
+        dieukhoandv = view.findViewById(R.id.dieukhoandvBTN)
+        quydinhsd = view.findViewById(R.id.quydinhsdBTN)
 
         var bnExample: BenhNhan = BenhNhan()
         bnExample.HoTen = "Hello World"
@@ -77,6 +83,24 @@ class UserProfile : Fragment() {
 
         dangXuatBTN?.setOnClickListener {
             val intent = Intent(requireContext(), LoginPage::class.java)
+            startActivity(intent)
+        }
+
+        chinhsachbm?.setOnClickListener {
+            val intent = Intent(requireContext(), ChinhSachBaoMat::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            startActivity(intent)
+        }
+
+        dieukhoandv?.setOnClickListener {
+            val intent = Intent(requireContext(), DieuKhoanDichVu::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            startActivity(intent)
+        }
+
+        quydinhsd?.setOnClickListener {
+            val intent = Intent(requireContext(), QuyDinhSuDung::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
             startActivity(intent)
         }
     }

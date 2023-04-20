@@ -102,6 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/quydinhsdBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10sp"
@@ -115,6 +116,7 @@
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/chinhsachbmBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10sp"
@@ -128,6 +130,7 @@
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dieukhoandvBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10sp"
@@ -163,6 +166,20 @@
         app:layout_constraintTop_toBottomOf="@+id/accountTV">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/appointmentBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10sp"
+            android:background="@null"
+            android:drawableLeft="@drawable/profile_calendar"
+            android:drawableRight="@drawable/next"
+            android:drawablePadding="5sp"
+            android:text="Lịch hẹn"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editProfileBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -189,6 +206,7 @@
             android:textAlignment="viewStart"
             android:textAllCaps="false"
             android:textSize="18sp" />
+
     </LinearLayout>
 
     <Button

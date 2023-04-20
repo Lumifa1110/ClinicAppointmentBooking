@@ -12,7 +12,8 @@ import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
 
-class TimeAdapter (private var context: Context, private var items: ArrayList<KhungGio>, private var freeTimeList: ArrayList<ThoiGianRanh>) : BaseAdapter() {
+class ChooseTimeAdapter (private var context: Context, private var items: ArrayList<KhungGio>, private var freeTimeList: ArrayList<ThoiGianRanh>) : BaseAdapter() {
+    private var selectedItemPosition: Int = -1
     private class ViewHolder(row: View?) {
         var timeView: Button? = null
 
@@ -42,8 +43,9 @@ class TimeAdapter (private var context: Context, private var items: ArrayList<Kh
         for(timeCheck in freeTimeList) {
             if(khungGio.maKhungGio == timeCheck.maKhungGio) {
                 if(timeCheck.trangThai == 0) {
-                    viewHolder.timeView?.setBackgroundResource(R.drawable.day_choose)
-                    viewHolder.timeView?.setTextColor(Color.parseColor("#ffffff"))
+                    viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
+                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                    viewHolder.timeView?.isEnabled = false
                 }
                 else {
                     viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
@@ -54,20 +56,19 @@ class TimeAdapter (private var context: Context, private var items: ArrayList<Kh
         }
 
         viewHolder.timeView?.setOnClickListener {
-            for(timeCheck in freeTimeList) {
-                if(khungGio.maKhungGio == timeCheck.maKhungGio) {
-                    if(timeCheck.trangThai == 1) {
-                        timeCheck.trangThai = 0
-                        viewHolder.timeView?.setBackgroundResource(R.drawable.day_choose)
-                        viewHolder.timeView?.setTextColor(Color.parseColor("#ffffff"))
-                    }
-                    else {
-                        timeCheck.trangThai = 1
-                        viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
-                        viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
-                    }
-                    break;
-                }
+            if(viewHolder.timeView?.isEnabled == true) {
+                selectedItemPosition = position
+                notifyDataSetChanged()
+            }
+        }
+
+        if(viewHolder.timeView?.isEnabled == true) {
+            if (selectedItemPosition == position) {
+                viewHolder.timeView?.setBackgroundResource(R.drawable.day_choose)
+                viewHolder.timeView?.setTextColor(Color.parseColor("#ffffff"))
+            } else {
+                viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
+                viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
             }
         }
 
