@@ -1,19 +1,30 @@
 package com.example.hyv_hpv_clinicbooking.Adapter
 
 import BenhNhan
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 import de.hdodenhof.circleimageview.CircleImageView
 
-class PatientListAdapter(private val patientList: List<BenhNhan>) :
+class PatientListAdapter(private var context: Context,
+                         private var patientList: ArrayList<BenhNhan>) :
     RecyclerView.Adapter<PatientListAdapter.ViewHolder>() {
     var lock: Boolean = true
+    interface OnItemClickListener {
+        fun onDeleteClick(patient: BenhNhan) { }
+    }
+    private var listener: OnItemClickListener? = null
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,7 +44,7 @@ class PatientListAdapter(private val patientList: List<BenhNhan>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Get the data model based on position
         val patient: BenhNhan = patientList[position]
-
+        lock = patient.BiKhoa
         // Set item views based on your views and data model
         holder.idTV?.text = (position + 1).toString()
         holder.nameTV?.text = patient.HoTen
@@ -49,6 +60,10 @@ class PatientListAdapter(private val patientList: List<BenhNhan>) :
                 lock = true
             }
         }
+        holder.delUser!!.setOnClickListener {
+            listener?.onDeleteClick(patient)
+            Toast.makeText(context, patient.HoTen, Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -58,6 +73,7 @@ class PatientListAdapter(private val patientList: List<BenhNhan>) :
         var phoneTV: TextView? = null
         var avatar: CircleImageView? = null
         var isLock: ImageButton? = null
+        var delUser: ImageButton? = null
 
         init {
             idTV = listItemView.findViewById(R.id.idTV) as TextView
@@ -65,7 +81,16 @@ class PatientListAdapter(private val patientList: List<BenhNhan>) :
             phoneTV = listItemView.findViewById(R.id.phoneTV) as TextView
             avatar = listItemView.findViewById(R.id.avatar) as CircleImageView
             isLock = listItemView.findViewById(R.id.isLock) as ImageButton
+            delUser = listItemView.findViewById(R.id.deleteUser)
         }
+    }
+    fun filterList(filterlist: ArrayList<BenhNhan>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        patientList = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
     }
 }
 

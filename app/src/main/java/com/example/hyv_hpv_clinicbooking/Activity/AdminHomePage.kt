@@ -13,11 +13,31 @@ class AdminHomePage : AppCompatActivity() {
     var adminDashBoard = AdminDashBoard()
     var doctorManagement = DoctorManagement()
     var patientManagement = PatientManagement()
+    private var selectedFragmentTag: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_home_page)
         bottomNavBar = findViewById(R.id.adminNavBar) as BottomNavigationView
-        supportFragmentManager.beginTransaction().replace(R.id.container, adminDashBoard).commit()
+//        supportFragmentManager.beginTransaction().replace(R.id.container, adminDashBoard).commit()
+        selectedFragmentTag = intent.getStringExtra("loadfragment")
+        when (selectedFragmentTag) {
+            "dashboard" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.container, adminDashBoard).commit()
+                this.bottomNavBar!!.selectedItemId = R.id.adminHome
+            }
+            "doctorManagement" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.container, doctorManagement).commit()
+                this.bottomNavBar!!.selectedItemId = R.id.adminDoctors
+            }
+            "patientManagement" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.container, patientManagement).commit()
+                this.bottomNavBar!!.selectedItemId = R.id.adminPatients
+            }
+            else -> {
+                supportFragmentManager.beginTransaction().replace(R.id.container, adminDashBoard).commit()
+                this.bottomNavBar!!.selectedItemId = R.id.adminHome
+            }
+        }
         bottomNavBar!!.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.adminHome -> {

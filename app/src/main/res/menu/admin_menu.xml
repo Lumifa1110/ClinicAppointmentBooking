@@ -14,6 +14,6 @@
         android:icon="@drawable/patients"/>
     <item
         android:id="@+id/adminUser"
-        android:title="@string/labelProfile"
-        android:icon="@drawable/user"/>
+        android:title="@string/labelLogout"
+        android:icon="@drawable/profile_logout"/>
 </menu>

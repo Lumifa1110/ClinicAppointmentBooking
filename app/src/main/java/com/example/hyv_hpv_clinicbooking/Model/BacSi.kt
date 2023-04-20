@@ -25,13 +25,14 @@ data class BacSi (
     var HoTen: String = "",
     var SoDienThoai: String = "",
     var SoCuocHen: Int = 0,
-    var DiaChi: String ="",
+    var DiaChi: String = "",
     var Image:Int ?= null,
     var Email: String = "",
     var Mota: String = "",
     var MaAdmin: Int = 0,
     var PassWord: String = "",
-    var GioiTinh: String = ""
+    var GioiTinh: String = "",
+    var BiKhoa: Boolean = true
     ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt()!!,

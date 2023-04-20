@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.example.hyv_hpv_clinicbooking.Fragment.DoctorManagement
 import com.example.hyv_hpv_clinicbooking.Fragment.DoctorProfile
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
@@ -58,6 +59,14 @@ class EditProfilePage : AppCompatActivity() {
             emailET?.setText(taiKhoanBN?.Email)
         }
 
+        if (loaiTaiKhoan == "adminBacSi") {
+            taiKhoanBS = intent.getParcelableExtra("taiKhoan")!!
+            nameET?.setText(taiKhoanBS?.HoTen)
+            phoneET?.setText(taiKhoanBS?.SoDienThoai)
+            addressET?.setText(taiKhoanBS?.DiaChi)
+            emailET?.setText(taiKhoanBS?.Email)
+        }
+
 
         backBTN?.setOnClickListener {
             if(loaiTaiKhoan == "BacSi") {
@@ -69,6 +78,12 @@ class EditProfilePage : AppCompatActivity() {
             if(loaiTaiKhoan == "BenhNhan") {
                 val intent = Intent(this, UserHomePage::class.java)
                 intent.putExtra("fragment", "profile")
+                startActivity(intent)
+            }
+
+            if(loaiTaiKhoan == "adminBacSi") {
+                val intent = Intent(this, AdminHomePage::class.java)
+                intent.putExtra("loadfragment", "doctorManagement")
                 startActivity(intent)
             }
         }

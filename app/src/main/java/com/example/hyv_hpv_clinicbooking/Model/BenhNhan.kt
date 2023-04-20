@@ -13,8 +13,8 @@ data class BenhNhan (
     var GioiTinh: String = "",
     var PassWord: String = "",
     var MaAdmin: Int = 0,
-    var Image: Int = R.drawable.avatar
-
+    var Image: Int = R.drawable.avatar,
+    var BiKhoa: Boolean = true
     ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt()!!,

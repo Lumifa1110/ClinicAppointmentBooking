@@ -49,6 +49,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
             <ImageButton
+                android:id="@+id/addDoctor"
                 android:layout_width="40sp"
                 android:layout_height="40sp"
                 android:scaleType="fitXY"
