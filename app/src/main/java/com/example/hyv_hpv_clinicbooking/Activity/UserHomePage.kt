@@ -19,7 +19,7 @@ class UserHomePage : AppCompatActivity() {
     var bottomNavBar: BottomNavigationView? = null
     var userHomeFrament = UserHomeFragment()
     var doctorListFragment = DoctorListFragment()
-    var historyAppoimentFragment = HistoryAppoimentFragment()
+    var historyAppoimentFragment = UserAppoinmentManagement()
     var userProfileFragment = UserProfile()
 
     @RequiresApi(Build.VERSION_CODES.O)

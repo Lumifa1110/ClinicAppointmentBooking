@@ -1,5 +1,6 @@
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.hyv_hpv_clinicbooking.R
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,16 +11,14 @@ data class BenhNhan (
     var SoDienThoai: String = "",
     var Email: String = "",
     var GioiTinh: String = "",
-    var UserName: String = "",
     var PassWord: String = "",
     var MaAdmin: Int = 0,
-    var Image: Int = 0
+    var Image: Int = R.drawable.avatar
 
     ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt()!!,
         parcel.readInt()!!,
-        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -36,7 +35,6 @@ data class BenhNhan (
         parcel.writeString(SoDienThoai)
         parcel.writeString(Email)
         parcel.writeString(GioiTinh)
-        parcel.writeString(UserName)
         parcel.writeString(PassWord)
         parcel.writeInt(MaAdmin)
         parcel.writeInt(Image)

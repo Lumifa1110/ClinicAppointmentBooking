@@ -1,11 +1,20 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
+import BenhNhan
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.example.hyv_hpv_clinicbooking.Data
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
+import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
+import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,16 +27,15 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class DoctorHomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var database : DatabaseReference
+/*
+    private var scheduleList = ArrayList<LichHenKham>()
+    private var timeList = ArrayList<ThoiGian>()
+*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -38,23 +46,70 @@ class DoctorHomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_doctor_home, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DoctorHomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DoctorHomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        database = Firebase.database.reference
+
+    }
+
+    private fun writeNewPatient(patientId: String, patient: BenhNhan) {
+        val user = BenhNhan(MaBenhNhan = patient.MaBenhNhan, SoLanKham = patient.SoLanKham, HoTen = patient.HoTen, SoDienThoai = patient.SoDienThoai, Email = patient.Email, GioiTinh = patient.GioiTinh, PassWord = patient.PassWord, MaAdmin = patient.MaAdmin, Image = patient.Image)
+        database.child("BenhNhan").child(patientId).setValue(user)
+        Toast.makeText(requireContext()
+            , "Register successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun writeNewDoctor(doctorId: String, doctor: BacSi) {
+        val user = BacSi(MaBacSi = doctor.MaBacSi,
+            TenChuyenKhoa=  doctor.TenChuyenKhoa,
+            HoTen = doctor.HoTen,
+            SoDienThoai = doctor.SoDienThoai,
+            Email = doctor.Email,
+            GioiTinh = doctor.GioiTinh,
+            PassWord = doctor.PassWord,
+            SoNamTrongNghe = doctor.SoNamTrongNghe,
+            MaAdmin = doctor.MaAdmin,
+            Image = doctor.Image,
+            Mota = doctor.Mota)
+        database.child("BacSi").child(doctorId).setValue(user)
+        Toast.makeText(requireContext()
+            , "Register successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun writeNewSchedule(scheduleId: String, schedule: LichHenKham) {
+        val schedule = LichHenKham(
+            MaLichHen=  schedule.MaLichHen,
+            MaBacSi = schedule.MaBacSi,
+            MaBenhNhan = schedule.MaBenhNhan,
+            MaThoiGian = schedule.MaThoiGian,
+            MaTrangThai= schedule.MaTrangThai,
+        )
+
+        database.child("LichHenKham").child(scheduleId).setValue(schedule)
+        Toast.makeText(requireContext()
+            , "Add Schedule successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun writeNewTime(timeId: String, time: ThoiGian) {
+        val time = ThoiGian(
+            MaThoiGian=  time.MaThoiGian,
+            MaBacSi = time.MaBacSi,
+            Ngay = time.Ngay,
+            GioBatDau = time.GioBatDau,
+            GioKetThuc = time.GioKetThuc,
+            MaTrangThai= time.MaTrangThai,
+        )
+
+        database.child("ThoiGian").child(timeId).setValue(time)
+        Toast.makeText(requireContext()
+            , "Add Schedule successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
     }
 }

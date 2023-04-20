@@ -53,7 +53,11 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
 
             val new_donThuoc = DonThuoc()
             new_donThuoc.TenThuoc = name?.text.toString()
-            new_donThuoc.SoLuong = quantity?.text.toString().toInt()
+            if(quantity?.text.toString().length > 0) {
+                new_donThuoc.SoLuong =  quantity?.text.toString().toInt()
+            } else {
+                new_donThuoc.SoLuong =  0
+            }
             new_donThuoc.DonVi = donvi?.text.toString()
             new_donThuoc.CachDung = using?.text.toString()
 

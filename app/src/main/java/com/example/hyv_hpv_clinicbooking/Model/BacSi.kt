@@ -27,7 +27,11 @@ data class BacSi (
     var SoCuocHen: Int = 0,
     var DiaChi: String ="",
     var Image:Int ?= null,
-    var Email: String = ""
+    var Email: String = "",
+    var Mota: String = "",
+    var MaAdmin: Int = 0,
+    var PassWord: String = "",
+    var GioiTinh: String = ""
     ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt()!!,
@@ -39,7 +43,10 @@ data class BacSi (
         parcel.readInt()!!,
         parcel.readString()!!,
         parcel.readInt()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readInt()!!,
+        parcel.readString()!!,
         )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -53,6 +60,10 @@ data class BacSi (
         parcel.writeString(DiaChi)
         parcel.writeInt(Image!!)
         parcel.writeString(Email)
+        parcel.writeString(Mota)
+        parcel.writeInt(MaAdmin!!)
+        parcel.writeString(PassWord)
+        parcel.writeString(GioiTinh)
     }
 
     override fun describeContents(): Int {
