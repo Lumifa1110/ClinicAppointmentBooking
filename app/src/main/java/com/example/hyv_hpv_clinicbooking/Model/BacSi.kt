@@ -1,7 +1,9 @@
 package com.example.hyv_hpv_clinicbooking.Model
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import kotlinx.serialization.Serializable
 
 //class BacSi {
@@ -34,6 +36,7 @@ data class BacSi (
     var GioiTinh: String = "",
     var BiKhoa: Boolean = true
     ): Parcelable {
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readInt()!!,
         parcel.readString()!!,
@@ -48,8 +51,11 @@ data class BacSi (
         parcel.readString()!!,
         parcel.readInt()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readBoolean(),
         )
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(MaBacSi)
         parcel.writeString(TenChuyenKhoa)
@@ -65,6 +71,7 @@ data class BacSi (
         parcel.writeInt(MaAdmin!!)
         parcel.writeString(PassWord)
         parcel.writeString(GioiTinh)
+        parcel.writeBoolean(BiKhoa)
     }
 
     override fun describeContents(): Int {
@@ -72,6 +79,7 @@ data class BacSi (
     }
 
     companion object CREATOR : Parcelable.Creator<BacSi> {
+        @RequiresApi(Build.VERSION_CODES.Q)
         override fun createFromParcel(parcel: Parcel): BacSi {
             return BacSi(parcel)
         }
