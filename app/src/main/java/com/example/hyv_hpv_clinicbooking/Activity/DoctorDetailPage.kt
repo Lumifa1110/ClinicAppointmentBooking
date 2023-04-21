@@ -3,6 +3,7 @@ package com.example.hyv_hpv_clinicbooking.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -23,6 +24,7 @@ class DoctorDetailPage : AppCompatActivity() {
     var addressTV: TextView?= null
     var phoneTV: TextView?= null
     var backBtn: ImageButton ?= null
+    var oderBtn: Button ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doctor_detail_page)
@@ -34,6 +36,8 @@ class DoctorDetailPage : AppCompatActivity() {
         addressTV = findViewById(R.id.doctorAddress)
         phoneTV = findViewById(R.id.doctorPhone)
         backBtn = findViewById(R.id.back_button)
+        oderBtn = findViewById(R.id.oderBtn)
+
         doctor = intent.getParcelableExtra<BacSi>("doctor") as BacSi
 
         nameTV?.setText("Bác sĩ " + doctor?.HoTen)
@@ -52,6 +56,11 @@ class DoctorDetailPage : AppCompatActivity() {
         backBtn?.setOnClickListener {
             val intent = Intent(this, UserHomePage::class.java)
             intent.putExtra("fragment", "doctor_list")
+            startActivity(intent)
+        }
+
+        oderBtn?.setOnClickListener {
+            val intent = Intent(this, UserOrderPage::class.java)
             startActivity(intent)
         }
     }

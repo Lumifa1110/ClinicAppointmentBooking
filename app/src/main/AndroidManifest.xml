@@ -60,9 +60,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+<!--        <activity
             android:name=".Activity.UserHomePage"
-            android:exported="false" />
+            android:exported="false" />-->
         <activity
             android:name=".Activity.NewUserHomePage"
             android:exported="false" /> <!-- <activity -->

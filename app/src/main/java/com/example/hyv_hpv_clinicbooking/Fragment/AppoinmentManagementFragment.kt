@@ -167,6 +167,15 @@ class AppoinmentManagementFragment : Fragment() {
             unapprovedList.removeAt(index)
             adapter1?.notifyDataSetChanged()
 
+            approvedList = appoinmentList.filter { it.MaTrangThai == 1 } as ArrayList<LichHenKham>
+
+            adapter2 = DoctorAppoinmentList(approvedList, timeList, patientList)
+            recyclerView2?.adapter = adapter2
+
+            adapter2?.onItemClick = { index ->
+                showApproveAlertDialog(index)
+            }
+
         }
         alertDialog.setNegativeButton(
             "Không"
@@ -209,6 +218,15 @@ class AppoinmentManagementFragment : Fragment() {
             }
             approvedList.removeAt(index)
             adapter2?.notifyDataSetChanged()
+
+            approvedList = appoinmentList.filter { it.MaTrangThai == 2 } as ArrayList<LichHenKham>
+
+            adapter3 = DoctorAppoinmentList(approvedList, timeList, patientList)
+            recyclerView3?.adapter = adapter3
+
+            adapter3?.onItemClick = { index ->
+                showApproveAlertDialog(index)
+            }
         }
         alertDialog.setNegativeButton(
             "Không"
