@@ -51,30 +51,30 @@ class PrescriptionActivity : AppCompatActivity() {
 
         if (people.equals("patient")) {
             peopleTV?.setText("Bệnh nhân")
+
         } else {
             peopleTV?.setText("Bác sĩ")
-            nameTV?.setText(name)
-            dateTV?.setText(prescription.Ngay)
-            timeTV?.setText(prescription.Gio)
-            chuandoanTV?.setText(prescription.ChuanDoan)
-            loidanTV?.setText(prescription.LoiDan)
+        }
 
-            val medicines = prescription.DonThuoc.split("\n").toTypedArray()
-            for(medicine in medicines) {
-                var item = medicine.split(";").toTypedArray()
-                var donthuoc = DonThuoc()
-                donthuoc.TenThuoc = item[0]
-                donthuoc.SoLuong = item[1].toInt()
-                donthuoc.DonVi = item[2]
-                donthuoc.CachDung = item[3]
-                mList.add(donthuoc)
-            }
+        nameTV?.setText(name)
+        dateTV?.setText(prescription.Ngay)
+        timeTV?.setText(prescription.Gio)
+        chuandoanTV?.setText(prescription.ChuanDoan)
+        loidanTV?.setText(prescription.LoiDan)
 
+        val medicines = prescription.DonThuoc.split("\n").toTypedArray()
+        for(medicine in medicines) {
+            var item = medicine.split(";").toTypedArray()
+            var donthuoc = DonThuoc()
+            donthuoc.TenThuoc = item[0]
+            donthuoc.SoLuong = item[1].toInt()
+            donthuoc.DonVi = item[2]
+            donthuoc.CachDung = item[3]
+            mList.add(donthuoc)
         }
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
 
         adapter = PrescriptionAdapter(mList)
         recyclerView.adapter = adapter

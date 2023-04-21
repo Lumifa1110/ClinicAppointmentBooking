@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_no_heart"
+    tools:context=".Activity.ChinhSachBaoMat">
+
+    <ImageButton
+        android:id="@+id/backBTN"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="CHÍNH SÁCH BẢO MẬT"
+        android:textColor="@color/white"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="650sp"
+        android:paddingHorizontal="20sp"
+        android:layout_marginBottom="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="ĐIỀU KHOẢN CHUNG"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:fallbackLineSpacing="true"
+                android:text="Chính Sách Bảo Mật này là một phần không tách rời với Điều Khoản Dịch Vụ và Quy Định Sử Dụng Phần Mềm của chúng tôi. Xin vui lòng đọc thêm các Điều Khoản Dịch Vụ và Quy Định Sử Dụng để hiểu rõ các quy định, điều khoản, chính sách và hướng dẫn của chúng tôi trước khi bạn truy cập Phần mềm và/hoặc đăng ký và/hoặc sử dụng các Dịch Vụ trên Phần mềm của chúng tôi."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="CHÚNG TÔI SẼ THU THẬP NHỮNG DỮ LIỆU GÌ?"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tDữ liệu cá nhân mà chúng tôi có thể thu thập bao gồm, nhưng không giới hạn:
+\n\t\t\thọ tên;
+\n\t\t\tgiới tính;
+\n\t\t\tngày tháng năm sinh;
+\n\t\t\tđịa chỉ của bạn;
+\n\t\t\tphương thức thanh toán của bạn;
+\n\t\t\tsố điện thoại;
+\n\t\t\tđịa chỉ email;"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tBất kỳ thông tin nào khác về bạn khi bạn đăng nhập và sử dụng Các Dịch Vụ hoặc Phần mềm của chúng tôi, và khi bạn sử dụng Các Dịch Vụ hoặc Phần mềm, cũng như thông tin về việc bạn sử dụng Các Dịch Vụ hoặc Phần mềm của chúng tôi như thế nào; và dữ liệu tổng hợp về nội dung bạn sử dụng."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tNếu bạn không muốn chúng tôi thu thập thông tin/dữ liệu cá nhân nói trên, bạn có thể chọn không tham gia vào bất kỳ lúc nào bằng cách thông báo đến Nhân Viên Bảo Vệ Dữ Liệu của chúng tôi qua email hotro@hyvhpv.com.vn. Bạn có thể tìm thấy thêm thông tin về nội dung trong mục “Bạn có thể rút tên, xóa tên, yêu cầu truy cập hoặc điều chỉnh thông tin bạn đã cung cấp cho chúng tôi bằng cách nào?” dưới đây. Tuy nhiên, lưu ý rằng việc rút tên ra khỏi quy trình thu thập dữ liệu cá nhân của bạn hoặc việc hủy bỏ cho phép chúng tôi thu thập, sử dụng hoặc xử lý dữ liệu cá nhân của bạn có thể ảnh hưởng đến việc bạn sử dụng Các Dịch Vụ trên Phần mềm của chúng tôi."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="LIỆU CHÚNG TÔI SẼ GỬI THÔNG TIN CỦA BẠN RA NƯỚC NGOÀI?"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tCác máy chủ và cơ sở dữ liệu trung tâm của chúng tôi được đặt và vận hành ở Việt Nam. Nếu bạn không phải là người Việt Nam, dữ liệu cá nhân và/hoặc thông tin của bạn có thể được đặt trong trường hợp đang được gửi đến, lưu trữ hoặc xử lý bên ngoài quốc gia của bạn. Chúng tôi không đảm bảo và không có trách nhiệm thực hiện việc bảo mật thông tin cá nhân của bạn theo qui định và pháp luật tại quốc gia của bạn."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="CHÚNG TÔI BẢO VỆ THÔNG TIN KHÁCH HÀNG BẰNG CÁCH NÀO?"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="30sp"
+                android:fallbackLineSpacing="true"
+                android:text="●\tChúng tôi thực hiện các biện pháp bảo mật khác nhau để đảm bảo sự an toàn của dữ liệu cá nhân của bạn trên các hệ thống của chúng tôi. Dữ liệu cá nhân của bạn được lưu trữ đằng sau các mạng bảo mật trên các hệ thống của chúng tôi. Chúng tôi sẽ duy trì dữ liệu cá nhân tuân theo các quy định của pháp luật về bảo vệ bí mật thông tin cá nhân và/hoặc các điều luật hiện hành khác. Có nghĩa là, chúng tôi sẽ hủy hoặc xóa thông tin nhận dạng ra khỏi dữ liệu cá nhân của bạn ngay khi hợp lý để giả định rằng:"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="50sp"
+                android:fallbackLineSpacing="true"
+                android:text="○\tViệc lưu giữ dữ liệu cá nhân đó không còn phục vụ mục đích thu thập dữ liệu cá nhân đó nữa"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/black"
+                android:paddingLeft="50sp"
+                android:fallbackLineSpacing="true"
+                android:text="○\tviệc lưu giữ không còn cần thiết cho bất kỳ mục đích hợp pháp hay mục đích kinh doanh nào. Nếu bạn ngưng sử dụng Phần mềm, hoặc quyền của bạn được sử dụng Phần mềm và/hoặc Các Dịch Vụ đã chấm dứt, chúng tôi có thể tiếp tục lưu, sử dụng và/hoặc tiết lộ dữ liệu cá nhân của bạn tuân theo Chính Sách Bảo Mật này và các nghĩa vụ của chúng tôi theo các quy định của pháp luật về bảo vệ bí mật thông tin cá nhân. Tùy theo luật áp dụng, chúng tôi có thể tiêu hủy dữ liệu cá nhân của bạn một cách an toàn mà không cần thông báo trước cho bạn."/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,16 +36,6 @@ class DoctorDetailPage : AppCompatActivity() {
         backBtn = findViewById(R.id.back_button)
         doctor = intent.getParcelableExtra<BacSi>("doctor") as BacSi
 
-//        doctor = BacSi()
-//        doctor?.HoTen = "Yogesh Batra"
-//        doctor?.Image = R.drawable.doctor1
-//        doctor?.TenChuyenKhoa = "Nha sĩ"
-//        doctor?.DiaChi = "34-36 đường Đinh Tiên Hoàng, phường Đakao, quận 1, TP.HCM"
-//        doctor?.SoDienThoai = "0123456789"
-//        doctor?.SLBenhNhan = 1234
-//        doctor?.SoNamTrongNghe = 4
-//        doctor?.SoCuocHen = 100
-
         nameTV?.setText("Bác sĩ " + doctor?.HoTen)
         imageIV?.setImageResource(doctor?.Image!!)
         specialistTV?.setText("Chuyên khoa: " + doctor?.TenChuyenKhoa)

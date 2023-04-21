@@ -2,6 +2,7 @@ package com.example.hyv_hpv_clinicbooking.Fragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ class DoctorManagement : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: DoctorListAdapter_Admin
     lateinit var doctorList: ArrayList<BacSi>
+    var addDoctor: ImageButton? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,14 +35,16 @@ class DoctorManagement : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.DoctorView)
+        addDoctor = view.findViewById(R.id.addDoctor)
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         var data = Data()
         doctorList = data.generateDoctorData()
-        adapter = DoctorListAdapter_Admin(doctorList)
+        adapter = DoctorListAdapter_Admin(requireContext(), doctorList)
         recyclerView.adapter = adapter
 
         searchView = view.findViewById(R.id.searchDoctor)
-        searchView!!.queryHint = "Search doctors"
+        searchView!!.queryHint = "Tìm kiếm bác sĩ"
         searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Handle search query submission
@@ -52,29 +56,35 @@ class DoctorManagement : Fragment() {
                 return true
             }
         })
-    }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.admin_search, menu)
-        menuItem = menu.findItem(R.id.searchDoctor)
-        searchView = menuItem!!.actionView as SearchView
-        searchView!!.queryHint = "Search doctors"
-        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                // Handle search query submission
-                return true
-            }
-            override fun onQueryTextChange(newText: String?): Boolean {
-                // Handle search query text changes
-                filter(newText)
-                return true
+        adapter.setOnItemClickListener(object: DoctorListAdapter_Admin.OnItemClickListener {
+            override fun onDeleteClick(doctor: BacSi) {
+                doctorList.remove(doctor)
+                adapter.notifyDataSetChanged()
             }
         })
-        searchView!!.setOnCloseListener {
-            searchView!!.clearFocus()
-            false
-        }
-        super.onCreateOptionsMenu(menu, inflater)
     }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.admin_search, menu)
+//        menuItem = menu.findItem(R.id.searchDoctor)
+//        searchView = menuItem!!.actionView as SearchView
+//        searchView!!.queryHint = "Search doctors"
+//        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                // Handle search query submission
+//                return true
+//            }
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                // Handle search query text changes
+//                filter(newText)
+//                return true
+//            }
+//        })
+//        searchView!!.setOnCloseListener {
+//            searchView!!.clearFocus()
+//            false
+//        }
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
     private fun filter(text: String?) {
         val filteredlist: ArrayList<BacSi> = ArrayList()
         for (item in doctorList) {

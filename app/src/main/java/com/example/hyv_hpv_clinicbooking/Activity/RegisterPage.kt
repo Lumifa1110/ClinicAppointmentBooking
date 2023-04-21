@@ -107,7 +107,7 @@ class RegisterPage : AppCompatActivity() {
 
     // Write user to database
     private fun writeNewUser(userId: String, name: String, email: String, phone: String, password: String) {
-        val user = BenhNhan(SoDienThoai = phone, Email = email, UserName = name, PassWord = password)
+        val user = BenhNhan(SoDienThoai = phone, Email = email, HoTen = name, PassWord = password)
         database.child("Users").child(userId).setValue(user)
     }
 }

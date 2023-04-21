@@ -40,9 +40,6 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AppoinmentManagementFragment : Fragment() {
-    private lateinit var viewPager: ViewPager
-    private lateinit var tablayout: TabLayout
-
     var tabHost : TabHost? = null
     var recyclerView1: RecyclerView?= null
     var adapter1: DoctorAppoinmentList ?= null
@@ -70,20 +67,6 @@ class AppoinmentManagementFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_appoinment_management, container, false)
     }
 
-/*    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewPager = view.findViewById(R.id.viewPager)
-        tablayout = view.findViewById(R.id.tablayout)
-
-        val fragmentAdapter = FragmentAdapter(childFragmentManager)
-        fragmentAdapter.addFragment(UnapprovedAppointmentTabView(),"Chưa duyệt")
-        fragmentAdapter.addFragment(ApprovedAppointmentTabView(),"Đã duyệt")
-        fragmentAdapter.addFragment(HistoryAppointmentTabView(),"Lịch sử")
-
-        viewPager.adapter = fragmentAdapter
-        tablayout.setupWithViewPager(viewPager)
-    }*/
 
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -132,7 +115,6 @@ class AppoinmentManagementFragment : Fragment() {
          recyclerView2 = view.findViewById(R.id.recyclerView2)
 
          recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
-         patientList = data.generatePatientData()
 
          adapter2 = DoctorAppoinmentList(approvedList, timeList, patientList)
          recyclerView2?.adapter = adapter2

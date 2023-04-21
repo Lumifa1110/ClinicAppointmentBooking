@@ -30,12 +30,12 @@
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/searchDoctor"
+                app:layout_constraintBottom_toTopOf="@+id/searchPatient"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <SearchView
-                android:id="@+id/searchDoctor"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchPatient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -43,8 +43,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
+                app:iconifiedByDefault="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

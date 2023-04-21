@@ -13,7 +13,7 @@ import com.example.hyv_hpv_clinicbooking.R
 
 class DayAdapter(private val dayList: List<String>) :
     RecyclerView.Adapter<DayAdapter.ViewHolder>() {
-    private var selectedItemPosition: Int = 0
+    var selectedItemPosition: Int = 0
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,8 +32,16 @@ class DayAdapter(private val dayList: List<String>) :
         return dayList.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    var onItemClick: ((String, Int) -> Unit)? = null
+    var onButtonClick: ((String, Int) -> Unit)? = null
+
+    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
+        var ngayTrongTuan: TextView? = null
+        init {
+            ngayTrongTuan = listItemView.findViewById(R.id.ngayTrongTuan) as TextView
+        }
+    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Get the data model based on position
         val day: String = dayList[position]
 
@@ -42,6 +50,9 @@ class DayAdapter(private val dayList: List<String>) :
         holder.ngayTrongTuan?.setOnClickListener {
             selectedItemPosition = position
             notifyDataSetChanged()
+
+            onButtonClick?.invoke(dayList[position], position)
+            onItemClick?.invoke(dayList[position], position)
         }
 
         if(selectedItemPosition == position) {
@@ -54,17 +65,5 @@ class DayAdapter(private val dayList: List<String>) :
         }
     }
 
-    var onItemClick: ((String, Int) -> Unit)? = null
-    var onButtonClick: ((String) -> Unit)? = null
-//
-    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
-        var ngayTrongTuan: TextView? = null
 
-        init {
-            ngayTrongTuan = listItemView.findViewById(R.id.ngayTrongTuan) as TextView
-            listItemView.setOnClickListener {
-                onItemClick?.invoke(dayList[adapterPosition], adapterPosition)
-            }
-        }
-    }
 }

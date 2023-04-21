@@ -12,10 +12,19 @@
         android:theme="@style/Theme.HYV_HPV_ClinicBooking"
         tools:targetApi="31">
         <activity
-            android:name=".ResetPasswordActivity"
+            android:name=".AdminAddDoctor"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".Activity.UserOrderPage"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.DieuKhoanDichVu"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ChinhSachBaoMat"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.QuyDinhSuDung"
             android:exported="false" />
         <activity
             android:name=".Activity.EditProfilePage"
@@ -39,7 +48,9 @@
             android:exported="false" />
         <activity
             android:name=".Activity.PrescriptionActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Activity.DoctorHomePage" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.DoctorHomePage"
             android:exported="true">
