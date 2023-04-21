@@ -19,6 +19,7 @@
     <string name="labelAppointmentHistory">CUỘC HẸN ĐÃ ĐẶT</string>
     <string name="labelUserProfile">THÔNG TIN CÁ NHÂN</string>
     <string name="labelOncomingAppointment">Cuộc hẹn sắp tới</string>
+    <string name="labelLastestAppointment">Cuộc hẹn vừa kết thúc</string>
     <string name="labelTopDoctor">Bác sĩ ưu tú</string>
     <string name="labelSeeAll">Xem tất cả</string>
     <string name="labelConfirm">Xác nhận</string>

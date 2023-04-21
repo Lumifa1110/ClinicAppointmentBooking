@@ -9,7 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DoctorHomePage : AppCompatActivity() {
     var bottomNavBar: BottomNavigationView? = null
-    var doctorHomeFrament = DoctorHomeFragment()
+    var doctorHomeFrament = DoctorDashboard()
     var appoinmentManagementFragment = AppoinmentManagementFragment()
     var doctorArrangeDayFragment = DoctorChooseFreeTimeFragment()
     var doctorProfileFragment = DoctorProfile()
