@@ -10,9 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.view.isVisible
-import com.example.hyv_hpv_clinicbooking.Fragment.DoctorManagement
-import com.example.hyv_hpv_clinicbooking.Fragment.DoctorProfile
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 
@@ -99,6 +96,5 @@ class EditProfilePage : AppCompatActivity() {
             intent.putExtra("taikhoanmoi", taiKhoanBS)
             startActivity(intent)
         }
-
     }
 }

@@ -18,7 +18,7 @@ import com.example.hyv_hpv_clinicbooking.R
 class DoctorListAdapter_Admin(private var context: Context,
                               private var doctorList: ArrayList<BacSi>) :
     RecyclerView.Adapter<DoctorListAdapter_Admin.ViewHolder>() {
-    var lock: Boolean = true
+//    var lock: Boolean = true
     interface OnItemClickListener {
         fun onDeleteClick(doctor: BacSi) { }
     }
@@ -69,17 +69,16 @@ class DoctorListAdapter_Admin(private var context: Context,
         holder.nameTV?.text = doctor.HoTen
         holder.phoneTV?.text = doctor.SoDienThoai
         holder.avatar?.setImageResource(R.drawable.avatar)
-        lock = doctor.BiKhoa
+//        lock = doctor.BiKhoa
         holder.isLock?.setOnClickListener {
-            if (lock == true) {
+            if (doctor.BiKhoa == true) {
                 holder.isLock?.setImageResource(R.drawable.unlock_user)
-                lock = false
+                doctor.BiKhoa = false
             } else {
                 holder.isLock?.setImageResource(R.drawable.block_user)
-                lock = true
+                doctor.BiKhoa = true
             }
         }
-
         holder.editUser!!.setOnClickListener{
             val intent = Intent(context, EditProfilePage::class.java)
             intent.putExtra("loaiTaiKhoan", "adminBacSi")

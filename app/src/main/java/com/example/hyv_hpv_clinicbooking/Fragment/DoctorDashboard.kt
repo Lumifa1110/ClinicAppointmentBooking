@@ -10,6 +10,9 @@ import com.example.hyv_hpv_clinicbooking.R
 
 class DoctorDashboard : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

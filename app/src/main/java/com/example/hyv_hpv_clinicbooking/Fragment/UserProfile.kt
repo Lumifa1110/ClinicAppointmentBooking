@@ -69,7 +69,7 @@ class UserProfile : Fragment() {
         emailTV?.text = "Email: " + bnExample.Email
 
         editBTN?.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfilePage::class.java)
+            val intent = Intent(requireActivity(), EditProfilePage::class.java)
             intent.putExtra("loaiTaiKhoan", "BenhNhan")
             intent.putExtra("taiKhoan", bnExample)
             startActivity(intent)
