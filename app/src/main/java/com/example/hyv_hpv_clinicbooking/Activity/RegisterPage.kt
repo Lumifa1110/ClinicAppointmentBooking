@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.hyv_hpv_clinicbooking.Model.User
 import com.example.hyv_hpv_clinicbooking.R
 import com.example.hyv_hpv_clinicbooking.databinding.ActivityRegisterPageBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -40,10 +41,7 @@ class RegisterPage : AppCompatActivity() {
 
         initWidgets()
 
-        database = Firebase.database.reference
-
-//        binding = ActivityRegisterPageBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
+        database = Firebase.database.getReference("Users")
 
         initListener()
     }
@@ -61,20 +59,40 @@ class RegisterPage : AppCompatActivity() {
             val email = emailET.text.toString()
             val phone = phoneET.text.toString()
             val password = passwordET.text.toString()
+            val role : String = "patient"
 
             // Init Firebase Authentication
             auth = FirebaseAuth.getInstance()
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        val user = auth.currentUser
-                        // Register success
-                        Toast.makeText(applicationContext
-                            , getString(R.string.toastRegisterSuccess)
-                            , Toast.LENGTH_SHORT)
-                            .show()
+                        // create User
+                        val user = User(
+                            name,
+                            email,
+                            phone,
+                            password,
+                            role
+                        )
+                        // update User profile in database
+                        database.child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
+                            if (task.isSuccessful) {
+                                // Register success
+                                Toast.makeText(applicationContext
+                                    , getString(R.string.toastRegisterSuccess)
+                                    , Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            else {
+                                // Register fail
+                                Toast.makeText(applicationContext
+                                    , getString(R.string.toastRegisterFail)
+                                    , Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
                         // Write user data to Firebase
-                        writeNewUser(user!!.uid, name, email, phone, password)
+//                        writeNewPatient(auth.currentUser!!.uid, name, email, phone, password)
                         // Move to Login page
                         val intent = Intent(this, LoginPage::class.java)
                         startActivity(intent)
@@ -106,7 +124,7 @@ class RegisterPage : AppCompatActivity() {
     }
 
     // Write user to database
-    private fun writeNewUser(userId: String, name: String, email: String, phone: String, password: String) {
+    private fun writeNewPatient(userId: String, name: String, email: String, phone: String, password: String) {
         val user = BenhNhan(SoDienThoai = phone, Email = email, HoTen = name, PassWord = password)
         database.child("Users").child(userId).setValue(user)
     }

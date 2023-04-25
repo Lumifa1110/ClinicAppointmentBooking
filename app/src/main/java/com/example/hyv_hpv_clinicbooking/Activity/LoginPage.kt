@@ -1,13 +1,13 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import com.example.hyv_hpv_clinicbooking.R
-import com.example.hyv_hpv_clinicbooking.ResetPasswordActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -16,10 +16,10 @@ class LoginPage : AppCompatActivity() {
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
     private lateinit var loginBTN: Button
-    private lateinit var showPassword: ImageButton
     private lateinit var backBTN: ImageButton
     private lateinit var dangKi: TextView
     private lateinit var resetPasswordBTN: TextView
+    private lateinit var createNewAccountBTN: TextView
 
     // Firebase
     private lateinit var database : DatabaseReference
@@ -32,6 +32,7 @@ class LoginPage : AppCompatActivity() {
         backBTN = findViewById(R.id.backBTN)
         dangKi = findViewById(R.id.dangKi)
         resetPasswordBTN = findViewById(R.id.resetPasswordBTN)
+        createNewAccountBTN = findViewById(R.id.createNewAccountBTN)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +41,7 @@ class LoginPage : AppCompatActivity() {
 
         initWidgets()
 
-        database = Firebase.database.reference
+        database = Firebase.database.getReference("Users")
 
         initListener()
     }
@@ -48,18 +49,6 @@ class LoginPage : AppCompatActivity() {
     private fun initListener() {
         backBTN.setOnClickListener {
         }
-
-//        showPassword?.setOnClickListener {
-//            if(showPassword?.tag == "showPassword") {
-//                showPassword?.setTag("hidePassword")
-//                password?.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
-//                showPassword?.setBackgroundResource(R.drawable.view)
-//
-//            }else if(showPassword?.tag == "hidePassword") {
-//                showPassword?.setTag("showPassword")
-//                password?.setTransformationMethod(PasswordTransformationMethod.getInstance())
-//            }
-//        }
 
         dangKi.setOnClickListener {
             val intent = Intent(this, RegisterPage::class.java)
@@ -72,6 +61,10 @@ class LoginPage : AppCompatActivity() {
 
         resetPasswordBTN.setOnClickListener {
             resetPassword()
+        }
+
+        createNewAccountBTN.setOnClickListener {
+            createNewAccount()
         }
     }
 
@@ -86,16 +79,16 @@ class LoginPage : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        val user = auth.currentUser
                         // Login success
                         Toast.makeText(applicationContext
                             , getString(R.string.toastLoginSuccess)
                             , Toast.LENGTH_SHORT)
                             .show()
-                        // Move to Login page
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        // Get User role
+                        val user = auth.currentUser
+                        val role = getUserRole(user!!)
+                        // Move to another page base on User role
+                        startHomePage(role)
                     } else {
                         // Login fail
                         Toast.makeText(applicationContext
@@ -132,6 +125,45 @@ class LoginPage : AppCompatActivity() {
             val intent = Intent(this, ResetPasswordActivity::class.java)
             intent.putExtra("reset password", email)
             startActivity(intent)
+        }
+    }
+
+    private fun createNewAccount() {
+        val intent = Intent(this, RegisterPage::class.java)
+        startActivity(intent)
+    }
+
+    private fun getUserRole(user: FirebaseUser): String {
+        var role = ""
+        database.child(user.uid).get().addOnSuccessListener {
+            role = it.child("role").value.toString()
+            Log.i("firebase", role)
+        }.addOnFailureListener{
+            Log.e("firebase", "Error getting data", it)
+        }
+        return role
+    }
+
+    private fun startHomePage(role: String) {
+        println("startHomePage1")
+        val intent : Intent
+        when (role) {
+            // Benh nhan
+            "patient" -> {
+                println("startHomePage1")
+                intent = Intent(this, UserHomePage::class.java)
+                startActivity(intent)
+            }
+            // Bac si
+            "doctor" -> {
+                intent = Intent(this, DoctorHomePage::class.java)
+                startActivity(intent)
+            }
+            // Admin
+            "admin" -> {
+                intent = Intent(this, AdminHomePage::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

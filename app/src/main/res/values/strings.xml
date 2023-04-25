@@ -32,6 +32,8 @@
     <string name="toastEmptyEditText">Hãy điền vào tất cả ô</string>
     <string name="toastSendEmailSuccess">Gửi email thành công</string>
     <string name="toastSendEmailFail">Không thể gửi email</string>
+    <string name="labelForgotPassword">Quên mật khẩu?</string>
+    <string name="labelCreateNewAccount">Tạo tài khoản mới</string>
 
     <!-- For Doctor Page -->
     <string name="labelAppoinmentList">CUỘC HẸN</string>
