@@ -17,7 +17,6 @@ class LoginPage : AppCompatActivity() {
     private lateinit var passwordET: EditText
     private lateinit var loginBTN: Button
     private lateinit var showPassword: ImageButton
-    private lateinit var backBTN: ImageButton
     private lateinit var dangKi: TextView
     private lateinit var resetPasswordBTN: TextView
 
@@ -29,7 +28,6 @@ class LoginPage : AppCompatActivity() {
         emailET = findViewById(R.id.emailET)
         passwordET = findViewById(R.id.passwordET)
         loginBTN = findViewById(R.id.loginBTN)
-        backBTN = findViewById(R.id.backBTN)
         dangKi = findViewById(R.id.dangKi)
         resetPasswordBTN = findViewById(R.id.resetPasswordBTN)
     }
@@ -46,8 +44,6 @@ class LoginPage : AppCompatActivity() {
     }
 
     private fun initListener() {
-        backBTN.setOnClickListener {
-        }
 
 //        showPassword?.setOnClickListener {
 //            if(showPassword?.tag == "showPassword") {

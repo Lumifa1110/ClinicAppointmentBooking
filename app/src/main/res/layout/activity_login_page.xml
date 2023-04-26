@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_login_register"
     tools:context=".Activity.LoginPage">
+
     <TextView
         android:id="@+id/loginTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
         android:text="HYV-HPV HEALTH"
-        android:textColor="@color/dark_blue"
+        android:textColor="#348F6C"
         android:textSize="40sp"
         android:textStyle="bold"
+        android:layout_marginTop="160sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,7 @@
         android:id="@+id/button"
         android:layout_width="25sp"
         android:layout_height="3sp"
-        android:backgroundTint="@color/dark_blue"
+        android:backgroundTint="#348F6C"
         app:layout_constraintStart_toStartOf="@+id/loginTV"
         app:layout_constraintTop_toBottomOf="@+id/loginTV"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng Nhập"
-                android:textColor="@color/dark_blue"
+                android:textColor="#348F6C"
                 android:textSize="35sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -89,19 +89,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-<!--            <ImageButton-->
-<!--                android:id="@+id/showPassword"-->
-<!--                android:layout_width="24sp"-->
-<!--                android:layout_height="24sp"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:layout_marginEnd="36dp"-->
-<!--                android:background="@null"-->
-<!--                android:scaleType="fitXY"-->
-<!--                android:tag="showPassword"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:srcCompat="@drawable/invisible"-->
-<!--                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/showPassword"-->
+            <!--                android:layout_width="24sp"-->
+            <!--                android:layout_height="24sp"-->
+            <!--                android:layout_marginTop="12dp"-->
+            <!--                android:layout_marginEnd="36dp"-->
+            <!--                android:background="@null"-->
+            <!--                android:scaleType="fitXY"-->
+            <!--                android:tag="showPassword"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:srcCompat="@drawable/invisible"-->
+            <!--                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -115,10 +115,11 @@
                 android:id="@+id/resetPasswordBTN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quên mật khẩu?"
                 android:clickable="true"
+                android:focusable="true"
+                android:text="Quên mật khẩu?"
                 android:textSize="15sp"
-                android:focusable="true" />
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -175,18 +176,6 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/backBTN"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@null"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_left"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

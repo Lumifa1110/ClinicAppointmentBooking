@@ -5,15 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_login_register"
-    tools:context=".Activity.RegisterPage">
+    tools:context=".Activity.RegisterDoctorPage">
 
+<!--    <TextView-->
+<!--        android:id="@+id/loginTV"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="160dp"-->
+<!--        android:text="HYV-HPV HEALTH"-->
+<!--        android:textColor="#348F6C"-->
+<!--        android:textSize="40sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.495"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="25sp"-->
+<!--        android:layout_height="3sp"-->
+<!--        android:backgroundTint="#348F6C"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/loginTV"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/loginTV"-->
+<!--        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
 
     <LinearLayout
         android:id="@+id/registerBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150sp"
         android:background="@drawable/box_login"
+        android:layout_marginTop="60sp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -87,6 +109,31 @@
             android:padding="10dp"
             android:textSize="18sp" />
 
+        <EditText
+            android:id="@+id/chuyenKhoaET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20sp"
+            android:layout_marginVertical="15sp"
+            android:background="@drawable/custom_et"
+            android:drawableLeft="@drawable/work"
+            android:drawablePadding="10dp"
+            android:hint="Chuyên Khoa"
+            android:padding="10dp"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/addressET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20sp"
+            android:layout_marginVertical="15sp"
+            android:background="@drawable/custom_et"
+            android:drawableLeft="@drawable/gps"
+            android:drawablePadding="10dp"
+            android:hint="Địa Chỉ"
+            android:padding="10dp"
+            android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/registerBtn"
@@ -105,19 +152,19 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerBox">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bạn muốn đăng kí tài khoản bác sĩ? " />
+            android:text="Bạn đã có tài khoản? " />
         <TextView
             android:id="@+id/dangNhap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đăng Ký"
+            android:text="Đăng Nhập"
             android:textStyle="bold"
             android:textColor="#444EFF"/>
     </LinearLayout>

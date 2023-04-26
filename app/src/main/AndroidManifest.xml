@@ -12,6 +12,9 @@
         android:theme="@style/Theme.HYV_HPV_ClinicBooking"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.RegisterDoctorPage"
+            android:exported="false" />
+        <activity
             android:name=".AdminAddDoctor"
             android:exported="false" />
         <activity
@@ -60,9 +63,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity
+        <!--
+        <activity
             android:name=".Activity.UserHomePage"
-            android:exported="false" />-->
+            android:exported="false" />
+        -->
         <activity
             android:name=".Activity.NewUserHomePage"
             android:exported="false" /> <!-- <activity -->
@@ -70,17 +75,15 @@
         <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.DoctorDetailPage"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.LoginPage"
-            android:exported="false" />
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Activity.LoginPage" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.MainActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.AdminHomePage"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>
