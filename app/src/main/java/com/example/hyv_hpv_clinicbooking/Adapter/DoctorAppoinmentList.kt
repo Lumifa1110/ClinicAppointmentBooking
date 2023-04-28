@@ -12,7 +12,7 @@ import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
 
-class DoctorAppoinmentList(var scheduleList: List<LichHenKham>, var timeList: List<ThoiGian>, var patientList: List<BenhNhan>, ) :
+class DoctorAppoinmentList(var scheduleList: List<LichHenKham>, var timeList: List<ThoiGian>, var patientList: List<BenhNhan>) :
     RecyclerView.Adapter<DoctorAppoinmentList.DoctorAppoimentViewHolder>() {
     var onItemClick: ((Int) -> Unit)? = null
 

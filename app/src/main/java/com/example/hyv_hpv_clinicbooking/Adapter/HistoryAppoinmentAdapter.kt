@@ -1,5 +1,7 @@
 package com.example.hyv_hpv_clinicbooking.Adapter
 
+import android.content.ContentValues
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +13,7 @@ import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
 
-class HistoryAppoinmentAdapter(var scheduleList: List<LichHenKham>, var timeList: List<ThoiGian>, var doctorList: List<BacSi>, ) :
+class HistoryAppoinmentAdapter(var scheduleList: List<LichHenKham>, var timeList: List<ThoiGian>, var doctorList: List<BacSi>) :
     RecyclerView.Adapter<HistoryAppoinmentAdapter.HistoryAppoimentViewHolder>() {
     var onItemClick: ((Int) -> Unit)? = null
 
@@ -38,7 +40,9 @@ class HistoryAppoinmentAdapter(var scheduleList: List<LichHenKham>, var timeList
             if (patient.MaBacSi == scheduleList[position].MaBacSi) {
                 holder.image.setImageResource(patient.Image!!)
                 holder.nameTV.text = patient.HoTen
-                holder.specialistTV.text = "Chuyên ngành: " + patient.SoDienThoai
+                holder.specialistTV.text = "Chuyên ngành: " + patient.TenChuyenKhoa
+                Log.w("tsdfsdf", scheduleList[position].MaThoiGian.toString() + ", " + scheduleList[position].MaTrangThai.toString() + ", " + patient.HoTen)
+
             }
         }
         for (time in timeList) {

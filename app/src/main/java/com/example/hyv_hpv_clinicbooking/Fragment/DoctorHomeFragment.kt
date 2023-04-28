@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
+import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
@@ -48,8 +49,13 @@ class DoctorHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var data = Data()
+        var kedon = data.generateKeDonData()
         database = Firebase.database.reference
-
+//        for(i in kedon) {
+//            val userId = database.push().key
+//            writeNewPer(userId!!, i)
+//        }
     }
 
     private fun writeNewPatient(patientId: String, patient: BenhNhan) {
@@ -107,6 +113,24 @@ class DoctorHomeFragment : Fragment() {
         )
 
         database.child("ThoiGian").child(timeId).setValue(time)
+        Toast.makeText(requireContext()
+            , "Add Schedule successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun writeNewPer(timeId: String, kedon: KeDon) {
+        val kedon1 = KeDon(
+            Ngay = kedon.Ngay ,
+            Gio = kedon.Gio ,
+            MaBacSi = kedon.MaBacSi,
+            MaBenhNhan = kedon.MaBenhNhan,
+            ChuanDoan = kedon.ChuanDoan ,
+            DonThuoc = kedon.DonThuoc ,
+            LoiDan = kedon.LoiDan ,
+        )
+
+        database.child("KeDon").child(timeId).setValue(kedon1)
         Toast.makeText(requireContext()
             , "Add Schedule successfully"
             , Toast.LENGTH_SHORT)
