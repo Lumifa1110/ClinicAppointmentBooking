@@ -21,10 +21,14 @@ class DoctorPrescriptionPage : AppCompatActivity() {
     private lateinit var adapter: PrescriptionAdapter
     private var backBtn: ImageButton ?= null
     private var addBtn: Button ?= null
+    private var saveBtn: Button ?= null
     private var nameTV: TextView ?= null
     private var dateTV: TextView ?= null
     private var timeTV: TextView ?= null
+    private var chuandoanTV: TextView ?= null
+    private var loidanTV: TextView ?= null
 
+    private var new_prescription: KeDon ?= null
     val REQUEST_CODE= 1111
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,17 +38,21 @@ class DoctorPrescriptionPage : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         backBtn = findViewById(R.id.back_button)
         addBtn = findViewById(R.id.addBtn)
+        saveBtn = findViewById(R.id.saveBtn)
         nameTV = findViewById(R.id.nameTV)
         dateTV = findViewById(R.id.dateTV)
         timeTV = findViewById(R.id.timeTV)
+        chuandoanTV = findViewById(R.id.chuandoan)
+        loidanTV = findViewById(R.id.loidanTV)
 
+        val key_prescription = intent.getStringExtra("key_prescription")
+        new_prescription = intent.getParcelableExtra<KeDon>("prescription") as KeDon
         val name = intent.getStringExtra("name")
-        val date = intent.getStringExtra("date")
-        val time = intent.getStringExtra("time")
+
 
         nameTV?.setText(name)
-        dateTV?.setText(date)
-        timeTV?.setText(time)
+        dateTV?.setText(new_prescription!!.Ngay)
+        timeTV?.setText(new_prescription!!.Gio)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -64,6 +72,22 @@ class DoctorPrescriptionPage : AppCompatActivity() {
             intent.putExtra("selection", "add_selection")
             startActivityForResult(intent, REQUEST_CODE)
         }
+
+        saveBtn?.setOnClickListener {
+
+            new_prescription!!.ChuanDoan = chuandoanTV!!.text.toString()
+            new_prescription!!.LoiDan = loidanTV!!.text.toString()
+            var donthuoc:String  = ""
+            for(item in mList) {
+                donthuoc +=  item.TenThuoc + ";" + item.SoLuong.toString() + ";" + item.DonVi + ";" + item.CachDung + "\n"
+            }
+            new_prescription!!.DonThuoc = donthuoc
+            val replyIntent = Intent()
+            replyIntent.putExtra("key_prescription", key_prescription)
+            replyIntent.putExtra("prescription", new_prescription)
+            setResult(Activity.RESULT_OK, replyIntent)
+            finish()
+        }
 //        val prescriptions = appoinment.DonThuoc.split("\n").toTypedArray()
 //        for(prescription in prescriptions) {
 //            var item = prescription.split(";").toTypedArray()
@@ -76,9 +100,9 @@ class DoctorPrescriptionPage : AppCompatActivity() {
 //        }
 
         backBtn?.setOnClickListener {
-            val intent = Intent(this, DoctorHomePage::class.java)
-            intent.putExtra("fragment", "appoinment_management")
-            startActivity(intent)
+            val replyIntent = Intent()
+            setResult(Activity.RESULT_CANCELED, replyIntent)
+            finish()
         }
     }
 

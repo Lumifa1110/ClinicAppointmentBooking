@@ -1,13 +1,22 @@
 package com.example.hyv_hpv_clinicbooking
 
 import BenhNhan
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
 
 class Data {
+    private lateinit var databaseAppoinment : DatabaseReference
     fun generateDoctorData(): ArrayList<BacSi> {
         var result = ArrayList<BacSi>()
 
@@ -305,4 +314,47 @@ class Data {
         return result
 
     }
+    fun readAppoinmentFromRealtimeDB(UserId: Int): ArrayList<LichHenKham> {
+        val appoinmentList = ArrayList<LichHenKham>()
+        val databaseAppoinment = Firebase.database.getReference("LichHenKham")
+        databaseAppoinment.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val lichHenKham = snapshot.getValue(LichHenKham::class.java)
+
+                    if(lichHenKham!!.MaBenhNhan == UserId) {
+                        Log.w(TAG, lichHenKham!!.MaLichHen.toString())
+                        appoinmentList.add(lichHenKham!!)
+                    }
+                }
+                // TODO: Do something with the lichHenKhamList
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+        return appoinmentList
+    }
+
+    fun readAppoinmentFromRealtimeDB(): ArrayList<LichHenKham> {
+        val appoinmentList = ArrayList<LichHenKham>()
+        databaseAppoinment = Firebase.database.getReference("LichHenKham")
+        databaseAppoinment.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val lichHenKham = snapshot.getValue(LichHenKham::class.java)
+                    Log.w(TAG, lichHenKham!!.MaLichHen.toString())
+                    appoinmentList.add(lichHenKham!!)
+                }
+                // TODO: Do something with the lichHenKhamList
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+        return appoinmentList
+    }
+
 }

@@ -1,7 +1,9 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +17,14 @@ import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailPage
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
 import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
+import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -36,7 +45,12 @@ class DoctorListFragment : Fragment() {
     private var mList = ArrayList<BacSi>()
     private lateinit var adapter: DoctorListAdapter
     private var quantityDoctorTV: TextView ?= null
-
+    private lateinit var database : DatabaseReference
+    var size: Int = 0
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,26 +59,17 @@ class DoctorListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_doctor_list, container, false)
     }
 
+    override fun onStart() {
+        super.onStart()
+        mList.clear()
+        readDoctorFromRealtimeDB()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recyclerView)
         searchView = view.findViewById(R.id.searchView)
         quantityDoctorTV = view.findViewById(R.id.quantityDoctorTV)
 
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        var data = Data()
-        mList = data.generateDoctorData()
-
-        quantityDoctorTV?.setText(mList.size.toString())
-        adapter = DoctorListAdapter(mList)
-        recyclerView.adapter = adapter
-
-        adapter?.onItemClick = { index ->
-            val intent = Intent(requireContext(), DoctorDetailPage::class.java)
-            intent.putExtra("doctor", mList[index])
-            startActivity(intent)
-        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -78,6 +83,7 @@ class DoctorListFragment : Fragment() {
 
         })
     }
+
 
     private fun filterList(query: String?) {
         println(query)
@@ -97,4 +103,40 @@ class DoctorListFragment : Fragment() {
             }
         }
     }
+
+    private fun displayRecyclerView() {
+        recyclerView.setHasFixedSize(true)
+        quantityDoctorTV?.setText(mList.size.toString())
+
+        adapter = DoctorListAdapter(mList)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        recyclerView.adapter = adapter
+        adapter?.onItemClick = { index ->
+            val intent = Intent(requireContext(), DoctorDetailPage::class.java)
+            intent.putExtra("doctor", mList[index])
+            startActivity(intent)
+        }
+    }
+
+    fun readDoctorFromRealtimeDB() {
+        database = Firebase.database.getReference("BacSi")
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val doctor = snapshot.getValue(BacSi::class.java)
+                    mList.add(doctor!!)
+                }
+                // TODO: Do something with the lichHenKhamList
+                displayRecyclerView()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
+            }
+        })
+    }
+
+
 }

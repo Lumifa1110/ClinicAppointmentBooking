@@ -1,7 +1,9 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +23,9 @@ import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [UserAppoinmentManagement.newInstance] factory method to
  * create an instance of this fragment.
  */
-class UserAppoinmentManagement : Fragment() {
+class UserAppoinmentManagement() : Fragment() {
     var tabHost : TabHost? = null
     var recyclerView1: RecyclerView?= null
     var adapter1: HistoryAppoinmentAdapter?= null
@@ -43,8 +48,8 @@ class UserAppoinmentManagement : Fragment() {
     var recyclerView3: RecyclerView?= null
     var adapter3: HistoryAppoinmentAdapter?= null
     var quantityTV3: TextView?= null
-
     private var appoinmentList = ArrayList<LichHenKham>()
+
     private var timeList = ArrayList<ThoiGian>()
     private var doctorList = ArrayList<BacSi>()
     private var prescriptionList = ArrayList<KeDon>()
@@ -52,6 +57,7 @@ class UserAppoinmentManagement : Fragment() {
     private var unapprovedList = ArrayList<LichHenKham>()
     private var approvedList = ArrayList<LichHenKham>()
     private var historyAppoinmentList = ArrayList<LichHenKham>()
+    private lateinit var database : DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +65,17 @@ class UserAppoinmentManagement : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_appoinment_management, container, false)
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        appoinmentList.clear()
+        doctorList.clear()
+        timeList.clear()
+        prescriptionList.clear()
+
+        readAppoinmentFromRealtimeDB(1)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,32 +97,37 @@ class UserAppoinmentManagement : Fragment() {
         tabSpec?.setContent(R.id.history_tab)
         tabHost?.addTab(tabSpec)
 
-        var data = Data()
-        appoinmentList = data.generateScheduleData()
-        timeList = data.generateTimeData()
-        doctorList = data.generateDoctorData()
-        prescriptionList = data.generateKeDonData()
+        quantityTV1 = view.findViewById(R.id.quantity1)
+        recyclerView1 = view.findViewById(R.id.recyclerView1)
 
+        quantityTV2 = view.findViewById(R.id.quantity2)
+        recyclerView2 = view.findViewById(R.id.recyclerView2)
+
+        quantityTV3 = view.findViewById(R.id.quantity3)
+        recyclerView3 = view.findViewById(R.id.recyclerView3)
+    }
+
+    private fun displayRecyclerView() {
         //tab1
         unapprovedList = appoinmentList.filter { it.MaTrangThai == 0 } as ArrayList<LichHenKham>
-        quantityTV1 = view.findViewById(R.id.quantity1)
         quantityTV1?.setText(unapprovedList.size.toString())
+        for (i in timeList) {
+            Log.w("fsfsdf", i.GioBatDau + ", " + i.GioKetThuc)
 
-        recyclerView1 = view.findViewById(R.id.recyclerView1)
-        recyclerView1?.layoutManager = LinearLayoutManager(requireContext())
+        }
         adapter1 = HistoryAppoinmentAdapter(unapprovedList, timeList, doctorList)
+        recyclerView1?.layoutManager = LinearLayoutManager(requireContext())
         recyclerView1?.adapter = adapter1
+
 
         adapter1?.onItemClick = { index ->
             showAlertDialog(index, 0)
         }
+        adapter1?.notifyDataSetChanged()
 
         // tab2
         approvedList = appoinmentList.filter { it.MaTrangThai == 1 } as ArrayList<LichHenKham>
-        quantityTV2 = view.findViewById(R.id.quantity2)
         quantityTV2?.setText(approvedList.size.toString())
-
-        recyclerView2 = view.findViewById(R.id.recyclerView2)
 
         recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
 
@@ -116,12 +138,10 @@ class UserAppoinmentManagement : Fragment() {
             showAlertDialog(index, 1)
         }
 
-//         Tab3
+//        Tab3
         historyAppoinmentList = appoinmentList.filter { it.MaTrangThai == 2 } as ArrayList<LichHenKham>
-        quantityTV3 = view.findViewById(R.id.quantity3)
         quantityTV3?.setText(historyAppoinmentList.size.toString())
 
-        recyclerView3 = view.findViewById(R.id.recyclerView3)
         recyclerView3?.layoutManager = LinearLayoutManager(requireContext())
 
         adapter3 = HistoryAppoinmentAdapter(historyAppoinmentList, timeList, doctorList)
@@ -170,5 +190,86 @@ class UserAppoinmentManagement : Fragment() {
         val alert: AlertDialog = alertDialog.create()
         alert.setCanceledOnTouchOutside(false)
         alert.show()
+    }
+
+    fun readAppoinmentFromRealtimeDB(userId: Int){
+        database = Firebase.database.getReference("LichHenKham")
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val lichHenKham = snapshot.getValue(LichHenKham::class.java)
+                    if(lichHenKham!!.MaBenhNhan == userId) {
+                        appoinmentList.add(lichHenKham!!)
+                    }
+                }
+
+                // TODO: Do something with the lichHenKhamList
+                readDoctorFromRealtimeDB()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+    }
+    fun readDoctorFromRealtimeDB() {
+        database = Firebase.database.getReference("BacSi")
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val doctor = snapshot.getValue(BacSi::class.java)
+                    doctorList.add(doctor!!)
+                }
+                readTimeFromRealtimeDB()
+                // TODO: Do something with the lichHenKhamList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+    }
+
+    fun readTimeFromRealtimeDB() {
+        database = Firebase.database.getReference("ThoiGian")
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val time = snapshot.getValue(ThoiGian::class.java)
+                    timeList.add(time!!)
+
+                }
+                readPrecriptionFromRealtimeDB()
+                // TODO: Do something with the lichHenKhamList
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+    }
+
+    fun readPrecriptionFromRealtimeDB() {
+        database = Firebase.database.getReference("KeDon")
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val prescription = snapshot.getValue(KeDon::class.java)
+                    prescriptionList.add(prescription!!)
+                }
+                displayRecyclerView()
+
+                // TODO: Do something with the lichHenKhamList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
     }
 }
