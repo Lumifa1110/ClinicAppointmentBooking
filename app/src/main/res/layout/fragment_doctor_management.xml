@@ -48,20 +48,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-            <ImageButton
-                android:id="@+id/addDoctor"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:scaleType="fitXY"
-                android:background="@null"
-                android:src="@drawable/plus"
-                android:layout_marginLeft="25dp"
-                app:layout_constraintBottom_toTopOf="@+id/searchDoctor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/DoctorTV"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="match_parent"

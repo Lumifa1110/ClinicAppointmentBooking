@@ -55,7 +55,7 @@
             android:name=".Activity.PrescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.AdminHomePage"
+            android:name=".Activity.LoginPage"
             android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".Activity.UserHomePage"-->
@@ -80,7 +80,7 @@
 <!--            android:exported="false">-->
 <!--        </activity>-->
         <activity
-            android:name=".Activity.DoctorHomePage"
+            android:name=".Activity.AdminHomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

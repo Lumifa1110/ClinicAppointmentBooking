@@ -25,7 +25,6 @@ class DoctorManagement : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: DoctorListAdapter_Admin
     lateinit var doctorList: ArrayList<BacSi>
-    var addDoctor: ImageButton? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +37,6 @@ class DoctorManagement : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.DoctorView)
-        addDoctor = view.findViewById(R.id.addDoctor)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         var data = Data()
@@ -59,12 +57,6 @@ class DoctorManagement : Fragment() {
                 return true
             }
         })
-        addDoctor!!.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfilePage::class.java)
-            intent.putExtra("loaiTaiKhoan", "adminBacSi")
-            startActivity(intent)
-            Toast.makeText(requireContext(), "ADD DOCTOR", Toast.LENGTH_SHORT).show()
-        }
         adapter.setOnItemClickListener(object: DoctorListAdapter_Admin.OnItemClickListener {
             override fun onDeleteClick(doctor: BacSi) {
                 doctorList.remove(doctor)
