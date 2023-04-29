@@ -3,12 +3,16 @@ package com.example.hyv_hpv_clinicbooking.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.renderscript.Sampler.Value
 import android.util.Log
 import android.widget.*
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -20,6 +24,8 @@ class LoginPage : AppCompatActivity() {
     private lateinit var dangKi: TextView
     private lateinit var resetPasswordBTN: TextView
     private lateinit var createNewAccountBTN: TextView
+
+    private var currentUserRole: String = ""
 
     // Firebase
     private lateinit var database : DatabaseReference
@@ -78,11 +84,9 @@ class LoginPage : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        // Get User role
+                        // Get User role and Switch to Homepage
                         val user = auth.currentUser
-                        val role = getUserRole(user!!)
-                        // Move to another page base on User role
-                        startHomePage(role)
+                        getUserRole(user!!)
                     }
                 }
         }
@@ -121,25 +125,41 @@ class LoginPage : AppCompatActivity() {
             startActivity(intent)
         }
 
-        private fun getUserRole(user: FirebaseUser): String {
-            var role = ""
-            database.child(user.uid).get().addOnSuccessListener {
-                role = it.child("role").value.toString()
-                Log.i("firebase", role)
-            }.addOnFailureListener{
-                Log.e("firebase", "Error getting data", it)
-            }
-            return role
+//        private fun getUserRole2(user: FirebaseUser): String {
+//            var role = ""
+//            database.child(user.uid).child("role").get().addOnSuccessListener {
+//                role = it.value.toString()
+//                println("time2")
+//                Log.i("firebase", role)
+//            }.addOnFailureListener{
+//                Log.e("firebase", "Error getting data", it)
+//            }
+//            return role
+//        }
+
+        private fun getUserRole(user: FirebaseUser) {
+            database.child(user.uid).child("role")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        currentUserRole = dataSnapshot.getValue(String::class.java)!!
+                        Log.i("Login as ", currentUserRole)
+                        startHomePage(currentUserRole)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
         }
 
         private fun startHomePage(role: String) {
-            println("startHomePage1")
             val intent : Intent
             when (role) {
                 // Benh nhan
                 "patient" -> {
-                    println("startHomePage1")
+                    println("time4")
                     intent = Intent(this, UserHomePage::class.java)
+                    println("time5")
                     startActivity(intent)
                 }
                 // Bac si
