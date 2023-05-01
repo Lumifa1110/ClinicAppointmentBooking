@@ -13,6 +13,7 @@
         android:background="@drawable/box_date"
         android:text="Thứ 2\n03/04"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

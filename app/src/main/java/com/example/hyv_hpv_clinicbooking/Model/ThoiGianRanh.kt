@@ -6,26 +6,35 @@ import android.os.Parcelable
 import androidx.annotation.RequiresApi
 
 class ThoiGianRanh (
-    var maKhungGio: Long = 0,
+    var thuTrongTuan: Int = 0,
     var ngayThang: String ?= null,
-    var maBacSy: Long = 0,
-    var trangThai: Int = 0,
+    var gioBatDau:String ?= null,
+    var gioKetThuc:String ?= null,
+    var maBacSi: String ?= null,
+    var trangThai: Int = 0, //0 - Rãnh, 1 - Bận
+    var duocDat: Int = 0, //0 - Chưa bị đặt, 1 - Đã có người đặt
 ): Parcelable {
-    constructor() : this(0, null, 0, 0)
+    constructor() : this(0, null, null, null, null, 0, 0)
 
     @RequiresApi(Build.VERSION_CODES.O)
     constructor(parcel: Parcel) : this(
-        parcel.readLong(),
+        parcel.readInt(),
         parcel.readString(),
-        parcel.readLong(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readInt(),
         parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeLong(maKhungGio)
+        parcel.writeInt(thuTrongTuan)
         parcel.writeString(ngayThang)
-        parcel.writeLong(maBacSy)
+        parcel.writeString(gioBatDau)
+        parcel.writeString(gioKetThuc)
+        parcel.writeString(maBacSi)
         parcel.writeInt(trangThai)
+        parcel.writeInt(duocDat)
     }
 
     override fun describeContents(): Int {

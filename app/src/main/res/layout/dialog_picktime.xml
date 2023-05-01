@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#008653">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giờ Bắt Đầu"
+                android:textAlignment="viewStart"
+                android:textColor="#008653"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TimePicker
+                android:id="@+id/timeStart"
+                android:layout_width="280dp"
+                android:layout_height="145dp"
+                android:amPmTextColor="#ffffff"
+                android:background="#A5FAB3"
+                android:numbersInnerTextColor="#ffffff"
+                android:numbersSelectorColor="#ffffff"
+                android:numbersTextColor="#ffffff"
+                android:timePickerMode="spinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:text="Giờ Kết Thúc"
+                android:textAlignment="viewStart"
+                android:textColor="#008653"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TimePicker
+                android:id="@+id/timeEnd"
+                android:layout_width="277dp"
+                android:layout_height="145dp"
+                android:background="#A5FAB3"
+                android:timePickerMode="spinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="#7EF691"
+            android:padding="5sp"
+            android:layout_marginBottom="10sp"
+            android:layout_height="match_parent"
+            android:gravity="right">
+            <Button
+                android:id="@+id/addTimeBTN"
+                android:layout_width="75sp"
+                android:layout_height="wrap_content"
+                android:text="THÊM"
+                android:backgroundTint="#348F6C"
+                android:textSize="13sp"/>
+            <Button
+                android:id="@+id/cancelBTN"
+                android:layout_width="65sp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#348F6C"
+                android:layout_marginHorizontal="5sp"
+                android:textSize="13sp"
+                android:text="HỦY"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
