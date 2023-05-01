@@ -21,9 +21,9 @@ class Data {
         var result = ArrayList<BacSi>()
 
         var doctor: BacSi = BacSi()
-        doctor.MaBacSi = 1
+        doctor.MaBacSi = "1"
         doctor.HoTen = "Lưu Minh Phát"
-        doctor.GioiTinh = "Nam"
+//        doctor.GioiTinh = "Nam"
         doctor.Email = "phat@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -35,10 +35,10 @@ class Data {
         result.add(doctor)
 
         doctor = BacSi()
-        doctor.MaBacSi = 2
+        doctor.MaBacSi = "2"
         doctor.TenChuyenKhoa = "Nhi Khoa"
         doctor.HoTen = "Pham Tran Minh Ngoc 1"
-        doctor.GioiTinh = "Nữ"
+//        doctor.GioiTinh = "Nữ"
         doctor.Email = "ngoc1@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -50,10 +50,10 @@ class Data {
         result.add(doctor)
 
         doctor = BacSi()
-        doctor.MaBacSi = 3
+        doctor.MaBacSi = "3"
         doctor.HoTen = "Pham Tran Minh Ngoc 2"
         doctor.TenChuyenKhoa = "Nha Sĩ"
-        doctor.GioiTinh = "Nữ"
+//        doctor.GioiTinh = "Nữ"
         doctor.Email = "ngoc2@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -65,10 +65,10 @@ class Data {
         result.add(doctor)
 
         doctor = BacSi()
-        doctor.MaBacSi = 4
+        doctor.MaBacSi = "4"
         doctor.HoTen = "Ngo Anh Vu"
         doctor.TenChuyenKhoa = "Da liễu"
-        doctor.GioiTinh = "Nam"
+//        doctor.GioiTinh = "Nam"
         doctor.Email = "vu@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -80,10 +80,10 @@ class Data {
         result.add(doctor)
 
         doctor = BacSi()
-        doctor.MaBacSi = 5
+        doctor.MaBacSi = "5"
         doctor.HoTen = "Nguyễn Đình Văn"
         doctor.TenChuyenKhoa = "Nha Sĩ"
-        doctor.GioiTinh = "Nam"
+//        doctor.GioiTinh = "Nam"
         doctor.Email = "phat@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -104,8 +104,8 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 1
-        kedon.MaBenhNhan = 1
+        kedon.MaBacSi = "1"
+        kedon.MaBenhNhan = "1"
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
             "Cetirizine 10mg;20;Viên;uống tối 1 viên sau ăn\nHighttamine 5,0mg+ 25mg;40;Viên;uống ngày 2 lần sáng chiều mỗi lần 1 viên\nKẽm gluconat 10mg;20;Ống;uống sáng 1 ống\nMometason furoat 0,1%;2;Tuýp;bôi chỗ ngứa ngáy 2 lần sáng chiều, bôi mỏng trong 7 - 10 ngày"
@@ -117,8 +117,8 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 2
-        kedon.MaBenhNhan = 1
+        kedon.MaBacSi = "2"
+        kedon.MaBenhNhan = "1"
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
             "Cetirizine 10mg;20;Viên;uống tối 1 viên sau ăn\nHighttamine 5,0mg+ 25mg;40;Viên;uống ngày 2 lần sáng chiều mỗi lần 1 viên\nKẽm gluconat 10mg;20;Ống;uống sáng 1 ống\nMometason furoat 0,1%;2;Tuýp;bôi chỗ ngứa ngáy 2 lần sáng chiều, bôi mỏng trong 7 - 10 ngày"
@@ -130,8 +130,8 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 3
-        kedon.MaBenhNhan = 1
+        kedon.MaBacSi = "3"
+        kedon.MaBenhNhan = "1"
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
             "Cetirizine 10mg;20;Viên;uống tối 1 viên sau ăn\nHighttamine 5,0mg+ 25mg;40;Viên;uống ngày 2 lần sáng chiều mỗi lần 1 viên\nKẽm gluconat 10mg;20;Ống;uống sáng 1 ống\nMometason furoat 0,1%;2;Tuýp;bôi chỗ ngứa ngáy 2 lần sáng chiều, bôi mỏng trong 7 - 10 ngày"
@@ -143,8 +143,8 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 4
-        kedon.MaBenhNhan = 1
+        kedon.MaBacSi = "4"
+        kedon.MaBenhNhan = "1"
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
             "Cetirizine 10mg;20;Viên;uống tối 1 viên sau ăn\nHighttamine 5,0mg+ 25mg;40;Viên;uống ngày 2 lần sáng chiều mỗi lần 1 viên\nKẽm gluconat 10mg;20;Ống;uống sáng 1 ống\nMometason furoat 0,1%;2;Tuýp;bôi chỗ ngứa ngáy 2 lần sáng chiều, bôi mỏng trong 7 - 10 ngày"
@@ -156,8 +156,8 @@ class Data {
         kedon.MaDon = 1
         kedon.Ngay = "10/02/2023"
         kedon.Gio = "08 giờ 30 phút"
-        kedon.MaBacSi = 5
-        kedon.MaBenhNhan = 1
+        kedon.MaBacSi = "5"
+        kedon.MaBenhNhan = "1"
         kedon.ChuanDoan = "Viem Da Co Dia"
         kedon.DonThuoc =
             "Cetirizine 10mg;20;Viên;uống tối 1 viên sau ăn\nHighttamine 5,0mg+ 25mg;40;Viên;uống ngày 2 lần sáng chiều mỗi lần 1 viên\nKẽm gluconat 10mg;20;Ống;uống sáng 1 ống\nMometason furoat 0,1%;2;Tuýp;bôi chỗ ngứa ngáy 2 lần sáng chiều, bôi mỏng trong 7 - 10 ngày"
@@ -173,40 +173,40 @@ class Data {
 
         var schedule: LichHenKham = LichHenKham()
         schedule.MaLichHen = 1
-        schedule.MaBacSi = 1
-        schedule.MaBenhNhan = 1
+        schedule.MaBacSi = "1"
+        schedule.MaBenhNhan = "1"
         schedule.MaThoiGian = 1
         schedule.MaTrangThai = 2
         result.add(schedule)
 
         schedule = LichHenKham()
         schedule.MaLichHen = 2
-        schedule.MaBacSi = 1
-        schedule.MaBenhNhan = 2
+        schedule.MaBacSi = "1"
+        schedule.MaBenhNhan = "2"
         schedule.MaThoiGian = 2
         schedule.MaTrangThai = 1
         result.add(schedule)
 
         schedule = LichHenKham()
         schedule.MaLichHen = 3
-        schedule.MaBacSi = 1
-        schedule.MaBenhNhan = 3
+        schedule.MaBacSi = "1"
+        schedule.MaBenhNhan = "3"
         schedule.MaThoiGian = 3
         schedule.MaTrangThai = 0
         result.add(schedule)
 
         schedule = LichHenKham()
         schedule.MaLichHen = 4
-        schedule.MaBacSi = 1
-        schedule.MaBenhNhan = 4
+        schedule.MaBacSi = "1"
+        schedule.MaBenhNhan = "4"
         schedule.MaThoiGian = 4
         schedule.MaTrangThai = 0
         result.add(schedule)
 
         schedule = LichHenKham()
         schedule.MaLichHen = 5
-        schedule.MaBacSi = 1
-        schedule.MaBenhNhan = 5
+        schedule.MaBacSi = "1"
+        schedule.MaBenhNhan = "5"
         schedule.MaThoiGian = 5
         schedule.MaTrangThai = 0
         result.add(schedule)
@@ -268,53 +268,53 @@ class Data {
     fun generatePatientData(): ArrayList<BenhNhan> {
         var result = ArrayList<BenhNhan>()
         var benhNhan: BenhNhan = BenhNhan()
-        benhNhan.MaBenhNhan = 1
+        benhNhan.MaBenhNhan = "1"
         benhNhan.HoTen = "Nguyễn Đình Văn 1"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van1@gmail.com"
-        benhNhan.GioiTinh = "Nam"
+//        benhNhan.GioiTinh = "Nam"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
         benhNhan = BenhNhan()
-        benhNhan.MaBenhNhan = 2
+        benhNhan.MaBenhNhan = "2"
         benhNhan.HoTen = "Nguyễn Đình Văn 2"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van2@gmail.com"
-        benhNhan.GioiTinh = "Nư"
+//        benhNhan.GioiTinh = "Nư"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
         benhNhan = BenhNhan()
-        benhNhan.MaBenhNhan = 3
+        benhNhan.MaBenhNhan = "3"
         benhNhan.HoTen = "Nguyễn Đình Văn 3"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van3@gmail.com"
-        benhNhan.GioiTinh = "Nam"
+//        benhNhan.GioiTinh = "Nam"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
         benhNhan = BenhNhan()
-        benhNhan.MaBenhNhan = 4
+        benhNhan.MaBenhNhan = "4"
         benhNhan.HoTen = "Nguyễn Đình Văn 4"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van4@gmail.com"
-        benhNhan.GioiTinh = "Nữ"
+//        benhNhan.GioiTinh = "Nữ"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
         benhNhan = BenhNhan()
-        benhNhan.MaBenhNhan = 5
+        benhNhan.MaBenhNhan = "5"
         benhNhan.Email = "van5@gmail.com"
         benhNhan.HoTen = "Nguyễn Đình Văn 5"
         benhNhan.SoDienThoai = "0123456789"
-        benhNhan.GioiTinh = "Nam"
+//        benhNhan.GioiTinh = "Nam"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
         return result
 
     }
-    fun readAppoinmentFromRealtimeDB(UserId: Int): ArrayList<LichHenKham> {
+    fun readAppoinmentFromRealtimeDB(UserId: String): ArrayList<LichHenKham> {
         val appoinmentList = ArrayList<LichHenKham>()
         val databaseAppoinment = Firebase.database.getReference("LichHenKham")
         databaseAppoinment.addValueEventListener(object : ValueEventListener {

@@ -20,8 +20,8 @@ data class KeDon (
     var MaDon: Int = 0,
     var Ngay: String = "",
     var Gio: String = "",
-    var MaBacSi: Int = 0,
-    var MaBenhNhan: Int = 0,
+    var MaBacSi: String = "",
+    var MaBenhNhan: String = "",
     var ChuanDoan: String = "",
     var DonThuoc: String = "",
     var LoiDan: String = "",
@@ -30,8 +30,8 @@ data class KeDon (
         parcel.readInt()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readInt()!!,
-        parcel.readInt()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -41,8 +41,8 @@ data class KeDon (
         parcel.writeInt(MaDon)
         parcel.writeString(Ngay)
         parcel.writeString(Gio)
-        parcel.writeInt(MaBacSi)
-        parcel.writeInt(MaBenhNhan)
+        parcel.writeString(MaBacSi)
+        parcel.writeString(MaBenhNhan)
         parcel.writeString(ChuanDoan)
         parcel.writeString(DonThuoc)
         parcel.writeString(LoiDan)

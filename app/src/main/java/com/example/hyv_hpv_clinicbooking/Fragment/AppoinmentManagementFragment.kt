@@ -284,7 +284,7 @@ class AppoinmentManagementFragment : Fragment() {
         })
     }
 
-    fun readPatientFromRealtimeDB(maBenhNhan: Int, callback: (ArrayList<BenhNhan>) -> Unit) {
+    fun readPatientFromRealtimeDB(maBenhNhan: String, callback: (ArrayList<BenhNhan>) -> Unit) {
         val patientList = ArrayList<BenhNhan>()
 
         database.child("BenhNhan").orderByChild("maBenhNhan").equalTo(maBenhNhan.toDouble())
@@ -323,7 +323,7 @@ class AppoinmentManagementFragment : Fragment() {
         })
     }
 
-    fun readPrescriptionFromRealtimeDB(maBacSi: Int, callback: (ArrayList<KeDon>) -> Unit) {
+    fun readPrescriptionFromRealtimeDB(maBacSi: String, callback: (ArrayList<KeDon>) -> Unit) {
         val prescriptionList = ArrayList<KeDon>()
         database.child("KeDon").orderByChild("maBacSi").equalTo(maBacSi.toDouble())
             .addValueEventListener(object : ValueEventListener {

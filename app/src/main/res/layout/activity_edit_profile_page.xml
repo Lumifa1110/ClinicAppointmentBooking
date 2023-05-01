@@ -7,12 +7,28 @@
     android:background="@drawable/bg_common"
     tools:context=".Activity.EditProfilePage">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="120sp"
+        android:background="#348F6C"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginHorizontal="10sp"
+        android:layout_marginTop="130sp"
+        android:background="#ffffff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/registerBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100sp"
-        android:background="@drawable/box_login"
+        android:layout_marginTop="140sp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,7 +36,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="22sp"
+            android:layout_marginHorizontal="25sp"
             android:layout_marginTop="40sp"
             android:text="Họ và tên"
             android:textSize="17sp" />
@@ -29,7 +45,7 @@
             android:id="@+id/nameET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
+            android:layout_marginHorizontal="23sp"
             android:layout_marginBottom="20sp"
             android:background="@drawable/custom_et"
             android:drawableLeft="@drawable/username"
@@ -41,7 +57,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="22sp"
+            android:layout_marginHorizontal="25sp"
             android:text="Số điện thoại"
             android:textSize="17sp" />
 
@@ -49,7 +65,7 @@
             android:id="@+id/phoneET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
+            android:layout_marginHorizontal="23sp"
             android:layout_marginBottom="20sp"
             android:background="@drawable/custom_et"
             android:drawableLeft="@drawable/phone_call"
@@ -61,7 +77,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="22sp"
+            android:layout_marginHorizontal="25sp"
             android:text="Email"
             android:textSize="17sp" />
 
@@ -69,7 +85,7 @@
             android:id="@+id/emailET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
+            android:layout_marginHorizontal="23sp"
             android:layout_marginBottom="20sp"
             android:background="@drawable/custom_et"
             android:drawableLeft="@drawable/mail"
@@ -79,10 +95,31 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/chuyenKhoaTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25sp"
+            android:text="Chuyên khoa"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/chuyenKhoaET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="23sp"
+            android:layout_marginBottom="20sp"
+            android:background="@drawable/custom_et"
+            android:drawableLeft="@drawable/mail"
+            android:drawablePadding="10dp"
+            android:hint="Chuyên Khoa"
+            android:padding="10dp"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/addressTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="22sp"
+            android:layout_marginHorizontal="25sp"
             android:text="Địa chỉ"
             android:textSize="17sp" />
 
@@ -90,7 +127,7 @@
             android:id="@+id/addressET"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginHorizontal="20sp"
+            android:layout_marginHorizontal="23sp"
             android:layout_marginBottom="30sp"
             android:background="@drawable/custom_et"
             android:drawableLeft="@drawable/address"
@@ -105,8 +142,8 @@
         android:id="@+id/saveBTN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20sp"
-        android:layout_marginBottom="30sp"
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginBottom="20sp"
         android:layout_weight="1"
         android:background="@drawable/circle_design"
         android:text="LƯU"
@@ -130,6 +167,26 @@
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/frameAvatar"
+        android:layout_width="160sp"
+        android:layout_height="160sp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="#348F6C"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/outlineAvatar"
+        android:layout_width="145sp"
+        android:layout_height="145sp"
+        android:layout_marginTop="13.5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="#ffffff"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="140sp"
         android:layout_height="140sp"
@@ -137,18 +194,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/anya" />
+        android:src="@drawable/default_avatar" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/editButton"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/editAvatarButton"
         android:layout_width="40sp"
         android:layout_height="40sp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/edit_avatar"
+        android:background="@drawable/edit_avatar"
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintHorizontal_bias="0.65"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

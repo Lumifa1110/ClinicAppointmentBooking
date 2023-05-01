@@ -4,6 +4,7 @@ import BenhNhan
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,13 @@ import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.Activity.*
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +33,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class UserProfile : Fragment() {
+    //Khai báo các biến cần thiết
     var editBTN: Button?= null
     var nameTV: TextView?= null
     var phoneTV: TextView?= null
@@ -34,8 +43,18 @@ class UserProfile : Fragment() {
     var chinhsachbm: Button?= null
     var dieukhoandv: Button?= null
     var quydinhsd: Button?= null
+    var avatar: CircleImageView?= null
 
+    //Khai báo tài khoản bác sĩ hiện tại
+    var accountCurrent: BenhNhan ?= null
+    var maBenhNhan: String ?= null
 
+    //khai báo database
+    private lateinit var database : DatabaseReference
+
+    //Khai báo firebase storage để lấy ảnh
+    lateinit var storage: FirebaseStorage
+    var storageReference: StorageReference? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,61 +66,98 @@ class UserProfile : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //Gán các nút xử lý
         editBTN = view.findViewById(R.id.editProfileBTN)
-        nameTV = view.findViewById(R.id.name)
-        phoneTV = view.findViewById(R.id.phone)
-        emailTV = view.findViewById(R.id.email)
         dangXuatBTN = view.findViewById(R.id.dangXuatBTN)
         changePasswordBTN = view.findViewById(R.id.changePasswordBTN)
 
+        //Gán các textview hiển thị
+        nameTV = view.findViewById(R.id.name)
+        phoneTV = view.findViewById(R.id.phone)
+        emailTV = view.findViewById(R.id.email)
+        avatar = view.findViewById(R.id.avatar)
+
+        //Các điều khoản và dịch vụ
         chinhsachbm = view.findViewById(R.id.chinhsachbmBTN)
         dieukhoandv = view.findViewById(R.id.dieukhoandvBTN)
         quydinhsd = view.findViewById(R.id.quydinhsdBTN)
 
-        var bnExample: BenhNhan = BenhNhan()
-        bnExample.HoTen = "Hello World"
-        bnExample.SoDienThoai = "0123456789"
-        bnExample.Email = "hihi@gmail.com"
+        //Gọi database từ bảng Bác Sĩ
+        database = Firebase.database.getReference("Users").child("BenhNhan")
 
-        nameTV?.text = bnExample.HoTen
-        phoneTV?.text = "Số điện thoại: " + bnExample.SoDienThoai
-        emailTV?.text = "Email: " + bnExample.Email
+        //Mã bệnh nhân hiện tại
+        maBenhNhan = "-NUGq3NRrFTwUKz84O6P";
 
-        editBTN?.setOnClickListener {
-            val intent = Intent(requireActivity(), EditProfilePage::class.java)
-            intent.putExtra("loaiTaiKhoan", "BenhNhan")
-            intent.putExtra("taiKhoan", bnExample)
-            startActivity(intent)
-        }
+        //lấy Avatar từ firebase storage
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.reference;
+        var ref: StorageReference = storageReference!!.child("BenhNhan/" + maBenhNhan)
 
-        changePasswordBTN?.setOnClickListener {
-            val intent = Intent(requireContext(), ChangePasswordPage::class.java)
-            intent.putExtra("loaiTaiKhoan", "BenhNhan")
-            startActivity(intent)
-        }
+        ref.downloadUrl
+            .addOnSuccessListener { uri ->
+                Picasso.get().load(uri).into(avatar);
+                Log.d("Test", " Success!")
+            }
+            .addOnFailureListener {
+                Log.d("Test", " Failed!")
+            }
 
-        dangXuatBTN?.setOnClickListener {
-            val intent = Intent(requireContext(), LoginPage::class.java)
-            startActivity(intent)
-        }
+        //lấy dữ liệu của bác sĩ hiện tại
+        val queryRef: Query = database
+            .orderByChild("maBenhNhan")
+            .equalTo(maBenhNhan)
 
-        chinhsachbm?.setOnClickListener {
-            val intent = Intent(requireContext(), ChinhSachBaoMat::class.java)
-            intent.putExtra("loaiTaiKhoan", "BenhNhan")
-            startActivity(intent)
-        }
+        queryRef.addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (child in dataSnapshot.children) {
+                    accountCurrent = child.getValue(BenhNhan::class.java)
+                }
 
-        dieukhoandv?.setOnClickListener {
-            val intent = Intent(requireContext(), DieuKhoanDichVu::class.java)
-            intent.putExtra("loaiTaiKhoan", "BenhNhan")
-            startActivity(intent)
-        }
+                nameTV?.text = accountCurrent?.HoTen
+                phoneTV?.text = "Số điện thoại: " + accountCurrent?.SoDienThoai
+                emailTV?.text = "Email: " + accountCurrent?.Email
 
-        quydinhsd?.setOnClickListener {
-            val intent = Intent(requireContext(), QuyDinhSuDung::class.java)
-            intent.putExtra("loaiTaiKhoan", "BenhNhan")
-            startActivity(intent)
-        }
+                editBTN?.setOnClickListener {
+                    val intent = Intent(requireContext(), EditProfilePage::class.java)
+                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
+                    intent.putExtra("taiKhoan", accountCurrent)
+                    startActivity(intent)
+                }
+
+                changePasswordBTN?.setOnClickListener {
+                    val intent = Intent(requireContext(), ChangePasswordPage::class.java)
+                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
+                    startActivity(intent)
+                }
+
+                dangXuatBTN?.setOnClickListener {
+                    val intent = Intent(requireContext(), LoginPage::class.java)
+                    startActivity(intent)
+                }
+
+                chinhsachbm?.setOnClickListener {
+                    val intent = Intent(requireContext(), ChinhSachBaoMat::class.java)
+                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
+                    startActivity(intent)
+                }
+
+                dieukhoandv?.setOnClickListener {
+                    val intent = Intent(requireContext(), DieuKhoanDichVu::class.java)
+                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
+                    startActivity(intent)
+                }
+
+                quydinhsd?.setOnClickListener {
+                    val intent = Intent(requireContext(), QuyDinhSuDung::class.java)
+                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
+                    startActivity(intent)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle errors here
+            }
+        })
     }
 }

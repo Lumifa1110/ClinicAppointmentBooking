@@ -75,7 +75,7 @@ class UserAppoinmentManagement() : Fragment() {
         timeList.clear()
         prescriptionList.clear()
 
-        readAppoinmentFromRealtimeDB(1)
+        readAppoinmentFromRealtimeDB("1")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -192,7 +192,7 @@ class UserAppoinmentManagement() : Fragment() {
         alert.show()
     }
 
-    fun readAppoinmentFromRealtimeDB(userId: Int){
+    fun readAppoinmentFromRealtimeDB(userId: String){
         database = Firebase.database.getReference("LichHenKham")
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
