@@ -11,11 +11,11 @@
         android:background="@color/background_color"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="70dp">
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchMed"
             android:layout_gravity="left"
-            android:layout_width="350dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             app:closeIcon="@drawable/close_search_icon"
             app:iconifiedByDefault="false"
@@ -36,6 +36,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/medicineRV"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>
