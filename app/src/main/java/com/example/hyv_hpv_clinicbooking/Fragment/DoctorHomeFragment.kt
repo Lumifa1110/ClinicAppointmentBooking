@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.hyv_hpv_clinicbooking.Data
-import com.example.hyv_hpv_clinicbooking.Model.BacSi
-import com.example.hyv_hpv_clinicbooking.Model.KeDon
-import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
-import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
+import com.example.hyv_hpv_clinicbooking.Model.*
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -50,17 +48,105 @@ class DoctorHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var data = Data()
-        var kedon = data.generateKeDonData()
+        var benhnhan = data.generatePatientData()
         database = Firebase.database.reference
-//        for(i in kedon) {
+//        var id :String ?= ""
+//        var id2 :String ?= ""
+//        var count = 0
+//        for(i in benhnhan) {
+//
 //            val userId = database.push().key
-//            writeNewPer(userId!!, i)
+//            if(count == 0) {
+//                id = userId
+//            }
+//            count++
+//            i.MaBenhNhan = userId!!
+//            writeNewPatient(userId!!, i)
 //        }
+//        count = 0
+//        var bacsi = data.generateDoctorData()
+//        database = Firebase.database.reference
+//        for(i in bacsi) {
+//            val userId = database.push().key
+//            if(count == 0) {
+//                id2 = userId
+//            }
+//            i.MaBacSi = userId!!
+////            writeNewDoctor(userId!!, i)
+//        }
+
+        var cuochen = data.generateAppoinmentData()
+        database = Firebase.database.reference
+        for(i in cuochen) {
+            val userId = database.push().key
+            i.MaCuocHen = userId!!
+            i.MaBacSi = "-NUGq3OXu1_goPLqieYI"
+            i.MaBenhNhan = "-NUGq3NRrFTwUKz84O6P"
+            writeNewAppoinment(userId!!, i)
+        }
+
+        var donViList = arrayOf("Viên", "Lọ", "Ống", "Chai", "Tuýp", "Vỉ")
+        val tenThuocList = arrayOf("Paracetamol", "Ibuprofen", "Aspirin", "Loperamide", "Diazepam", "Ciprofloxacin", "Metronidazole", "Doxycycline",
+            "Azithromycin", "Omeprazole", "Simvastatin", "Losartan", "Amoxicillin", "Clarithromycin", "Erythromycin",
+            "Ranitidine", "Hydrocortisone", "Prednisone", "Phenoxymethylpenicillin", "Aciclovir", "Furosemide",
+            "Metformin", "Gliclazide", "Insulin", "Salbutamol", "Montelukast", "Cetirizine", "Loratadine",
+            "Fluticasone", "Budesonide"
+        )
+
+        val chuyenKhoaList = arrayOf(
+            "Nội khoa",
+            "Ngoại khoa",
+            "Nhi khoa",
+            "Sản khoa",
+            "Da liễu",
+            "Tai mũi họng",
+            "Răng hàm mặt",
+            "Thần kinh học",
+            "Tiết niệu - sinh dục",
+            "Y học cộng đồng"
+        )
+
+        for(i in donViList) {
+            val userId = database.push().key
+            writeNewDonVi(userId!!, i)
+        }
+
+        for(i in tenThuocList) {
+            val userId = database.push().key
+            writeNewThuoc(userId!!, i)
+        }
+
+        for(i in chuyenKhoaList) {
+            val userId = database.push().key
+            writeNewChuyenKhoa(userId!!, i)
+        }
+    }
+
+    private fun writeNewAppoinment(prescriptionId: String, cuochen: CuocHen) {
+        val cuochen1 = CuocHen(
+            MaCuocHen = cuochen.MaCuocHen,
+            MaBacSi = cuochen.MaBacSi,
+            MaBenhNhan = cuochen.MaBenhNhan,
+            Ngay = cuochen.Ngay,
+            GioBatDau = cuochen.GioBatDau,
+            GioKetThuc = cuochen.GioKetThuc,
+            MaTrangThai = cuochen.MaTrangThai,
+            ChuanDoan = cuochen.ChuanDoan ,
+            DonThuoc = cuochen.DonThuoc ,
+            LoiDan = cuochen.LoiDan ,
+        )
+
+        database.child("CuocHen").child(prescriptionId).setValue(cuochen1)
+        Toast.makeText(requireContext()
+            , "Add Schedule successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun writeNewPatient(patientId: String, patient: BenhNhan) {
-        val user = BenhNhan(MaBenhNhan = patient.MaBenhNhan, SoLanKham = patient.SoLanKham, HoTen = patient.HoTen, SoDienThoai = patient.SoDienThoai, Email = patient.Email, PassWord = patient.PassWord, Image = patient.Image)
-        database.child("BenhNhan").child(patientId).setValue(user)
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+        val user = BenhNhan(MaBenhNhan = patient.MaBenhNhan, SoLanKham = patient.SoLanKham, HoTen = patient.HoTen, SoDienThoai = patient.SoDienThoai, Email = patient.Email, GioiTinh = patient.GioiTinh, PassWord = patient.PassWord, MaAdmin = patient.MaAdmin, Image = patient.Image)
+        databaseRef.child("BenhNhan").child(patientId).setValue(user)
         Toast.makeText(requireContext()
             , "Register successfully"
             , Toast.LENGTH_SHORT)
@@ -68,18 +154,20 @@ class DoctorHomeFragment : Fragment() {
     }
 
     private fun writeNewDoctor(doctorId: String, doctor: BacSi) {
-        val user = BacSi(MaBacSi = doctor.MaBacSi,
-            TenChuyenKhoa=  doctor.TenChuyenKhoa,
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+        val user = BacSi(
+            MaBacSi = doctor.MaBacSi,
+            TenChuyenKhoa =  doctor.TenChuyenKhoa,
             HoTen = doctor.HoTen,
             SoDienThoai = doctor.SoDienThoai,
             Email = doctor.Email,
-//            GioiTinh = doctor.GioiTinh,
+            GioiTinh = doctor.GioiTinh,
             PassWord = doctor.PassWord,
             SoNamTrongNghe = doctor.SoNamTrongNghe,
-//            MaAdmin = doctor.MaAdmin,
+            MaAdmin = doctor.MaAdmin,
             Image = doctor.Image,
             Mota = doctor.Mota)
-        database.child("BacSi").child(doctorId).setValue(user)
+        databaseRef.child("BacSi").child(doctorId).setValue(user)
         Toast.makeText(requireContext()
             , "Register successfully"
             , Toast.LENGTH_SHORT)
@@ -98,6 +186,45 @@ class DoctorHomeFragment : Fragment() {
         database.child("LichHenKham").child(scheduleId).setValue(schedule)
         Toast.makeText(requireContext()
             , "Add Schedule successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun writeNewDonVi(scheduleId: String, name: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach")
+        val newNote = hashMapOf(
+            "TenDonVi" to name
+        )
+
+        databaseRef.child("DonVi").child(scheduleId).setValue(newNote)
+        Toast.makeText(requireContext()
+            , "Add DonVi successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun writeNewChuyenKhoa(scheduleId: String, name: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach")
+        val newNote = hashMapOf(
+            "TenChuyenKhoa" to name
+        )
+
+        databaseRef.child("ChuyenKhoa").child(scheduleId).setValue(newNote)
+        Toast.makeText(requireContext()
+            , "Add ChuyenKhoa successfully"
+            , Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun writeNewThuoc(scheduleId: String, name: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach")
+        val newNote = hashMapOf(
+            "TenThuoc" to name
+        )
+
+        databaseRef.child("Thuoc").child(scheduleId).setValue(newNote)
+        Toast.makeText(requireContext()
+            , "Add Thuoc successfully"
             , Toast.LENGTH_SHORT)
             .show()
     }

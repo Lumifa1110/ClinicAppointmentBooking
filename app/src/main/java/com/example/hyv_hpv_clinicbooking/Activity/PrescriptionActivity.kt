@@ -14,6 +14,7 @@ import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.PrescriptionAdapter
 import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
+import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.R
 import kotlinx.serialization.Serializable
@@ -47,7 +48,7 @@ class PrescriptionActivity : AppCompatActivity() {
 
         val people = intent.getStringExtra("people")
         val name = intent.getStringExtra("name")
-        val prescription = intent.getParcelableExtra<KeDon>("prescription") as KeDon
+        val appoinment = intent.getParcelableExtra<CuocHen>("appoinment") as CuocHen
 
         if (people.equals("patient")) {
             peopleTV?.setText("Bệnh nhân")
@@ -57,12 +58,12 @@ class PrescriptionActivity : AppCompatActivity() {
         }
 
         nameTV?.setText(name)
-        dateTV?.setText(prescription.Ngay)
-        timeTV?.setText(prescription.Gio)
-        chuandoanTV?.setText(prescription.ChuanDoan)
-        loidanTV?.setText(prescription.LoiDan)
+        dateTV?.setText(appoinment.Ngay)
+        timeTV?.setText(appoinment.GioBatDau)
+        chuandoanTV?.setText(appoinment.ChuanDoan)
+        loidanTV?.setText(appoinment.LoiDan)
 
-        val medicines = prescription.DonThuoc.split("\n").toTypedArray()
+        val medicines = appoinment.DonThuoc.split("\n").toTypedArray()
         for(medicine in medicines) {
             var item = medicine.split(";").toTypedArray()
             var donthuoc = DonThuoc()

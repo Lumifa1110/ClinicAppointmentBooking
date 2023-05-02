@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
 
-class DoctorAppoinmentList(var scheduleList: List<LichHenKham>, var timeList: List<ThoiGian>, var patientList: List<BenhNhan>) :
+class DoctorAppoinmentList(var scheduleList: List<CuocHen>, var patientList: List<BenhNhan>) :
     RecyclerView.Adapter<DoctorAppoinmentList.DoctorAppoimentViewHolder>() {
     var onItemClick: ((Int) -> Unit)? = null
 
@@ -42,12 +43,8 @@ class DoctorAppoinmentList(var scheduleList: List<LichHenKham>, var timeList: Li
                 holder.phoneTV.text = "SĐT: " + patient.SoDienThoai
             }
         }
-        for (time in timeList) {
-            if (time.MaThoiGian == scheduleList[position].MaThoiGian) {
-                holder.timeTV.text = "Giờ hẹn: " + time.GioBatDau + " - " + time.GioKetThuc
-                holder.dateTV.text = "Ngày hẹn: " + time.Ngay
-            }
-        }
+        holder.timeTV.text = "Giờ hẹn: " + scheduleList[position].GioBatDau + " - " + scheduleList[position].GioKetThuc
+        holder.dateTV.text = "Ngày hẹn: " + scheduleList[position].Ngay
     }
 
     override fun getItemCount(): Int {

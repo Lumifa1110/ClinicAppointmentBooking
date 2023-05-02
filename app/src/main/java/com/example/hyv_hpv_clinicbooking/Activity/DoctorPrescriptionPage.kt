@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorAppoinmentList
 import com.example.hyv_hpv_clinicbooking.Adapter.PrescriptionAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
+import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.R
 
@@ -28,7 +29,7 @@ class DoctorPrescriptionPage : AppCompatActivity() {
     private var chuandoanTV: TextView ?= null
     private var loidanTV: TextView ?= null
 
-    private var new_prescription: KeDon ?= null
+    private var appoinment: CuocHen ?= null
     val REQUEST_CODE= 1111
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,14 +46,14 @@ class DoctorPrescriptionPage : AppCompatActivity() {
         chuandoanTV = findViewById(R.id.chuandoan)
         loidanTV = findViewById(R.id.loidanTV)
 
-        val key_prescription = intent.getStringExtra("key_prescription")
-        new_prescription = intent.getParcelableExtra<KeDon>("prescription") as KeDon
-        val name = intent.getStringExtra("name")
+        val key_appoinment = intent.getStringExtra("key_appoinment")
+        val name = intent.getStringExtra("patient_name")
+        appoinment = intent.getParcelableExtra<CuocHen>("appoinment") as CuocHen
 
 
         nameTV?.setText(name)
-        dateTV?.setText(new_prescription!!.Ngay)
-        timeTV?.setText(new_prescription!!.Gio)
+        dateTV?.setText(appoinment!!.Ngay)
+        timeTV?.setText(appoinment!!.GioBatDau)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -74,17 +75,16 @@ class DoctorPrescriptionPage : AppCompatActivity() {
         }
 
         saveBtn?.setOnClickListener {
-
-            new_prescription!!.ChuanDoan = chuandoanTV!!.text.toString()
-            new_prescription!!.LoiDan = loidanTV!!.text.toString()
+            appoinment!!.ChuanDoan = chuandoanTV!!.text.toString()
+            appoinment!!.LoiDan = loidanTV!!.text.toString()
             var donthuoc:String  = ""
             for(item in mList) {
                 donthuoc +=  item.TenThuoc + ";" + item.SoLuong.toString() + ";" + item.DonVi + ";" + item.CachDung + "\n"
             }
-            new_prescription!!.DonThuoc = donthuoc
+            appoinment!!.DonThuoc = donthuoc
             val replyIntent = Intent()
-            replyIntent.putExtra("key_prescription", key_prescription)
-            replyIntent.putExtra("prescription", new_prescription)
+            replyIntent.putExtra("key_appoinment", key_appoinment)
+            replyIntent.putExtra("appoinment", appoinment)
             setResult(Activity.RESULT_OK, replyIntent)
             finish()
         }
