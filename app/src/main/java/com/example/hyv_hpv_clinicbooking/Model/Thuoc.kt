@@ -9,13 +9,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Thuoc(
-    var tenThuoc: String = "",
+    var TenThuoc: String = "",
 ) : Parcelable {
     constructor(parcel: Parcel): this (
         parcel.readString()!!,
     )
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(tenThuoc)
+        parcel.writeString(TenThuoc)
     }
     override fun describeContents(): Int {
         return 0
