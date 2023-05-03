@@ -19,26 +19,12 @@ import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DoctorListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DoctorListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
@@ -120,8 +106,8 @@ class DoctorListFragment : Fragment() {
     }
 
     fun readDoctorFromRealtimeDB() {
-        database = Firebase.database.getReference("BacSi")
-        database.addValueEventListener(object : ValueEventListener {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+        databaseRef.child("BacSi").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
                     val doctor = snapshot.getValue(BacSi::class.java)

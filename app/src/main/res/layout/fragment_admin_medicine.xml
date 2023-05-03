@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/fragment_admin_medicine"
+    tools:context=".Fragment.AdminMedicine">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/background_color"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchMed"
+            android:layout_gravity="left"
+            android:layout_width="330dp"
+            android:layout_height="50dp"
+            android:background="@drawable/border_lefttop_leftbottom"
+            app:closeIcon="@drawable/close_search_icon"
+            app:iconifiedByDefault="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <ImageButton
+            android:id="@+id/addMedicine"
+            android:layout_gravity="right"
+            android:contentDescription="This is add medicine button"
+            android:src="@drawable/add_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/searchMed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/medicineRV"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

@@ -7,7 +7,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/timeView"
-        android:layout_width="70sp"
+        android:layout_width="150sp"
         android:layout_height="40sp"
         android:background="@drawable/box_date"
         android:paddingVertical="5sp"

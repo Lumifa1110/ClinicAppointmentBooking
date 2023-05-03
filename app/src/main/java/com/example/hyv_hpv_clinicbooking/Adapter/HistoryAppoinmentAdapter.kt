@@ -9,11 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
+import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
 import com.example.hyv_hpv_clinicbooking.R
 
-class HistoryAppoinmentAdapter(var scheduleList: List<LichHenKham>, var timeList: List<ThoiGian>, var doctorList: List<BacSi>) :
+class HistoryAppoinmentAdapter(var appoinmentList: List<CuocHen>, var doctorList: List<BacSi>) :
     RecyclerView.Adapter<HistoryAppoinmentAdapter.HistoryAppoimentViewHolder>() {
     var onItemClick: ((Int) -> Unit)? = null
 
@@ -37,24 +38,19 @@ class HistoryAppoinmentAdapter(var scheduleList: List<LichHenKham>, var timeList
 
     override fun onBindViewHolder(holder: HistoryAppoimentViewHolder, position: Int) {
         for (patient in doctorList) {
-            if (patient.MaBacSi == scheduleList[position].MaBacSi) {
+            if (patient.MaBacSi == appoinmentList[position].MaBacSi) {
                 holder.image.setImageResource(patient.Image!!)
                 holder.nameTV.text = patient.HoTen
                 holder.specialistTV.text = "Chuyên ngành: " + patient.TenChuyenKhoa
-                Log.w("tsdfsdf", scheduleList[position].MaThoiGian.toString() + ", " + scheduleList[position].MaTrangThai.toString() + ", " + patient.HoTen)
 
             }
         }
-        for (time in timeList) {
-            if (time.MaThoiGian == scheduleList[position].MaThoiGian) {
-                holder.timeTV.text = "Giờ hẹn: " + time.GioBatDau + " - " + time.GioKetThuc
-                holder.dateTV.text = "Ngày hẹn: " + time.Ngay
-            }
-        }
+        holder.timeTV.text = "Giờ hẹn: " + appoinmentList[position].GioBatDau + " - " + appoinmentList[position].GioKetThuc
+        holder.dateTV.text = "Ngày hẹn: " + appoinmentList[position].Ngay
     }
 
     override fun getItemCount(): Int {
-        return scheduleList.size
+        return appoinmentList.size
     }
 
 }

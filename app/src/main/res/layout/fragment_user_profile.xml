@@ -8,6 +8,26 @@
     android:background="@drawable/bg_common"
     tools:context=".Fragment.DoctorProfile">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/frameAvatar"
+        android:layout_width="160sp"
+        android:layout_height="160sp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="#348F6C"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/outlineAvatar"
+        android:layout_width="145sp"
+        android:layout_height="145sp"
+        android:layout_marginTop="13.5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="#ffffff"/>
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
@@ -26,17 +46,17 @@
             app:layout_constraintHorizontal_bias="0.147"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/anya" />
+            android:src="@drawable/default_avatar" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif"
             android:text="Anya Phạm"
-            android:textColor="@color/dark_blue"
-            android:textSize="25sp"
+            android:textColor="@color/secondary"
+            android:textSize="27sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.142"
@@ -49,7 +69,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10sp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="35dp"
+        android:drawableTint="#747474"
         android:drawableLeft="@drawable/phone_blue"
         android:drawablePadding="5sp"
         android:text="Số Điện Thoại: 0123456789"
@@ -63,6 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10sp"
         android:layout_marginTop="5sp"
+        android:drawableTint="#747474"
         android:drawableLeft="@drawable/email_blue"
         android:drawablePadding="5sp"
         android:text="Email: anyacute@gmail.com"
@@ -87,7 +109,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10sp"
         android:text="Điều khoản và quy định"
-        android:textColor="@color/dark_blue"
+        android:textColor="@color/secondary"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +171,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tài khoản"
-        android:textColor="@color/dark_blue"
+        android:textColor="@color/secondary"
         android:layout_marginTop="10sp"
         android:layout_marginStart="8dp"
         android:textSize="20sp"
@@ -164,6 +186,7 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountTV">
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editProfileBTN"
             android:layout_width="match_parent"
@@ -171,6 +194,7 @@
             android:layout_marginHorizontal="10sp"
             android:background="@null"
             android:drawableLeft="@drawable/profile_edit"
+            android:drawableTint="@color/black"
             android:drawableRight="@drawable/next"
             android:drawablePadding="5sp"
             android:text="Chỉnh sửa thông tin"
@@ -184,6 +208,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10sp"
             android:background="@null"
+            android:drawableTint="@color/black"
             android:drawableLeft="@drawable/profile_reset_password"
             android:drawableRight="@drawable/next"
             android:drawablePadding="5sp"
@@ -191,7 +216,6 @@
             android:textAlignment="viewStart"
             android:textAllCaps="false"
             android:textSize="18sp" />
-
     </LinearLayout>
 
     <Button
@@ -218,10 +242,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
+        android:drawableTint="@color/black"
         android:drawableLeft="@drawable/profile_logout"
         android:text="Đăng xuất"
         android:textSize="18sp"
-        android:textColor="@color/dark_blue"
         android:textAlignment="viewStart"
         android:drawablePadding="5sp"
         android:textAllCaps="false"

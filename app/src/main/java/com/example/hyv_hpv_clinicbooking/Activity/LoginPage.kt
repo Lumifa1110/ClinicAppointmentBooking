@@ -91,7 +91,6 @@ class LoginPage : AppCompatActivity() {
             // Get EditText input
             val email = emailET.text.toString()
             val password = passwordET.text.toString()
-
             // Init Firebase Authentication
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->

@@ -40,20 +40,20 @@ class ChooseTimeAdapter (private var context: Context, private var items: ArrayL
         val khungGio = items[position]
         viewHolder.timeView?.text = khungGio.gioBatDau
 
-        for(timeCheck in freeTimeList) {
-            if(khungGio.maKhungGio == timeCheck.maKhungGio) {
-                if(timeCheck.trangThai == 0) {
-                    viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
-                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
-                    viewHolder.timeView?.isEnabled = false
-                }
-                else {
-                    viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
-                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
-                }
-                break;
-            }
-        }
+//        for(timeCheck in freeTimeList) {
+//            if(khungGio.maKhungGio == timeCheck.maKhungGio) {
+//                if(timeCheck.trangThai == 0) {
+//                    viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
+//                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+//                    viewHolder.timeView?.isEnabled = false
+//                }
+//                else {
+//                    viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
+//                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+//                }
+//                break;
+//            }
+//        }
 
         viewHolder.timeView?.setOnClickListener {
             if(viewHolder.timeView?.isEnabled == true) {

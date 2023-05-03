@@ -11,8 +11,9 @@ import android.widget.Button
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.DatabaseReference
 
-class TimeAdapter (private var context: Context, private var items: ArrayList<KhungGio>, private var freeTimeList: ArrayList<ThoiGianRanh>) : BaseAdapter() {
+class TimeAdapter (private var context: Context, private var freeTimeList: ArrayList<ThoiGianRanh>, var database : DatabaseReference, var keyList: ArrayList<String>) : BaseAdapter() {
     private class ViewHolder(row: View?) {
         var timeView: Button? = null
 
@@ -21,7 +22,7 @@ class TimeAdapter (private var context: Context, private var items: ArrayList<Kh
         }
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
         val viewHolder: ViewHolder
@@ -36,17 +37,17 @@ class TimeAdapter (private var context: Context, private var items: ArrayList<Kh
         }
 
 
-        val khungGio = items[position]
-        viewHolder.timeView?.text = khungGio.gioBatDau
+        val khungGio = freeTimeList[position]
+        viewHolder.timeView?.text = khungGio.gioBatDau + " - " + khungGio.gioKetThuc
 
         for(timeCheck in freeTimeList) {
-            if(khungGio.maKhungGio == timeCheck.maKhungGio) {
+            if(khungGio.gioBatDau == timeCheck.gioBatDau && khungGio.ngayThang == timeCheck.ngayThang) {
                 if(timeCheck.trangThai == 0) {
                     viewHolder.timeView?.setBackgroundResource(R.drawable.day_choose)
                     viewHolder.timeView?.setTextColor(Color.parseColor("#ffffff"))
                 }
                 else {
-                    viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
+                    viewHolder.timeView?.setBackgroundResource(R.drawable.time_not_choose)
                     viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
                 }
                 break;
@@ -55,15 +56,17 @@ class TimeAdapter (private var context: Context, private var items: ArrayList<Kh
 
         viewHolder.timeView?.setOnClickListener {
             for(timeCheck in freeTimeList) {
-                if(khungGio.maKhungGio == timeCheck.maKhungGio) {
+                if(khungGio.gioBatDau == timeCheck.gioBatDau && khungGio.ngayThang == timeCheck.ngayThang) {
                     if(timeCheck.trangThai == 1) {
                         timeCheck.trangThai = 0
+                        database.child(keyList[position]).child("trangThai").setValue(0)
                         viewHolder.timeView?.setBackgroundResource(R.drawable.day_choose)
                         viewHolder.timeView?.setTextColor(Color.parseColor("#ffffff"))
                     }
                     else {
+                        database.child(keyList[position]).child("trangThai").setValue(1)
                         timeCheck.trangThai = 1
-                        viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
+                        viewHolder.timeView?.setBackgroundResource(R.drawable.time_not_choose)
                         viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
                     }
                     break;
@@ -74,14 +77,14 @@ class TimeAdapter (private var context: Context, private var items: ArrayList<Kh
         return view
     }
 
-    override fun getItem(i: Int): KhungGio {
-        return items[i]
+    override fun getItem(i: Int): ThoiGianRanh {
+        return freeTimeList[i]
     }
     override fun getItemId(p0: Int): Long {
         return p0.toLong()
     }
     override fun getCount(): Int {
-        return items.size
+        return freeTimeList.size
     }
 
 }

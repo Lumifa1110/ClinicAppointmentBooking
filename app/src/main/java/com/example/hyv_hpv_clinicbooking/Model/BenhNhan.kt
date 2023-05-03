@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BenhNhan (
-    var MaBenhNhan: Int = 0,
+    var MaBenhNhan: String = "",
     var SoLanKham: Int = 0,
     var HoTen: String = "",
     var SoDienThoai: String = "",
@@ -17,7 +17,7 @@ data class BenhNhan (
     var BiKhoa: Boolean = true
     ): Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readInt()!!,
+        parcel.readString()!!,
         parcel.readInt()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -29,7 +29,7 @@ data class BenhNhan (
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(MaBenhNhan)
+        parcel.writeString(MaBenhNhan)
         parcel.writeInt(SoLanKham)
         parcel.writeString(HoTen)
         parcel.writeString(SoDienThoai)

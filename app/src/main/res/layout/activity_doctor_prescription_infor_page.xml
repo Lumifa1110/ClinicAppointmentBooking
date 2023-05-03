@@ -65,18 +65,18 @@
             android:textStyle="bold"
             android:textSize="18dp"/>
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/nameET"
+            android:background="@drawable/custom_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10sp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="6dp"
-            android:background="@drawable/custom_et"
+            android:completionThreshold="3"
             android:padding="10dp"
-            android:textSize="18dp"
-            android:text="hung"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:textSize="18dp" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,28 +87,29 @@
             android:textStyle="bold"
             android:textSize="18dp"/>
 
-        <EditText
-            android:id="@+id/quantityET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10sp"
-            android:layout_marginBottom="10sp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/custom_et"
-            android:padding="10dp"
-            android:textSize="14sp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            <EditText
+                android:id="@+id/quantityET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10sp"
+                android:layout_marginBottom="10sp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/custom_et"
+                android:padding="10dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đơn vị"
-            android:layout_marginHorizontal="10sp"
-            android:textColor="@color/primary_color"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đơn vị"
+                android:layout_marginHorizontal="10sp"
+                android:textColor="@color/primary_color"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
 
-        <EditText
+
+        <Spinner
             android:id="@+id/donviET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,6 +119,12 @@
             android:background="@drawable/custom_et"
             android:padding="10dp"
             android:textSize="14sp"
+            android:cursorVisible="false"
+            android:ems="10"
+            android:gravity="center"
+            android:focusable="false"
+            android:inputType="textPersonName"
+            android:spinnerMode="dropdown"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView

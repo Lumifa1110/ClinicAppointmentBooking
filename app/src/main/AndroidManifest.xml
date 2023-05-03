@@ -16,7 +16,7 @@
 <!--            android:name=".Activity.SplashActivity"-->
 <!--            android:exported="false" />-->
         <activity
-            android:name=".Activity.SplashActivity"
+            android:name=".Activity.AdminHomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,7 +64,7 @@
             android:name=".Activity.PrescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.AdminHomePage"
+            android:name=".Activity.LoginPage"
             android:exported="false" />
         <activity
             android:name=".Activity.UserHomePage"
@@ -76,18 +76,20 @@
             android:name=".Activity.DoctorDetailPage"
             android:exported="false" />
         <activity
-            android:name=".Activity.LoginPage"
-            android:exported="false" />
-        <activity
             android:name=".Activity.RegisterPage"
             android:exported="false" />
         <activity
             android:name=".Activity.MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".Activity.DoctorHomePage"
-            android:exported="false">
-        </activity>
+<!--        <activity-->
+<!--            android:name=".Activity.DoctorHomePage"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 <!--        <activity-->
 <!--            android:name=".Activity.DoctorHomePage"-->
 <!--            android:exported="true">-->

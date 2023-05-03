@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_approval_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragment.AdminProfile">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    tools:context=".Fragment.ApprovalList">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/approvalRV"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="5dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -4,45 +4,40 @@ import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.serialization.Serializable
 
-//class KeDon {
-//    var MaDon: Int ?= 0
-//    var Ngay: String ?= ""
-//    var Gio: String ?= ""
-//    var MaBacSi: Int ?= 0
-//    var MaBenhNhan: Int ?= 0
-//    var ChuanDoan: String ?= ""
-//    var DonThuoc: String ?= ""
-//    var LoiDan: String ?= ""
-//}
-
 @Serializable
-data class KeDon (
-    var MaDon: Int = 0,
-    var Ngay: String = "",
-    var Gio: String = "",
-    var MaBacSi: String = "",
+data class CuocHen (
+    var MaCuocHen: String = "",
     var MaBenhNhan: String = "",
+    var MaBacSi: String = "",
+    var Ngay: String = "",
+    var GioBatDau: String = "",
+    var GioKetThuc: String = "",
+    var MaTrangThai: Int = 0,
     var ChuanDoan: String = "",
     var DonThuoc: String = "",
     var LoiDan: String = "",
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readInt()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(MaDon)
-        parcel.writeString(Ngay)
-        parcel.writeString(Gio)
-        parcel.writeString(MaBacSi)
+        parcel.writeString(MaCuocHen)
         parcel.writeString(MaBenhNhan)
+        parcel.writeString(MaBacSi)
+        parcel.writeString(Ngay)
+        parcel.writeString(GioBatDau)
+        parcel.writeString(GioKetThuc)
+        parcel.writeInt(MaTrangThai)
         parcel.writeString(ChuanDoan)
         parcel.writeString(DonThuoc)
         parcel.writeString(LoiDan)
@@ -52,12 +47,12 @@ data class KeDon (
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<KeDon> {
-        override fun createFromParcel(parcel: Parcel): KeDon {
-            return KeDon(parcel)
+    companion object CREATOR : Parcelable.Creator<CuocHen> {
+        override fun createFromParcel(parcel: Parcel): CuocHen {
+            return CuocHen(parcel)
         }
 
-        override fun newArray(size: Int): Array<KeDon?> {
+        override fun newArray(size: Int): Array<CuocHen?> {
             return arrayOfNulls(size)
         }
     }
