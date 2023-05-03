@@ -16,7 +16,7 @@
 <!--            android:name=".Activity.SplashActivity"-->
 <!--            android:exported="false" />-->
         <activity
-            android:name=".Activity.DoctorHomePage"
+            android:name=".Activity.AdminHomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

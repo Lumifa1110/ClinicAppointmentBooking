@@ -7,15 +7,15 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hyv_hpv_clinicbooking.Model.Thuoc
+import com.example.hyv_hpv_clinicbooking.Model.ChuyenKhoa
 import com.example.hyv_hpv_clinicbooking.R
 
-class MedicineAdapter(private var context: Context,
-                      private var medicineList: ArrayList<Thuoc>
-                      ): RecyclerView.Adapter<MedicineAdapter.ViewHolder>() {
+class SpecializeAdapter(private var context: Context,
+                        private var specializeList: ArrayList<ChuyenKhoa>
+                      ): RecyclerView.Adapter<SpecializeAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onDeleteClick(medicine: Thuoc) { }
+        fun onDeleteClick(chuyenkhoa: ChuyenKhoa) { }
     }
     private var listener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -27,7 +27,7 @@ class MedicineAdapter(private var context: Context,
             nameTV = listItemView.findViewById(R.id.itemNameTV)
         }
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicineAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecializeAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         // Inflate the custom layout
@@ -36,14 +36,14 @@ class MedicineAdapter(private var context: Context,
         return ViewHolder(contactView)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val medicine: Thuoc = medicineList[position]
-        holder.nameTV!!.text = medicine.TenThuoc
+        val specialize: ChuyenKhoa = specializeList[position]
+        holder.nameTV!!.text = specialize.TenChuyenKhoa
     }
     override fun getItemCount(): Int {
-        return medicineList.size
+        return specializeList.size
     }
-    fun filter(filterlist: ArrayList<Thuoc>) {
-        this.medicineList = filterlist
+    fun filter(filterlist: ArrayList<ChuyenKhoa>) {
+        this.specializeList = filterlist
         notifyDataSetChanged()
     }
 

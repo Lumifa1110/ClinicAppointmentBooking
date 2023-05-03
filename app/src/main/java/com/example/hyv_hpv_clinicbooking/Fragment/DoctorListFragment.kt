@@ -73,7 +73,6 @@ class DoctorListFragment : Fragment() {
 
     private fun filterList(query: String?) {
         println(query)
-
         if (query != null) {
             val filteredList = ArrayList<BacSi>()
             for (i in mList) {
@@ -81,7 +80,6 @@ class DoctorListFragment : Fragment() {
                     filteredList.add(i)
                 }
             }
-
             if (filteredList.isEmpty()) {
                 Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
             } else {

@@ -49,7 +49,7 @@ class DoctorManagement : Fragment() {
         searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Handle search query submission
-                return true
+                return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 // Handle search query text changes
