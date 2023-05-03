@@ -33,7 +33,8 @@ data class BacSi (
     var Email: String = "",
     var Mota: String = "",
     var PassWord: String = "",
-    var BiKhoa: Boolean = true
+    var BiKhoa: Boolean = true,
+    var KhungGioLamViec:String = ""
     ): Parcelable {
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
@@ -50,6 +51,7 @@ data class BacSi (
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readBoolean(),
+        parcel.readString()!!
         )
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -67,6 +69,7 @@ data class BacSi (
         parcel.writeString(Mota)
         parcel.writeString(PassWord)
         parcel.writeBoolean(BiKhoa)
+        parcel.writeString(KhungGioLamViec)
     }
 
     override fun describeContents(): Int {

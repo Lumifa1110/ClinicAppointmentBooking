@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/secondary"
+            android:padding="5sp"
+            android:text="Chuyên Khoa"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            tools:ignore="TextContrastCheck" />
+        <ListView
+            android:id="@+id/chuyenKhoaList"
+            android:layout_width="match_parent"
+            android:layout_height="400sp"
+            android:background="@color/white"
+            android:textColor="#000000"
+            android:padding="15sp">
+        </ListView>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/closeBTN"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:background="#E1E1E1"
+                android:textSize="14sp"
+                android:text="Đóng"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

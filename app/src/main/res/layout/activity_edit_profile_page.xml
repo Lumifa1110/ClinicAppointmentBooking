@@ -8,8 +8,9 @@
     tools:context=".Activity.EditProfilePage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="560sp"
         android:layout_marginTop="120sp"
         android:background="#348F6C"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,141 +18,191 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="540sp"
         android:layout_marginHorizontal="10sp"
         android:layout_marginTop="130sp"
         android:background="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/registerBox"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140sp"
+        android:layout_height="485sp"
+        android:layout_marginTop="170sp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/registerBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25sp"
-            android:layout_marginTop="40sp"
-            android:text="Họ và tên"
-            android:textSize="17sp" />
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/nameET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="23sp"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/username"
-            android:drawablePadding="10dp"
-            android:hint="Họ Và Tên"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:text="Họ và tên"
+                android:textSize="17sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25sp"
-            android:text="Số điện thoại"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/nameET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="23sp"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/username"
+                android:drawablePadding="10dp"
+                android:hint="Họ Và Tên"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/phoneET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="23sp"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/phone_call"
-            android:drawablePadding="10dp"
-            android:hint="Số Điện Thoại"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:text="Số điện thoại"
+                android:textSize="17sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25sp"
-            android:text="Email"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/phoneET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="23sp"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/phone_call"
+                android:drawablePadding="10dp"
+                android:hint="Số Điện Thoại"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/emailET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="23sp"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/mail"
-            android:drawablePadding="10dp"
-            android:hint="Email"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:text="Email"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/chuyenKhoaTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25sp"
-            android:text="Chuyên khoa"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/emailET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="23sp"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/mail"
+                android:drawablePadding="10dp"
+                android:hint="Email"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/chuyenKhoaET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="23sp"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/mail"
-            android:drawablePadding="10dp"
-            android:hint="Chuyên Khoa"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/chuyenKhoaTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:text="Chuyên khoa"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/addressTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25sp"
-            android:text="Địa chỉ"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/chuyenKhoaET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="23sp"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/major"
+                android:drawablePadding="10dp"
+                android:editable="false"
+                android:hint="Chuyên Khoa"
+                android:padding="10dp"
+                android:textSize="18sp"
+                tools:ignore="Deprecated" />
 
-        <EditText
-            android:id="@+id/addressET"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginHorizontal="23sp"
-            android:layout_marginBottom="30sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/address"
-            android:drawablePadding="10dp"
-            android:fallbackLineSpacing="true"
-            android:hint="Địa Chỉ"
-            android:padding="10dp"
-            android:textSize="18sp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/khungGioTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:text="Khung giờ làm việc"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/khungGioET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="23sp"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/clock"
+                android:drawablePadding="10dp"
+                android:hint="Khung Giờ Làm Việc"
+                android:padding="10dp"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/addressTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:text="Địa chỉ"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/addressET"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="23sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/address"
+                android:drawablePadding="10dp"
+                android:fallbackLineSpacing="true"
+                android:layout_marginBottom="20sp"
+                android:hint="Địa Chỉ"
+                android:padding="10dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/moTaTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:text="Mô tả"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/moTaET"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="23sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/detailed"
+                android:drawablePadding="10dp"
+                android:fallbackLineSpacing="true"
+                android:layout_marginBottom="20sp"
+                android:hint="Mô Tả"
+                android:padding="10dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveBTN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25sp"
-        android:layout_marginBottom="20sp"
         android:layout_weight="1"
-        android:background="@drawable/circle_design"
+        android:background="@drawable/wrapp_button"
         android:text="LƯU"
+        android:layout_marginTop="25sp"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <ImageButton
         android:id="@+id/backBTN"

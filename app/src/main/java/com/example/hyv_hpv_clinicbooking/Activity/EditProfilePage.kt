@@ -18,6 +18,7 @@ import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -37,11 +38,17 @@ class EditProfilePage : AppCompatActivity() {
     var nameET: EditText?= null
     var phoneET: EditText?= null
     var addressET: EditText?= null
-    var addressTV: TextView?= null
-    var chuyenKhoaTV: TextView?= null
     var emailET: EditText?= null
     var chuyenKhoaET: EditText?= null
+    var moTaET: EditText?= null
+    var khungGioET: EditText?= null
     var avatar: CircleImageView?= null
+
+    //Khai báo các thuộc tính textview
+    var chuyenKhoaTV: TextView?= null
+    var addressTV: TextView?= null
+    var moTaTV: TextView?= null
+    var khungGioTV: TextView?= null
 
     //Khai báo tài khoản hiện tại
     var taiKhoanBS:BacSi?= null
@@ -77,10 +84,14 @@ class EditProfilePage : AppCompatActivity() {
         addressET = findViewById(R.id.addressET)
         emailET = findViewById(R.id.emailET)
         chuyenKhoaET = findViewById(R.id.chuyenKhoaET)
+        khungGioET = findViewById(R.id.khungGioET)
+        moTaET = findViewById(R.id.moTaET)
 
         //Gán các các textview, imageview
         addressTV = findViewById(R.id.addressTV)
         chuyenKhoaTV = findViewById(R.id.chuyenKhoaTV)
+        moTaTV = findViewById(R.id.moTaTV)
+        khungGioTV = findViewById(R.id.khungGioTV)
 
         //Context = EditprofilePage
         ctx = this
@@ -97,6 +108,8 @@ class EditProfilePage : AppCompatActivity() {
             addressET?.setText(taiKhoanBS?.DiaChi)
             emailET?.setText(taiKhoanBS?.Email)
             chuyenKhoaET?.setText(taiKhoanBS?.TenChuyenKhoa)
+            moTaET?.setText(taiKhoanBS?.Mota)
+            khungGioET?.setText(taiKhoanBS?.KhungGioLamViec)
 
             //lấy Avatar từ db
             storage = FirebaseStorage.getInstance();
@@ -124,6 +137,10 @@ class EditProfilePage : AppCompatActivity() {
             addressTV?.visibility = View.GONE
             chuyenKhoaET?.visibility = View.GONE
             chuyenKhoaTV?.visibility = View.GONE
+            moTaET?.visibility = View.GONE
+            moTaTV?.visibility = View.GONE
+            khungGioET?.visibility = View.GONE
+            khungGioTV?.visibility = View.GONE
 
             //lấy Avatar từ db
             storage = FirebaseStorage.getInstance();
@@ -143,6 +160,11 @@ class EditProfilePage : AppCompatActivity() {
             phoneET?.setText(taiKhoanBS?.SoDienThoai)
             addressET?.setText(taiKhoanBS?.DiaChi)
             emailET?.setText(taiKhoanBS?.Email)
+        }
+
+        //Xử lí chọn chuyên khoa
+        chuyenKhoaET?.setOnClickListener {
+            showDialogChuyenKhoa()
         }
 
         //Xử lí nút back
@@ -217,6 +239,8 @@ class EditProfilePage : AppCompatActivity() {
                     taiKhoanBS?.DiaChi = addressET?.text.toString()
                     taiKhoanBS?.Email = emailET?.text.toString()
                     taiKhoanBS?.TenChuyenKhoa = chuyenKhoaET?.text.toString()
+                    taiKhoanBS?.Mota = moTaET?.text.toString()
+                    taiKhoanBS?.KhungGioLamViec = khungGioET?.text.toString()
 
                     var key: String? = null;
                     for (child in dataSnapshot.children) {
@@ -229,6 +253,8 @@ class EditProfilePage : AppCompatActivity() {
                     database.child(key).child("email").setValue(taiKhoanBS?.Email)
                     database.child(key).child("diaChi").setValue(taiKhoanBS?.DiaChi)
                     database.child(key).child("tenChuyenKhoa").setValue(taiKhoanBS?.TenChuyenKhoa)
+                    database.child(key).child("mota").setValue(taiKhoanBS?.Mota)
+                    database.child(key).child("khungGioLamViec").setValue(taiKhoanBS?.KhungGioLamViec)
 
                     //Gán firebase storage
                     storage = FirebaseStorage.getInstance();
@@ -430,5 +456,51 @@ class EditProfilePage : AppCompatActivity() {
         }
 
         return check
+    }
+
+    fun showDialogChuyenKhoa() {
+        var customDialog:AlertDialog ?=null
+        val builder = AlertDialog.Builder(this)
+        //Hiển thị dialog để chọn time
+        var view_dialog: View =
+            this.layoutInflater.inflate(R.layout.dialog_chuyenkhoa, null)
+
+        //khai bao bien
+        var chuyenKhoaList = view_dialog.findViewById<ListView>(R.id.chuyenKhoaList)
+        var _closeBTN:Button = view_dialog.findViewById(R.id.closeBTN)
+
+        //Xu li nut close
+        _closeBTN.setOnClickListener {
+            customDialog?.dismiss()
+        }
+
+        //Goi db de co list chuyenkhoa
+        var chuyenKhoa = arrayListOf<String>()
+
+        var chuyenKhoaDB = Firebase.database.getReference("DanhSach").child("ChuyenKhoa")
+        chuyenKhoaDB.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for(child in dataSnapshot.children) {
+                    chuyenKhoa.add(child.child("TenChuyenKhoa").value.toString())
+                }
+
+                val arrayAdapter: ArrayAdapter<*>
+                arrayAdapter = ArrayAdapter(ctx!!, android.R.layout.simple_list_item_1, chuyenKhoa)
+                chuyenKhoaList.adapter = arrayAdapter
+
+                chuyenKhoaList.setOnItemClickListener { parent, view, position, id ->
+                    chuyenKhoaET?.setText(chuyenKhoa[position])
+                    customDialog?.dismiss()
+                }
+
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle errors here
+            }
+        })
+
+        builder.setView(view_dialog)
+        customDialog = builder.create()
+        customDialog?.show()
     }
 }
