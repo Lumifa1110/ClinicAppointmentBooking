@@ -8,7 +8,10 @@ import android.util.Log
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -16,6 +19,8 @@ import com.google.firebase.ktx.Firebase
 class SplashActivity : AppCompatActivity() {
     private lateinit var database : DatabaseReference
     private lateinit var auth  : FirebaseAuth
+
+    private var currentUserRole: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,20 +36,24 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else {
-            val role = getUserRole(user)
-            startHomePage(role)
+            getUserRole(user)
+            startHomePage(currentUserRole)
         }
     }
 
-    private fun getUserRole(user: FirebaseUser): String {
-        var role = ""
-        database.child(user.uid).get().addOnSuccessListener {
-            role = it.child("role").value.toString()
-            Log.i("firebase", role)
-        }.addOnFailureListener{
-            Log.e("firebase", "Error getting data", it)
-        }
-        return role
+    private fun getUserRole(user: FirebaseUser) {
+        database.child(user.uid).child("role")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    currentUserRole = dataSnapshot.getValue(String::class.java)!!
+                    Log.i("Login as ", currentUserRole)
+                    startHomePage(currentUserRole)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
     }
 
     private fun startHomePage(role: String) {
