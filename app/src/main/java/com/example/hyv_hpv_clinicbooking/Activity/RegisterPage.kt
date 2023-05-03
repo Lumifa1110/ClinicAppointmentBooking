@@ -48,18 +48,18 @@ class RegisterPage : AppCompatActivity() {
 
     private fun initListener() {
         registerBtn.setOnClickListener {
-            onClickRegister()
+            onClickRegisterEmailPassword()
         }
     }
 
-    private fun onClickRegister() {
+    private fun onClickRegisterEmailPassword() {
         if (!editTextIsEmpty()) {
             // Get EditText input
             val name = nameET.text.toString()
             val email = emailET.text.toString()
             val phone = phoneET.text.toString()
             val password = passwordET.text.toString()
-            val role : String = "patient"
+            val role : String = "BenhNhan"
 
             // Init Firebase Authentication
             auth = FirebaseAuth.getInstance()
@@ -67,15 +67,14 @@ class RegisterPage : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // create User
-                        val user = User(
-                            name,
-                            email,
-                            phone,
-                            password,
-                            role
+                        val user = BenhNhan(
+                            HoTen = name,
+                            SoDienThoai = phone,
+                            Email = email,
+                            PassWord = password
                         )
                         // update User profile in database
-                        database.child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
+                        database.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
                             if (task.isSuccessful) {
                                 // Register success
                                 Toast.makeText(applicationContext
@@ -91,8 +90,6 @@ class RegisterPage : AppCompatActivity() {
                                     .show()
                             }
                         }
-                        // Write user data to Firebase
-//                        writeNewPatient(auth.currentUser!!.uid, name, email, phone, password)
                         // Move to Login page
                         val intent = Intent(this, LoginPage::class.java)
                         startActivity(intent)
@@ -121,11 +118,5 @@ class RegisterPage : AppCompatActivity() {
             return true
         }
         return false
-    }
-
-    // Write user to database
-    private fun writeNewPatient(userId: String, name: String, email: String, phone: String, password: String) {
-        val user = BenhNhan(SoDienThoai = phone, Email = email, HoTen = name, PassWord = password)
-        database.child("Users").child(userId).setValue(user)
     }
 }
