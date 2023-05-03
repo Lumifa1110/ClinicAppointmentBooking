@@ -21,7 +21,6 @@ class Data {
 
         var doctor: BacSi = BacSi()
         doctor.HoTen = "Lưu Minh Phát"
-        doctor.GioiTinh = "Nam"
         doctor.Email = "phat@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -35,7 +34,6 @@ class Data {
         doctor = BacSi()
         doctor.TenChuyenKhoa = "Nhi Khoa"
         doctor.HoTen = "Pham Tran Minh Ngoc 1"
-        doctor.GioiTinh = "Nữ"
         doctor.Email = "ngoc1@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -49,7 +47,6 @@ class Data {
         doctor = BacSi()
         doctor.HoTen = "Pham Tran Minh Ngoc 2"
         doctor.TenChuyenKhoa = "Nha Sĩ"
-        doctor.GioiTinh = "Nữ"
         doctor.Email = "ngoc2@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -63,7 +60,6 @@ class Data {
         doctor = BacSi()
         doctor.HoTen = "Ngô Anh Vũ"
         doctor.TenChuyenKhoa = "Da liễu"
-        doctor.GioiTinh = "Nam"
         doctor.Email = "vu@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -77,7 +73,6 @@ class Data {
         doctor = BacSi()
         doctor.HoTen = "Nguyễn Đình Văn"
         doctor.TenChuyenKhoa = "Nha Sĩ"
-        doctor.GioiTinh = "Nam"
         doctor.Email = "phat@gmail.com"
         doctor.TenChuyenKhoa = "Nha Sĩ"
         doctor.PassWord = "1234"
@@ -334,7 +329,6 @@ class Data {
         benhNhan.HoTen = "Nguyễn Đình Văn 1"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van1@gmail.com"
-        benhNhan.GioiTinh = "Nam"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
@@ -342,7 +336,6 @@ class Data {
         benhNhan.HoTen = "Nguyễn Đình Văn 2"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van2@gmail.com"
-        benhNhan.GioiTinh = "Nư"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
@@ -350,7 +343,6 @@ class Data {
         benhNhan.HoTen = "Nguyễn Đình Văn 3"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van3@gmail.com"
-        benhNhan.GioiTinh = "Nam"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
@@ -358,7 +350,6 @@ class Data {
         benhNhan.HoTen = "Nguyễn Đình Văn 4"
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.Email = "van4@gmail.com"
-        benhNhan.GioiTinh = "Nữ"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
 
@@ -366,7 +357,6 @@ class Data {
         benhNhan.Email = "van5@gmail.com"
         benhNhan.HoTen = "Nguyễn Đình Văn 5"
         benhNhan.SoDienThoai = "0123456789"
-        benhNhan.GioiTinh = "Nam"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
         return result

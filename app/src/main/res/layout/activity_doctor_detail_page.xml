@@ -4,15 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/white"
     tools:context=".Activity.DoctorDetailPage">
 
     <ImageView
-        android:id="@+id/doctorImage"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:src="@drawable/doctor1"
+        android:layout_height="130dp"
+        android:src="@drawable/wrapper_bottom"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="160dp"
+        android:layout_marginHorizontal="10sp"
+        android:src="@color/white"
         android:scaleType="fitXY"
+        android:layout_marginBottom="10sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        android:src="#1F892F"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@color/white"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/doctorImage"
+        android:layout_width="185dp"
+        android:layout_height="185dp"
+        android:layout_marginTop="22.5dp"
+        android:src="@drawable/avatar_doctor_default"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -31,10 +69,10 @@
         <ImageButton
             android:background="@null"
             android:scaleType="fitXY"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/back_button"
-            app:tint="@color/primary_color"
+            app:tint="@color/white"
             android:layout_centerVertical="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,14 +84,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/doctorImage"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical"
         android:layout_marginHorizontal="20dp"
-        android:background="@drawable/wrapper_rounded_primary">
+        android:background="@drawable/wrapper_rounded_box_white">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/wrapper_rounded_white_30"
+            android:background="@drawable/wrapper_rounded_blue_sky"
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp"
             android:orientation="vertical">
@@ -85,14 +123,14 @@
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:layout_marginEnd="4dp"
-                    app:tint="@color/white" />
+                    app:tint="@color/black" />
                 <TextView
                     android:id="@+id/doctorSpecialist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chuyên khoa: Nha sĩ"
                     android:textSize="14sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
             </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,7 +144,7 @@
                     android:padding="2dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/location"
-                    app:tint="@color/white"
+                    app:tint="@color/black"
                     android:layout_marginTop="2dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -118,7 +156,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/addressIcon"
                     android:layout_marginStart="24dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:text="Địa chỉ: 34-36 đường Đinh Tiên Hoàng, TP.HCM" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -137,13 +175,13 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="6dp"
                     android:src="@drawable/contact"
-                    app:tint="@color/white" />
+                    app:tint="@color/black" />
                 <TextView
                     android:textSize="14sp"
                     android:id="@+id/doctorPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
 
                     android:text="Liên hệ: 0123456789"/>
             </LinearLayout>
@@ -158,7 +196,7 @@
         android:horizontalSpacing="10dp"
         android:numColumns="3"
         android:stretchMode="columnWidth"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp">
     </GridView>
 
@@ -167,7 +205,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/doctorGridView"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
         android:id="@+id/timeTilte">
         <ImageView
@@ -176,14 +214,14 @@
             android:layout_gravity="center"
             android:layout_marginEnd="4dp"
             android:scaleType="fitXY"
-            app:tint="@color/primary_color"
+            app:tint="@color/secondary"
             android:src="@drawable/calendar" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:text="Thời gian làm việc"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/secondary"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -195,7 +233,7 @@
         android:layout_marginHorizontal="20dp"
         android:gravity="center"
         android:layout_marginTop="4dp"
-        android:background="@drawable/wrapper_rounded_primary"
+        android:background="@drawable/wrapper_rounded_blue_sky"
         >
         <LinearLayout
             android:layout_width="wrap_content"
@@ -211,14 +249,14 @@
                 android:layout_height="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/primary_color"
+                android:textColor="#1F892F"
                 android:text="Thứ\nHai"/>
             <TextView
                 android:textSize="14sp"
                 android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/primary_color"
+                android:textColor="#1F892F"
                 android:layout_height="42dp"
                 android:text="Thứ\nBa"/>
             <TextView
@@ -226,7 +264,7 @@
                 android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/primary_color"
+                android:textColor="#1F892F"
                 android:layout_height="42dp"
                 android:text="Thứ\nTư"/>
             <TextView
@@ -234,7 +272,7 @@
                 android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/primary_color"
+                android:textColor="#1F892F"
                 android:layout_height="42dp"
                 android:text="Thứ\nNăm"/>
             <TextView
@@ -242,7 +280,7 @@
                 android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/primary_color"
+                android:textColor="#1F892F"
                 android:layout_height="42dp"
                 android:text="Thứ\nSáu"/>
             <TextView
@@ -250,7 +288,7 @@
                 android:layout_width="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/primary_color"
+                android:textColor="#1F892F"
                 android:layout_height="42dp"
                 android:text="Thứ\nBảy"/>
         </LinearLayout>
@@ -273,20 +311,20 @@
         android:layout_marginHorizontal="20dp"
         android:id="@+id/desTilte"
         app:layout_constraintTop_toBottomOf="@id/timeLinearLayout"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_gravity="center"
             android:scaleType="fitXY"
             android:layout_marginEnd="4dp"
-            app:tint="@color/primary_color"
+            app:tint="@color/secondary"
             android:src="@drawable/description" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary_color"
-            android:textSize="14sp"
+            android:textColor="@color/secondary"
+            android:textSize="15sp"
             android:text="Giới thiệu về bác sĩ"
             android:textStyle="bold" />
     </LinearLayout>
@@ -300,7 +338,7 @@
         android:paddingHorizontal="10dp"
         android:paddingVertical="6dp"
         android:layout_marginHorizontal="20dp"
-        android:background="@drawable/wrapper_rounded_primary"
+        android:background="@drawable/box_date"
         >
         <ScrollView
             android:layout_width="match_parent"
@@ -311,7 +349,7 @@
                 android:textSize="14sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="Nha sĩ là chuyên gia trong việc chăm sóc răng miệng và hệ thống răng. Họ có thể thực hiện các dịch vụ từ chẩn đoán các vấn đề răng miệng đến các phương pháp điều trị như sửa chữa răng, tẩy trắng răng. Nha sĩ cần có trình độ chuyên môn cao và kỹ năng tay nghề tốt để thực hiện các thủ tục liên quan đến răng miệng."/>
         </ScrollView>
     </LinearLayout>
@@ -319,18 +357,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/desContent"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="8dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desContent"
+        tools:layout_editor_absoluteX="20dp">
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/oderBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/wrapp_button"
             android:text="Đặt lịch hẹn"
-            android:textSize="16sp"
             android:textColor="@color/white"
-            android:background="@drawable/circle_design" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

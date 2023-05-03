@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/white"
     tools:context=".Fragment.DoctorListFragment">
 
     <LinearLayout
@@ -50,9 +50,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Danh sách bác sĩ"
+                    android:text="DANH SÁCH BÁC SĨ"
                     android:textColor="@color/white"
-                    android:textSize="24dp"
+                    android:textSize="26sp"
                     android:textStyle="bold"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_gravity="bottom"
-                android:background="@color/background_color"
+                android:background="@color/white"
                 android:contentDescription="@string/description" />
 
 
@@ -125,12 +125,13 @@
             android:textSize="16sp"
             android:text="20"
             android:id="@+id/quantityDoctorTV"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/secondary"
             android:textStyle="bold"
             android:background="@drawable/box_white"
             android:layout_height="wrap_content"
             />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"

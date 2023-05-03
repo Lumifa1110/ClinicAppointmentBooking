@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
+import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.DatabaseReference
 
-class ChooseTimeAdapter (private var context: Context, private var items: ArrayList<KhungGio>, private var freeTimeList: ArrayList<ThoiGianRanh>) : BaseAdapter() {
-    private var selectedItemPosition: Int = -1
+class ChooseTimeAdapter (private var context: Context, private var freeTimeList: ArrayList<ThoiGianRanh>, var database : DatabaseReference, var keyList: ArrayList<String>, var selectedItemPosition: Int) : BaseAdapter() {
     private class ViewHolder(row: View?) {
-        var timeView: Button? = null
+        var timeView: TextView? = null
 
         init {
             timeView = row?.findViewById(R.id.timeView)
@@ -37,30 +38,30 @@ class ChooseTimeAdapter (private var context: Context, private var items: ArrayL
         }
 
 
-        val khungGio = items[position]
-        viewHolder.timeView?.text = khungGio.gioBatDau
+        val khungGio = freeTimeList[position]
+        viewHolder.timeView?.text = khungGio.gioBatDau + " - " + khungGio.gioKetThuc
 
-//        for(timeCheck in freeTimeList) {
-//            if(khungGio.maKhungGio == timeCheck.maKhungGio) {
-//                if(timeCheck.trangThai == 0) {
-//                    viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
-//                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
-//                    viewHolder.timeView?.isEnabled = false
-//                }
-//                else {
-//                    viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
-//                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
-//                }
-//                break;
-//            }
-//        }
-
-        viewHolder.timeView?.setOnClickListener {
-            if(viewHolder.timeView?.isEnabled == true) {
-                selectedItemPosition = position
-                notifyDataSetChanged()
+        for(timeCheck in freeTimeList) {
+            if(khungGio.gioBatDau == timeCheck.gioBatDau && khungGio.ngayThang == timeCheck.ngayThang) {
+                if(timeCheck.trangThai == 1 || timeCheck.duocDat == 1) {
+                    viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
+                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                    viewHolder.timeView?.isEnabled = false
+                }
+                else {
+                    viewHolder.timeView?.setBackgroundResource(R.drawable.box_date)
+                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                }
+                break;
             }
         }
+
+//        viewHolder.timeView?.setOnClickListener {
+//            if(viewHolder.timeView?.isEnabled == true) {
+//                selectedItemPosition = position
+//                notifyDataSetChanged()
+//            }
+//        }
 
         if(viewHolder.timeView?.isEnabled == true) {
             if (selectedItemPosition == position) {
@@ -75,14 +76,14 @@ class ChooseTimeAdapter (private var context: Context, private var items: ArrayL
         return view
     }
 
-    override fun getItem(i: Int): KhungGio {
-        return items[i]
+    override fun getItem(i: Int): ThoiGianRanh {
+        return freeTimeList[i]
     }
     override fun getItemId(p0: Int): Long {
         return p0.toLong()
     }
     override fun getCount(): Int {
-        return items.size
+        return freeTimeList.size
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
+import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
@@ -15,7 +16,7 @@ import com.google.firebase.database.DatabaseReference
 
 class TimeAdapter (private var context: Context, private var freeTimeList: ArrayList<ThoiGianRanh>, var database : DatabaseReference, var keyList: ArrayList<String>) : BaseAdapter() {
     private class ViewHolder(row: View?) {
-        var timeView: Button? = null
+        var timeView: TextView? = null
 
         init {
             timeView = row?.findViewById(R.id.timeView)

@@ -3,133 +3,171 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
->
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/wrapper_rounded_primary"
         android:orientation="vertical"
-        android:background="@drawable/wrapper_rounded_primary">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <TextView
+            android:id="@+id/nameTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/nameTV"
-            android:textColor="@color/white"
             android:background="@drawable/wrapper_rounded_blue_sky"
+            android:paddingVertical="10dp"
+            android:paddingLeft="20sp"
             android:text="Bác sĩ Phạm Trần Minh Ngọc"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:padding="10dp"
             android:textStyle="bold" />
 
         <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:padding="10dp"
-           android:orientation="horizontal">
-           <androidx.cardview.widget.CardView
-               android:id="@+id/avatarDoctorCardView"
-               android:layout_width="80dp"
-               android:layout_height="80dp"
-               android:layout_marginEnd="15dp"
-               android:layout_gravity="center_vertical|start"
-               android:orientation="vertical"
-               app:cardCornerRadius="250dp">
-               <ImageView
-                   android:layout_width="80dp"
-                   android:layout_height="80dp"
-                   android:id="@+id/image"
-                   android:background="@drawable/circle_image"
-                   android:src="@drawable/doctor1"
-                   android:scaleType="fitXY"/>
-           </androidx.cardview.widget.CardView>
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-               android:paddingVertical="6dp"
-               android:background="@drawable/wrapper_rounded_white_30">
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="10dp"
-                   android:paddingHorizontal="4dp"
-                   android:orientation="vertical">
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:orientation="horizontal">
-                       <ImageView
-                           android:layout_width="18dp"
-                           android:layout_height="18dp"
-                           app:tint="@color/white"
-                           android:src="@drawable/specialist"
-                           android:layout_gravity="center"
-                           android:scaleType="fitXY"
-                           android:layout_marginEnd="8dp"/>
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:id="@+id/specialistTV"
-                           android:textSize="14sp"
-                           android:textColor="@color/white"
-                           android:text="Chuyên khoa: Nha sĩ"
-                           android:textStyle="bold"/>
-                   </LinearLayout>
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="6dp"
-                       android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-                       <ImageView
-                           android:layout_width="18dp"
-                           android:layout_height="18dp"
-                           android:scaleType="fitXY"
-                           app:tint="@color/white"
-                           android:layout_gravity="center"
-                           android:layout_marginEnd="8dp"
-                           android:src="@drawable/date" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp">
 
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:textColor="@color/white"
-                           android:textSize="14sp"
-                           android:text="Thứ Hai - Thứ Bảy"/>
-                   </LinearLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="90sp"
+                    android:layout_height="90sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@color/secondary"/>
 
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="6dp"
-                       android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="83sp"
+                    android:layout_height="83sp"
+                    android:layout_marginTop="3.7sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="#ffffff"/>
 
-                       <ImageView
-                           android:layout_width="18dp"
-                           android:layout_height="18dp"
-                           android:scaleType="fitXY"
-                           android:layout_gravity="center"
-                           android:layout_marginEnd="8dp"
-                           app:tint="@color/white"
-                           android:src="@drawable/time" />
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_gravity="center"
-                           android:textSize="14sp"
-                           android:textColor="@color/white"
-                           android:text="8 giờ  - 16 giờ"/>
-                   </LinearLayout>
-               </LinearLayout>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/avatarDoctorCardView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginLeft="5sp"
+                    app:cardCornerRadius="250dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-           </LinearLayout>
-       </LinearLayout>
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/circle_image"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/avatar_doctor_default" />
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/wrapper_rounded_white_30"
+                android:orientation="vertical"
+                android:paddingVertical="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/specialist"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/specialistTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chuyên khoa: Nha sĩ"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/date"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thứ Hai - Thứ Bảy"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/time"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="8 giờ  - 16 giờ"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

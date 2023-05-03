@@ -145,7 +145,7 @@ class DoctorHomeFragment : Fragment() {
 
     private fun writeNewPatient(patientId: String, patient: BenhNhan) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
-        val user = BenhNhan(MaBenhNhan = patient.MaBenhNhan, SoLanKham = patient.SoLanKham, HoTen = patient.HoTen, SoDienThoai = patient.SoDienThoai, Email = patient.Email, GioiTinh = patient.GioiTinh, PassWord = patient.PassWord, MaAdmin = patient.MaAdmin, Image = patient.Image)
+        val user = BenhNhan(MaBenhNhan = patient.MaBenhNhan, SoLanKham = patient.SoLanKham, HoTen = patient.HoTen, SoDienThoai = patient.SoDienThoai, Email = patient.Email, PassWord = patient.PassWord, Image = patient.Image)
         databaseRef.child("BenhNhan").child(patientId).setValue(user)
         Toast.makeText(requireContext()
             , "Register successfully"
@@ -161,10 +161,8 @@ class DoctorHomeFragment : Fragment() {
             HoTen = doctor.HoTen,
             SoDienThoai = doctor.SoDienThoai,
             Email = doctor.Email,
-            GioiTinh = doctor.GioiTinh,
             PassWord = doctor.PassWord,
             SoNamTrongNghe = doctor.SoNamTrongNghe,
-            MaAdmin = doctor.MaAdmin,
             Image = doctor.Image,
             Mota = doctor.Mota)
         databaseRef.child("BacSi").child(doctorId).setValue(user)

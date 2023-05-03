@@ -13,7 +13,7 @@ import com.example.hyv_hpv_clinicbooking.R
 
 class DayAdapter(private val dayList: List<String>) :
     RecyclerView.Adapter<DayAdapter.ViewHolder>() {
-    var selectedItemPosition: Int = -1
+    var selectedItemPosition: Int = 0
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

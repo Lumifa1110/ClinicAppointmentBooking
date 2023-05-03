@@ -13,6 +13,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/back_button"
+        app:tint="@color/white"
+        android:layout_centerVertical="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +46,7 @@
         android:layout_marginTop="115dp"
         android:layout_marginLeft="10dp"
         android:text="Ngày trong tuần"
-        android:textColor="@color/dark_blue"
+        android:textColor="#008947"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +55,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dayRV"
         android:layout_width="match_parent"
-        android:background="#D9DBFF"
+        android:background="#AAF1B6"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:paddingVertical="20sp"
@@ -56,7 +71,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:text="Thời gian rảnh"
-        android:textColor="@color/dark_blue"
+        android:textColor="#008947"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +84,8 @@
         android:layout_marginLeft="10sp"
         android:layout_marginTop="5dp"
         android:text="Buổi Sáng"
-        android:textColor="@color/dark_blue"
-        android:textSize="14sp"
+        android:textColor="#008947"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -79,9 +94,9 @@
         android:id="@+id/morningGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="5dp"
         android:layout_marginTop="5dp"
-        android:numColumns="4"
+        android:numColumns="3"
         android:verticalSpacing="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">
@@ -95,8 +110,8 @@
         android:layout_marginLeft="10sp"
         android:layout_marginTop="20dp"
         android:text="Buổi Chiều"
-        android:textColor="@color/dark_blue"
-        android:textSize="14sp"
+        android:textColor="#008947"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/morningGV">
@@ -105,15 +120,15 @@
         android:id="@+id/afternoonGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="5dp"
         android:layout_marginTop="5dp"
-        android:numColumns="4"
+        android:numColumns="3"
         android:verticalSpacing="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/afternoonTV"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/freeBTN"
+        android:id="@+id/orderBTN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20sp"
@@ -121,7 +136,7 @@
         android:text="ĐẶT LỊCH"
         android:textSize="18sp"
         android:textColor="#ffffff"
-        android:background="@drawable/circle_design"
+        android:background="@drawable/wrapp_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

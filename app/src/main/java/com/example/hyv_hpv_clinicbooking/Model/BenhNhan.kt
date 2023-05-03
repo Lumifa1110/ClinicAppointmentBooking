@@ -10,9 +10,7 @@ data class BenhNhan (
     var HoTen: String = "",
     var SoDienThoai: String = "",
     var Email: String = "",
-    var GioiTinh: String = "",
     var PassWord: String = "",
-    var MaAdmin: Int = 0,
     var Image: Int = R.drawable.avatar,
     var BiKhoa: Boolean = true
     ): Parcelable {
@@ -23,8 +21,6 @@ data class BenhNhan (
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readInt()!!,
         parcel.readInt()!!,
     )
 
@@ -34,9 +30,7 @@ data class BenhNhan (
         parcel.writeString(HoTen)
         parcel.writeString(SoDienThoai)
         parcel.writeString(Email)
-        parcel.writeString(GioiTinh)
         parcel.writeString(PassWord)
-        parcel.writeInt(MaAdmin)
         parcel.writeInt(Image)
     }
 

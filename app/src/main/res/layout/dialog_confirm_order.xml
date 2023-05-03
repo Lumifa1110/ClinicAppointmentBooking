@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/secondary"
+            android:padding="5sp"
+            android:text="ĐẶT LỊCH"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            tools:ignore="TextContrastCheck" />
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="100sp"
+            android:background="@color/white"
+            android:text="Xác nhận bạn sẽ đặt lịch hẹn khám bệnh vào lúc"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:lineBreakStyle="none"
+            android:textAlignment="textStart"
+            android:padding="15sp"/>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/confirmBTN"
+                android:layout_width="200sp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="3sp"
+                android:background="#E1E1E1"
+                android:textSize="14sp"
+                android:text="XÁC NHẬN"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/closeBTN"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:background="#E1E1E1"
+                android:textSize="14sp"
+                android:text="Đóng"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
