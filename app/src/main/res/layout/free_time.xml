@@ -21,4 +21,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+
+    <ImageButton
+        android:id="@+id/deleteBTN"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/delete_time"
+        android:layout_marginLeft="108sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,UseAppTint" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

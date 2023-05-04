@@ -53,6 +53,7 @@ class DoctorChooseFreeTimeFragment : Fragment(){
     var afternoonAdapter: TimeAdapter? = null
     var keyMorning = arrayListOf<String>()
     var keyAfternoon = arrayListOf<String>()
+    var keyList = arrayListOf<String>()
 
     //Khai báo GridView
     var morningTimeView: GridView? = null
@@ -133,7 +134,7 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                 thoiGianRanhList =  arrayListOf<ThoiGianRanh>()
 
                 var key:String?= null;
-                var keyList = arrayListOf<String>()
+                keyList = arrayListOf<String>()
                 for (child in dataSnapshot.children) {
                     thoiGianRanhList.add(child.getValue(ThoiGianRanh::class.java)!!)
                     key = child.key.toString();
@@ -168,6 +169,20 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                 customListView!!.layoutManager = layoutManager
                 adapter?.notifyDataSetChanged()
 
+                var current = dayList[0].split("\n")
+                var day = current[0]
+                dayChoose = 0
+                when (day) {
+                    "Thứ 2" -> dayChoose = 2
+                    "Thứ 3" -> dayChoose = 3
+                    "Thứ 4" -> dayChoose = 4
+                    "Thứ 5" -> dayChoose = 5
+                    "Thứ 6" -> dayChoose = 6
+                    "Thứ 7" -> dayChoose = 7
+                    "Chủ Nhật" -> dayChoose = 1
+                }
+                hienThiTimeTrongNgay(dayChoose)
+
                 adapter?.onItemClick = {date, vitri ->
                     khoangThoiGianTrongNgay = ArrayList<String>()
                     morningList = arrayListOf<ThoiGianRanh>()
@@ -187,42 +202,8 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                         "Chủ Nhật" -> dayChoose = 1
                     }
 
-                    var index:Int = 0
-                    keyMorning = arrayListOf<String>()
-                    keyAfternoon = arrayListOf<String>()
-                    for(time in thoiGianRanhList) {
-                        if(time.thuTrongTuan == dayChoose) {
-                            //Thêm các khoảng thời gian đổi ra phút vào list
-                            var dataStart = arrayListOf<String>()
-                            dataStart = time.gioBatDau?.split(":") as ArrayList<String>
-
-                            var dataEnd = arrayListOf<String>()
-                            dataEnd = time.gioKetThuc?.split(":") as ArrayList<String>
-
-                            var minStart = dataStart[0].toInt() * 60 + dataStart[1].toInt()
-                            var minEnd = dataEnd[0].toInt() * 60 + dataEnd[1].toInt()
-
-                            khoangThoiGianTrongNgay.add("$minStart-$minEnd")
-
-                            //Thêm vào list sáng chiều
-                            if(dataStart[0].toInt() <= 12) {
-                                morningList.add(time)
-                                keyMorning.add(keyList[index])
-                            } else {
-                                afternoonList.add(time)
-                                keyAfternoon.add(keyList[index])
-                            }
-                        }
-                        index += 1
-                    }
-
-                    timeAdapter = TimeAdapter(requireContext(), morningList, database, keyMorning)
-                    morningTimeView?.adapter = timeAdapter
-
-                    afternoonAdapter = TimeAdapter(requireContext(), afternoonList, database, keyAfternoon)
-                    afternoonTimeView?.adapter = afternoonAdapter
+                    hienThiTimeTrongNgay(dayChoose)
                 }
-
                 addTimeBTN?.setOnClickListener {
                     val builder = AlertDialog.Builder(requireContext())
                     //Hiển thị dialog để chọn time
@@ -297,13 +278,13 @@ class DoctorChooseFreeTimeFragment : Fragment(){
             cal.add(Calendar.DATE, index)
             val day = cal.get(Calendar.DAY_OF_WEEK)
             if(day == 1) {
-                dayList.add("Chủ Nhật" + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH)))
+                dayList.add("Chủ Nhật" + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1))
             }
             else {
-                dayList.add("Thứ " + day.toString() + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH)))
+                dayList.add("Thứ " + day.toString() + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1))
             }
 
-            dayInWeek!![day] = convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH)) + "/" + cal.get(Calendar.YEAR).toString()
+            dayInWeek!![day] = convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR).toString()
         }
     }
 
@@ -332,5 +313,42 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                 return false
         }
         return true;
+    }
+
+    fun hienThiTimeTrongNgay(dayChoose: Int) {
+        var index:Int = 0
+        keyMorning = arrayListOf<String>()
+        keyAfternoon = arrayListOf<String>()
+        for(time in thoiGianRanhList) {
+            if(time.thuTrongTuan == dayChoose) {
+                //Thêm các khoảng thời gian đổi ra phút vào list
+                var dataStart = arrayListOf<String>()
+                dataStart = time.gioBatDau?.split(":") as ArrayList<String>
+
+                var dataEnd = arrayListOf<String>()
+                dataEnd = time.gioKetThuc?.split(":") as ArrayList<String>
+
+                var minStart = dataStart[0].toInt() * 60 + dataStart[1].toInt()
+                var minEnd = dataEnd[0].toInt() * 60 + dataEnd[1].toInt()
+
+                khoangThoiGianTrongNgay.add("$minStart-$minEnd")
+
+                //Thêm vào list sáng chiều
+                if(dataStart[0].toInt() <= 12) {
+                    morningList.add(time)
+                    keyMorning.add(keyList[index])
+                } else {
+                    afternoonList.add(time)
+                    keyAfternoon.add(keyList[index])
+                }
+            }
+            index += 1
+        }
+
+        timeAdapter = TimeAdapter(requireContext(), morningList, database, keyMorning)
+        morningTimeView?.adapter = timeAdapter
+
+        afternoonAdapter = TimeAdapter(requireContext(), afternoonList, database, keyAfternoon)
+        afternoonTimeView?.adapter = afternoonAdapter
     }
 }

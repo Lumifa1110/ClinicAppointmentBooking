@@ -1,6 +1,7 @@
 package com.example.hyv_hpv_clinicbooking.Adapter
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
@@ -17,9 +19,10 @@ import com.google.firebase.database.DatabaseReference
 class TimeAdapter (private var context: Context, private var freeTimeList: ArrayList<ThoiGianRanh>, var database : DatabaseReference, var keyList: ArrayList<String>) : BaseAdapter() {
     private class ViewHolder(row: View?) {
         var timeView: TextView? = null
-
+        var delBTN: ImageButton?= null
         init {
             timeView = row?.findViewById(R.id.timeView)
+            delBTN = row?.findViewById(R.id.deleteBTN)
         }
     }
 
@@ -29,7 +32,7 @@ class TimeAdapter (private var context: Context, private var freeTimeList: Array
         val viewHolder: ViewHolder
         if (convertView == null) {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-            view = (inflater as LayoutInflater).inflate(R.layout.morning_time, null)
+            view = (inflater as LayoutInflater).inflate(R.layout.free_time, null)
             viewHolder = ViewHolder(view)
             view.tag = viewHolder
         } else {
@@ -53,6 +56,12 @@ class TimeAdapter (private var context: Context, private var freeTimeList: Array
                 }
                 break;
             }
+        }
+
+        viewHolder.delBTN?.setOnClickListener {
+            freeTimeList.remove(khungGio)
+            database.child(keyList[position]).removeValue()
+            notifyDataSetChanged()
         }
 
         viewHolder.timeView?.setOnClickListener {
@@ -87,5 +96,4 @@ class TimeAdapter (private var context: Context, private var freeTimeList: Array
     override fun getCount(): Int {
         return freeTimeList.size
     }
-
 }
