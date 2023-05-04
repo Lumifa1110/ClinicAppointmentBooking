@@ -9,17 +9,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hyv_hpv_clinicbooking.Activity.AdminHomePage
-import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter_Admin
 import com.example.hyv_hpv_clinicbooking.Adapter.MedicineAdapter
-import com.example.hyv_hpv_clinicbooking.Data
+import com.example.hyv_hpv_clinicbooking.Adapter.SpecializeAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.ChuyenKhoa
 import com.example.hyv_hpv_clinicbooking.Model.Thuoc
 import com.example.hyv_hpv_clinicbooking.R
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -33,18 +31,24 @@ class AdminDashBoard : Fragment() {
     private var specializeList = ArrayList<ChuyenKhoa>()
 
     lateinit var medicineAdapter: MedicineAdapter
+    lateinit var specializeAdapter: SpecializeAdapter
+
+    lateinit var searchMedicine: SearchView
+    lateinit var searchSpecialize: SearchView
 
     private lateinit var database : DatabaseReference
 
 //    private lateinit var auth  : FirebaseAuth
-    var tabHost: TabHost? = null
-    var addMedicine: ImageButton? = null
-    var addSpecialize: ImageButton? = null
-    var medicineRV: RecyclerView? = null
-    var specializeRV: RecyclerView? = null
+    private var tabHost: TabHost? = null
+    private var addMedicine: ImageButton? = null
+    private var addSpecialize: ImageButton? = null
+    private var medicineRV: RecyclerView? = null
+    private var specializeRV: RecyclerView? = null
+    private var countMedicine: TextView? = null
+    private var countSpecialize: TextView? = null
+
     override fun onStart() {
         super.onStart()
-        medicineList.clear()
         re_create()
     }
     override fun onCreateView(
@@ -77,8 +81,32 @@ class AdminDashBoard : Fragment() {
         tabSpec.setIndicator("Chuyên khoa", null)
         tabHost!!.addTab(tabSpec)
 
+        countMedicine = view.findViewById(R.id.countMedicine)
+        countSpecialize = view.findViewById(R.id.countSpec)
         medicineRV = view.findViewById(R.id.medicineRV)
         specializeRV = view.findViewById(R.id.specializeRV)
+
+        searchMedicine = view.findViewById(R.id.searchMed)
+        searchMedicine.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterMedicine(newText)
+                return true
+            }
+        })
+
+        searchSpecialize = view.findViewById(R.id.searchSpec)
+        searchSpecialize.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterSpecialize(newText)
+                return true
+            }
+        })
 
         addMedicine = view.findViewById(R.id.addMedicine)
         addMedicine!!.setOnClickListener {
@@ -101,8 +129,13 @@ class AdminDashBoard : Fragment() {
     }
     private fun displayRecyclerView() {
         medicineRV!!.layoutManager = LinearLayoutManager(requireContext())
+        specializeRV!!.layoutManager = LinearLayoutManager(requireContext())
+
         medicineAdapter = MedicineAdapter(requireContext(), medicineList)
+        specializeAdapter = SpecializeAdapter(requireContext(), specializeList)
+
         medicineRV!!.adapter = medicineAdapter
+        specializeRV!!.adapter = specializeAdapter
     }
     private fun showAddMedicineDialog() {
         val builder = AlertDialog.Builder(requireContext())
@@ -188,7 +221,8 @@ class AdminDashBoard : Fragment() {
                     val thuoc = snapshot.getValue(Thuoc::class.java)
                     medicineList.add(thuoc!!)
                 }
-
+                countMedicine!!.setText(medicineList.size.toString())
+                medicineAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -196,7 +230,7 @@ class AdminDashBoard : Fragment() {
         })
     }
     fun readSpecializeFromRealtimeDB() {
-        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("ChuyeKhoa")
+        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("ChuyenKhoa")
         databaseRef.addValueEventListener( object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 specializeList.clear()
@@ -204,10 +238,50 @@ class AdminDashBoard : Fragment() {
                     val chuyenkhoa = snapshot.getValue(ChuyenKhoa::class.java)
                     specializeList.add(chuyenkhoa!!)
                 }
+                countSpecialize!!.setText(specializeList.size.toString())
+                specializeAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
+    }
+    private fun filterMedicine(text: String?) {
+        val filteredlist: ArrayList<Thuoc> = ArrayList()
+        for (item in medicineList) {
+            if (item.TenThuoc.toLowerCase().contains(text!!.toLowerCase())) {
+                // if the item is matched we are
+                // adding it to our filtered list.
+                filteredlist.add(item)
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            // if no item is added in filtered list we are
+            // displaying a toast message as no data found.
+            Toast.makeText(requireActivity(), "No Data Found..", Toast.LENGTH_SHORT).show()
+        } else {
+            // at last we are passing that filtered
+            // list to our adapter class.
+            medicineAdapter.filter(filteredlist)
+        }
+    }
+    private fun filterSpecialize(text: String?) {
+        val filteredlist: ArrayList<ChuyenKhoa> = ArrayList()
+        for (item in specializeList) {
+            if (item.TenChuyenKhoa!!.toLowerCase().contains(text!!.toLowerCase())) {
+                // if the item is matched we are
+                // adding it to our filtered list.
+                filteredlist.add(item)
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            // if no item is added in filtered list we are
+            // displaying a toast message as no data found.
+            Toast.makeText(requireActivity(), "No Data Found..", Toast.LENGTH_SHORT).show()
+        } else {
+            // at last we are passing that filtered
+            // list to our adapter class.
+            specializeAdapter.filter(filteredlist)
+        }
     }
 }
