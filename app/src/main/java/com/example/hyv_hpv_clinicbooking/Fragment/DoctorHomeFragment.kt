@@ -191,7 +191,7 @@ class DoctorHomeFragment : Fragment() {
     private fun writeNewDonVi(scheduleId: String, name: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach")
         val newNote = hashMapOf(
-            "TenDonVi" to name
+            "tenDonVi" to name
         )
 
         databaseRef.child("DonVi").child(scheduleId).setValue(newNote)
@@ -204,7 +204,7 @@ class DoctorHomeFragment : Fragment() {
     private fun writeNewChuyenKhoa(scheduleId: String, name: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach")
         val newNote = hashMapOf(
-            "TenChuyenKhoa" to name
+            "tenChuyenKhoa" to name
         )
 
         databaseRef.child("ChuyenKhoa").child(scheduleId).setValue(newNote)
@@ -217,7 +217,7 @@ class DoctorHomeFragment : Fragment() {
     private fun writeNewThuoc(scheduleId: String, name: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach")
         val newNote = hashMapOf(
-            "TenThuoc" to name
+            "tenThuoc" to name
         )
 
         databaseRef.child("Thuoc").child(scheduleId).setValue(newNote)

@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Model.ChuyenKhoa
 import com.example.hyv_hpv_clinicbooking.R
@@ -15,7 +17,8 @@ class SpecializeAdapter(private var context: Context,
                       ): RecyclerView.Adapter<SpecializeAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onDeleteClick(chuyenkhoa: ChuyenKhoa) { }
+        fun onDeleteClick(specialize: ChuyenKhoa) { }
+        fun onEditClick(specialize: ChuyenKhoa) { }
     }
     private var listener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -23,8 +26,12 @@ class SpecializeAdapter(private var context: Context,
     }
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView){
         var nameTV: TextView? = null
+        var editItem: ImageButton? = null
+        var delItem: ImageButton? = null
         init {
             nameTV = listItemView.findViewById(R.id.itemNameTV)
+            editItem = listItemView.findViewById(R.id.editMedorSpec)
+            delItem = listItemView.findViewById(R.id.deleteMedorSpec)
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecializeAdapter.ViewHolder {
@@ -37,7 +44,15 @@ class SpecializeAdapter(private var context: Context,
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val specialize: ChuyenKhoa = specializeList[position]
-        holder.nameTV!!.text = specialize.TenChuyenKhoa
+        holder.nameTV!!.text = specialize.tenChuyenKhoa
+        holder.editItem!!.setOnClickListener {
+            Toast.makeText(context, specialize.tenChuyenKhoa, Toast.LENGTH_SHORT).show()
+            listener?.onEditClick(specialize)
+        }
+        holder.delItem!!.setOnClickListener {
+            Toast.makeText(context, specialize.tenChuyenKhoa, Toast.LENGTH_SHORT).show()
+            listener?.onDeleteClick(specialize)
+        }
     }
     override fun getItemCount(): Int {
         return specializeList.size

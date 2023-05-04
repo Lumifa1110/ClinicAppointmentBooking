@@ -120,6 +120,7 @@ class AdminDashBoard : Fragment() {
             showAddSpecializeDialog()
             re_create()
         }
+
         return view
     }
     private fun re_create() {
@@ -136,20 +137,207 @@ class AdminDashBoard : Fragment() {
 
         medicineRV!!.adapter = medicineAdapter
         specializeRV!!.adapter = specializeAdapter
+
+        medicineAdapter.setOnItemClickListener(object : MedicineAdapter.OnItemClickListener{
+            override fun onDeleteClick(medicine: Thuoc) {
+                super.onDeleteClick(medicine)
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Cảnh báo")
+                    .setMessage("Bạn có chắc chắn muốn xoá ?")
+                    .setPositiveButton("Xác nhận") { dialog, which ->
+                        // Xoá medicine trong Firebase
+                        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("Thuoc")
+                        val query = databaseRef.orderByChild("tenThuoc").equalTo(medicine.tenThuoc)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for (data in snapshot.children) {
+                                    data.ref.removeValue()
+                                }
+                                Toast.makeText(requireContext(), "Đã xoá " + medicine.tenThuoc, Toast.LENGTH_SHORT).show()
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                // Handle error
+                            }
+                        })
+                    }
+                    .setNegativeButton("Huỷ") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                val alert: AlertDialog = builder.create()
+                alert.setCanceledOnTouchOutside(false)
+                alert.show()
+            }
+            override fun onEditClick(medicine: Thuoc) {
+                super.onEditClick(medicine)
+                // Tạo 1 dialog hiện tên thuốc trên EditText
+                var builder = AlertDialog.Builder(requireContext())
+                var dialogLayout = layoutInflater.inflate(R.layout.dialog_add_medicine, null)
+                var nameET = dialogLayout.findViewById<EditText>(R.id.nameMedicine)
+                nameET.setText(medicine.tenThuoc)
+
+                builder.setView(dialogLayout)
+                    .setPositiveButton("Thay đổi") { dialog, which ->
+                        val databaseRef = FirebaseDatabase.getInstance()
+                            .getReference("DanhSach")
+                            .child("Thuoc")
+                        // Tìm thuốc với tên thuốc cũ/ chưa cập nhật
+                        val query = databaseRef.orderByChild("tenThuoc").equalTo(medicine.tenThuoc)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()){
+                                    val newType = nameET.text.toString().trim()
+                                    val updateMedicine = Thuoc(newType)
+                                    var key: String? = null
+                                    if (newType.isNotEmpty()){
+                                        // Kiểm tra xem tên thuốc mới (được chỉnh sửa đã tồn tại hay chưa
+                                        val queryCheck = databaseRef.orderByChild("tenThuoc")
+                                            .equalTo(updateMedicine.tenThuoc)
+                                        queryCheck.addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(subSnapshot: DataSnapshot) {
+                                                if (subSnapshot.exists()){
+                                                    Toast.makeText(requireContext(), "Thuốc đã tồn tại", Toast.LENGTH_SHORT).show()
+                                                } else {
+                                                    // Cập nhật khi tên của thuốc mới cập nhật không có tồn tại trong database
+                                                    for (data in snapshot.children) {
+                                                        key = data.key.toString()
+                                                    }
+                                                    databaseRef.child(key!!).child("tenThuoc").setValue(newType)
+                                                }
+                                            }
+                                            override fun onCancelled(subError: DatabaseError) {
+                                                TODO("Not yet implemented")
+                                            }
+                                        })
+                                        re_create()
+                                        Toast.makeText(requireContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(requireContext(), "Thuốc không để trống", Toast.LENGTH_SHORT).show()
+                                    }
+
+                                } else {
+                                    Toast.makeText(requireContext(), "Thuốc không tồn tại", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+                    }
+                    .setNegativeButton("Huỷ") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                val alert: AlertDialog = builder.create()
+                alert.setCanceledOnTouchOutside(false)
+                alert.show()
+            }
+        })
+
+        // Edit và Delete với 1 chuyên khoa
+        specializeAdapter.setOnItemClickListener(object : SpecializeAdapter.OnItemClickListener{
+            override fun onDeleteClick(specialize: ChuyenKhoa) {
+                super.onDeleteClick(specialize)
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Cảnh báo")
+                    .setMessage("Bạn có chắc chắn muốn xoá ?")
+                    .setPositiveButton("Xác nhận") { dialog, which ->
+                        // Xoá medicine trong Firebase
+                        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("ChuyenKhoa")
+                        val query = databaseRef.orderByChild("tenChuyenKhoa")
+                            .equalTo(specialize.tenChuyenKhoa)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for (data in snapshot.children) {
+                                    data.ref.removeValue()
+                                }
+                                Toast.makeText(requireContext(), "Đã xoá " + specialize.tenChuyenKhoa, Toast.LENGTH_SHORT).show()
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                // Handle error
+                            }
+                        })
+                    }
+                    .setNegativeButton("Huỷ") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                val alert: AlertDialog = builder.create()
+                alert.setCanceledOnTouchOutside(false)
+                alert.show()
+            }
+            override fun onEditClick(specialize: ChuyenKhoa) {
+                super.onEditClick(specialize)
+                // Tạo 1 dialog hiện tên chuyên khoa trên EditText
+                val builder = AlertDialog.Builder(requireContext())
+                val dialogLayout = layoutInflater.inflate(R.layout.dialog_add_specialize, null)
+                val nameET = dialogLayout.findViewById<EditText>(R.id.nameSpecialize)
+                nameET.setText(specialize.tenChuyenKhoa)
+
+                builder.setView(dialogLayout)
+                    .setPositiveButton("Thay đổi") { dialog, which ->
+                        val databaseRef = FirebaseDatabase.getInstance()
+                            .getReference("DanhSach")
+                            .child("ChuyenKhoa")
+                        // Tìm chuyên khoa bằng tên chuyên khoa cũ/ chưa cập nhật
+                        val query = databaseRef.orderByChild("tenChuyenKhoa")
+                            .equalTo(specialize.tenChuyenKhoa)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    val newType = nameET.text.toString().trim()
+                                    val updateSpecialize = ChuyenKhoa(newType)
+                                    var key: String? = null
+                                    if (newType.isNotEmpty()){
+                                        val queryCheck = databaseRef.orderByChild("tenChuyenKhoa")
+                                            .equalTo(updateSpecialize.tenChuyenKhoa)
+                                        queryCheck.addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(subSnapshot: DataSnapshot) {
+                                                if (subSnapshot.exists()){
+                                                    Toast.makeText(requireContext(), "Chuyên khoa đã tồn tại", Toast.LENGTH_SHORT).show()
+                                                } else {
+                                                    // Cập nhật khi tên của chuyên khoa mới cập nhật không có tồn tại trong database
+                                                    for (data in snapshot.children) {
+                                                        key = data.key.toString()
+                                                    }
+                                                    databaseRef.child(key!!).child("tenChuyenKhoa").setValue(newType)
+                                                }
+                                            }
+                                            override fun onCancelled(subError: DatabaseError) {
+                                                TODO("Not yet implemented")
+                                            }
+                                        })
+                                        re_create()
+                                        Toast.makeText(requireContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(requireContext(), "Chuyên khoa không để trống", Toast.LENGTH_SHORT).show()
+                                    }
+                                } else {
+                                    Toast.makeText(requireContext(), "Chuyên khoa không tồn tại", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+                    }
+                    .setNegativeButton("Huỷ") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                val alert: AlertDialog = builder.create()
+                alert.setCanceledOnTouchOutside(false)
+                alert.show()
+            }
+        })
     }
     private fun showAddMedicineDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val dialogLayout = layoutInflater.inflate(R.layout.dialog_add_medicine, null)
         val nameET = dialogLayout.findViewById<EditText>(R.id.nameMedicine)
         database = Firebase.database.getReference("DanhSach").child("Thuoc")
-
         builder.setView(dialogLayout)
         builder.setPositiveButton("Thêm thuốc") { dialog, which ->
             val newType = nameET.text.toString().trim()
             val newMedicine = Thuoc(newType)
-
             if (newType.isNotEmpty()) {
-                val query = database.orderByChild("TenThuoc").equalTo(newMedicine.TenThuoc)
+                val query = database.orderByChild("tenThuoc").equalTo(newMedicine.tenThuoc)
                 query.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()){
@@ -178,16 +366,15 @@ class AdminDashBoard : Fragment() {
     private fun showAddSpecializeDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val dialogLayout = layoutInflater.inflate(R.layout.dialog_add_specialize, null)
-        val nameET = dialogLayout.findViewById<EditText>(R.id.nameMedicine)
+        val nameET = dialogLayout.findViewById<EditText>(R.id.nameSpecialize)
         database = Firebase.database.getReference("DanhSach").child("ChuyenKhoa")
-
         builder.setView(dialogLayout)
         builder.setPositiveButton("Thêm chuyên khoa") { dialog, which ->
             val newType = nameET.text.toString().trim()
             val newSpecialize = ChuyenKhoa(newType)
             if (newType.isNotEmpty()) {
                 // Perform the action of adding the new type and description here
-                val query = database.orderByChild("TenChuyenKhoa").equalTo(newSpecialize.TenChuyenKhoa)
+                val query = database.orderByChild("tenChuyenKhoa").equalTo(newSpecialize.tenChuyenKhoa)
                 query.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()){
@@ -249,38 +436,32 @@ class AdminDashBoard : Fragment() {
     private fun filterMedicine(text: String?) {
         val filteredlist: ArrayList<Thuoc> = ArrayList()
         for (item in medicineList) {
-            if (item.TenThuoc.toLowerCase().contains(text!!.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
+            if (item.tenThuoc.toLowerCase().contains(text!!.toLowerCase())) {
+                // if the item is matched we are adding it to our filtered list.
                 filteredlist.add(item)
             }
         }
         if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
+            // if no item is added in filtered list we are displaying a toast message as no data found.
             Toast.makeText(requireActivity(), "No Data Found..", Toast.LENGTH_SHORT).show()
         } else {
-            // at last we are passing that filtered
-            // list to our adapter class.
+            // at last we are passing that filtered list to our adapter class.
             medicineAdapter.filter(filteredlist)
         }
     }
     private fun filterSpecialize(text: String?) {
         val filteredlist: ArrayList<ChuyenKhoa> = ArrayList()
         for (item in specializeList) {
-            if (item.TenChuyenKhoa!!.toLowerCase().contains(text!!.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
+            if (item.tenChuyenKhoa!!.toLowerCase().contains(text!!.toLowerCase())) {
+                // if the item is matched we are adding it to our filtered list.
                 filteredlist.add(item)
             }
         }
         if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
+            // if no item is added in filtered list we are displaying a toast message as no data found.
             Toast.makeText(requireActivity(), "No Data Found..", Toast.LENGTH_SHORT).show()
         } else {
-            // at last we are passing that filtered
-            // list to our adapter class.
+            // at last we are passing that filtered list to our adapter class.
             specializeAdapter.filter(filteredlist)
         }
     }

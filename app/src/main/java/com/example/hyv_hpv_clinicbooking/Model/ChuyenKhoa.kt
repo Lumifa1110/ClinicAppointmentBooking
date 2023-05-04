@@ -7,13 +7,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ChuyenKhoa (
-    var TenChuyenKhoa: String ?= null
+    var tenChuyenKhoa: String ?= null
 ) : Parcelable {
     constructor(parcel: Parcel) : this (
         parcel.readString()!!,
     )
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(TenChuyenKhoa)
+        parcel.writeString(tenChuyenKhoa)
     }
     override fun describeContents(): Int {
         return 0

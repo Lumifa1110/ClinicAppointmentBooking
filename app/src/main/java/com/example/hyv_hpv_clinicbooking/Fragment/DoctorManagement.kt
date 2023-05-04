@@ -64,28 +64,7 @@ class DoctorManagement : Fragment() {
             }
         })
     }
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.admin_search, menu)
-//        menuItem = menu.findItem(R.id.searchDoctor)
-//        searchView = menuItem!!.actionView as SearchView
-//        searchView!!.queryHint = "Search doctors"
-//        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                // Handle search query submission
-//                return true
-//            }
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                // Handle search query text changes
-//                filter(newText)
-//                return true
-//            }
-//        })
-//        searchView!!.setOnCloseListener {
-//            searchView!!.clearFocus()
-//            false
-//        }
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
+
     private fun filter(text: String?) {
         val filteredlist: ArrayList<BacSi> = ArrayList()
         for (item in doctorList) {
