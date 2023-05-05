@@ -261,8 +261,8 @@ class UserOrderPage : AppCompatActivity() {
 
                             //Xu ly voi db
                             database.child(selectedKeyTime!!).child("duocDat").setValue(1)
-                            database = Firebase.database.getReference("CuocHen")
-                            val key: String? = database.push().key
+                            var cuochenDB = Firebase.database.getReference("CuocHen")
+                            val key: String? = cuochenDB.push().key
 
                             var newAppointment = CuocHen()
                             newAppointment.MaCuocHen = key.toString()
@@ -273,7 +273,7 @@ class UserOrderPage : AppCompatActivity() {
                             newAppointment.MaTrangThai = 0
                             newAppointment.Ngay = dayInWeek!![dayChoose].toString()
 
-                            database.child(key!!).setValue(newAppointment)
+                            cuochenDB.child(key!!).setValue(newAppointment)
                         } else {
                             showDialogAnnouce("OOP!! LỖI", "Đặt lịch hẹn không thành công. Đã có người đặt lịch này trước bạn. Hãy đặt lịch khác nhé")
                         }
