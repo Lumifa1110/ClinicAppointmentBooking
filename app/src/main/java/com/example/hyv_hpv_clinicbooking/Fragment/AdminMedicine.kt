@@ -22,30 +22,5 @@ class AdminMedicine : Fragment() {
 
         return view
     }
-//    private fun showAddMedicineDialog() {
-//        val builder = AlertDialog.Builder(requireContext())
-//        builder.setTitle("Thêm thuốc mới")
-//
-//        val dialogLayout = layoutInflater.inflate(R.layout.dialog_add_medicine, null)
-//        val nameET = dialogLayout.findViewById<EditText>(R.id.nameMedicine)
-//        builder.setView(dialogLayout)
-//
-//        builder.setPositiveButton("Thêm thuốc") { dialog, which ->
-//            val newType = nameET.text.toString().trim()
-//            if (newType.isNotEmpty()) {
-//                // Perform the action of adding the new type and description here
-//                Toast.makeText(requireContext(), "Loại thuốc mới: $newType\nMô tả: ", Toast.LENGTH_SHORT).show()
-//            } else {
-//                Toast.makeText(requireContext(), "Loại thuốc và mô tả không thể để trống", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//        builder.setNegativeButton("Huỷ bỏ") { dialog, which ->
-//            dialog.dismiss()
-//        }
-//
-//        val alert: AlertDialog = builder.create()
-//        alert.setCanceledOnTouchOutside(false)
-//        alert.show()
-//    }
+
 }
