@@ -36,20 +36,6 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doctor_prescription_infor_page)
 
-        val donviList = listOf("Viên", "Ống", "Tuýp", "lọ", "lon")
-        val items = listOf(
-            "Paracetamol 500mg - thuốc giảm đau và hạ s",
-            "Amoxicillin 500mg - kháng sinh điều trị nhiễm trùng",
-            "Omeprazole 20mg - thuốc chống loét dạ dày",
-            "Metformin 500mg - thuốc điều trị tiểu đường",
-            "Simvastatin 20mg - thuốc giảm cholesterol",
-            "Sertraline 50mg - thuốc trị trầm cảm",
-            "Albuterol 2mg - thuốc giãn phế quản điều trị hen suyễn",
-            "Warfarin 5mg - thuốc chống đông máu",
-            "Furosemide 40mg - thuốc giảm đau và hạ sốt",
-            "Ibuprofen 400mg - thuốc giảm đau và hạ sốt"
-        )
-
         name = findViewById(R.id.nameET)
         quantity = findViewById(R.id.quantityET)
         donvi = findViewById(R.id.donviET)

@@ -32,20 +32,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <ImageButton
-                    android:background="@null"
-                    android:scaleType="fitXY"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:id="@+id/back_button"
-                    app:tint="@color/white"
-                    android:layout_centerVertical="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/arrow_left"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,29 +93,69 @@
         app:layout_constraintTop_toBottomOf="@+id/header_section"
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/wrapper_rounded_primary">
-        <TextView
-            android:padding="10dp"
+        android:layout_marginHorizontal="20dp">
+
+        <LinearLayout
+            android:id="@+id/doctor_specialize"
             android:layout_width="220dp"
-            android:text="Số lượng bác sĩ"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:textSize="16sp"
-            android:text="20"
-            android:id="@+id/quantityDoctorTV"
-            android:textColor="@color/secondary"
-            android:textStyle="bold"
-            android:background="@drawable/box_white"
             android:layout_height="wrap_content"
-            />
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal"
+            android:background="@drawable/wrapper_rounded_primary">
+            <TextView
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="6dp"
+                android:layout_width="106dp"
+                android:text="Chuyên khoa"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="6dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:textSize="15sp"
+                android:text="Răng hàm mặt"
+                android:id="@+id/specializeDoctorTV"
+                android:textColor="@color/secondary"
+                android:textStyle="bold"
+                android:background="@drawable/box_white"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/doctor_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/wrapper_rounded_primary">
+            <TextView
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="6dp"
+                android:layout_width="78dp"
+                android:text="Số lượng"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="6dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:textSize="15sp"
+                android:text="20"
+                android:id="@+id/quantityDoctorTV"
+                android:textColor="@color/secondary"
+                android:textStyle="bold"
+                android:background="@drawable/box_white"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

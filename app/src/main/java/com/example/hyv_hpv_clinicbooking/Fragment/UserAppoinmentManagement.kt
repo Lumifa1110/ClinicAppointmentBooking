@@ -54,6 +54,10 @@ class UserAppoinmentManagement() : Fragment() {
     private var historyAppoinmentList = ArrayList<CuocHen>()
     private lateinit var database : DatabaseReference
 
+    private var emptyTV1: TextView ?= null
+    private var emptyTV2: TextView ?= null
+    private var emptyTV3: TextView ?= null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,15 +76,15 @@ class UserAppoinmentManagement() : Fragment() {
         timeList.clear()
         prescriptionList.clear()
 
-        display()
+        displayReRecyclerView()
     }
 
-    private fun display() {
+    private fun displayReRecyclerView() {
         readAppointmentFromRealtimeDB() {list1, list2, list3 ->
             keyAppoinmentList = list1
             appoinmentList = list2
             doctorList = list3
-            displayRecyclerView()
+            displayReRecyclerViewRecyclerView()
         }
 
         val sortedAppointments = appoinmentList.sortedWith(compareBy(
@@ -111,65 +115,86 @@ class UserAppoinmentManagement() : Fragment() {
 
         quantityTV1 = view.findViewById(R.id.quantity1)
         recyclerView1 = view.findViewById(R.id.recyclerView1)
+        emptyTV1 = view.findViewById(R.id.emptyTV1)
 
         quantityTV2 = view.findViewById(R.id.quantity2)
         recyclerView2 = view.findViewById(R.id.recyclerView2)
+        emptyTV2 = view.findViewById(R.id.emptyTV2)
 
         quantityTV3 = view.findViewById(R.id.quantity3)
         recyclerView3 = view.findViewById(R.id.recyclerView3)
+        emptyTV3 = view.findViewById(R.id.emptyTV3)
     }
 
-    private fun displayRecyclerView() {
+    private fun displayReRecyclerViewRecyclerView() {
         unapprovedList.clear()
         approvedList.clear()
         historyAppoinmentList.clear()
 
         //tab1
         unapprovedList = appoinmentList.filter { it.MaTrangThai == 0 } as ArrayList<CuocHen>
-        quantityTV1?.setText(unapprovedList.size.toString())
+        if(unapprovedList.size > 0) {
+            quantityTV1?.setText(unapprovedList.size.toString())
 
-        adapter1 = HistoryAppoinmentAdapter(unapprovedList, doctorList)
-        recyclerView1?.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView1?.adapter = adapter1
+            adapter1 = HistoryAppoinmentAdapter(unapprovedList, doctorList)
+            recyclerView1?.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView1?.adapter = adapter1
 
 
-        adapter1?.onItemClick = { index ->
-            showAlertDialog(index, 0)
+            adapter1?.onItemClick = { index ->
+                showAlertDialog(index, 0)
+            }
+            adapter1?.notifyDataSetChanged()
         }
-        adapter1?.notifyDataSetChanged()
 
+        else {
+            quantityTV1?.setText("0")
+            recyclerView1?.visibility = View.GONE
+        }
         // tab2
         approvedList = appoinmentList.filter { it.MaTrangThai == 1 } as ArrayList<CuocHen>
-        quantityTV2?.setText(approvedList.size.toString())
+        if(approvedList.size > 0) {
+            quantityTV2?.setText(approvedList.size.toString())
 
-        recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter2 = HistoryAppoinmentAdapter(approvedList, doctorList)
-        recyclerView2?.adapter = adapter2
+            adapter2 = HistoryAppoinmentAdapter(approvedList, doctorList)
+            recyclerView2?.adapter = adapter2
 
-        adapter2?.onItemClick = { index ->
-            showAlertDialog(index, 1)
+            adapter2?.onItemClick = { index ->
+                showAlertDialog(index, 1)
+            }
+        }
+        else {
+            quantityTV2?.setText("0")
+            recyclerView2?.visibility = View.GONE
         }
 
 //        Tab3
         historyAppoinmentList = appoinmentList.filter { it.MaTrangThai == 2 } as ArrayList<CuocHen>
-        quantityTV3?.setText(historyAppoinmentList.size.toString())
+        if(historyAppoinmentList.size > 0) {
+            quantityTV3?.setText(historyAppoinmentList.size.toString())
 
-        recyclerView3?.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView3?.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter3 = HistoryAppoinmentAdapter(historyAppoinmentList, doctorList)
-        recyclerView3?.adapter = adapter3
+            adapter3 = HistoryAppoinmentAdapter(historyAppoinmentList, doctorList)
+            recyclerView3?.adapter = adapter3
 
-        adapter3?.onItemClick = { index ->
-            val intent = Intent(requireContext(), PrescriptionActivity::class.java)
-            intent.putExtra("people", "patient")
-            for(doctor in doctorList) {
-                if(historyAppoinmentList[index].MaBacSi == doctor.MaBacSi) {
-                    intent.putExtra("name", doctor.HoTen)
+            adapter3?.onItemClick = { index ->
+                val intent = Intent(requireContext(), PrescriptionActivity::class.java)
+                intent.putExtra("people", "patient")
+                for(doctor in doctorList) {
+                    if(historyAppoinmentList[index].MaBacSi == doctor.MaBacSi) {
+                        intent.putExtra("name", doctor.HoTen)
+                    }
                 }
+                intent.putExtra("appoinment", historyAppoinmentList[index])
+                startActivity(intent)
             }
-            intent.putExtra("appoinment", historyAppoinmentList[index])
-            startActivity(intent)
+        }
+        else {
+            quantityTV3?.setText("0")
+            recyclerView3?.visibility = View.GONE
         }
     }
 
@@ -194,7 +219,7 @@ class UserAppoinmentManagement() : Fragment() {
                     }
                 }
             }
-            display()
+            displayReRecyclerView()
         }
         alertDialog.setNegativeButton(
             "Không"
@@ -216,7 +241,7 @@ class UserAppoinmentManagement() : Fragment() {
                 for (snapshot in dataSnapshot.children) {
                     val scheduleId = snapshot.key
                     val appointment = snapshot.getValue(CuocHen::class.java)
-                    if(appointment!!.MaBacSi.equals("-NUGq3NRrFTwUKz84O6P")) {
+                    if(appointment!!.MaBenhNhan.equals("-NUGq3NRrFTwUKz84O6P")) {
                         keyAppoinmentList.add(scheduleId!!)
                         appointmentList.add(appointment!!)
                         readDoctorFromRealtimeDB(appointment.MaBacSi) { doctors ->
@@ -239,7 +264,7 @@ class UserAppoinmentManagement() : Fragment() {
         val doctorList = ArrayList<BacSi>()
 
         val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
-        databaseRef.child("BacSi").orderByChild("maBacSi").equalTo(maBacSi.toDouble())
+        databaseRef.child("BacSi").orderByChild("maBacSi").equalTo(maBacSi)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (snapshot in dataSnapshot.children) {
