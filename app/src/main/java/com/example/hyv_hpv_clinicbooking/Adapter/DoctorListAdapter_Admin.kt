@@ -21,6 +21,7 @@ class DoctorListAdapter_Admin(private var context: Context,
 //    var lock: Boolean = true
     interface OnItemClickListener {
         fun onDeleteClick(doctor: BacSi) { }
+        fun onBanClick(doctor: BacSi) { }
     }
     private var listener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -70,14 +71,13 @@ class DoctorListAdapter_Admin(private var context: Context,
         holder.phoneTV?.text = doctor.SoDienThoai
         holder.avatar?.setImageResource(R.drawable.avatar)
 //        lock = doctor.BiKhoa
+        if (doctor.BiKhoa) {
+            holder.isLock?.setImageResource(R.drawable.block_user)
+        } else {
+            holder.isLock?.setImageResource(R.drawable.unlock_user)
+        }
         holder.isLock?.setOnClickListener {
-            if (doctor.BiKhoa == true) {
-                holder.isLock?.setImageResource(R.drawable.unlock_user)
-                doctor.BiKhoa = false
-            } else {
-                holder.isLock?.setImageResource(R.drawable.block_user)
-                doctor.BiKhoa = true
-            }
+            listener?.onBanClick(doctor)
         }
         holder.editUser!!.setOnClickListener{
             val intent = Intent(context, EditProfilePage::class.java)

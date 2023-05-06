@@ -17,9 +17,9 @@ import de.hdodenhof.circleimageview.CircleImageView
 class PatientListAdapter(private var context: Context,
                          private var patientList: ArrayList<BenhNhan>) :
     RecyclerView.Adapter<PatientListAdapter.ViewHolder>() {
-    var lock: Boolean = true
     interface OnItemClickListener {
         fun onDeleteClick(patient: BenhNhan) { }
+        fun onBanClick(patient: BenhNhan) { }
     }
     private var listener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -44,21 +44,20 @@ class PatientListAdapter(private var context: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Get the data model based on position
         val patient: BenhNhan = patientList[position]
-        lock = patient.BiKhoa
         // Set item views based on your views and data model
         holder.idTV?.text = (position + 1).toString()
         holder.nameTV?.text = patient.HoTen
         holder.phoneTV?.text = patient.SoDienThoai
         holder.avatar?.setImageResource(R.drawable.anya)
 
+        if (patient.BiKhoa) {
+            holder.isLock?.setImageResource(R.drawable.block_user)
+        } else {
+            holder.isLock?.setImageResource(R.drawable.unlock_user)
+        }
+
         holder.isLock?.setOnClickListener {
-            if (lock == true) {
-                holder.isLock?.setImageResource(R.drawable.unlock_user)
-                lock = false
-            } else {
-                holder.isLock?.setImageResource(R.drawable.block_user)
-                lock = true
-            }
+            listener!!.onBanClick(patient)
         }
         holder.delUser!!.setOnClickListener {
             listener?.onDeleteClick(patient)

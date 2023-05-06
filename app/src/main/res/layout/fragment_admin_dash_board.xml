@@ -68,19 +68,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </HorizontalScrollView>
-                    <ScrollView
+                    <FrameLayout
+                        android:id="@android:id/tabcontent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <FrameLayout
-                            android:id="@android:id/tabcontent"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                            <include layout="@layout/fragment_admin_statistic"/>
-                            <include layout="@layout/fragment_approval_list"/>
-                            <include layout="@layout/fragment_admin_medicine"/>
-                            <include layout="@layout/fragment_admin_specialize"/>
-                        </FrameLayout>
-                    </ScrollView>
+                        <include layout="@layout/fragment_admin_statistic"/>
+                        <include layout="@layout/fragment_approval_list"/>
+                        <include layout="@layout/fragment_admin_medicine"/>
+                        <include layout="@layout/fragment_admin_specialize"/>
+                    </FrameLayout>
                 </LinearLayout>
             </TabHost>
         </androidx.constraintlayout.widget.ConstraintLayout>
