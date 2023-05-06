@@ -5,16 +5,19 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Adapter.ChooseTimeAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.DayAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.TimeAdapter
+import com.example.hyv_hpv_clinicbooking.ExpandableHeightGridView
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
@@ -24,6 +27,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.io.Serializable
+import java.time.LocalDate
 import java.util.*
 
 class UserOrderPage : AppCompatActivity() {
@@ -34,6 +38,7 @@ class UserOrderPage : AppCompatActivity() {
     var cuocHenList = arrayListOf<CuocHen>()
     var dayList =  ArrayList<String>()
     var dayInWeek:HashMap<Int, String> ?= null
+    var doctorName:TextView ?= null
 
     //Khai báo nút cần xử lý
     var orderBTN: Button?= null
@@ -44,10 +49,12 @@ class UserOrderPage : AppCompatActivity() {
     var timeAdapter: ChooseTimeAdapter? = null
     var afternoonAdapter: ChooseTimeAdapter? = null
 
-    //Khai báo các recycleview, gridview
-    var customListView: RecyclerView? = null
-    var morningTimeView: GridView? = null
-    var afternoonTimeView: GridView? = null
+    //Khai báo calendar
+    var calendarView: CalendarView ?= null
+
+    //Khai báo gridview expand
+    var morningTimeView: ExpandableHeightGridView? = null
+    var afternoonTimeView: ExpandableHeightGridView? = null
 
     //khai báo key
     var keyList = arrayListOf<String>()
@@ -75,14 +82,25 @@ class UserOrderPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_order_page)
+
+        doctorName = findViewById(R.id.doctorName)
+
+        //Gán lịch
+        calendarView = findViewById(R.id.calendar)
+        val calendar = Calendar.getInstance() // Set the desired month here
+        calendarView?.minDate = calendar.timeInMillis
+        calendar.add(Calendar.DATE, 6)
+        calendarView?.maxDate = calendar.timeInMillis
+
         //Gán nút
         orderBTN = findViewById(R.id.orderBTN)
         backBTN = findViewById(R.id.back_button)
 
-        //Gán các biến recycleview, gridview
-        customListView = findViewById(R.id.dayRV)
-        morningTimeView = findViewById<GridView>(R.id.morningGV)
-        afternoonTimeView = findViewById<GridView>(R.id.afternoonGV)
+        //Gán các gridview
+        morningTimeView = findViewById<ExpandableHeightGridView>(R.id.morningGV)
+        afternoonTimeView = findViewById<ExpandableHeightGridView>(R.id.afternoonGV)
+        morningTimeView?.setExpanded(true)
+        afternoonTimeView?.setExpanded(true)
 
         //Mảng thời gian
         morningList = arrayListOf<ThoiGianRanh>()
@@ -96,6 +114,8 @@ class UserOrderPage : AppCompatActivity() {
 
         doctor = intent.getParcelableExtra<BacSi>("BacSi")
         maBacSi = doctor?.MaBacSi
+
+        doctorName?.setText(doctorName?.text.toString() + doctor?.HoTen.toString())
 
         //Xu ly nut back
         backBTN?.setOnClickListener {
@@ -111,6 +131,7 @@ class UserOrderPage : AppCompatActivity() {
 
         queryRef.addListenerForSingleValueEvent(object :
             ValueEventListener {
+            @RequiresApi(Build.VERSION_CODES.O)
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 morningList = arrayListOf<ThoiGianRanh>()
@@ -146,47 +167,24 @@ class UserOrderPage : AppCompatActivity() {
                     }
                 }
 
-                adapter = DayAdapter(dayList)
-                customListView!!.adapter = adapter
-                val layoutManager =
-                    LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
-                customListView!!.layoutManager = layoutManager
-                adapter?.notifyDataSetChanged()
-
-                var current = dayList[0].split("\n")
-                var day = current[0]
-                dayChoose = 0
-                dateChoose = current[1]
-                when (day) {
-                    "Thứ 2" -> dayChoose = 2
-                    "Thứ 3" -> dayChoose = 3
-                    "Thứ 4" -> dayChoose = 4
-                    "Thứ 5" -> dayChoose = 5
-                    "Thứ 6" -> dayChoose = 6
-                    "Thứ 7" -> dayChoose = 7
-                    "Chủ Nhật" -> dayChoose = 1
-                }
+                //set lịch hiện tại
+                val cal = Calendar.getInstance()
+                dayChoose = cal.get(Calendar.DAY_OF_WEEK)
+                dateChoose = convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1)  + "/" + cal.get(Calendar.YEAR).toString()
                 xulyThoiGianHienThi(dayChoose, dateChoose!!)
 
-                adapter?.onItemClick = {date, vitri ->
+                //chuyển đổi lịch
+                calendarView?.setOnDateChangeListener { view, year, month, dayOfMonth ->
                     morningList = arrayListOf<ThoiGianRanh>()
                     afternoonList = arrayListOf<ThoiGianRanh>()
-                    var data = date.split("\n").toTypedArray()
-                    var day = data[0]
-                    dateChoose = data[1]
-                    dayChoose = 0
-                    when (day) {
-                        "Thứ 2" -> dayChoose = 2
-                        "Thứ 3" -> dayChoose = 3
-                        "Thứ 4" -> dayChoose = 4
-                        "Thứ 5" -> dayChoose = 5
-                        "Thứ 6" -> dayChoose = 6
-                        "Thứ 7" -> dayChoose = 7
-                        "Chủ Nhật" -> dayChoose = 1
-                    }
 
+                    var currentDay = LocalDate.of(year , month + 1, dayOfMonth)
+                    dayChoose = currentDay.dayOfWeek.value + 1
+                    if(dayChoose == 8)
+                        dayChoose = 1
+
+                    dateChoose = convertNtoNN(dayOfMonth) + "/" + convertNtoNN(month + 1) + "/" + year.toString()
                     xulyThoiGianHienThi(dayChoose, dateChoose!!)
-
                 }
             }
 

@@ -46,7 +46,7 @@ class ChooseTimeAdapter (private var context: Context, private var freeTimeList:
             if(khungGio.gioBatDau == timeCheck.gioBatDau && khungGio.ngayThang == timeCheck.ngayThang) {
                 if(timeCheck.trangThai == 1) {
                     viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
-                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                    viewHolder.timeView?.setTextColor(Color.parseColor("#747474"))
                     viewHolder.timeView?.isEnabled = false
                 }
                 else {
@@ -57,19 +57,13 @@ class ChooseTimeAdapter (private var context: Context, private var freeTimeList:
             }
         }
 
-//        viewHolder.timeView?.setOnClickListener {
-//            if(viewHolder.timeView?.isEnabled == true) {
-//                selectedItemPosition = position
-//                notifyDataSetChanged()
-//            }
-//        }
 
         for(cuocHen in cuocHenList) {
             if(cuocHen.Ngay == selectedDate) {
                 if (khungGio.gioBatDau == cuocHen.GioBatDau && khungGio.gioKetThuc == cuocHen.GioKetThuc) {
                     if (cuocHen.MaTrangThai == 0 || cuocHen.MaTrangThai == 1) {
                         viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
-                        viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                        viewHolder.timeView?.setTextColor(Color.parseColor("#747474"))
                         viewHolder.timeView?.isEnabled = false
                     }
                 }

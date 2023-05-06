@@ -26,6 +26,7 @@ class DoctorDetailPage : AppCompatActivity() {
     var nameTV: TextView?= null
     var imageIV: ImageView?= null
     var specialistTV: TextView?= null
+    var timeLamViecTV: TextView?= null
     var addressTV: TextView?= null
     var phoneTV: TextView?= null
     var backBtn: ImageButton ?= null
@@ -49,6 +50,7 @@ class DoctorDetailPage : AppCompatActivity() {
         phoneTV = findViewById(R.id.doctorPhone)
         backBtn = findViewById(R.id.back_button)
         oderBtn = findViewById(R.id.oderBtn)
+        timeLamViecTV = findViewById(R.id.timeLamViec)
 
         doctor = intent.getParcelableExtra<BacSi>("doctor") as BacSi
         maBacSi = doctor?.MaBacSi
@@ -58,6 +60,7 @@ class DoctorDetailPage : AppCompatActivity() {
         specialistTV?.setText("Chuyên khoa: " + doctor?.TenChuyenKhoa)
         addressTV?.setText("Địa chỉ: "+ doctor?.DiaChi)
         phoneTV?.setText("Liên hệ: " + doctor?.SoDienThoai)
+        timeLamViecTV?.setText(doctor?.KhungGioLamViec)
 
         //set avatar
         storage = FirebaseStorage.getInstance();
