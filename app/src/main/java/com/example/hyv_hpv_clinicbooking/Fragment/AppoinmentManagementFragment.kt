@@ -145,9 +145,10 @@ class AppoinmentManagementFragment : Fragment() {
 
         //tab1
         unapprovedList = appoinmentList.filter { it.MaTrangThai == 0 } as ArrayList<CuocHen>
-
         if (unapprovedList.size > 0) {
             emptyTV1?.visibility = View.GONE
+            recyclerView1?.visibility = View.VISIBLE
+
             quantityTV1?.setText(unapprovedList.size.toString())
 
             adapter1 = DoctorAppoinmentList(unapprovedList, patientList)
@@ -167,6 +168,8 @@ class AppoinmentManagementFragment : Fragment() {
         approvedList = appoinmentList.filter { it.MaTrangThai == 1 } as ArrayList<CuocHen>
         if(approvedList.size > 0) {
             emptyTV2?.visibility = View.GONE
+            recyclerView2?.visibility = View.VISIBLE
+
             quantityTV2?.setText(approvedList.size.toString())
             adapter2 = DoctorAppoinmentList(approvedList, patientList)
             recyclerView2?.adapter = adapter2
@@ -182,9 +185,13 @@ class AppoinmentManagementFragment : Fragment() {
         }
 
 //         Tab3
+        println(historyAppoinmentList.size.toString() + "historyAppoinmentList")
+
         historyAppoinmentList = appoinmentList.filter { it.MaTrangThai == 2 } as ArrayList<CuocHen>
         if(historyAppoinmentList.size > 0) {
             emptyTV3?.visibility = View.GONE
+            recyclerView3?.visibility = View.VISIBLE
+
             quantityTV3?.setText(historyAppoinmentList.size.toString())
 
 
