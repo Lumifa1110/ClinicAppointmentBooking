@@ -274,6 +274,7 @@ class UserOrderPage : AppCompatActivity() {
                             newAppointment.Ngay = dayInWeek!![dayChoose].toString()
 
                             cuochenDB.child(key!!).setValue(newAppointment)
+
                         } else {
                             showDialogAnnouce("OOP!! LỖI", "Đặt lịch hẹn không thành công. Đã có người đặt lịch này trước bạn. Hãy đặt lịch khác nhé")
                         }

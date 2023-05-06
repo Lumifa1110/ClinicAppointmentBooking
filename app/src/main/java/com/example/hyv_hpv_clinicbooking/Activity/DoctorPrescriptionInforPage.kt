@@ -149,7 +149,7 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
                     val thuocSnapshot = dataSnapshot.child("Thuoc")
                     for (thuoc in thuocSnapshot.children) {
                         val key = thuoc.key
-                        val donThuoc = thuoc.child("TenThuoc").getValue(String::class.java)
+                        val donThuoc = thuoc.child("tenThuoc").getValue(String::class.java)
                         donThuocList.add(donThuoc!!)
                     }
                 }

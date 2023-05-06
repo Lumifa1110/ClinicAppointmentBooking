@@ -18,12 +18,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Activity.ApproveAppoinmentTab
 import com.example.hyv_hpv_clinicbooking.Activity.DoctorPrescriptionPage
 import com.example.hyv_hpv_clinicbooking.Activity.PrescriptionActivity
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorAppoinmentList
 import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
+import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.*
 
@@ -85,10 +87,10 @@ class AppoinmentManagementFragment : Fragment() {
         appoinmentList.clear()
         patientList.clear()
         keyAppoinmentList.clear()
-        display()
+        displayView()
     }
 
-    private fun display() {
+    private fun displayView() {
         readAppointmentFromRealtimeDB() {list1, list2, list3 ->
             keyAppoinmentList = list1
             appoinmentList = list2
@@ -148,9 +150,9 @@ class AppoinmentManagementFragment : Fragment() {
             emptyTV1?.visibility = View.GONE
             quantityTV1?.setText(unapprovedList.size.toString())
 
-            recyclerView1?.layoutManager = LinearLayoutManager(requireContext())
             adapter1 = DoctorAppoinmentList(unapprovedList, patientList)
             recyclerView1?.adapter = adapter1
+            recyclerView1?.layoutManager = LinearLayoutManager(context)
 
             adapter1?.onItemClick = { index ->
                 showUnapproveAlertDialog(index)
@@ -166,10 +168,9 @@ class AppoinmentManagementFragment : Fragment() {
         if(approvedList.size > 0) {
             emptyTV2?.visibility = View.GONE
             quantityTV2?.setText(approvedList.size.toString())
-
-            recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
             adapter2 = DoctorAppoinmentList(approvedList, patientList)
             recyclerView2?.adapter = adapter2
+            recyclerView2?.layoutManager = LinearLayoutManager(context)
 
             adapter2?.onItemClick = { index ->
                 showApproveAlertDialog(index)
@@ -186,13 +187,13 @@ class AppoinmentManagementFragment : Fragment() {
             emptyTV3?.visibility = View.GONE
             quantityTV3?.setText(historyAppoinmentList.size.toString())
 
-            recyclerView3?.layoutManager = LinearLayoutManager(requireContext())
 
             adapter3 = DoctorAppoinmentList(historyAppoinmentList, patientList)
             recyclerView3?.adapter = adapter3
+            recyclerView3?.layoutManager = LinearLayoutManager(context)
 
             adapter3?.onItemClick = { index ->
-                val intent = Intent(requireContext(), PrescriptionActivity::class.java)
+                val intent = Intent(context, PrescriptionActivity::class.java)
                 intent.putExtra("people", "doctor")
                 for(patient in patientList) {
                     if(historyAppoinmentList[index].MaBenhNhan == patient.MaBenhNhan) {
@@ -218,8 +219,13 @@ class AppoinmentManagementFragment : Fragment() {
             Toast.makeText(requireContext(), "Cuộc hẹn đã duyệt", Toast.LENGTH_LONG).show()
             appoinmentList.forEachIndexed { i, value ->
                 if (value.MaCuocHen == unapprovedList[index].MaCuocHen) {
-                    updateTrangThai(keyAppoinmentList[i], 1)
-                    display()
+                    updateTrangThai(value.MaCuocHen, 1)
+                    value.MaTrangThai = 1
+                    displayView()
+//                    unapprovedList.removeAt(index)
+//                    adapter1?.notifyDataSetChanged()
+//                    approvedList.add(value)
+//                    adapter2?.notifyDataSetChanged()
                 }
             }
         }
@@ -227,6 +233,24 @@ class AppoinmentManagementFragment : Fragment() {
             "Không"
         ) { _, _ ->
 
+        }
+
+        alertDialog.setNeutralButton("Từ chối") { dialog, which ->
+            appoinmentList.forEachIndexed { i, value ->
+                if (value.MaCuocHen == unapprovedList[index].MaCuocHen) {
+                    updateThoiGianRanhFromRealtimeDB(value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
+                    val databaseRef = FirebaseDatabase.getInstance().getReference("CuocHen")
+                    // Assuming "key" is the key of the node you want to delete
+                    databaseRef.child(value.MaCuocHen).removeValue().addOnSuccessListener {
+                        // The node was successfully deleted
+                        unapprovedList.removeAt(index)
+                        adapter1?.notifyDataSetChanged()
+                        Toast.makeText(requireContext(), "Cuộc hẹn đã xóa", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener {
+                        // There was an error deleting the node
+                    }
+                }
+            }
         }
         val alert: AlertDialog = alertDialog.create()
         alert.setCanceledOnTouchOutside(false)
@@ -365,6 +389,35 @@ class AppoinmentManagementFragment : Fragment() {
         }
     }
 
+    fun updateThoiGianRanhFromRealtimeDB(maBacSi: String, ngayThang: String, gioBatDau: String, gioKetThuc: String ) {
+        val myRef = Firebase.database.getReference("ThoiGianRanh")
+
+        myRef.orderByChild("maBacSi")
+            .equalTo(maBacSi)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (snapshot in dataSnapshot.children) {
+                        val key = snapshot.key
+                        val thoiGianRanh = snapshot.getValue(ThoiGianRanh::class.java)
+                        if (thoiGianRanh != null &&
+                            thoiGianRanh.gioBatDau == gioBatDau &&
+                            thoiGianRanh.gioKetThuc == gioKetThuc &&
+                            thoiGianRanh.ngayThang == ngayThang
+                        ) {
+                            val childUpdates = java.util.HashMap<String, Any>()
+                            childUpdates["/ThoiGianRanh/$key/trangThai"] = 1
+                            database.updateChildren(childUpdates)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w(TAG, "Failed to read value.", error.toException())
+                }
+            })
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -373,7 +426,7 @@ class AppoinmentManagementFragment : Fragment() {
                     val key_appoinment = data?.getStringExtra("key_appoinment")
                     val appoinment = data?.getParcelableExtra<CuocHen>("appoinment") as CuocHen
                     updateKeDon(key_appoinment!!, 2,  appoinment.ChuanDoan, appoinment.LoiDan, appoinment.DonThuoc)
-                    display()
+                    displayView()
                     Toast.makeText(requireContext(), "Cuộc hẹn đã kê đơn", Toast.LENGTH_LONG).show()
                 }
             }

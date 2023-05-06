@@ -2,6 +2,7 @@ package com.example.hyv_hpv_clinicbooking.Fragment
 
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,10 +20,7 @@ import com.example.hyv_hpv_clinicbooking.Activity.DoctorPrescriptionPage
 import com.example.hyv_hpv_clinicbooking.Activity.PrescriptionActivity
 import com.example.hyv_hpv_clinicbooking.Adapter.HistoryAppoinmentAdapter
 import com.example.hyv_hpv_clinicbooking.Data
-import com.example.hyv_hpv_clinicbooking.Model.BacSi
-import com.example.hyv_hpv_clinicbooking.Model.KeDon
-import com.example.hyv_hpv_clinicbooking.Model.CuocHen
-import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
+import com.example.hyv_hpv_clinicbooking.Model.*
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
@@ -57,6 +55,7 @@ class UserAppoinmentManagement() : Fragment() {
     private var emptyTV1: TextView ?= null
     private var emptyTV2: TextView ?= null
     private var emptyTV3: TextView ?= null
+    private var context:Context ?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,34 +68,33 @@ class UserAppoinmentManagement() : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        displayView()
+    }
+
+    private fun displayView() {
         database = Firebase.database.reference
 
         appoinmentList.clear()
         doctorList.clear()
         timeList.clear()
         prescriptionList.clear()
-
-        displayReRecyclerView()
-    }
-
-    private fun displayReRecyclerView() {
         readAppointmentFromRealtimeDB() {list1, list2, list3 ->
             keyAppoinmentList = list1
             appoinmentList = list2
             doctorList = list3
-            displayReRecyclerViewRecyclerView()
+            val sortedAppointments = appoinmentList.sortedWith(compareBy(
+                { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(it.Ngay) },
+                { SimpleDateFormat("HH:mm", Locale.getDefault()).parse(it.GioBatDau) }
+            ))
+            appoinmentList = ArrayList(sortedAppointments)
+            displayRecyclerView()
         }
 
-        val sortedAppointments = appoinmentList.sortedWith(compareBy(
-            { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(it.Ngay) },
-            { SimpleDateFormat("HH:mm", Locale.getDefault()).parse(it.GioBatDau) }
-        ))
-        appoinmentList = ArrayList(sortedAppointments)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         tabHost = view.findViewById(R.id.tabHost)
         tabHost?.setup()
         var tabSpec : TabHost.TabSpec? = null
@@ -124,9 +122,11 @@ class UserAppoinmentManagement() : Fragment() {
         quantityTV3 = view.findViewById(R.id.quantity3)
         recyclerView3 = view.findViewById(R.id.recyclerView3)
         emptyTV3 = view.findViewById(R.id.emptyTV3)
+
+
     }
 
-    private fun displayReRecyclerViewRecyclerView() {
+    private fun displayRecyclerView() {
         unapprovedList.clear()
         approvedList.clear()
         historyAppoinmentList.clear()
@@ -134,17 +134,16 @@ class UserAppoinmentManagement() : Fragment() {
         //tab1
         unapprovedList = appoinmentList.filter { it.MaTrangThai == 0 } as ArrayList<CuocHen>
         if(unapprovedList.size > 0) {
+            emptyTV1?.visibility = View.GONE
             quantityTV1?.setText(unapprovedList.size.toString())
 
             adapter1 = HistoryAppoinmentAdapter(unapprovedList, doctorList)
-            recyclerView1?.layoutManager = LinearLayoutManager(requireContext())
             recyclerView1?.adapter = adapter1
-
+            recyclerView1?.layoutManager = LinearLayoutManager(context)
 
             adapter1?.onItemClick = { index ->
                 showAlertDialog(index, 0)
             }
-            adapter1?.notifyDataSetChanged()
         }
 
         else {
@@ -154,9 +153,9 @@ class UserAppoinmentManagement() : Fragment() {
         // tab2
         approvedList = appoinmentList.filter { it.MaTrangThai == 1 } as ArrayList<CuocHen>
         if(approvedList.size > 0) {
+            emptyTV2?.visibility = View.GONE
             quantityTV2?.setText(approvedList.size.toString())
 
-            recyclerView2?.layoutManager = LinearLayoutManager(requireContext())
 
             adapter2 = HistoryAppoinmentAdapter(approvedList, doctorList)
             recyclerView2?.adapter = adapter2
@@ -173,15 +172,17 @@ class UserAppoinmentManagement() : Fragment() {
 //        Tab3
         historyAppoinmentList = appoinmentList.filter { it.MaTrangThai == 2 } as ArrayList<CuocHen>
         if(historyAppoinmentList.size > 0) {
+            emptyTV3?.visibility = View.GONE
             quantityTV3?.setText(historyAppoinmentList.size.toString())
 
-            recyclerView3?.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView3?.layoutManager = LinearLayoutManager(context)
 
             adapter3 = HistoryAppoinmentAdapter(historyAppoinmentList, doctorList)
             recyclerView3?.adapter = adapter3
+            recyclerView2?.layoutManager = LinearLayoutManager(context)
 
             adapter3?.onItemClick = { index ->
-                val intent = Intent(requireContext(), PrescriptionActivity::class.java)
+                val intent = Intent(context, PrescriptionActivity::class.java)
                 intent.putExtra("people", "patient")
                 for(doctor in doctorList) {
                     if(historyAppoinmentList[index].MaBacSi == doctor.MaBacSi) {
@@ -209,17 +210,18 @@ class UserAppoinmentManagement() : Fragment() {
             if(type == 0) {
                 appoinmentList.forEachIndexed { i, value ->
                     if (value.MaCuocHen == unapprovedList[index].MaCuocHen) {
-                        deleteAppoinmentFromRealtimeDB(keyAppoinmentList[i])
+                        updateThoiGianRanhFromRealtimeDB(value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
+                        deleteAppoinmentFromRealtimeDB(value.MaCuocHen, index, 0)
                     }
                 }
             } else {
                 appoinmentList.forEachIndexed { i, value ->
                     if (value.MaCuocHen == approvedList[index].MaCuocHen) {
-                        deleteAppoinmentFromRealtimeDB(keyAppoinmentList[i])
+                        updateThoiGianRanhFromRealtimeDB(value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
+                        deleteAppoinmentFromRealtimeDB(value.MaCuocHen, index, 1)
                     }
                 }
             }
-            displayReRecyclerView()
         }
         alertDialog.setNegativeButton(
             "Không"
@@ -281,14 +283,52 @@ class UserAppoinmentManagement() : Fragment() {
             })
     }
 
-    fun deleteAppoinmentFromRealtimeDB(key: String) {
+    fun deleteAppoinmentFromRealtimeDB(key: String, index: Int, type: Int) {
+
         val databaseRef = FirebaseDatabase.getInstance().getReference("CuocHen")
         // Assuming "key" is the key of the node you want to delete
         databaseRef.child(key).removeValue().addOnSuccessListener {
-            // The node was successfully deleted
+            if(type == 0) {
+                unapprovedList.removeAt(index)
+                adapter1?.notifyDataSetChanged()
+                quantityTV1?.setText(unapprovedList.size.toString())
+            }
+            else {
+                approvedList.removeAt(index)
+                adapter2?.notifyDataSetChanged()
+                quantityTV2?.setText(approvedList.size.toString())
+            }
             Toast.makeText(requireContext(), "Cuộc hẹn đã xóa", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             // There was an error deleting the node
         }
+    }
+
+    fun updateThoiGianRanhFromRealtimeDB(maBacSi: String, ngayThang: String, gioBatDau: String, gioKetThuc: String ) {
+        val myRef = Firebase.database.getReference("ThoiGianRanh")
+
+        myRef.orderByChild("maBacSi")
+            .equalTo(maBacSi)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (snapshot in dataSnapshot.children) {
+                        val key = snapshot.key
+                        val thoiGianRanh = snapshot.getValue(ThoiGianRanh::class.java)
+                        if (thoiGianRanh != null &&
+                            thoiGianRanh.gioBatDau == gioBatDau &&
+                            thoiGianRanh.gioKetThuc == gioKetThuc &&
+                            thoiGianRanh.ngayThang == ngayThang
+                        ) {
+                            val childUpdates = HashMap<String, Any>()
+                            childUpdates["/ThoiGianRanh/$key/duocDat"] = 0
+                            database.updateChildren(childUpdates)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w(TAG, "Failed to read value.", error.toException())
+                }
+            })
     }
 }

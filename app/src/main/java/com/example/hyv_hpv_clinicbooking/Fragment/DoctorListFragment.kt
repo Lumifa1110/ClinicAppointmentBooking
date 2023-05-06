@@ -90,7 +90,7 @@ class DoctorListFragment : Fragment() {
                 }
             }
             if (filteredList.isEmpty()) {
-                Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No Data found", Toast.LENGTH_SHORT).show()
             } else {
                 adapter.setFilteredList(filteredList)
             }
@@ -102,11 +102,11 @@ class DoctorListFragment : Fragment() {
         quantityDoctorTV?.setText(mList.size.toString())
 
         adapter = DoctorListAdapter(mList)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
         recyclerView.adapter = adapter
         adapter?.onItemClick = { index ->
-            val intent = Intent(requireContext(), DoctorDetailPage::class.java)
+            val intent = Intent(context, DoctorDetailPage::class.java)
             intent.putExtra("doctor", mList[index])
             startActivity(intent)
         }
@@ -154,7 +154,7 @@ class DoctorListFragment : Fragment() {
 
     fun showDialogChuyenKhoa() {
         var customDialog: AlertDialog?=null
-        val builder = AlertDialog.Builder(requireContext())
+        val builder = AlertDialog.Builder(context)
         //Hiển thị dialog để chọn time
         var view_dialog: View =
             this.layoutInflater.inflate(R.layout.dialog_chuyenkhoa, null)
@@ -179,7 +179,7 @@ class DoctorListFragment : Fragment() {
                 }
 
                 val arrayAdapter: ArrayAdapter<*>
-                arrayAdapter = ArrayAdapter(requireContext()!!, android.R.layout.simple_list_item_1, chuyenKhoa)
+                arrayAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, chuyenKhoa)
                 chuyenKhoaList.adapter = arrayAdapter
 
                 chuyenKhoaList.setOnItemClickListener { parent, view, position, id ->
