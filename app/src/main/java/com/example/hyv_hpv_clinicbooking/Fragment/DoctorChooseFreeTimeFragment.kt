@@ -228,8 +228,7 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                             if(checkTimeValid) {
                                 var newTime:ThoiGianRanh = ThoiGianRanh(dayChoose,
                                     dayInWeek!![dayChoose], "$hourStart:$minuteStart",
-                                    "$hourEnd:$minuteEnd", maBacSi, 0, 0
-                                )
+                                    "$hourEnd:$minuteEnd", maBacSi, 0)
                                 val key: String? = database.push().key
                                 database.child(key!!).setValue(newTime)
 

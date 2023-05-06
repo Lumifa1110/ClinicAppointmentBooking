@@ -12,9 +12,8 @@ class ThoiGianRanh (
     var gioKetThuc:String ?= null,
     var maBacSi: String ?= null,
     var trangThai: Int = 0, //0 - Rãnh, 1 - Bận
-    var duocDat: Int = 0, //0 - Chưa bị đặt, 1 - Đã có người đặt
 ): Parcelable {
-    constructor() : this(0, null, null, null, null, 0, 0)
+    constructor() : this(0, null, null, null, null, 0)
 
     @RequiresApi(Build.VERSION_CODES.O)
     constructor(parcel: Parcel) : this(
@@ -23,7 +22,6 @@ class ThoiGianRanh (
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readInt(),
         parcel.readInt()
     )
 
@@ -34,7 +32,6 @@ class ThoiGianRanh (
         parcel.writeString(gioKetThuc)
         parcel.writeString(maBacSi)
         parcel.writeInt(trangThai)
-        parcel.writeInt(duocDat)
     }
 
     override fun describeContents(): Int {

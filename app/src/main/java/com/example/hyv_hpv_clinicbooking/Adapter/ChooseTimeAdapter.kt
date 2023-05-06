@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
+import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.DatabaseReference
 
-class ChooseTimeAdapter (private var context: Context, private var freeTimeList: ArrayList<ThoiGianRanh>, var database : DatabaseReference, var keyList: ArrayList<String>, var selectedItemPosition: Int) : BaseAdapter() {
+class ChooseTimeAdapter (private var context: Context, private var freeTimeList: ArrayList<ThoiGianRanh>, var database : DatabaseReference, var keyList: ArrayList<String>, var selectedItemPosition: Int, var selectedDate:String, var cuocHenList: ArrayList<CuocHen>) : BaseAdapter() {
     private class ViewHolder(row: View?) {
         var timeView: TextView? = null
 
@@ -43,7 +44,7 @@ class ChooseTimeAdapter (private var context: Context, private var freeTimeList:
 
         for(timeCheck in freeTimeList) {
             if(khungGio.gioBatDau == timeCheck.gioBatDau && khungGio.ngayThang == timeCheck.ngayThang) {
-                if(timeCheck.trangThai == 1 || timeCheck.duocDat == 1) {
+                if(timeCheck.trangThai == 1) {
                     viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
                     viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
                     viewHolder.timeView?.isEnabled = false
@@ -62,6 +63,18 @@ class ChooseTimeAdapter (private var context: Context, private var freeTimeList:
 //                notifyDataSetChanged()
 //            }
 //        }
+
+        for(cuocHen in cuocHenList) {
+            if(cuocHen.Ngay == selectedDate) {
+                if (khungGio.gioBatDau == cuocHen.GioBatDau && khungGio.gioKetThuc == cuocHen.GioKetThuc) {
+                    if (cuocHen.MaTrangThai == 0 || cuocHen.MaTrangThai == 1) {
+                        viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
+                        viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                        viewHolder.timeView?.isEnabled = false
+                    }
+                }
+            }
+        }
 
         if(viewHolder.timeView?.isEnabled == true) {
             if (selectedItemPosition == position) {

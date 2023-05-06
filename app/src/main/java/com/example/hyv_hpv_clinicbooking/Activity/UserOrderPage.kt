@@ -31,6 +31,7 @@ class UserOrderPage : AppCompatActivity() {
     var morningList = arrayListOf<ThoiGianRanh>()
     var afternoonList = arrayListOf<ThoiGianRanh>()
     var thoiGianRanhList =  arrayListOf<ThoiGianRanh>()
+    var cuocHenList = arrayListOf<CuocHen>()
     var dayList =  ArrayList<String>()
     var dayInWeek:HashMap<Int, String> ?= null
 
@@ -60,8 +61,10 @@ class UserOrderPage : AppCompatActivity() {
     private lateinit var database : DatabaseReference
 
     //Khai báo dữ liệu người dùng
+    var doctor: BacSi?= null
     var maBacSi:String ?= null
     var dayChoose:Int = 0
+    var dateChoose:String ?= null
     var maTaiKhoan:String?= null
     //Khai báo context
     var ctx: Context?= null
@@ -91,7 +94,7 @@ class UserOrderPage : AppCompatActivity() {
         //Gọi bảng thời gian rảnh của bác sĩ
         database = Firebase.database.getReference("ThoiGianRanh")
 
-        var doctor = intent.getParcelableExtra<BacSi>("BacSi")
+        doctor = intent.getParcelableExtra<BacSi>("BacSi")
         maBacSi = doctor?.MaBacSi
 
         //Xu ly nut back
@@ -153,6 +156,7 @@ class UserOrderPage : AppCompatActivity() {
                 var current = dayList[0].split("\n")
                 var day = current[0]
                 dayChoose = 0
+                dateChoose = current[1]
                 when (day) {
                     "Thứ 2" -> dayChoose = 2
                     "Thứ 3" -> dayChoose = 3
@@ -162,14 +166,14 @@ class UserOrderPage : AppCompatActivity() {
                     "Thứ 7" -> dayChoose = 7
                     "Chủ Nhật" -> dayChoose = 1
                 }
-                xulyThoiGianHienThi(dayChoose)
+                xulyThoiGianHienThi(dayChoose, dateChoose!!)
 
                 adapter?.onItemClick = {date, vitri ->
                     morningList = arrayListOf<ThoiGianRanh>()
                     afternoonList = arrayListOf<ThoiGianRanh>()
                     var data = date.split("\n").toTypedArray()
                     var day = data[0]
-
+                    dateChoose = data[1]
                     dayChoose = 0
                     when (day) {
                         "Thứ 2" -> dayChoose = 2
@@ -181,12 +185,8 @@ class UserOrderPage : AppCompatActivity() {
                         "Chủ Nhật" -> dayChoose = 1
                     }
 
-                    xulyThoiGianHienThi(dayChoose)
-                    //Xử lí nút order
-                    orderBTN?.setOnClickListener {
-                        showDialogConfirm(dayInWeek!![dayChoose].toString(), selectedTime?.gioBatDau.toString() + " - "
-                        + selectedTime?.gioKetThuc.toString(), doctor!!.HoTen)
-                    }
+                    xulyThoiGianHienThi(dayChoose, dateChoose!!)
+
                 }
             }
 
@@ -203,10 +203,10 @@ class UserOrderPage : AppCompatActivity() {
             cal.add(Calendar.DATE, index)
             val day = cal.get(Calendar.DAY_OF_WEEK)
             if(day == 1) {
-                dayList.add("Chủ Nhật" + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1))
+                dayList.add("Chủ Nhật" + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1)  + "/" + cal.get(Calendar.YEAR).toString())
             }
             else {
-                dayList.add("Thứ " + day.toString() + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1))
+                dayList.add("Thứ " + day.toString() + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1)  + "/" + cal.get(Calendar.YEAR).toString())
             }
 
             dayInWeek!![day] = convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR).toString()
@@ -245,13 +245,30 @@ class UserOrderPage : AppCompatActivity() {
         //Xu ly nut xac nhan
         _confirmBTN.setOnClickListener (object : View.OnClickListener {
             override fun onClick(view: View) {
-                var checkTimeEmpty = Firebase.database.getReference("ThoiGianRanh").child(selectedKeyTime!!).child("duocDat")
+                var cuochenDB = Firebase.database.getReference("CuocHen")
+                val queryRef: Query = cuochenDB
+                    .orderByChild("maBacSi")
+                    .equalTo(maBacSi!!)
 
-                var isEmpty = true
-                checkTimeEmpty.get()
-                    .addOnSuccessListener {
-                        if(it.value.toString() != "0")
-                            isEmpty = false
+                queryRef.addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        cuocHenList = arrayListOf<CuocHen>()
+
+                        var isEmpty = true
+                        for (child in dataSnapshot.children) {
+                            val cuocHen = child.getValue(CuocHen::class.java)
+                            cuocHenList.add(cuocHen!!)
+                            if (cuocHen.Ngay == dayInWeek!![dayChoose]) {
+                                if (cuocHen.GioBatDau == selectedTime?.gioBatDau.toString() && cuocHen.GioKetThuc == selectedTime?.gioKetThuc) {
+                                    if(cuocHen.MaTrangThai == 0 || cuocHen.MaTrangThai == 1){
+                                        isEmpty = false
+                                        break;
+                                    }
+                                }
+                            }
+                        }
 
                         if(isEmpty) {
                             showDialogAnnouce(
@@ -260,7 +277,6 @@ class UserOrderPage : AppCompatActivity() {
                             )
 
                             //Xu ly voi db
-                            database.child(selectedKeyTime!!).child("duocDat").setValue(1)
                             var cuochenDB = Firebase.database.getReference("CuocHen")
                             val key: String? = cuochenDB.push().key
 
@@ -273,16 +289,40 @@ class UserOrderPage : AppCompatActivity() {
                             newAppointment.MaTrangThai = 0
                             newAppointment.Ngay = dayInWeek!![dayChoose].toString()
 
+                            cuocHenList.add(newAppointment)
                             cuochenDB.child(key!!).setValue(newAppointment)
-
                         } else {
                             showDialogAnnouce("OOP!! LỖI", "Đặt lịch hẹn không thành công. Đã có người đặt lịch này trước bạn. Hãy đặt lịch khác nhé")
                         }
 
                         customDialog?.dismiss()
-                    }.addOnFailureListener{
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        showDialogAnnouce(
+                            "THÀNH CÔNG",
+                            "Đã đặt lịch hẹn thành công. Vui lòng để ý kỹ thời gian, cũng như ngày khám bệnh"
+                        )
+
+                        //Xu ly voi db
+                        var cuochenDB = Firebase.database.getReference("CuocHen")
+                        val key: String? = cuochenDB.push().key
+
+                        var newAppointment = CuocHen()
+                        newAppointment.MaCuocHen = key.toString()
+                        newAppointment.MaBacSi = maBacSi.toString()
+                        newAppointment.MaBenhNhan = maTaiKhoan.toString()
+                        newAppointment.GioBatDau = selectedTime?.gioBatDau.toString()
+                        newAppointment.GioKetThuc = selectedTime?.gioKetThuc.toString()
+                        newAppointment.MaTrangThai = 0
+                        newAppointment.Ngay = dayInWeek!![dayChoose].toString()
+
+                        cuocHenList.add(newAppointment)
+                        cuochenDB.child(key!!).setValue(newAppointment)
+
                         customDialog?.dismiss()
                     }
+                })
             }
         })
 
@@ -316,16 +356,22 @@ class UserOrderPage : AppCompatActivity() {
         _closeBTN.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 if(isClickMorning) {
-                    morningList[selectedIndex].duocDat = 1
-                    timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, -1)
+                    timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, -1, dateChoose!!, cuocHenList)
                     morningTimeView?.adapter = timeAdapter
                 }
                 else {
-                    afternoonList[selectedIndex].duocDat = 1
-                    afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, -1)
+                    afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, -1, dateChoose!!, cuocHenList)
                     afternoonTimeView?.adapter = afternoonAdapter
                 }
+
                 customDialog?.dismiss()
+
+                //Chuyển qua màn hình lịch sử
+                if(title == "THÀNH CÔNG") {
+                    val intent = Intent(ctx, UserHomePage::class.java)
+                    intent.putExtra("fragment", "history_appoinment_list")
+                    startActivity(intent)
+                }
             }
         })
         builder.setView(view_dialog)
@@ -333,13 +379,14 @@ class UserOrderPage : AppCompatActivity() {
         customDialog?.show()
     }
 
-    fun xulyThoiGianHienThi(dayChoose: Int) {
+    fun xulyThoiGianHienThi(dayChoose: Int, dateChoose: String) {
         var index:Int = 0
         keyMorning = arrayListOf<String>()
         keyAfternoon = arrayListOf<String>()
+        cuocHenList = arrayListOf<CuocHen>()
+
         for(time in thoiGianRanhList) {
             if(time.thuTrongTuan == dayChoose) {
-                //Thêm các khoảng thời gian đổi ra phút vào list
                 var dataStart = arrayListOf<String>()
                 dataStart = time.gioBatDau?.split(":") as ArrayList<String>
 
@@ -355,22 +402,67 @@ class UserOrderPage : AppCompatActivity() {
             index += 1
         }
 
-        //Xử lý để click 1 trong các ô ở 2 grid view
+        var cuochenDB = Firebase.database.getReference("CuocHen")
+        val queryRef: Query = cuochenDB
+            .orderByChild("maBacSi")
+            .equalTo(maBacSi!!)
+
+        queryRef.addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                cuocHenList = arrayListOf<CuocHen>()
+
+                for (child in dataSnapshot.children) {
+                    cuocHenList.add(child.getValue(CuocHen::class.java)!!)
+                }
+
+                chooseOneInTwoGridView()
+                //Xử lí nút order
+                orderBTN?.setOnClickListener {
+                    showDialogConfirm(
+                        dayInWeek!![dayChoose].toString(),
+                        selectedTime?.gioBatDau.toString() + " - "
+                                + selectedTime?.gioKetThuc.toString(),
+                        doctor!!.HoTen
+                    )
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle errors here
+                chooseOneInTwoGridView()
+                //Xử lí nút order
+                orderBTN?.setOnClickListener {
+                    showDialogConfirm(
+                        dayInWeek!![dayChoose].toString(),
+                        selectedTime?.gioBatDau.toString() + " - "
+                                + selectedTime?.gioKetThuc.toString(),
+                        doctor!!.HoTen
+                    )
+                }
+            }
+        })
+
+    }
+
+    //Xử lý để click 1 trong các ô ở 2 grid view
+    fun chooseOneInTwoGridView() {
         selectedIndex = -1
         isClickMorning = false
         isClickAfternoon = false
 
-        timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, selectedIndex)
+        timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, selectedIndex, dateChoose!!, cuocHenList)
         morningTimeView?.adapter = timeAdapter
         morningTimeView?.setOnItemClickListener { adapterView, view, position, id ->
             if(isClickAfternoon) {
-                afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, -1)
+                afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, -1, dateChoose!!, cuocHenList)
                 afternoonTimeView?.adapter = afternoonAdapter
                 isClickAfternoon = false
             }
 
             selectedIndex = position
-            timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, selectedIndex)
+            timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, selectedIndex, dateChoose!!, cuocHenList)
             morningTimeView?.adapter = timeAdapter
             isClickMorning = true
 
@@ -378,17 +470,17 @@ class UserOrderPage : AppCompatActivity() {
             selectedKeyTime = keyMorning[selectedIndex]
         }
 
-        afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, selectedIndex)
+        afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, selectedIndex, dateChoose!!, cuocHenList)
         afternoonTimeView?.adapter = afternoonAdapter
         afternoonTimeView?.setOnItemClickListener { adapterView, view, position, id ->
             if(isClickMorning) {
-                timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, -1)
+                timeAdapter = ChooseTimeAdapter(ctx as UserOrderPage, morningList, database, keyMorning, -1, dateChoose!!, cuocHenList)
                 morningTimeView?.adapter = timeAdapter
                 isClickMorning = false
             }
 
             selectedIndex = position
-            afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, selectedIndex)
+            afternoonAdapter = ChooseTimeAdapter(ctx as UserOrderPage, afternoonList, database, keyAfternoon, selectedIndex, dateChoose!!, cuocHenList)
             afternoonTimeView?.adapter = afternoonAdapter
             isClickAfternoon = true
 
