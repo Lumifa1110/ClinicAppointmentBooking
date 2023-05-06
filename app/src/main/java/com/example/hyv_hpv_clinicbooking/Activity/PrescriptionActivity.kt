@@ -63,16 +63,24 @@ class PrescriptionActivity : AppCompatActivity() {
         chuandoanTV?.setText(appoinment.ChuanDoan)
         loidanTV?.setText(appoinment.LoiDan)
 
-        val medicines = appoinment.DonThuoc.split("\n").toTypedArray()
-        for(medicine in medicines) {
-            var item = medicine.split(";").toTypedArray()
-            var donthuoc = DonThuoc()
-            donthuoc.TenThuoc = item[0]
-            donthuoc.SoLuong = item[1].toInt()
-            donthuoc.DonVi = item[2]
-            donthuoc.CachDung = item[3]
-            mList.add(donthuoc)
+        if(appoinment.DonThuoc != "") {
+            val medicines = appoinment.DonThuoc.split("\n").toTypedArray()
+            for(medicine in medicines) {
+                var item = medicine.split(";").toTypedArray()
+                var donthuoc = DonThuoc()
+                donthuoc.TenThuoc = item[0]
+                if (item[1] == "") {
+                    donthuoc.SoLuong = 0
+                }
+                else {
+                    donthuoc.SoLuong = item[1].toInt()
+                }
+                donthuoc.DonVi = item[2]
+                donthuoc.CachDung = item[3]
+                mList.add(donthuoc)
+            }
         }
+
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)

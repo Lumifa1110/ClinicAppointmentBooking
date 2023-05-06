@@ -7,6 +7,7 @@ import com.example.hyv_hpv_clinicbooking.Model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -81,8 +82,8 @@ class Data {
         doctor.DiaChi = "34-36 đường Đinh Tiên Hoàng, phường Đakao, quận 1, TP.HCM"
         doctor.SoDienThoai = "0123456789"
         doctor.Image = R.drawable.doctor5
-
         result.add(doctor)
+
         return result
     }
 
@@ -359,6 +360,7 @@ class Data {
         benhNhan.SoDienThoai = "0123456789"
         benhNhan.PassWord = "1234"
         result.add(benhNhan)
+
         return result
     }
 

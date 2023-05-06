@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_common_2"
+    android:background="@drawable/bg_common"
     tools:context=".Activity.DoctorPrescriptionPage">
 
     <RelativeLayout
@@ -52,7 +52,7 @@
         android:background="@drawable/wrapper_rounded_primary"
         android:layout_marginTop="50dp">
         <TextView
-            android:id="@+id/nameTV"
+            android:id="@+id/nameTitle"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:padding="10dp"
@@ -69,7 +69,7 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:text="Phạm Trần Minh Ngọc"
             android:textSize="14sp"
             android:background="@drawable/box_white"
@@ -104,7 +104,7 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:text="08 giờ 30 phút"
             android:textSize="14sp"
             android:background="@drawable/box_white"
@@ -136,13 +136,13 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            app:tint="@color/primary_color"
+            app:tint="@color/primary"
             android:src="@drawable/prescription"/>
         <TextView
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="Chuẩn đoán" />
@@ -156,9 +156,9 @@
         android:layout_marginTop="6dp"
         android:background="@drawable/box_white"
         android:paddingHorizontal="10dp"
-        android:text="Mắc bệnh đái tháo đường\nsdfsfsdfsfsdfsdfsf"
+        android:text=""
         android:textSize="14sp"
-        android:textColor="@color/primary_color"
+        android:textColor="@color/primary"
         app:layout_constraintTop_toBottomOf="@+id/chuandoanTitle"
         tools:layout_editor_absoluteX="20dp" />
 
@@ -176,13 +176,13 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/prescription"
-            app:tint="@color/primary_color" />
+            app:tint="@color/primary" />
 
         <TextView
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="Thuốc điều trị:" />
@@ -224,13 +224,13 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            app:tint="@color/primary_color"
+            app:tint="@color/primary"
             android:src="@drawable/prescription"/>
         <TextView
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="Lời dặn" />
@@ -245,7 +245,7 @@
         android:background="@drawable/box_white"
         android:padding="10dp"
         android:textSize="14sp"
-        android:textColor="@color/primary_color"
+        android:textColor="@color/primary"
         app:layout_constraintTop_toBottomOf="@+id/noteTitle"
         tools:layout_editor_absoluteX="20dp" />
 

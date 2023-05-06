@@ -44,8 +44,12 @@ class AdminDashBoard : Fragment() {
     private var addSpecialize: ImageButton? = null
     private var medicineRV: RecyclerView? = null
     private var specializeRV: RecyclerView? = null
+
     private var countMedicine: TextView? = null
     private var countSpecialize: TextView? = null
+    private var countAll: TextView? = null
+    private var countDoctor: TextView? = null
+    private var countPatient: TextView? = null
 
     override fun onStart() {
         super.onStart()
@@ -83,6 +87,10 @@ class AdminDashBoard : Fragment() {
 
         countMedicine = view.findViewById(R.id.countMedicine)
         countSpecialize = view.findViewById(R.id.countSpec)
+        countAll = view.findViewById(R.id.countAll)
+        countDoctor = view.findViewById(R.id.countDoc)
+        countPatient = view.findViewById(R.id.countPat)
+
         medicineRV = view.findViewById(R.id.medicineRV)
         specializeRV = view.findViewById(R.id.specializeRV)
 
@@ -126,6 +134,7 @@ class AdminDashBoard : Fragment() {
     private fun re_create() {
         readMedicineFromRealtimeDB()
         readSpecializeFromRealtimeDB()
+        getAmountDoctorAndPatient()
         displayRecyclerView()
     }
     private fun displayRecyclerView() {
@@ -138,7 +147,9 @@ class AdminDashBoard : Fragment() {
         medicineRV!!.adapter = medicineAdapter
         specializeRV!!.adapter = specializeAdapter
 
+        // Edit và Delete với 1 thuốc
         medicineAdapter.setOnItemClickListener(object : MedicineAdapter.OnItemClickListener{
+            // Khi xoá
             override fun onDeleteClick(medicine: Thuoc) {
                 super.onDeleteClick(medicine)
                 val builder = AlertDialog.Builder(requireContext())
@@ -154,6 +165,7 @@ class AdminDashBoard : Fragment() {
                                     data.ref.removeValue()
                                 }
                                 Toast.makeText(requireContext(), "Đã xoá " + medicine.tenThuoc, Toast.LENGTH_SHORT).show()
+                                medicineAdapter.notifyDataSetChanged()
                             }
                             override fun onCancelled(error: DatabaseError) {
                                 // Handle error
@@ -167,6 +179,7 @@ class AdminDashBoard : Fragment() {
                 alert.setCanceledOnTouchOutside(false)
                 alert.show()
             }
+            // Khi chỉnh sửa
             override fun onEditClick(medicine: Thuoc) {
                 super.onEditClick(medicine)
                 // Tạo 1 dialog hiện tên thuốc trên EditText
@@ -250,6 +263,7 @@ class AdminDashBoard : Fragment() {
                                     data.ref.removeValue()
                                 }
                                 Toast.makeText(requireContext(), "Đã xoá " + specialize.tenChuyenKhoa, Toast.LENGTH_SHORT).show()
+                                specializeAdapter.notifyDataSetChanged()
                             }
                             override fun onCancelled(error: DatabaseError) {
                                 // Handle error
@@ -427,6 +441,26 @@ class AdminDashBoard : Fragment() {
                 }
                 countSpecialize!!.setText(specializeList.size.toString())
                 specializeAdapter.notifyDataSetChanged()
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+    fun getAmountDoctorAndPatient() {
+        var bacsiCount: Long = 0
+        var benhnhanCount: Long = 0
+        var totalCount: Long = 0
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                bacsiCount = snapshot.child("BacSi").childrenCount
+                benhnhanCount = snapshot.child("BenhNhan").childrenCount
+                totalCount = bacsiCount + benhnhanCount
+                countAll!!.setText(totalCount.toString())
+                countDoctor!!.setText(bacsiCount.toString())
+                countPatient!!.setText(benhnhanCount.toString())
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")

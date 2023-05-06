@@ -194,7 +194,6 @@ class AppoinmentManagementFragment : Fragment() {
 
             quantityTV3?.setText(historyAppoinmentList.size.toString())
 
-
             adapter3 = DoctorAppoinmentList(historyAppoinmentList, patientList)
             recyclerView3?.adapter = adapter3
             recyclerView3?.layoutManager = LinearLayoutManager(context)
@@ -229,10 +228,6 @@ class AppoinmentManagementFragment : Fragment() {
                     updateTrangThai(value.MaCuocHen, 1)
                     value.MaTrangThai = 1
                     displayView()
-//                    unapprovedList.removeAt(index)
-//                    adapter1?.notifyDataSetChanged()
-//                    approvedList.add(value)
-//                    adapter2?.notifyDataSetChanged()
                 }
             }
         }
@@ -250,8 +245,7 @@ class AppoinmentManagementFragment : Fragment() {
                     // Assuming "key" is the key of the node you want to delete
                     databaseRef.child(value.MaCuocHen).removeValue().addOnSuccessListener {
                         // The node was successfully deleted
-                        unapprovedList.removeAt(index)
-                        adapter1?.notifyDataSetChanged()
+                        displayView()
                         Toast.makeText(requireContext(), "Cuộc hẹn đã xóa", Toast.LENGTH_LONG).show()
                     }.addOnFailureListener {
                         // There was an error deleting the node
@@ -285,7 +279,7 @@ class AppoinmentManagementFragment : Fragment() {
                     intent.putExtra("patient_name", item.HoTen)
                 }
             }
-            intent.putExtra("appoinment", unapprovedList[index])
+            intent.putExtra("appoinment", approvedList[index])
             startActivityForResult(intent, REQUEST_CODE)
 
         }
@@ -316,26 +310,33 @@ class AppoinmentManagementFragment : Fragment() {
                     val scheduleId = snapshot.key
                     val appointment = snapshot.getValue(CuocHen::class.java)
                     if(appointment!!.MaBacSi.equals("-NUGq3OnCBW17tiSzuyZ")) {
-                        val myDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(appointment!!.Ngay)
-                        if (myDate.compareTo(currentDate) > 0) {
-                            // myDate lớn hơn ngày hiện tại
-                            appointmentList.add(appointment!!)
-                            keyAppoinmentList.add(scheduleId!!)
-                            readPatientFromRealtimeDB(appointment.MaBenhNhan) { patients ->
-                                patientList.addAll(patients)
-                                callback(keyAppoinmentList, appointmentList, patientList)
+                        if(appointment.Ngay == null || appointment.Ngay =="null" || appointment.GioBatDau == null || appointment.GioBatDau == "null" || appointment.GioKetThuc == null || appointment.GioKetThuc == "null") {
+                            deleteAppoinmentFromRealtimeDB(appointment.MaCuocHen)
+                        }
+                        else {
+                            val myDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(
+                                appointment!!.Ngay
+                            )
+                            if (myDate.compareTo(currentDate) > 0) {
+                                // myDate lớn hơn ngày hiện tại
+                                appointmentList.add(appointment!!)
+                                keyAppoinmentList.add(scheduleId!!)
+                                readPatientFromRealtimeDB(appointment.MaBenhNhan) { patients ->
+                                    patientList.addAll(patients)
+                                    callback(keyAppoinmentList, appointmentList, patientList)
+                                }
+                            } else if (myDate.compareTo(currentDate) == 0) {
+                                // myDate bằng ngày hiện tại
+                                appointmentList.add(appointment!!)
+                                keyAppoinmentList.add(scheduleId!!)
+                                readPatientFromRealtimeDB(appointment.MaBenhNhan) { patients ->
+                                    patientList.addAll(patients)
+                                    callback(keyAppoinmentList, appointmentList, patientList)
+                                }
+                            } else {
+                                // myDate nhỏ hơn ngày hiện tại
+                                deleteAppoinmentFromRealtimeDB(scheduleId!!)
                             }
-                        } else if (myDate.compareTo(currentDate) == 0) {
-                            // myDate bằng ngày hiện tại
-                            appointmentList.add(appointment!!)
-                            keyAppoinmentList.add(scheduleId!!)
-                            readPatientFromRealtimeDB(appointment.MaBenhNhan) { patients ->
-                                patientList.addAll(patients)
-                                callback(keyAppoinmentList, appointmentList, patientList)
-                            }
-                        } else {
-                            // myDate nhỏ hơn ngày hiện tại
-                            deleteAppoinmentFromRealtimeDB(scheduleId!!)
                         }
                     }
                 }
@@ -390,7 +391,6 @@ class AppoinmentManagementFragment : Fragment() {
         // Assuming "key" is the key of the node you want to delete
         databaseRef.child(key).removeValue().addOnSuccessListener {
             // The node was successfully deleted
-            Toast.makeText(requireContext(), "Cuộc hẹn đã xóa", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             // There was an error deleting the node
         }

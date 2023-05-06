@@ -66,6 +66,9 @@ class DoctorAppoinmentList(var scheduleList: List<CuocHen>, var patientList: Lis
         }
         holder.timeTV.text = "Giờ hẹn: " + scheduleList[position].GioBatDau + " - " + scheduleList[position].GioKetThuc
         holder.dateTV.text = "Ngày hẹn: " + scheduleList[position].Ngay
+        if(scheduleList[position].MaTrangThai == 1) {
+            Log.w("hung", scheduleList[position].GioBatDau + " - " + scheduleList[position].GioKetThuc +", " + scheduleList[position].Ngay)
+        }
     }
 
     override fun getItemCount(): Int {
