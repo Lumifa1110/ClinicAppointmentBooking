@@ -481,7 +481,7 @@ class EditProfilePage : AppCompatActivity() {
         chuyenKhoaDB.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for(child in dataSnapshot.children) {
-                    chuyenKhoa.add(child.child("TenChuyenKhoa").value.toString())
+                    chuyenKhoa.add(child.child("tenChuyenKhoa").value.toString())
                 }
 
                 val arrayAdapter: ArrayAdapter<*>
