@@ -52,7 +52,7 @@ class TimeAdapter (private var context: Context, private var freeTimeList: Array
                 }
                 else {
                     viewHolder.timeView?.setBackgroundResource(R.drawable.time_not_choose)
-                    viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                    viewHolder.timeView?.setTextColor(Color.parseColor("#747474"))
                 }
                 break;
             }
@@ -77,7 +77,7 @@ class TimeAdapter (private var context: Context, private var freeTimeList: Array
                         database.child(keyList[position]).child("trangThai").setValue(1)
                         timeCheck.trangThai = 1
                         viewHolder.timeView?.setBackgroundResource(R.drawable.time_not_choose)
-                        viewHolder.timeView?.setTextColor(Color.parseColor("#000000"))
+                        viewHolder.timeView?.setTextColor(Color.parseColor("#747474"))
                     }
                     break;
                 }

@@ -39,6 +39,9 @@ class UserOrderPage : AppCompatActivity() {
     var dayList =  ArrayList<String>()
     var dayInWeek:HashMap<Int, String> ?= null
     var doctorName:TextView ?= null
+    var morningTV: TextView ?= null
+    var afternoonTV: TextView ?= null
+
 
     //Khai báo nút cần xử lý
     var orderBTN: Button?= null
@@ -84,6 +87,8 @@ class UserOrderPage : AppCompatActivity() {
         setContentView(R.layout.activity_user_order_page)
 
         doctorName = findViewById(R.id.doctorName)
+        morningTV = findViewById(R.id.morningTV)
+        afternoonTV = findViewById(R.id.afternoonTV)
 
         //Gán lịch
         calendarView = findViewById(R.id.calendar)
@@ -166,6 +171,8 @@ class UserOrderPage : AppCompatActivity() {
                         database.child(key).child("ngayThang").setValue(dayInWeek!!.get(1));
                     }
                 }
+
+                sortTime()
 
                 //set lịch hiện tại
                 val cal = Calendar.getInstance()
@@ -400,6 +407,8 @@ class UserOrderPage : AppCompatActivity() {
             index += 1
         }
 
+        checkHienThiGV()
+
         var cuochenDB = Firebase.database.getReference("CuocHen")
         val queryRef: Query = cuochenDB
             .orderByChild("maBacSi")
@@ -418,12 +427,17 @@ class UserOrderPage : AppCompatActivity() {
                 chooseOneInTwoGridView()
                 //Xử lí nút order
                 orderBTN?.setOnClickListener {
-                    showDialogConfirm(
-                        dayInWeek!![dayChoose].toString(),
-                        selectedTime?.gioBatDau.toString() + " - "
-                                + selectedTime?.gioKetThuc.toString(),
-                        doctor!!.HoTen
-                    )
+                    if(selectedTime == null) {
+                        showDialogAnnouce("OOP!! LỖI", "Vui lòng chọn khung giờ để đặt lịch khám")
+                    }
+                    else {
+                        showDialogConfirm(
+                            dayInWeek!![dayChoose].toString(),
+                            selectedTime?.gioBatDau.toString() + " - "
+                                    + selectedTime?.gioKetThuc.toString(),
+                            doctor!!.HoTen
+                        )
+                    }
                 }
             }
 
@@ -432,12 +446,17 @@ class UserOrderPage : AppCompatActivity() {
                 chooseOneInTwoGridView()
                 //Xử lí nút order
                 orderBTN?.setOnClickListener {
-                    showDialogConfirm(
-                        dayInWeek!![dayChoose].toString(),
-                        selectedTime?.gioBatDau.toString() + " - "
-                                + selectedTime?.gioKetThuc.toString(),
-                        doctor!!.HoTen
-                    )
+                    if(selectedTime == null) {
+                        showDialogAnnouce("OOP!! LỖI", "Vui lòng chọn khung giờ để đặt lịch khám")
+                    }
+                    else {
+                        showDialogConfirm(
+                            dayInWeek!![dayChoose].toString(),
+                            selectedTime?.gioBatDau.toString() + " - "
+                                    + selectedTime?.gioKetThuc.toString(),
+                            doctor!!.HoTen
+                        )
+                    }
                 }
             }
         })
@@ -484,6 +503,42 @@ class UserOrderPage : AppCompatActivity() {
 
             selectedTime = afternoonList[selectedIndex]
             selectedKeyTime = keyAfternoon[selectedIndex]
+        }
+    }
+
+    fun checkHienThiGV() {
+        if(morningList.isEmpty()) {
+            morningTV?.visibility = View.INVISIBLE
+            morningTimeView?.visibility = View.INVISIBLE
+        } else {
+            morningTV?.visibility = View.VISIBLE
+            morningTimeView?.visibility = View.VISIBLE
+        }
+
+        if(afternoonList.isEmpty()) {
+            afternoonTV?.visibility = View.INVISIBLE
+            afternoonTimeView?.visibility = View.INVISIBLE
+        } else {
+            afternoonTV?.visibility = View.VISIBLE
+            afternoonTimeView?.visibility = View.VISIBLE
+        }
+    }
+
+    fun sortTime() {
+        for(i in 0 until thoiGianRanhList.size - 1) {
+            for (j in (i + 1) until thoiGianRanhList.size) {
+                var timeFirst = thoiGianRanhList[i].gioBatDau?.split(":")
+                var timeSecond = thoiGianRanhList[j].gioBatDau?.split(":")
+                if(timeFirst!![0].toInt() * 60 + timeFirst[1].toInt() >= timeSecond!![0].toInt() * 60 + timeSecond[1].toInt()) {
+                    var temp = thoiGianRanhList[i]
+                    thoiGianRanhList[i] = thoiGianRanhList[j]
+                    thoiGianRanhList[j] = temp
+
+                    var keyTemp = keyList[i]
+                    keyList[i] = keyList[j]
+                    keyList[j] = keyTemp
+                }
+            }
         }
     }
 }

@@ -14,6 +14,8 @@ import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.DatabaseReference
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ChooseTimeAdapter (private var context: Context, private var freeTimeList: ArrayList<ThoiGianRanh>, var database : DatabaseReference, var keyList: ArrayList<String>, var selectedItemPosition: Int, var selectedDate:String, var cuocHenList: ArrayList<CuocHen>) : BaseAdapter() {
     private class ViewHolder(row: View?) {
@@ -70,6 +72,29 @@ class ChooseTimeAdapter (private var context: Context, private var freeTimeList:
             }
         }
 
+        //So sánh với giờ hiện tại
+        val cal = Calendar.getInstance()
+        val dayChoose = convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR).toString()
+        if(selectedDate == dayChoose) {
+            val curHour = cal.get(Calendar.HOUR_OF_DAY)
+            val curMinute = cal.get(Calendar.MINUTE)
+            val gioBatDau = khungGio.gioBatDau?.split(":")
+
+            if (gioBatDau!![0].toInt() < curHour) {
+                viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
+                viewHolder.timeView?.setTextColor(Color.parseColor("#747474"))
+                viewHolder.timeView?.isEnabled = false
+            }
+
+            if (gioBatDau[0].toInt() == curHour) {
+                if (gioBatDau[1].toInt() < curMinute) {
+                    viewHolder.timeView?.setBackgroundResource(R.drawable.time_busy)
+                    viewHolder.timeView?.setTextColor(Color.parseColor("#747474"))
+                    viewHolder.timeView?.isEnabled = false
+                }
+            }
+        }
+
         if(viewHolder.timeView?.isEnabled == true) {
             if (selectedItemPosition == position) {
                 viewHolder.timeView?.setBackgroundResource(R.drawable.day_choose)
@@ -92,5 +117,10 @@ class ChooseTimeAdapter (private var context: Context, private var freeTimeList:
     override fun getCount(): Int {
         return freeTimeList.size
     }
-
+    fun convertNtoNN(number: Int):String {
+        if(number < 10) {
+            return "0$number"
+        }
+        return number.toString()
+    }
 }

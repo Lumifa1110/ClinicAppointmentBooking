@@ -162,6 +162,7 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                     }
                 }
 
+                sortTime(0)
                 adapter = DayAdapter(dayList)
                 customListView!!.adapter = adapter
                 val layoutManager =
@@ -236,12 +237,14 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                                 if(timeStart!!.currentHour <= 12) {
                                     morningList.add(newTime)
                                     keyMorning.add(key)
+                                    sortTime(1)
                                     timeAdapter = TimeAdapter(requireContext(), morningList, database, keyMorning)
                                     morningTimeView?.adapter = timeAdapter
                                 }
                                 else {
                                     afternoonList.add(newTime)
                                     keyAfternoon.add(key)
+                                    sortTime(2)
                                     afternoonAdapter = TimeAdapter(requireContext(), afternoonList, database, keyAfternoon)
                                     afternoonTimeView?.adapter = afternoonAdapter
                                 }
@@ -349,5 +352,61 @@ class DoctorChooseFreeTimeFragment : Fragment(){
 
         afternoonAdapter = TimeAdapter(requireContext(), afternoonList, database, keyAfternoon)
         afternoonTimeView?.adapter = afternoonAdapter
+    }
+
+    fun sortTime(type:Int) {
+        if(type == 0) {
+            for (i in 0 until thoiGianRanhList.size - 1) {
+                for (j in (i + 1) until thoiGianRanhList.size) {
+                    var timeFirst = thoiGianRanhList[i].gioBatDau?.split(":")
+                    var timeSecond = thoiGianRanhList[j].gioBatDau?.split(":")
+                    if (timeFirst!![0].toInt() * 60 + timeFirst[1].toInt() >= timeSecond!![0].toInt() * 60 + timeSecond[1].toInt()) {
+                        var temp = thoiGianRanhList[i]
+                        thoiGianRanhList[i] = thoiGianRanhList[j]
+                        thoiGianRanhList[j] = temp
+
+                        var keyTemp = keyList[i]
+                        keyList[i] = keyList[j]
+                        keyList[j] = keyTemp
+                    }
+                }
+            }
+        }
+
+        if(type == 1) {
+            for (i in 0 until morningList.size - 1) {
+                for (j in (i + 1) until morningList.size) {
+                    var timeFirst = morningList[i].gioBatDau?.split(":")
+                    var timeSecond = morningList[j].gioBatDau?.split(":")
+                    if (timeFirst!![0].toInt() * 60 + timeFirst[1].toInt() >= timeSecond!![0].toInt() * 60 + timeSecond[1].toInt()) {
+                        var temp = morningList[i]
+                        morningList[i] = morningList[j]
+                        morningList[j] = temp
+
+                        var keyTemp = keyMorning[i]
+                        keyMorning[i] = keyMorning[j]
+                        keyMorning[j] = keyTemp
+                    }
+                }
+            }
+        }
+
+        if(type == 2) {
+            for (i in 0 until afternoonList.size - 1) {
+                for (j in (i + 1) until afternoonList.size) {
+                    var timeFirst = afternoonList[i].gioBatDau?.split(":")
+                    var timeSecond = afternoonList[j].gioBatDau?.split(":")
+                    if (timeFirst!![0].toInt() * 60 + timeFirst[1].toInt() >= timeSecond!![0].toInt() * 60 + timeSecond[1].toInt()) {
+                        var temp = afternoonList[i]
+                        afternoonList[i] = afternoonList[j]
+                        afternoonList[j] = temp
+
+                        var keyTemp = keyAfternoon[i]
+                        keyAfternoon[i] = keyAfternoon[j]
+                        keyAfternoon[j] = keyTemp
+                    }
+                }
+            }
+        }
     }
 }
