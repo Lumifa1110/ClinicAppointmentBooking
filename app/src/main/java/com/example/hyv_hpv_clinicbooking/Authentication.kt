@@ -2,20 +2,20 @@ package com.example.hyv_hpv_clinicbooking
 
 import BenhNhan
 import android.app.Activity
-import android.content.Intent
-import android.view.View
-import android.widget.Toast
-import com.example.hyv_hpv_clinicbooking.Activity.LoginPage
+import android.util.Log
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
-import com.example.hyv_hpv_clinicbooking.Model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-public class Authentication
+class AuthenticationHelper
 {
-    private var database : DatabaseReference = Firebase.database.getReference("Users")
+    private var userDB : DatabaseReference = Firebase.database.getReference("Users")
     private lateinit var auth  : FirebaseAuth
 
     fun registerEmailPassword(
@@ -40,7 +40,7 @@ public class Authentication
                                 PassWord = password
                             )
                             // Write User to database
-                            database.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
+                            userDB.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
                                 if (task.isSuccessful) {
                                     // Register success
                                     println(R.string.toastRegisterSuccess)
@@ -59,7 +59,7 @@ public class Authentication
                                 PassWord = password
                             )
                             // Write User to database
-                            database.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
+                            userDB.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
                                 if (task.isSuccessful) {
                                     // Register success
                                     println(R.string.toastRegisterSuccess)

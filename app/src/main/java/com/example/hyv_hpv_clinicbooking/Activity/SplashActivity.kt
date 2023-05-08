@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var database : DatabaseReference
     private lateinit var auth  : FirebaseAuth
 
-    private var currentUserRole: String = ""
+    private val roles = arrayOf<String>("BenhNhan", "BacSi")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,40 +37,39 @@ class SplashActivity : AppCompatActivity() {
         }
         else {
             getUserRole(user)
-            startHomePage(currentUserRole)
         }
     }
 
     private fun getUserRole(user: FirebaseUser) {
-        database.child(user.uid).child("role")
-            .addValueEventListener(object : ValueEventListener {
+        for (role in roles) {
+            val query = database.child(role)
+                .orderByChild("email")
+                .equalTo(user.email)
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    currentUserRole = dataSnapshot.getValue(String::class.java)!!
-                    Log.i("Login as ", currentUserRole)
-                    startHomePage(currentUserRole)
+                    if (dataSnapshot.exists()) {
+                        Log.i("Login as ", role)
+                        startHomePage(role)
+                    }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                override fun onCancelled(databaseError: DatabaseError) {}
             })
+        }
     }
 
     private fun startHomePage(role: String) {
         val intent : Intent
         when (role) {
-            // Benh nhan
-            "patient" -> {
+            "BenhNhan" -> {
                 intent = Intent(this, UserHomePage::class.java)
                 startActivity(intent)
             }
-            // Bac si
-            "doctor" -> {
+            "BacSi" -> {
                 intent = Intent(this, DoctorHomePage::class.java)
                 startActivity(intent)
             }
-            // Admin
-            "admin" -> {
+            "Admin" -> {
                 intent = Intent(this, AdminHomePage::class.java)
                 startActivity(intent)
             }

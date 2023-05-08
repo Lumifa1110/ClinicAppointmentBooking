@@ -14,6 +14,8 @@ import android.widget.TextView
 import com.example.hyv_hpv_clinicbooking.Activity.*
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -47,10 +49,17 @@ class UserProfile : Fragment() {
 
     //Khai báo tài khoản bác sĩ hiện tại
     var accountCurrent: BenhNhan ?= null
-    var maBenhNhan: String ?= null
+    private var maBenhNhan: String ?= null
+    private var hoTen: String ?= null
+    private var email: String ?= null
+    private var soDienThoai: String ?= null
+
+    private val roles = arrayOf<String>("BenhNhan", "BacSi")
 
     //khai báo database
     private lateinit var database : DatabaseReference
+    private lateinit var auth  : FirebaseAuth
+    private lateinit var userDB : DatabaseReference
 
     //Khai báo firebase storage để lấy ảnh
     lateinit var storage: FirebaseStorage
@@ -66,6 +75,10 @@ class UserProfile : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        auth = FirebaseAuth.getInstance()
+        userDB = Firebase.database.getReference("Users")
+
         //Gán các nút xử lý
         editBTN = view.findViewById(R.id.editProfileBTN)
         dangXuatBTN = view.findViewById(R.id.dangXuatBTN)
@@ -102,62 +115,67 @@ class UserProfile : Fragment() {
                 Log.d("Test", " Failed!")
             }
 
-        //lấy dữ liệu của bác sĩ hiện tại
-        val queryRef: Query = database
-            .orderByChild("maBenhNhan")
-            .equalTo(maBenhNhan)
+        //lấy dữ liệu của người dùng hiện tại
+        getUserProfile(auth.currentUser!!)
 
-        queryRef.addListenerForSingleValueEvent(object :
-            ValueEventListener {
+        nameTV?.text = hoTen
+        phoneTV?.text = "Số điện thoại: $soDienThoai"
+        emailTV?.text = "Email: $email"
+
+        editBTN?.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfilePage::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            intent.putExtra("taiKhoan", accountCurrent)
+            startActivity(intent)
+        }
+
+        changePasswordBTN?.setOnClickListener {
+            val intent = Intent(requireContext(), ChangePasswordPage::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            startActivity(intent)
+        }
+
+        dangXuatBTN?.setOnClickListener {
+            auth.signOut()
+            val intent = Intent(requireContext(), LoginPage::class.java)
+            startActivity(intent)
+        }
+
+        chinhsachbm?.setOnClickListener {
+            val intent = Intent(requireContext(), ChinhSachBaoMat::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            startActivity(intent)
+        }
+
+        dieukhoandv?.setOnClickListener {
+            val intent = Intent(requireContext(), DieuKhoanDichVu::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            startActivity(intent)
+        }
+
+        quydinhsd?.setOnClickListener {
+            val intent = Intent(requireContext(), QuyDinhSuDung::class.java)
+            intent.putExtra("loaiTaiKhoan", "BenhNhan")
+            startActivity(intent)
+        }
+    }
+
+    private fun getUserProfile(user: FirebaseUser) {
+        val query = userDB.child("BenhNhan")
+            .orderByChild("email")
+            .equalTo(user.email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (child in dataSnapshot.children) {
-                    accountCurrent = child.getValue(BenhNhan::class.java)
-                }
-
-                nameTV?.text = accountCurrent?.HoTen
-                phoneTV?.text = "Số điện thoại: " + accountCurrent?.SoDienThoai
-                emailTV?.text = "Email: " + accountCurrent?.Email
-
-                editBTN?.setOnClickListener {
-                    val intent = Intent(requireContext(), EditProfilePage::class.java)
-                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
-                    intent.putExtra("taiKhoan", accountCurrent)
-                    startActivity(intent)
-                }
-
-                changePasswordBTN?.setOnClickListener {
-                    val intent = Intent(requireContext(), ChangePasswordPage::class.java)
-                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
-                    startActivity(intent)
-                }
-
-                dangXuatBTN?.setOnClickListener {
-                    val intent = Intent(requireContext(), LoginPage::class.java)
-                    startActivity(intent)
-                }
-
-                chinhsachbm?.setOnClickListener {
-                    val intent = Intent(requireContext(), ChinhSachBaoMat::class.java)
-                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
-                    startActivity(intent)
-                }
-
-                dieukhoandv?.setOnClickListener {
-                    val intent = Intent(requireContext(), DieuKhoanDichVu::class.java)
-                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
-                    startActivity(intent)
-                }
-
-                quydinhsd?.setOnClickListener {
-                    val intent = Intent(requireContext(), QuyDinhSuDung::class.java)
-                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
-                    startActivity(intent)
+                dataSnapshot.children.forEach { it ->
+                    val benhNhan = it.getValue(BenhNhan::class.java) as BenhNhan
+                    maBenhNhan = benhNhan.MaBenhNhan
+                    hoTen = benhNhan.HoTen
+                    email = benhNhan.Email
+                    soDienThoai = benhNhan.SoDienThoai
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle errors here
-            }
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 }

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.hyv_hpv_clinicbooking.Model.User
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -22,7 +21,7 @@ class RegisterPage : AppCompatActivity() {
     private lateinit var passwordET : EditText
     private lateinit var registerBtn : Button
 
-    private lateinit var database : DatabaseReference
+    private lateinit var userDB : DatabaseReference
     private lateinit var auth  : FirebaseAuth
 
     private fun initWidgets() {
@@ -39,7 +38,7 @@ class RegisterPage : AppCompatActivity() {
 
         initWidgets()
 
-        database = Firebase.database.getReference("Users")
+        userDB = Firebase.database.getReference("Users")
 
         initListener()
     }
@@ -65,14 +64,16 @@ class RegisterPage : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // create User
+                        val key: String? = userDB.push().key
                         val user = BenhNhan(
+                            MaBenhNhan = key!!,
                             HoTen = name,
                             SoDienThoai = phone,
                             Email = email,
                             PassWord = password
                         )
                         // update User profile in database
-                        database.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
+                        userDB.child(role).child(key).setValue(user).addOnCompleteListener {
                             if (task.isSuccessful) {
                                 // Register success
                                 Toast.makeText(applicationContext

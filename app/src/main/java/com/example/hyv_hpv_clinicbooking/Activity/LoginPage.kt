@@ -3,11 +3,11 @@ package com.example.hyv_hpv_clinicbooking.Activity
 import BenhNhan
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,9 +17,13 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+
 
 class LoginPage : AppCompatActivity() {
     private lateinit var emailET: EditText
@@ -29,14 +33,14 @@ class LoginPage : AppCompatActivity() {
     private lateinit var resetPasswordBTN: TextView
     private lateinit var createNewAccountBTN: TextView
     private lateinit var loginGoogleBTN: ImageButton
+    private lateinit var loginFacebookBTN: ImageButton
 
     private val roles = arrayOf<String>("BenhNhan", "BacSi")
 
     // Firebase
-    private lateinit var database : DatabaseReference
+    private lateinit var userDB : DatabaseReference
     private lateinit var auth  : FirebaseAuth
     private lateinit var googleSignInClient : GoogleSignInClient
-
 
     private fun initWidgets() {
         emailET = findViewById(R.id.emailET)
@@ -46,6 +50,7 @@ class LoginPage : AppCompatActivity() {
         resetPasswordBTN = findViewById(R.id.resetPasswordBTN)
         createNewAccountBTN = findViewById(R.id.createNewAccountBTN)
         loginGoogleBTN = findViewById(R.id.googleButton)
+        loginFacebookBTN = findViewById(R.id.facebookButton)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +59,7 @@ class LoginPage : AppCompatActivity() {
 
         initWidgets()
 
-        database = Firebase.database.getReference("Users")
+        userDB = Firebase.database.getReference("Users")
         auth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -145,15 +150,19 @@ class LoginPage : AppCompatActivity() {
 
     private fun getUserRole(user: FirebaseUser) {
         for (role in roles) {
-            database.child(role).child(user.uid).get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val document = task.result
-                    if (document.exists()) {
+            val query = userDB.child(role)
+                .orderByChild("email")
+                .equalTo(user.email)
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
                         Log.i("Login as ", role)
                         startHomePage(role)
                     }
                 }
-            }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
         }
     }
 
@@ -175,27 +184,26 @@ class LoginPage : AppCompatActivity() {
         }
     }
 
-    private fun loginGoogle(){
+    private fun loginGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
     }
 
-    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
-        if (result.resultCode == Activity.RESULT_OK){
-
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             handleResults(task)
         }
     }
 
     private fun handleResults(task: Task<GoogleSignInAccount>) {
-        if (task.isSuccessful){
+        if (task.isSuccessful) {
             val account : GoogleSignInAccount? = task.result
-            if (account != null){
+            if (account != null) {
                 updateUI(account)
             }
-        }else{
+        } else {
             Toast.makeText(this, task.exception.toString() , Toast.LENGTH_SHORT).show()
         }
     }
@@ -204,27 +212,41 @@ class LoginPage : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken , null)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                // create User
-                val user = BenhNhan(
-                    Email = auth.currentUser!!.email!!,
-                )
-                // update User profile in database
-                database.child("BenhNhan").child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        // Register success
-                        Toast.makeText(applicationContext
-                            , getString(R.string.toastRegisterSuccess)
-                            , Toast.LENGTH_SHORT)
-                            .show()
+                // Check if User data already exist
+                val query = userDB.child("BenhNhan")
+                    .orderByChild("email")
+                    .equalTo(auth.currentUser!!.email)
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (!dataSnapshot.exists()) {
+                            // create User data
+                            val key: String? = userDB.push().key
+                            val user = BenhNhan(
+                                MaBenhNhan = key!!,
+                                Email = auth.currentUser!!.email!!,
+                            )
+                            // update User profile in database
+                            userDB.child("BenhNhan").child(key).setValue(user).addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    // Register success
+                                    Toast.makeText(applicationContext
+                                        , getString(R.string.toastRegisterSuccess)
+                                        , Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                                else {
+                                    // Register fail
+                                    Toast.makeText(applicationContext
+                                        , getString(R.string.toastRegisterFail)
+                                        , Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                        }
                     }
-                    else {
-                        // Register fail
-                        Toast.makeText(applicationContext
-                            , getString(R.string.toastRegisterFail)
-                            , Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
                 // Get User role and Switch to Homepage
                 getUserRole(auth.currentUser!!)
             } else {
