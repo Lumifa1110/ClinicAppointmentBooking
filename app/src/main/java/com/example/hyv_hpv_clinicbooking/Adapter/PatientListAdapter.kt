@@ -3,6 +3,8 @@ package com.example.hyv_hpv_clinicbooking.Adapter
 import BenhNhan
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
 class PatientListAdapter(private var context: Context,
@@ -48,7 +53,19 @@ class PatientListAdapter(private var context: Context,
         holder.idTV?.text = (position + 1).toString()
         holder.nameTV?.text = patient.HoTen
         holder.phoneTV?.text = patient.SoDienThoai
-        holder.avatar?.setImageResource(R.drawable.anya)
+
+        holder.storage = FirebaseStorage.getInstance();
+        holder.storageReference = holder.storage.reference;
+        var ref: StorageReference = holder.storageReference!!.child("BenhNhan/" + patient.MaBenhNhan)
+        ref.downloadUrl
+            .addOnSuccessListener { uri ->
+                Picasso.get().load(uri).into(holder.avatar);
+                Log.d("Test", " Success!")
+            }
+            .addOnFailureListener {
+                Log.d("Test", " Failed!")
+            }
+//        holder.avatar?.setImageResource(patient.Image)
 
         if (patient.BiKhoa) {
             holder.isLock?.setImageResource(R.drawable.block_user)
@@ -73,6 +90,10 @@ class PatientListAdapter(private var context: Context,
         var avatar: CircleImageView? = null
         var isLock: ImageButton? = null
         var delUser: ImageButton? = null
+        lateinit var storage: FirebaseStorage
+        var storageReference: StorageReference? = null
+        private var filePath: Uri? = null
+        private val PICK_IMAGE_REQUEST = 71
 
         init {
             idTV = listItemView.findViewById(R.id.idTV) as TextView
