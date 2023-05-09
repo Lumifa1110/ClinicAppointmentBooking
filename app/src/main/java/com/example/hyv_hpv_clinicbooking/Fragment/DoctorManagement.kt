@@ -61,8 +61,8 @@ class DoctorManagement : Fragment() {
                                     for (data in snapshot.children) {
                                         key = data.key.toString()
                                     }
-                                    adapter.notifyDataSetChanged()
                                     databaseRef.child(key!!).child("biKhoa").setValue(newValue)
+                                    adapter.notifyDataSetChanged()
                                 } else {
                                     Toast.makeText(requireContext(), "Không tìm thấy tài khoản. Lỗi hiển thị", Toast.LENGTH_SHORT).show()
                                 }

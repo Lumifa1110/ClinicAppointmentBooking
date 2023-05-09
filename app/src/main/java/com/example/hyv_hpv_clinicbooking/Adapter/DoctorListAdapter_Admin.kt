@@ -2,6 +2,7 @@ package com.example.hyv_hpv_clinicbooking.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,14 @@ import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailPage
 import com.example.hyv_hpv_clinicbooking.Activity.EditProfilePage
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 class DoctorListAdapter_Admin(private var context: Context,
                               private var doctorList: ArrayList<BacSi>) :
@@ -32,15 +41,18 @@ class DoctorListAdapter_Admin(private var context: Context,
         var idTV: TextView? = null
         var nameTV: TextView? = null
         var phoneTV: TextView? = null
-        var avatar: ImageView? = null
+        var avatar: CircleImageView? = null
         var isLock: ImageButton? = null
         var delUser: ImageButton? = null
         var editUser: ImageButton? = null
+        lateinit var storage: FirebaseStorage
+        var storageReference: StorageReference? = null
+
         init {
             idTV = listItemView.findViewById(R.id.userID) as TextView
             nameTV = listItemView.findViewById(R.id.userName) as TextView
             phoneTV = listItemView.findViewById(R.id.userContact) as TextView
-            avatar = listItemView.findViewById(R.id.userAvatar) as ImageView
+            avatar = listItemView.findViewById(R.id.userAvatar)
             isLock = listItemView.findViewById(R.id.isLock) as ImageButton
             delUser = listItemView.findViewById(R.id.deleteUser)
             editUser = listItemView.findViewById(R.id.editUser)
@@ -69,7 +81,21 @@ class DoctorListAdapter_Admin(private var context: Context,
         holder.idTV?.text = (position + 1).toString()
         holder.nameTV?.text = doctor.HoTen
         holder.phoneTV?.text = doctor.SoDienThoai
-        holder.avatar?.setImageResource(R.drawable.avatar)
+
+        holder.storage = FirebaseStorage.getInstance();
+        holder.storageReference = holder.storage.reference;
+        var ref: StorageReference = holder.storageReference!!.child("BacSi/" + doctor.MaBacSi)
+
+        ref.downloadUrl
+            .addOnSuccessListener { uri ->
+                Picasso.get().load(uri).into(holder.avatar);
+                Log.d("Test", " Success!")
+            }
+            .addOnFailureListener {
+                Log.d("Test", " Failed!")
+            }
+
+//        holder.avatar?.setImageResource(doctor.Image)
 //        lock = doctor.BiKhoa
         if (doctor.BiKhoa) {
             holder.isLock?.setImageResource(R.drawable.block_user)
