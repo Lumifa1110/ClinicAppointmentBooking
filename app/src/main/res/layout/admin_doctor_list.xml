@@ -18,21 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/avatarCardView"
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userAvatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center"
-            app:cardCornerRadius="250dp">
-
-            <ImageView
-                android:id="@+id/userAvatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="@string/description"
-                android:scaleType="centerCrop"
-                android:src="@drawable/avatar" />
-        </androidx.cardview.widget.CardView>
+            android:contentDescription="@string/description"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/avatar" />
 
         <LinearLayout
             android:layout_width="210sp"

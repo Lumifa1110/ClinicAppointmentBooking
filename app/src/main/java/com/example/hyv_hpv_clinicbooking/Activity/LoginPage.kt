@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -69,10 +70,10 @@ class LoginPage : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this , gso)
 
-        initListener()
+        initListeners()
     }
 
-    private fun initListener() {
+    private fun initListeners() {
         dangKi.setOnClickListener {
             val intent = Intent(this, RegisterPage::class.java)
             startActivity(intent)
@@ -227,6 +228,57 @@ class LoginPage : AppCompatActivity() {
                             )
                             // update User profile in database
                             userDB.child("BenhNhan").child(key).setValue(user).addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    // Register success
+                                    Toast.makeText(applicationContext
+                                        , getString(R.string.toastRegisterSuccess)
+                                        , Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                                else {
+                                    // Register fail
+                                    Toast.makeText(applicationContext
+                                        , getString(R.string.toastRegisterFail)
+                                        , Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
+                // Get User role and Switch to Homepage
+                getUserRole(auth.currentUser!!)
+            } else {
+                // Register fail
+                Toast.makeText(applicationContext
+                    , getString(R.string.toastRegisterFail)
+                    , Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun updateUI2(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken , null)
+        auth.signInWithCredential(credential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                // Check if User data already exist
+                val query = userDB.child("BacSi")
+                    .orderByChild("email")
+                    .equalTo(auth.currentUser!!.email)
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (!dataSnapshot.exists()) {
+                            // create User data
+                            val key: String? = userDB.push().key
+                            val user = BacSi(
+                                MaBacSi = key!!,
+                                Email = auth.currentUser!!.email!!,
+                            )
+                            // update User profile in database
+                            userDB.child("BacSi").child(key).setValue(user).addOnCompleteListener {
                                 if (it.isSuccessful) {
                                     // Register success
                                     Toast.makeText(applicationContext

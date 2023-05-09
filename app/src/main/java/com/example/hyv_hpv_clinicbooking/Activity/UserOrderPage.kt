@@ -19,6 +19,7 @@ import com.example.hyv_hpv_clinicbooking.ExpandableHeightGridView
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
+import com.example.hyv_hpv_clinicbooking.Model.ThongBao
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -72,6 +73,7 @@ class UserOrderPage : AppCompatActivity() {
     private lateinit var thoiGianRanhDB : DatabaseReference
     private lateinit var cuocHenDB : DatabaseReference
     private lateinit var userDB : DatabaseReference
+    private lateinit var thongbaoDB : DatabaseReference
 
     //Khai báo dữ liệu người dùng
     var doctor: BacSi?= null
@@ -122,6 +124,7 @@ class UserOrderPage : AppCompatActivity() {
         thoiGianRanhDB = Firebase.database.getReference("ThoiGianRanh")
         cuocHenDB = Firebase.database.getReference("CuocHen")
         userDB = Firebase.database.getReference("Users")
+        thongbaoDB = Firebase.database.getReference("ThongBao")
 
         //Ma Tai Khoan hien tai
         getBenhNhanKey(auth.currentUser!!)
@@ -304,6 +307,9 @@ class UserOrderPage : AppCompatActivity() {
 
                             cuocHenList.add(newAppointment)
                             cuocHenDB.child(key!!).setValue(newAppointment)
+
+                            createNotification(newAppointment)
+
                         } else {
                             showDialogAnnouce("OOP!! LỖI", "Đặt lịch hẹn không thành công. Đã có người đặt lịch này trước bạn. Hãy đặt lịch khác nhé")
                         }
@@ -332,6 +338,8 @@ class UserOrderPage : AppCompatActivity() {
 
                         cuocHenList.add(newAppointment)
                         cuocHenDB.child(key!!).setValue(newAppointment)
+
+                        createNotification(newAppointment)
 
                         customDialog?.dismiss()
                     }
@@ -562,5 +570,16 @@ class UserOrderPage : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    private fun createNotification(cuochen: CuocHen) {
+        val key : String? = thongbaoDB.push().key
+        val newNotification = ThongBao(
+            MaCuocHen = cuochen.MaCuocHen,
+            MaBenhNhan = cuochen.MaBenhNhan,
+            MaBacSi = cuochen.MaBacSi,
+            NoiDung = "${cuochen.Ngay}, ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
+        )
+        thongbaoDB.child(key!!).setValue(newNotification)
     }
 }

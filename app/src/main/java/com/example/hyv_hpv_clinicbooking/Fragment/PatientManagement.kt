@@ -62,7 +62,7 @@ class PatientManagement : Fragment() {
                                         key = data.key.toString()
                                     }
                                     databaseRef.child(key!!).child("biKhoa").setValue(newValue)
-
+                                    adapter.notifyDataSetChanged()
                                 } else {
                                     Toast.makeText(requireContext(), "Không tìm thấy tài khoản. Lỗi hiển thị", Toast.LENGTH_SHORT).show()
                                 }
@@ -71,10 +71,9 @@ class PatientManagement : Fragment() {
                                 TODO("Not yet implemented")
                             }
                         })
-                        display()
                     }
                     .setNegativeButton("Huỷ") { dialog, which ->
-                        display()
+                        adapter.notifyDataSetChanged()
                         dialog.dismiss()
                     }
                 val alert: AlertDialog = builder.create()
