@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -29,6 +30,7 @@ class RegisterDoctorPage : AppCompatActivity() {
     var addressET:EditText?= null
     var soNamTrongNgheET:EditText?=null
     var emailET:EditText?= null
+    var passwordET:EditText?= null
     var chuyenKhoaET:EditText?= null
     var cccdET:EditText?= null
 
@@ -60,6 +62,7 @@ class RegisterDoctorPage : AppCompatActivity() {
 
     lateinit var storage: FirebaseStorage
     var storageReference: StorageReference? = null
+    lateinit var auth : FirebaseAuth
 
     var ctx: Context?= null
 
@@ -69,12 +72,15 @@ class RegisterDoctorPage : AppCompatActivity() {
 
         ctx = this
 
+        auth = FirebaseAuth.getInstance()
+
         //gan cac bien thong tin ca nhan
         nameET = findViewById(R.id.nameET)
         phoneET = findViewById(R.id.phoneET)
         addressET = findViewById(R.id.addressET)
         soNamTrongNgheET = findViewById(R.id.soNamTrongNgheET)
         emailET = findViewById(R.id.emailET)
+        passwordET = findViewById(R.id.passwordET)
         chuyenKhoaET = findViewById(R.id.chuyenKhoaET)
         cccdET = findViewById(R.id.cccdET)
 
@@ -138,6 +144,7 @@ class RegisterDoctorPage : AppCompatActivity() {
         //Lưu dữ liệu
         registerBTN?.setOnClickListener {
             println("bat")
+            val key: String? = database.push().key
             var name = nameET?.text.toString()
             var phone = phoneET?.text.toString()
             var address = addressET?.text.toString()
@@ -145,15 +152,33 @@ class RegisterDoctorPage : AppCompatActivity() {
             var chuyenKhoa = chuyenKhoaET?.text.toString()
             var cccd = cccdET?.text.toString()
             var email = emailET?.text.toString()
+            var password = passwordET?.text.toString()
 
-            var bacSi:BacSi = BacSi("", chuyenKhoa, 0, 0, name,
-                                phone, 0, address, 0, email, "", "1234",
-                                false, "16 gio", false)
+            // Init Firebase Authentication
+            auth = FirebaseAuth.getInstance()
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // create User
+                        var bacSi:BacSi = BacSi("", chuyenKhoa, 0, 0, name,
+                            phone, 0, address, 0, email, "", "1234",
+                            false, "16 gio", false)
 
-            database = Firebase.database.getReference("Users").child("BacSi")
-            val key: String? = database.push().key
-            bacSi.MaBacSi = key!!
-            database.child(key).setValue(bacSi)
+                        database = Firebase.database.getReference("Users").child("BacSi")
+                        bacSi.MaBacSi = key!!
+                        database.child(key).setValue(bacSi)
+                        // Move to Login page
+                        val intent = Intent(this, LoginPage::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Register fail
+                        Toast.makeText(applicationContext
+                            , getString(R.string.toastRegisterFail)
+                            , Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
 
 
             //Gán firebase storage, up load anh len firebase storage
