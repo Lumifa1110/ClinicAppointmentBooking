@@ -16,7 +16,7 @@
             android:exported="false" />
         <!-- Vào ứng dụng -->
         <activity
-            android:name=".Activity.SplashActivity"
+            android:name=".Activity.RegisterDoctorPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

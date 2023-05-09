@@ -7,18 +7,6 @@ import androidx.annotation.RequiresApi
 import com.example.hyv_hpv_clinicbooking.R
 import kotlinx.serialization.Serializable
 
-//class BacSi {
-//    var MaBacSi: Int = 0
-//    var TenChuyenKhoa: String = ""
-//    var SLBenhNhan: Int = 0
-//    var SoNamTrongNghe: Int = 0
-//    var HoTen: String = ""
-//    var SoDienThoai: String = ""
-//    var SoCuocHen: Int = 0
-//    var DiaChi: String =""
-//    var Image:Int ?= null
-//}
-
 @Serializable
 data class BacSi (
     var MaBacSi: String = "",
@@ -34,7 +22,9 @@ data class BacSi (
     var Mota: String = "",
     var PassWord: String = "",
     var BiKhoa: Boolean = true,
-    var KhungGioLamViec:String = ""
+    var KhungGioLamViec:String = "",
+    var DaDuyet: Boolean = false, //false la chua duoc duyet - true la da duyet
+    var Cccd: String = ""
     ): Parcelable {
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
@@ -49,6 +39,8 @@ data class BacSi (
         parcel.readInt()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readBoolean(),
         parcel.readString()!!,
         parcel.readBoolean(),
         parcel.readString()!!
@@ -70,6 +62,8 @@ data class BacSi (
         parcel.writeString(PassWord)
         parcel.writeBoolean(BiKhoa)
         parcel.writeString(KhungGioLamViec)
+        parcel.writeBoolean(DaDuyet)
+        parcel.writeString(Cccd)
     }
 
     override fun describeContents(): Int {

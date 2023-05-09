@@ -4,180 +4,313 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_login_register"
     tools:context=".Activity.RegisterDoctorPage">
 
-<!--    <TextView-->
-<!--        android:id="@+id/loginTV"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="160dp"-->
-<!--        android:text="HYV-HPV HEALTH"-->
-<!--        android:textColor="#348F6C"-->
-<!--        android:textSize="40sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.495"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="25sp"-->
-<!--        android:layout_height="3sp"-->
-<!--        android:backgroundTint="#348F6C"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/loginTV"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/loginTV"-->
-<!--        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
-
-    <LinearLayout
-        android:id="@+id/registerBox"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/box_login"
-        android:layout_marginTop="60sp"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/registerTV"
+        <LinearLayout
+            android:id="@+id/registerBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:text="Đăng Ký"
-            android:textAlignment="center"
-            android:textColor="#348F6C"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/phoneET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
-            android:layout_marginVertical="15sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/phone_call"
-            android:drawablePadding="10dp"
-            android:hint="Số Điện Thoại"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:background="@drawable/wrapper_bottom"
+                android:layout_height="70dp"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/backBTN"
+                    android:layout_width="25dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/arrow_left"
+                    tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck"
+                    app:tint="@color/white" />
+                <TextView
+                    android:id="@+id/registerTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Đăng Ký"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <EditText
-            android:id="@+id/passwordET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
-            android:layout_marginVertical="15sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/padlock"
-            android:drawablePadding="10dp"
-            android:hint="Mật Khẩu"
-            android:padding="10dp"
-            android:textSize="18sp"
-            tools:ignore="SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="24dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10sp"
+                android:layout_marginTop="45sp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/secondary"
+                    android:text="Thông tin cá nhân"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:layout_marginLeft="5sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    android:text="*"/>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/nameET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
-            android:layout_marginVertical="15sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/username"
-            android:drawablePadding="10dp"
-            android:hint="Họ Và Tên"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/nameET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/username"
+                android:drawablePadding="10dp"
+                android:hint="Họ và tên"
+                android:padding="10dp"
+                android:textSize="18sp"
+                tools:ignore="TextContrastCheck" />
 
+            <EditText
+                android:id="@+id/emailET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginVertical="15sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/mail"
+                android:drawablePadding="10dp"
+                android:hint="Email"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/emailET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
-            android:layout_marginVertical="15sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/mail"
-            android:drawablePadding="10dp"
-            android:hint="Email"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/phoneET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/phone_call"
+                android:drawablePadding="10dp"
+                android:hint="Số điện thoại"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/chuyenKhoaET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
-            android:layout_marginVertical="15sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/work"
-            android:drawablePadding="10dp"
-            android:hint="Chuyên Khoa"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/cccdET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20sp"
+                android:background="@drawable/custom_et"
+                android:layout_marginTop="15sp"
+                android:drawableLeft="@drawable/phone_call"
+                android:drawablePadding="10dp"
+                android:hint="Căn cước công dân"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/addressET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20sp"
-            android:layout_marginVertical="15sp"
-            android:background="@drawable/custom_et"
-            android:drawableLeft="@drawable/gps"
-            android:drawablePadding="10dp"
-            android:hint="Địa Chỉ"
-            android:padding="10dp"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/soNamTrongNgheET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginVertical="15sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/mail"
+                android:drawablePadding="10dp"
+                android:hint="Số năm trong nghề"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/registerBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20sp"
-            android:layout_marginVertical="15sp"
-            android:layout_weight="1"
-            android:background="@drawable/circle_design"
-            android:text="Đăng Ký"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/emailET" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/chuyenKhoaET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:editable="false"
+                android:layout_marginHorizontal="20sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/work"
+                android:drawablePadding="10dp"
+                android:hint="Chuyên khoa"
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerBox">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bạn đã có tài khoản? " />
-        <TextView
-            android:id="@+id/dangNhap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đăng Nhập"
-            android:textStyle="bold"
-            android:textColor="#444EFF"/>
-    </LinearLayout>
-    <ImageButton
-        android:id="@+id/backBTN"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@null"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_left"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            <EditText
+                android:id="@+id/addressET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginVertical="15sp"
+                android:background="@drawable/custom_et"
+                android:drawableLeft="@drawable/gps"
+                android:drawablePadding="10dp"
+                android:hint="Địa Chỉ"
+                android:padding="10dp"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:orientation="horizontal"
+                android:layout_marginTop="15sp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/secondary"
+                    android:text="Chứng chỉ"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:layout_marginLeft="5sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    android:text="*"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10sp"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary"
+                        android:text="CCCD mặt trước"/>
+                    <ImageView
+                        android:id="@+id/cccd_mat_truoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="120sp"
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cccd_mat_truoc"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="37sp"
+                        android:backgroundTint="@color/primary"
+                        android:text="Chụp mặt trước"
+                        android:id="@+id/cccdTruocBTN"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:paddingLeft="10sp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary"
+                        android:text="CCCD mặt sau"/>
+                    <ImageView
+                        android:id="@+id/cccd_mat_sau"
+                        android:layout_width="match_parent"
+                        android:layout_height="120sp"
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cccd_mat_sau"/>
+
+                    <Button
+                        android:id="@+id/cccdSauBTN"
+                        android:layout_width="match_parent"
+                        android:layout_height="37sp"
+                        android:backgroundTint="@color/primary"
+                        android:text="Chụp mặt sau"
+                        android:textSize="13sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginTop="15sp"
+                android:textColor="@color/secondary"
+                android:text="Giấy phép hoạt động"/>
+            <ImageView
+                android:id="@+id/giay_phep"
+                android:layout_width="match_parent"
+                android:layout_height="160sp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_marginHorizontal="20sp"
+                android:src="@drawable/giay_phep"/>
+            <Button
+                android:id="@+id/giayPhepBTN"
+                android:layout_width="match_parent"
+                android:layout_height="45sp"
+                android:layout_marginHorizontal="20sp"
+                android:backgroundTint="@color/primary"
+                android:text="Chụp mặt sau"
+                android:textSize="15sp"
+                tools:ignore="TouchTargetSizeCheck" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/registerBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginVertical="25sp"
+                android:layout_weight="1"
+                android:background="@drawable/wrapp_button"
+                android:text="Đăng Ký"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/emailET" />
+        </LinearLayout>
+    </ScrollView>
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/registerBox">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Bạn đã có tài khoản? " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/dangNhap"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Đăng Nhập"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#444EFF"/>-->
+<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
