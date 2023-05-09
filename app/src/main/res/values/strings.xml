@@ -15,7 +15,6 @@
     <string name="labelSchedule">LỊCH TRÌNH</string>
     <string name="labelPrescription">ĐIỀU TRỊ</string>
     <string name="labelHistory">LỊCH SỬ</string>
-    <string name="labelNotification">THÔNG BÁO</string>
     <string name="labelAppointmentHistory">CUỘC HẸN ĐÃ ĐẶT</string>
     <string name="labelUserProfile">THÔNG TIN CÁ NHÂN</string>
     <string name="labelOncomingAppointment">Cuộc hẹn sắp tới</string>
@@ -23,6 +22,8 @@
     <string name="labelTopDoctor">Bác sĩ ưu tú</string>
     <string name="labelSeeAll">Xem tất cả</string>
     <string name="labelConfirm">Xác nhận</string>
+    <string name="labelNotification">Thông báo</string>
+    <string name="labelNotificationDoctor">Cuộc hẹn cần được duyệt</string>
 
     <!-- For Login / Register page -->
     <string name="toastLoginSuccess">Đăng nhập thành công</string>
