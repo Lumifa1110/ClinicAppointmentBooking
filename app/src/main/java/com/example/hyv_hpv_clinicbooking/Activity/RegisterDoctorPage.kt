@@ -154,33 +154,6 @@ class RegisterDoctorPage : AppCompatActivity() {
             var email = emailET?.text.toString()
             var password = passwordET?.text.toString()
 
-            // Init Firebase Authentication
-            auth = FirebaseAuth.getInstance()
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // create User
-                        var bacSi:BacSi = BacSi("", chuyenKhoa, 0, 0, name,
-                            phone, 0, address, 0, email, "", "1234",
-                            false, "16 gio", false)
-
-                        database = Firebase.database.getReference("Users").child("BacSi")
-                        bacSi.MaBacSi = key!!
-                        database.child(key).setValue(bacSi)
-                        // Move to Login page
-                        val intent = Intent(this, LoginPage::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        // Register fail
-                        Toast.makeText(applicationContext
-                            , getString(R.string.toastRegisterFail)
-                            , Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-
-
             //Gán firebase storage, up load anh len firebase storage
             storage = FirebaseStorage.getInstance();
             storageReference = storage.reference;
@@ -243,6 +216,32 @@ class RegisterDoctorPage : AppCompatActivity() {
                         progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
                     }
             }
+
+            // Init Firebase Authentication
+            auth = FirebaseAuth.getInstance()
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // create User
+                        var bacSi:BacSi = BacSi("", chuyenKhoa, 0, 0, name,
+                            phone, 0, address, 0, email, "", "1234",
+                            false, "16 gio", false)
+
+                        database = Firebase.database.getReference("Users").child("BacSi")
+                        bacSi.MaBacSi = key!!
+                        database.child(key).setValue(bacSi)
+                        // Move to Login page
+                        val intent = Intent(this, LoginPage::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Register fail
+                        Toast.makeText(applicationContext
+                            , getString(R.string.toastRegisterFail)
+                            , Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
         }
     }
 
