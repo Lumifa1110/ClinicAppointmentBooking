@@ -6,9 +6,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ThongBao (
-    var MaCuocHen: String = "",
-    var MaBenhNhan: String = "",
-    var MaBacSi: String = "",
+//    var MaCuocHen: String = "",
+    var MaTaiKhoan: String = "",
+    var TenTaiKhoan: String = "",
+    var Ngay: String = "",
+    var GioBatDau: String = "",
+    var GioKetThuc: String = "",
     var NoiDung: String = "",
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -16,12 +19,16 @@ data class ThongBao (
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-    )
+        parcel.readString()!!,
+        parcel.readString()!!,
+        )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(MaCuocHen)
-        parcel.writeString(MaBenhNhan)
-        parcel.writeString(MaBacSi)
+        parcel.writeString(MaTaiKhoan)
+        parcel.writeString(TenTaiKhoan)
+        parcel.writeString(Ngay)
+        parcel.writeString(GioBatDau)
+        parcel.writeString(GioKetThuc)
         parcel.writeString(NoiDung)
     }
 

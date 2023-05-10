@@ -84,8 +84,10 @@ class DoctorListFragment : Fragment() {
         println(query)
         if (query != null) {
             val filteredList = ArrayList<BacSi>()
+            val utf8Query = query.lowercase(Locale.ROOT).toByteArray(Charsets.UTF_8)
             for (i in mList) {
-                if (i.HoTen!!.lowercase(Locale.ROOT)!!.contains(query)) {
+                val utf8Name = i.HoTen?.lowercase(Locale.ROOT)?.toByteArray(Charsets.UTF_8)
+                if (utf8Name != null && String(utf8Name, Charsets.UTF_8).contains(String(utf8Query, Charsets.UTF_8))) {
                     filteredList.add(i)
                 }
             }
@@ -96,6 +98,8 @@ class DoctorListFragment : Fragment() {
             }
         }
     }
+
+
 
     private fun displayRecyclerView() {
         recyclerView.setHasFixedSize(true)

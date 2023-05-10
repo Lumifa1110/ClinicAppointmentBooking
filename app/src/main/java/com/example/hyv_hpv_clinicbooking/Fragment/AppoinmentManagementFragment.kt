@@ -23,10 +23,7 @@ import com.example.hyv_hpv_clinicbooking.Activity.ApproveAppoinmentTab
 import com.example.hyv_hpv_clinicbooking.Activity.DoctorPrescriptionPage
 import com.example.hyv_hpv_clinicbooking.Activity.PrescriptionActivity
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorAppoinmentList
-import com.example.hyv_hpv_clinicbooking.Model.KeDon
-import com.example.hyv_hpv_clinicbooking.Model.CuocHen
-import com.example.hyv_hpv_clinicbooking.Model.ThoiGian
-import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
+import com.example.hyv_hpv_clinicbooking.Model.*
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -78,6 +75,9 @@ class AppoinmentManagementFragment : Fragment() {
 
     private lateinit var auth  : FirebaseAuth
     var maTaiKhoan:String?= null
+    var slBenhNhan: Int ?= 0
+    var soCuocHen: Int ?= 0
+    var hoTenTaiKhoan: String ?= ""
 
     val REQUEST_CODE= 1111
 
@@ -230,11 +230,15 @@ class AppoinmentManagementFragment : Fragment() {
             "Có"
         ) { _, _ ->
             Toast.makeText(ctx, "Cuộc hẹn đã duyệt", Toast.LENGTH_LONG).show()
-            appoinmentList.forEachIndexed { i, value ->
-                if (value.MaCuocHen == unapprovedList[index].MaCuocHen) {
-                    updateTrangThai(value.MaCuocHen, 1)
-                    value.MaTrangThai = 1
+            for(appoinment in appoinmentList) {
+                if (appoinment.MaCuocHen == unapprovedList[index].MaCuocHen) {
+                    updateTrangThai(appoinment.MaCuocHen, 1)
+                    updateSLCuocHen(maTaiKhoan!!)
+                    val key = database.push().key
+                    writeThongBaoFromRealtimeDB(key!!, appoinment.MaBenhNhan, appoinment.Ngay, appoinment.GioBatDau, appoinment.GioBatDau, "đồng ý cuộc hẹn")
+                    appoinment.MaTrangThai = 1
                     displayView()
+                    break
                 }
             }
         }
@@ -245,13 +249,15 @@ class AppoinmentManagementFragment : Fragment() {
         }
 
         alertDialog.setNeutralButton("Từ chối") { dialog, which ->
-            appoinmentList.forEachIndexed { i, value ->
-                if (value.MaCuocHen == unapprovedList[index].MaCuocHen) {
-                    updateThoiGianRanhFromRealtimeDB(value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
+            appoinmentList.forEachIndexed { i, appoinment ->
+                if (appoinment.MaCuocHen == unapprovedList[index].MaCuocHen) {
+                    updateThoiGianRanhFromRealtimeDB(appoinment.MaBacSi, appoinment.Ngay, appoinment.GioBatDau, appoinment.GioKetThuc)
                     val databaseRef = FirebaseDatabase.getInstance().getReference("CuocHen")
                     // Assuming "key" is the key of the node you want to delete
-                    databaseRef.child(value.MaCuocHen).removeValue().addOnSuccessListener {
+                    databaseRef.child(appoinment.MaCuocHen).removeValue().addOnSuccessListener {
                         // The node was successfully deleted
+                        val key = database.push().key
+                        writeThongBaoFromRealtimeDB(key!!, appoinment.MaBenhNhan, appoinment.Ngay, appoinment.GioBatDau, appoinment.GioBatDau, "từ chối cuộc hẹn")
                         displayView()
                         Toast.makeText(ctx, "Cuộc hẹn đã xóa", Toast.LENGTH_LONG).show()
                     }.addOnFailureListener {
@@ -273,10 +279,11 @@ class AppoinmentManagementFragment : Fragment() {
             "Có"
         ) { _, _ ->
             val intent = Intent(ctx, DoctorPrescriptionPage::class.java)
-            appoinmentList.forEachIndexed { i, value ->
-                if (value.MaCuocHen == approvedList[index].MaCuocHen) {
+            for(appoiment in appoinmentList) {
+                if (appoiment.MaCuocHen == approvedList[index].MaCuocHen) {
                     Log.w(tag, "ABC" + approvedList[index].toString())
-                    intent.putExtra("key_appoinment", value.MaCuocHen)
+                    intent.putExtra("key_appoinment", appoiment.MaCuocHen)
+                    break
                 }
             }
 
@@ -398,6 +405,20 @@ class AppoinmentManagementFragment : Fragment() {
         database.updateChildren(childUpdates)
     }
 
+    private fun updateSLBenhNhan(key: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/BacSi/$key/slbenhNhan"] = slBenhNhan!! + 1
+        databaseRef.updateChildren(childUpdates)
+    }
+
+    private fun updateSLCuocHen(key: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/BacSi/$key/soCuocHen"] = soCuocHen!! + 1
+        databaseRef.updateChildren(childUpdates)
+    }
+
     fun deleteAppoinmentFromRealtimeDB(key: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("CuocHen")
         // Assuming "key" is the key of the node you want to delete
@@ -407,8 +428,19 @@ class AppoinmentManagementFragment : Fragment() {
             // There was an error deleting the node
         }
     }
+    fun writeThongBaoFromRealtimeDB(key: String, maBenhNhan: String, ngay: String, gioBatDau: String, gioKetThuc: String, noiDung: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("ThongBao")
+        val user = ThongBao(
+            MaTaiKhoan = maBenhNhan,
+            TenTaiKhoan = hoTenTaiKhoan!!,
+            Ngay = ngay,
+            GioBatDau = gioBatDau,
+            GioKetThuc = gioKetThuc,
+            NoiDung= noiDung)
+        databaseRef.child("BenhNhan").child(key).setValue(user)
+    }
 
-    fun updateThoiGianRanhFromRealtimeDB(maBacSi: String, ngayThang: String, gioBatDau: String, gioKetThuc: String ) {
+    fun updateThoiGianRanhFromRealtimeDB(maBacSi: String, ngayThang: String, gioBatDau: String, gioKetThuc: String) {
         val myRef = Firebase.database.getReference("ThoiGianRanh")
 
         myRef.orderByChild("maBacSi")
@@ -434,19 +466,22 @@ class AppoinmentManagementFragment : Fragment() {
                     Log.w(TAG, "Failed to read value.", error.toException())
                 }
             })
-
     }
 
     private fun getBenhNhanKey(user: FirebaseUser) {
         val userDB = Firebase.database.getReference("Users")
 
-        val query = userDB.child("BenhNhan")
+        val query = userDB.child("BacSi")
             .orderByChild("email")
             .equalTo(user.email)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
+                    val bacSi = it.getValue(BacSi::class.java)
+                    slBenhNhan = bacSi?.SLBenhNhan ?: 0
+                    soCuocHen = bacSi?.SoCuocHen ?: 0
+                    hoTenTaiKhoan = bacSi?.HoTen ?: ""
                 }
                 displayView()
             }
@@ -454,6 +489,7 @@ class AppoinmentManagementFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -463,6 +499,9 @@ class AppoinmentManagementFragment : Fragment() {
                     val key_appoinment = data?.getStringExtra("key_appoinment")
                     val appoinment = data?.getParcelableExtra<CuocHen>("appoinment") as CuocHen
                     updateKeDon(key_appoinment!!, 2,  appoinment.ChuanDoan, appoinment.LoiDan, appoinment.DonThuoc)
+                    val key = database.push().key
+                    writeThongBaoFromRealtimeDB(key!!, appoinment.MaBenhNhan, appoinment.Ngay, appoinment.GioBatDau, appoinment.GioBatDau, "kê đơn cho cuộc hẹn")
+                    updateSLBenhNhan(maTaiKhoan!!)
                     displayView()
                     Toast.makeText(ctx, "Cuộc hẹn đã kê đơn", Toast.LENGTH_LONG).show()
                 }
