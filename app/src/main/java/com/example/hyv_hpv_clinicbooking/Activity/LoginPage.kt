@@ -44,8 +44,8 @@ class LoginPage : AppCompatActivity() {
     private lateinit var googleSignInClient : GoogleSignInClient
 
     private fun initWidgets() {
-        emailET = findViewById(R.id.emailET)
-        passwordET = findViewById(R.id.passwordET)
+        emailET = findViewById(R.id.oldPasswordET)
+        passwordET = findViewById(R.id.newPasswordET)
         loginBTN = findViewById(R.id.loginBTN)
         dangKi = findViewById(R.id.dangKi)
         resetPasswordBTN = findViewById(R.id.resetPasswordBTN)
@@ -147,7 +147,7 @@ class LoginPage : AppCompatActivity() {
         val email = emailET.text.toString()
         if (email == "") {
             Toast.makeText(applicationContext
-                , getString(R.string.toastEmptyEditText)
+                , "Hãy điền Email cần được đổi mật khẩu"
                 , Toast.LENGTH_SHORT)
                 .show()
         }

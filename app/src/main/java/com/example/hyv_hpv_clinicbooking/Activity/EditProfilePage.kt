@@ -1,7 +1,6 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
 import BenhNhan
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
@@ -18,14 +17,12 @@ import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.IOException
-import java.util.*
 
 
 class EditProfilePage : AppCompatActivity() {
@@ -82,7 +79,7 @@ class EditProfilePage : AppCompatActivity() {
         nameET = findViewById(R.id.nameET)
         phoneET = findViewById(R.id.phoneET)
         addressET = findViewById(R.id.addressET)
-        emailET = findViewById(R.id.emailET)
+        emailET = findViewById(R.id.oldPasswordET)
         chuyenKhoaET = findViewById(R.id.chuyenKhoaET)
         khungGioET = findViewById(R.id.khungGioET)
         moTaET = findViewById(R.id.moTaET)

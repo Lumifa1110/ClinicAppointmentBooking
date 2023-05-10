@@ -28,9 +28,9 @@ class RegisterPage : AppCompatActivity() {
 
     private fun initWidgets() {
         phoneET = findViewById(R.id.phoneET)
-        emailET = findViewById(R.id.emailET)
+        emailET = findViewById(R.id.oldPasswordET)
         nameET = findViewById(R.id.nameET)
-        passwordET = findViewById(R.id.passwordET)
+        passwordET = findViewById(R.id.newPasswordET)
         registerBtn = findViewById(R.id.registerBtn)
         registerDoctorBtn = findViewById(R.id.registerDoctorBTN)
     }
@@ -105,11 +105,19 @@ class RegisterPage : AppCompatActivity() {
                             }
                         }
                     } else {
-                        // Register fail
-                        Toast.makeText(applicationContext
-                            , getString(R.string.toastRegisterFail)
-                            , Toast.LENGTH_SHORT)
-                            .show()
+                        if (password.length < 6) {
+                            Toast.makeText(applicationContext
+                                , "Mật khẩu phải có từ 6 kí tự trở lên"
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        else {
+                            // Register fail
+                            Toast.makeText(applicationContext
+                                , getString(R.string.toastRegisterFail)
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 }
         }

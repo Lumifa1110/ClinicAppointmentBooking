@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.ktx.auth
@@ -12,10 +13,10 @@ import com.google.firebase.ktx.Firebase
 class ResetPasswordActivity : AppCompatActivity() {
     private lateinit var emailET : EditText
     private lateinit var confirmBTN : Button
-    private lateinit var backBTN : Button
+    private lateinit var backBTN : ImageButton
 
     private fun initWidgets() {
-        emailET = findViewById(R.id.emailET)
+        emailET = findViewById(R.id.oldPasswordET)
         confirmBTN = findViewById(R.id.confirmBTN)
         backBTN = findViewById(R.id.backBTN)
     }

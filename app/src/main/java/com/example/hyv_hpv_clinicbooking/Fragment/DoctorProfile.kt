@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import com.example.hyv_hpv_clinicbooking.Activity.*
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -48,6 +50,7 @@ class DoctorProfile : Fragment() {
 
     //khai báo database
     private lateinit var database : DatabaseReference
+    private lateinit var auth : FirebaseAuth
 
     //Khai báo firebase storage để lấy ảnh
     lateinit var storage: FirebaseStorage
@@ -82,6 +85,7 @@ class DoctorProfile : Fragment() {
 
         //Gọi database từ bảng Bác Sĩ
         database = Firebase.database.getReference("Users").child("BacSi")
+        auth = FirebaseAuth.getInstance()
 
         //maBacSi hiện tại
         maBacSi = "-NUGq3OnCBW17tiSzuyZ";
@@ -131,6 +135,7 @@ class DoctorProfile : Fragment() {
                 }
 
                 dangXuatBTN?.setOnClickListener {
+                    auth.signOut()
                     val intent = Intent(requireContext(), LoginPage::class.java)
                     startActivity(intent)
                 }
