@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.RegisterDoctorPage">
+    tools:context=".Activity.DoctorWaitList">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -222,10 +222,10 @@
                         android:id="@+id/cccd_mat_truoc"
                         android:layout_width="match_parent"
                         android:layout_height="120sp"
+                        android:layout_gravity="center_vertical"
                         android:background="@null"
                         android:scaleType="fitXY"
                         android:src="@drawable/cccd_mat_truoc"/>
-
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="37sp"
@@ -297,32 +297,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20sp"
-                android:layout_marginVertical="25sp"
+                android:layout_marginTop="25sp"
+                android:layout_marginBottom="20sp"
                 android:layout_weight="1"
                 android:background="@drawable/wrapp_button"
-                android:text="Đăng Ký"
+                android:text="Duyệt"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/emailET" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/refuseBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginBottom="25sp"
+                android:backgroundTint="@color/red"
+                android:background="@drawable/wrapp_button"
+                android:text="Từ chối"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@+id/emailET" />
         </LinearLayout>
     </ScrollView>
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/registerBox">-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Bạn đã có tài khoản? " />-->
-<!--        <TextView-->
-<!--            android:id="@+id/dangNhap"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Đăng Nhập"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textColor="#444EFF"/>-->
-<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
