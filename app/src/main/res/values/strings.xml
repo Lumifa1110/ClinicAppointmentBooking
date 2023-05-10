@@ -28,6 +28,7 @@
     <!-- For Login / Register page -->
     <string name="toastLoginSuccess">Đăng nhập thành công</string>
     <string name="toastLoginFail">Đăng nhập thất bại</string>
+    <string name="toastLoginNotVerified">Hãy chứng thực email trước khi đăng nhập</string>
     <string name="toastRegisterSuccess">Đăng ký thành công</string>
     <string name="toastRegisterFail">Đăng ký thất bại</string>
     <string name="toastEmptyEditText">Hãy điền vào tất cả ô</string>

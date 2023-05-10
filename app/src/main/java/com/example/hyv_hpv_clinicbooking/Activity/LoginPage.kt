@@ -101,16 +101,30 @@ class LoginPage : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Login success
+                        if (auth.currentUser!!.isEmailVerified) {
+                            // Login success
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.toastLoginSuccess),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            // Get User role and Switch to Homepage
+                            getUserRole(auth.currentUser!!)
+                        }
+                        else {
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.toastLoginNotVerified),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    else {
                         Toast.makeText(
                             applicationContext,
-                            getString(R.string.toastLoginSuccess),
+                            getString(R.string.toastLoginFail),
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
-                        // Get User role and Switch to Homepage
-                        val user = auth.currentUser
-                        getUserRole(user!!)
+                        ).show()
                     }
                 }
         }

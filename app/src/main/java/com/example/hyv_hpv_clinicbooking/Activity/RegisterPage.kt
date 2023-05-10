@@ -70,36 +70,40 @@ class RegisterPage : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // create User
-                        val key: String? = userDB.push().key
-                        val user = BenhNhan(
-                            MaBenhNhan = key!!,
-                            HoTen = name,
-                            SoDienThoai = phone,
-                            Email = email,
-                            PassWord = password
-                        )
-                        // update User profile in database
-                        userDB.child(role).child(key).setValue(user).addOnCompleteListener {
-                            if (task.isSuccessful) {
-                                // Register success
-                                Toast.makeText(applicationContext
-                                    , getString(R.string.toastRegisterSuccess)
-                                    , Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                            else {
-                                // Register fail
-                                Toast.makeText(applicationContext
-                                    , getString(R.string.toastRegisterFail)
-                                    , Toast.LENGTH_SHORT)
-                                    .show()
+                        auth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) { task2 ->
+                            if (task2.isSuccessful) {
+                                // create User
+                                val key: String? = userDB.push().key
+                                val user = BenhNhan(
+                                    MaBenhNhan = key!!,
+                                    HoTen = name,
+                                    SoDienThoai = phone,
+                                    Email = email,
+                                    PassWord = password
+                                )
+                                // update User profile in database
+                                userDB.child(role).child(key).setValue(user).addOnCompleteListener {
+                                    if (task.isSuccessful) {
+                                        // Register success
+                                        Toast.makeText(applicationContext
+                                            , getString(R.string.toastRegisterSuccess)
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                    else {
+                                        // Register fail
+                                        Toast.makeText(applicationContext
+                                            , getString(R.string.toastRegisterFail)
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                }
+                                // Move to Login page
+                                val intent = Intent(this, LoginPage::class.java)
+                                startActivity(intent)
+                                finish()
                             }
                         }
-                        // Move to Login page
-                        val intent = Intent(this, LoginPage::class.java)
-                        startActivity(intent)
-                        finish()
                     } else {
                         // Register fail
                         Toast.makeText(applicationContext

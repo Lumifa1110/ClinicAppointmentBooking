@@ -223,17 +223,23 @@ class RegisterDoctorPage : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // create User
-                        val bacSi:BacSi = BacSi("", chuyenKhoa, 0, 0, name,
-                            phone, 0, address, 0, email, "", "1234",
-                            false, "16 gio", false)
+                        auth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) { task2 ->
+                            if (task2.isSuccessful) {
+                                // create User
+                                val bacSi: BacSi = BacSi(
+                                    "", chuyenKhoa, 0, 0, name,
+                                    phone, 0, address, 0, email, "", "1234",
+                                    false, "16 gio", false
+                                )
 
-                        bacSi.MaBacSi = key!!
-                        userDB.child("BacSi").child(key).setValue(bacSi)
-                        // Move to Login page
-                        val intent = Intent(this, LoginPage::class.java)
-                        startActivity(intent)
-                        finish()
+                                bacSi.MaBacSi = key!!
+                                userDB.child("BacSi").child(key).setValue(bacSi)
+                                // Move to Login page
+                                val intent = Intent(this, LoginPage::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
                     } else {
                         // Register fail
                         Toast.makeText(applicationContext
