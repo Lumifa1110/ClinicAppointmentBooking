@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +21,7 @@ class RegisterPage : AppCompatActivity() {
     private lateinit var nameET : EditText
     private lateinit var passwordET : EditText
     private lateinit var registerBtn : Button
+    private lateinit var registerDoctorBtn : TextView
 
     private lateinit var userDB : DatabaseReference
     private lateinit var auth  : FirebaseAuth
@@ -30,6 +32,7 @@ class RegisterPage : AppCompatActivity() {
         nameET = findViewById(R.id.nameET)
         passwordET = findViewById(R.id.passwordET)
         registerBtn = findViewById(R.id.registerBtn)
+        registerDoctorBtn = findViewById(R.id.registerDoctorBTN)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +49,10 @@ class RegisterPage : AppCompatActivity() {
     private fun initListener() {
         registerBtn.setOnClickListener {
             onClickRegisterEmailPassword()
+        }
+        registerDoctorBtn.setOnClickListener {
+            val intent = Intent(this, RegisterDoctorPage::class.java)
+            startActivity(intent)
         }
     }
 

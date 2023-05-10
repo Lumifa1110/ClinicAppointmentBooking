@@ -58,7 +58,7 @@ class RegisterDoctorPage : AppCompatActivity() {
 
     //upload ảnh lên clound storage
     //khai báo database
-    private lateinit var database : DatabaseReference
+    private lateinit var userDB : DatabaseReference
 
     lateinit var storage: FirebaseStorage
     var storageReference: StorageReference? = null
@@ -73,6 +73,7 @@ class RegisterDoctorPage : AppCompatActivity() {
         ctx = this
 
         auth = FirebaseAuth.getInstance()
+        userDB = Firebase.database.getReference("Users")
 
         //gan cac bien thong tin ca nhan
         nameET = findViewById(R.id.nameET)
@@ -144,15 +145,15 @@ class RegisterDoctorPage : AppCompatActivity() {
         //Lưu dữ liệu
         registerBTN?.setOnClickListener {
             println("bat")
-            val key: String? = database.push().key
-            var name = nameET?.text.toString()
-            var phone = phoneET?.text.toString()
-            var address = addressET?.text.toString()
+            val key: String? = userDB.push().key
+            val name = nameET?.text.toString()
+            val phone = phoneET?.text.toString()
+            val address = addressET?.text.toString()
             var soNamTrongNghe = soNamTrongNgheET?.text.toString()
-            var chuyenKhoa = chuyenKhoaET?.text.toString()
+            val chuyenKhoa = chuyenKhoaET?.text.toString()
             var cccd = cccdET?.text.toString()
-            var email = emailET?.text.toString()
-            var password = passwordET?.text.toString()
+            val email = emailET?.text.toString()
+            val password = passwordET?.text.toString()
 
             //Gán firebase storage, up load anh len firebase storage
             storage = FirebaseStorage.getInstance();
@@ -223,13 +224,12 @@ class RegisterDoctorPage : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // create User
-                        var bacSi:BacSi = BacSi("", chuyenKhoa, 0, 0, name,
+                        val bacSi:BacSi = BacSi("", chuyenKhoa, 0, 0, name,
                             phone, 0, address, 0, email, "", "1234",
                             false, "16 gio", false)
 
-                        database = Firebase.database.getReference("Users").child("BacSi")
                         bacSi.MaBacSi = key!!
-                        database.child(key).setValue(bacSi)
+                        userDB.child("BacSi").child(key).setValue(bacSi)
                         // Move to Login page
                         val intent = Intent(this, LoginPage::class.java)
                         startActivity(intent)

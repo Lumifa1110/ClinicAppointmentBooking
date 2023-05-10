@@ -114,10 +114,12 @@
             android:layout_height="wrap_content"
             android:text="Bạn muốn đăng kí tài khoản bác sĩ? " />
         <TextView
-            android:id="@+id/dangNhap"
+            android:id="@+id/registerDoctorBTN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đăng Ký"
+            android:clickable="true"
+            android:focusable="true"
             android:textStyle="bold"
             android:textColor="#444EFF"/>
     </LinearLayout>

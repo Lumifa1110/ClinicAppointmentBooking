@@ -37,7 +37,7 @@
         android:background="@drawable/box_login"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/loginTV"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,10 +79,10 @@
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="20sp"
                 android:background="@drawable/custom_et"
-                android:hint="Mật Khẩu"
-                android:inputType="textPassword"
                 android:drawableLeft="@drawable/padlock"
                 android:drawablePadding="10dp"
+                android:hint="Mật Khẩu"
+                android:inputType="textPassword"
                 android:padding="10dp"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,20 +117,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:text="@string/labelForgotPassword"
                 android:clickable="true"
-                android:textSize="15sp"
-                android:focusable="true" />
+                android:focusable="true"
+                android:text="@string/labelForgotPassword"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/createNewAccountBTN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="@string/labelCreateNewAccount"
                 android:clickable="true"
-                android:textSize="15sp"
-                android:focusable="true" />
+                android:focusable="true"
+                android:text="@string/labelCreateNewAccount"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -140,10 +140,10 @@
             android:layout_marginHorizontal="20sp"
             android:layout_marginTop="20sp"
             android:layout_marginBottom="30sp"
-            android:textColor="#ffffff"
             android:background="@drawable/circle_design"
             android:text="Đăng Nhập"
-            android:textSize="18sp"/>
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <TextView
