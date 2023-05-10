@@ -44,14 +44,11 @@ class UserAppoinmentManagement() : Fragment() {
     var quantityTV3: TextView?= null
 
     private var appoinmentList = ArrayList<CuocHen>()
-    private var timeList = ArrayList<ThoiGian>()
     private var doctorList = ArrayList<BacSi>()
-    private var prescriptionList = ArrayList<KeDon>()
 
     private var unapprovedList = ArrayList<CuocHen>()
     private var approvedList = ArrayList<CuocHen>()
     private var historyAppoinmentList = ArrayList<CuocHen>()
-    private lateinit var database : DatabaseReference
 
     private var emptyTV1: TextView ?= null
     private var emptyTV2: TextView ?= null
@@ -59,7 +56,9 @@ class UserAppoinmentManagement() : Fragment() {
     var ctx: Context?= null
 
     private lateinit var auth  : FirebaseAuth
+    private lateinit var database : DatabaseReference
     var maTaiKhoan:String?= null
+    var hoTenTaiKhoan: String ?= ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,11 +74,11 @@ class UserAppoinmentManagement() : Fragment() {
         database = Firebase.database.reference
         auth = FirebaseAuth.getInstance()
         getBenhNhanKey(auth.currentUser!!)
+        appoinmentList.clear()
+        doctorList.clear()
     }
 
     private fun displayView() {
-        appoinmentList.clear()
-        doctorList.clear()
         readAppointmentFromRealtimeDB() {list1, list2 ->
             appoinmentList = list1.distinctBy { it.MaCuocHen } as ArrayList<CuocHen>
             doctorList = list2
@@ -137,6 +136,7 @@ class UserAppoinmentManagement() : Fragment() {
         //tab1
         unapprovedList = appoinmentList.filter { it.MaTrangThai == 0 } as ArrayList<CuocHen>
         if(unapprovedList.size > 0) {
+
             emptyTV1?.visibility = View.GONE
             recyclerView1?.visibility = View.VISIBLE
             quantityTV1?.setText(unapprovedList.size.toString())
@@ -215,22 +215,28 @@ class UserAppoinmentManagement() : Fragment() {
         ) { _, _ ->
             Toast.makeText(ctx, "Cuộc hẹn đã hủy", Toast.LENGTH_LONG).show()
             if(type == 0) {
-                appoinmentList.forEachIndexed { i, value ->
-                    if (value.MaCuocHen == unapprovedList[index].MaCuocHen) {
+                for(appoiment in appoinmentList) {
+                    if (appoiment.MaCuocHen == unapprovedList[index].MaCuocHen) {
+                        Log.w("ltphihung",unapprovedList[index].MaCuocHen )
                         unapprovedList.removeAt(index)
                         adapter1?.notifyDataSetChanged()
                         quantityTV1?.setText(unapprovedList.size.toString())
-                        updateThoiGianRanhFromRealtimeDB(value.MaCuocHen, value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
-
+                        updateThoiGianRanhFromRealtimeDB(appoiment.MaCuocHen, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioKetThuc)
+                        val key = database.push().key
+                        writeThongBaoFromRealtimeDB(key!!, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioBatDau, "từ chối cuộc hẹn")
+                        break
                     }
                 }
             } else {
-                appoinmentList.forEachIndexed { i, value ->
-                    if (value.MaCuocHen == approvedList[index].MaCuocHen) {
+                for(appoiment in appoinmentList) {
+                    if (appoiment.MaCuocHen == approvedList[index].MaCuocHen) {
                         approvedList.removeAt(index)
                         adapter2?.notifyDataSetChanged()
                         quantityTV2?.setText(approvedList.size.toString())
-                        updateThoiGianRanhFromRealtimeDB(value.MaCuocHen, value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
+                        updateThoiGianRanhFromRealtimeDB(appoiment.MaCuocHen, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioKetThuc)
+                        val key = database.push().key
+                        writeThongBaoFromRealtimeDB(key!!, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioBatDau, "từ chối cuộc hẹn")
+                        break
                     }
                 }
             }
@@ -275,6 +281,7 @@ class UserAppoinmentManagement() : Fragment() {
                                }
                            } else {
                                val myDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(appointment!!.Ngay)
+
                                if (myDate.compareTo(currentDate) > 0) {
                                    // myDate lớn hơn ngày hiện tại
                                    appointmentList.add(appointment!!)
@@ -285,6 +292,7 @@ class UserAppoinmentManagement() : Fragment() {
                                    }
                                } else if (myDate.compareTo(currentDate) == 0) {
                                    // myDate bằng ngày hiện tại
+//                                   Thời gian bắt đầu nhỏ hơn thời gian hiện tại khoảng 1 tiếng
                                    appointmentList.add(appointment!!)
                                    readDoctorFromRealtimeDB(appointment.MaBacSi) { doctors ->
                                        doctorList.addAll(doctors)
@@ -330,6 +338,18 @@ class UserAppoinmentManagement() : Fragment() {
             })
     }
 
+    fun writeThongBaoFromRealtimeDB(key: String, maBacSi: String, ngay: String, gioBatDau: String, gioKetThuc: String, noiDung: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("ThongBao")
+        val user = ThongBao(
+            MaTaiKhoan = maBacSi,
+            TenTaiKhoan = hoTenTaiKhoan!!,
+            Ngay = ngay,
+            GioBatDau = gioBatDau,
+            GioKetThuc = gioKetThuc,
+            NoiDung= noiDung)
+        databaseRef.child("BacSi").child(key).setValue(user)
+    }
+
     fun deleteAppoinmentFromRealtimeDB(key: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("CuocHen")
         // Assuming "key" is the key of the node you want to delete
@@ -350,6 +370,8 @@ class UserAppoinmentManagement() : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
+                    val benhNhan = it.getValue(BacSi::class.java)
+                    hoTenTaiKhoan = benhNhan?.HoTen ?: ""
                 }
                 displayView()
             }

@@ -20,6 +20,8 @@ import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.KhungGio
 import com.example.hyv_hpv_clinicbooking.Model.ThoiGianRanh
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -36,16 +38,16 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DoctorChooseFreeTimeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DoctorChooseFreeTimeFragment : Fragment(){
+class DoctorChooseFreeTimeFragment : Fragment() {
 
 
     // TODO: Rename and change types of parameters
     var customListView: RecyclerView? = null
     var morningList = arrayListOf<ThoiGianRanh>()
     var afternoonList = arrayListOf<ThoiGianRanh>()
-    var thoiGianRanhList =  arrayListOf<ThoiGianRanh>()
-    var dayList =  ArrayList<String>()
-    var dayInWeek:HashMap<Int, String> ?= null
+    var thoiGianRanhList = arrayListOf<ThoiGianRanh>()
+    var dayList = ArrayList<String>()
+    var dayInWeek: HashMap<Int, String>? = null
 
     //Khai báo adapter
     var adapter: DayAdapter? = null
@@ -59,22 +61,23 @@ class DoctorChooseFreeTimeFragment : Fragment(){
     var morningTimeView: GridView? = null
     var afternoonTimeView: GridView? = null
 
-    var addTimeBTN: Button?= null
+    var addTimeBTN: Button? = null
 
     //Dialog để chọn time
-    var timeStart:TimePicker?=null
-    var timeEnd:TimePicker?=null
-    var addBTN:Button?= null
-    var cancelBTN:Button?= null
-    var customDialog:AlertDialog ?=null
+    var timeStart: TimePicker? = null
+    var timeEnd: TimePicker? = null
+    var addBTN: Button? = null
+    var cancelBTN: Button? = null
+    var customDialog: AlertDialog? = null
 
     //Khai báo database
-    private lateinit var database : DatabaseReference
+    private lateinit var database: DatabaseReference
 
     //Mã Tài Khoản hiện tại
-    var maBacSi:String ?= null
+    var maBacSi: String? = null
+    private lateinit var auth: FirebaseAuth
 
-    var dayChoose:Int = 0
+    var dayChoose: Int = 0
     var khoangThoiGianTrongNgay = ArrayList<String>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,9 +97,9 @@ class DoctorChooseFreeTimeFragment : Fragment(){
 
         morningList = arrayListOf<ThoiGianRanh>()
         afternoonList = arrayListOf<ThoiGianRanh>()
-        thoiGianRanhList =  arrayListOf<ThoiGianRanh>()
+        thoiGianRanhList = arrayListOf<ThoiGianRanh>()
 
-
+        auth = FirebaseAuth.getInstance()
         database = Firebase.database.getReference("ThoiGianRanh")
         //Thêm vào db để test
 //        thoiGianRanhList.add(ThoiGianRanh(2, "03/04", "01:30", "02:00", "-NUGq3OnCBW17tiSzuyZ", 0, 0));
@@ -119,210 +122,243 @@ class DoctorChooseFreeTimeFragment : Fragment(){
 //            database.child(key!!).setValue(item)
 //        }
 
-        maBacSi = "-NUGq3OnCBW17tiSzuyZ"
+//        maBacSi = "-NUGq3OnCBW17tiSzuyZ"
+        val userDB = Firebase.database.getReference("Users")
 
-        val queryRef: Query = database
-            .orderByChild("maBacSi")
-            .equalTo(maBacSi)
-
-        queryRef.addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
+        val query = userDB.child("BacSi")
+            .orderByChild("email")
+            .equalTo(auth.currentUser!!.email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                morningList = arrayListOf<ThoiGianRanh>()
-                afternoonList = arrayListOf<ThoiGianRanh>()
-                thoiGianRanhList =  arrayListOf<ThoiGianRanh>()
-
-                var key:String?= null;
-                keyList = arrayListOf<String>()
-                for (child in dataSnapshot.children) {
-                    thoiGianRanhList.add(child.getValue(ThoiGianRanh::class.java)!!)
-                    key = child.key.toString();
-                    keyList.add(key);
-                    if(thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 2) {
-                        database.child(key).child("ngayThang").setValue(dayInWeek!!.get(2));
-                    }
-                    else if(thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 3) {
-                        database.child(key).child("ngayThang").setValue(dayInWeek!!.get(3));
-                    }
-                    else if(thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 4) {
-                        database.child(key).child("ngayThang").setValue(dayInWeek!!.get(4));
-                    }
-                    else if(thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 5) {
-                        database.child(key).child("ngayThang").setValue(dayInWeek!!.get(5));
-                    }
-                    else if(thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 6) {
-                        database.child(key).child("ngayThang").setValue(dayInWeek!!.get(6));
-                    }
-                    else if(thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 7) {
-                        database.child(key).child("ngayThang").setValue(dayInWeek!!.get(7));
-                    }
-                    else if(thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 1) {
-                        database.child(key).child("ngayThang").setValue(dayInWeek!!.get(1));
-                    }
+                dataSnapshot.children.forEach { it ->
+                    maBacSi = it.key!!
                 }
+                val queryRef: Query = database
+                    .orderByChild("maBacSi")
+                    .equalTo(maBacSi)
 
-                sortTime(0)
-                adapter = DayAdapter(dayList)
-                customListView!!.adapter = adapter
-                val layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                customListView!!.layoutManager = layoutManager
-                adapter?.notifyDataSetChanged()
+                queryRef.addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        morningList = arrayListOf<ThoiGianRanh>()
+                        afternoonList = arrayListOf<ThoiGianRanh>()
+                        thoiGianRanhList = arrayListOf<ThoiGianRanh>()
 
-                var current = dayList[0].split("\n")
-                var day = current[0]
-                dayChoose = 0
-                when (day) {
-                    "Thứ 2" -> dayChoose = 2
-                    "Thứ 3" -> dayChoose = 3
-                    "Thứ 4" -> dayChoose = 4
-                    "Thứ 5" -> dayChoose = 5
-                    "Thứ 6" -> dayChoose = 6
-                    "Thứ 7" -> dayChoose = 7
-                    "Chủ Nhật" -> dayChoose = 1
-                }
-                hienThiTimeTrongNgay(dayChoose)
-
-                adapter?.onItemClick = {date, vitri ->
-                    khoangThoiGianTrongNgay = ArrayList<String>()
-                    morningList = arrayListOf<ThoiGianRanh>()
-                    afternoonList = arrayListOf<ThoiGianRanh>()
-
-                    var data = date.split("\n").toTypedArray()
-                    var day = data[0]
-
-                    dayChoose = 0
-                    when (day) {
-                        "Thứ 2" -> dayChoose = 2
-                        "Thứ 3" -> dayChoose = 3
-                        "Thứ 4" -> dayChoose = 4
-                        "Thứ 5" -> dayChoose = 5
-                        "Thứ 6" -> dayChoose = 6
-                        "Thứ 7" -> dayChoose = 7
-                        "Chủ Nhật" -> dayChoose = 1
-                    }
-
-                    hienThiTimeTrongNgay(dayChoose)
-                }
-                addTimeBTN?.setOnClickListener {
-                    val builder = AlertDialog.Builder(requireContext())
-                    //Hiển thị dialog để chọn time
-                    var view_dialog: View =
-                        requireActivity().layoutInflater.inflate(R.layout.dialog_picktime, null)
-
-                    timeStart = view_dialog.findViewById(R.id.timeStart)
-                    timeEnd = view_dialog.findViewById(R.id.timeEnd)
-                    addBTN = view_dialog.findViewById(R.id.addTimeBTN)
-                    cancelBTN = view_dialog.findViewById(R.id.cancelBTN)
-
-                    addBTN?.setOnClickListener(object : View.OnClickListener {
-                        override fun onClick(view: View) {
-                            var hourStart = convertNtoNN(timeStart!!.currentHour)
-                            var minuteStart = convertNtoNN(timeStart!!.currentMinute)
-
-                            var hourEnd = convertNtoNN(timeEnd!!.currentHour)
-                            var minuteEnd = convertNtoNN(timeEnd!!.currentMinute)
-
-                            var checkTimeValid = checkTimeValid(timeStart!!.currentHour, timeStart!!.currentMinute, timeEnd!!.currentHour, timeEnd!!.currentMinute)
-                            //ThoiGian hợp lệ
-                            if(checkTimeValid) {
-                                var newTime:ThoiGianRanh = ThoiGianRanh(dayChoose,
-                                    dayInWeek!![dayChoose], "$hourStart:$minuteStart",
-                                    "$hourEnd:$minuteEnd", maBacSi, 0)
-                                val key: String? = database.push().key
-                                database.child(key!!).setValue(newTime)
-
-                                //Cập Nhật Adapter
-                                if(timeStart!!.currentHour <= 12) {
-                                    morningList.add(newTime)
-                                    keyMorning.add(key)
-                                    sortTime(1)
-                                    timeAdapter = TimeAdapter(requireContext(), morningList, database, keyMorning)
-                                    morningTimeView?.adapter = timeAdapter
-                                }
-                                else {
-                                    afternoonList.add(newTime)
-                                    keyAfternoon.add(key)
-                                    sortTime(2)
-                                    afternoonAdapter = TimeAdapter(requireContext(), afternoonList, database, keyAfternoon)
-                                    afternoonTimeView?.adapter = afternoonAdapter
-                                }
-                                thoiGianRanhList.add(newTime)
-                                keyList.add(key)
-                                customDialog?.dismiss()
+                        var key: String? = null;
+                        keyList = arrayListOf<String>()
+                        for (child in dataSnapshot.children) {
+                            thoiGianRanhList.add(child.getValue(ThoiGianRanh::class.java)!!)
+                            key = child.key.toString();
+                            keyList.add(key);
+                            if (thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 2) {
+                                database.child(key).child("ngayThang").setValue(dayInWeek!!.get(2));
+                            } else if (thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 3) {
+                                database.child(key).child("ngayThang").setValue(dayInWeek!!.get(3));
+                            } else if (thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 4) {
+                                database.child(key).child("ngayThang").setValue(dayInWeek!!.get(4));
+                            } else if (thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 5) {
+                                database.child(key).child("ngayThang").setValue(dayInWeek!!.get(5));
+                            } else if (thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 6) {
+                                database.child(key).child("ngayThang").setValue(dayInWeek!!.get(6));
+                            } else if (thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 7) {
+                                database.child(key).child("ngayThang").setValue(dayInWeek!!.get(7));
+                            } else if (thoiGianRanhList[thoiGianRanhList.size - 1].thuTrongTuan == 1) {
+                                database.child(key).child("ngayThang").setValue(dayInWeek!!.get(1));
                             }
                         }
-                    })
 
-                    cancelBTN?.setOnClickListener(object : View.OnClickListener {
-                        override fun onClick(view: View) {
-                            customDialog?.dismiss()
+                        sortTime(0)
+                        adapter = DayAdapter(dayList)
+                        customListView!!.adapter = adapter
+                        val layoutManager =
+                            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        customListView!!.layoutManager = layoutManager
+                        adapter?.notifyDataSetChanged()
+
+                        var current = dayList[0].split("\n")
+                        var day = current[0]
+                        dayChoose = 0
+                        when (day) {
+                            "Thứ 2" -> dayChoose = 2
+                            "Thứ 3" -> dayChoose = 3
+                            "Thứ 4" -> dayChoose = 4
+                            "Thứ 5" -> dayChoose = 5
+                            "Thứ 6" -> dayChoose = 6
+                            "Thứ 7" -> dayChoose = 7
+                            "Chủ Nhật" -> dayChoose = 1
                         }
-                    })
+                        hienThiTimeTrongNgay(dayChoose)
 
-                    builder.setView(view_dialog)
-                    customDialog = builder.create()
-                    customDialog?.show()
+                        adapter?.onItemClick = { date, vitri ->
+                            khoangThoiGianTrongNgay = ArrayList<String>()
+                            morningList = arrayListOf<ThoiGianRanh>()
+                            afternoonList = arrayListOf<ThoiGianRanh>()
+
+                            var data = date.split("\n").toTypedArray()
+                            var day = data[0]
+
+                            dayChoose = 0
+                            when (day) {
+                                "Thứ 2" -> dayChoose = 2
+                                "Thứ 3" -> dayChoose = 3
+                                "Thứ 4" -> dayChoose = 4
+                                "Thứ 5" -> dayChoose = 5
+                                "Thứ 6" -> dayChoose = 6
+                                "Thứ 7" -> dayChoose = 7
+                                "Chủ Nhật" -> dayChoose = 1
+                            }
+
+                            hienThiTimeTrongNgay(dayChoose)
+                        }
+                        addTimeBTN?.setOnClickListener {
+                            val builder = AlertDialog.Builder(requireContext())
+                            //Hiển thị dialog để chọn time
+                            var view_dialog: View =
+                                requireActivity().layoutInflater.inflate(R.layout.dialog_picktime, null)
+
+                            timeStart = view_dialog.findViewById(R.id.timeStart)
+                            timeEnd = view_dialog.findViewById(R.id.timeEnd)
+                            addBTN = view_dialog.findViewById(R.id.addTimeBTN)
+                            cancelBTN = view_dialog.findViewById(R.id.cancelBTN)
+
+                            addBTN?.setOnClickListener(object : View.OnClickListener {
+                                override fun onClick(view: View) {
+                                    var hourStart = convertNtoNN(timeStart!!.currentHour)
+                                    var minuteStart = convertNtoNN(timeStart!!.currentMinute)
+
+                                    var hourEnd = convertNtoNN(timeEnd!!.currentHour)
+                                    var minuteEnd = convertNtoNN(timeEnd!!.currentMinute)
+
+                                    var checkTimeValid = checkTimeValid(
+                                        timeStart!!.currentHour,
+                                        timeStart!!.currentMinute,
+                                        timeEnd!!.currentHour,
+                                        timeEnd!!.currentMinute
+                                    )
+                                    //ThoiGian hợp lệ
+                                    if (checkTimeValid) {
+                                        var newTime: ThoiGianRanh = ThoiGianRanh(
+                                            dayChoose,
+                                            dayInWeek!![dayChoose], "$hourStart:$minuteStart",
+                                            "$hourEnd:$minuteEnd", maBacSi, 0
+                                        )
+                                        val key: String? = database.push().key
+                                        database.child(key!!).setValue(newTime)
+
+                                        //Cập Nhật Adapter
+                                        if (timeStart!!.currentHour <= 12) {
+                                            morningList.add(newTime)
+                                            keyMorning.add(key)
+                                            sortTime(1)
+                                            timeAdapter = TimeAdapter(
+                                                requireContext(),
+                                                morningList,
+                                                database,
+                                                keyMorning
+                                            )
+                                            morningTimeView?.adapter = timeAdapter
+                                        } else {
+                                            afternoonList.add(newTime)
+                                            keyAfternoon.add(key)
+                                            sortTime(2)
+                                            afternoonAdapter = TimeAdapter(
+                                                requireContext(),
+                                                afternoonList,
+                                                database,
+                                                keyAfternoon
+                                            )
+                                            afternoonTimeView?.adapter = afternoonAdapter
+                                        }
+                                        thoiGianRanhList.add(newTime)
+                                        keyList.add(key)
+                                        customDialog?.dismiss()
+                                    }
+                                }
+                            })
+
+                            cancelBTN?.setOnClickListener(object : View.OnClickListener {
+                                override fun onClick(view: View) {
+                                    customDialog?.dismiss()
+                                }
+                            })
+
+                            builder.setView(view_dialog)
+                            customDialog = builder.create()
+                            customDialog?.show()
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // Handle errors here
+                    }
+                })
+
+                //xu ly thu trong tuan
+                dayList = ArrayList<String>()
+                dayInWeek = HashMap<Int, String>()
+                for (index in 0..6) {
+                    val cal = Calendar.getInstance()
+                    cal.add(Calendar.DATE, index)
+                    val day = cal.get(Calendar.DAY_OF_WEEK)
+                    if (day == 1) {
+                        dayList.add(
+                            "Chủ Nhật" + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(
+                                cal.get(Calendar.MONTH) + 1
+                            )
+                        )
+                    } else {
+                        dayList.add(
+                            "Thứ " + day.toString() + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(
+                                cal.get(Calendar.MONTH) + 1
+                            )
+                        )
+                    }
+
+                    dayInWeek!![day] =
+                        convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1) + "/" + cal.get(
+                            Calendar.YEAR
+                        ).toString()
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle errors here
-            }
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
-
-        //xu ly thu trong tuan
-        dayList =  ArrayList<String>()
-        dayInWeek = HashMap<Int, String>()
-        for(index in 0..6) {
-            val cal = Calendar.getInstance()
-            cal.add(Calendar.DATE, index)
-            val day = cal.get(Calendar.DAY_OF_WEEK)
-            if(day == 1) {
-                dayList.add("Chủ Nhật" + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1))
-            }
-            else {
-                dayList.add("Thứ " + day.toString() + "\n" + convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1))
-            }
-
-            dayInWeek!![day] = convertNtoNN(cal.get(Calendar.DATE)) + "/" + convertNtoNN(cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR).toString()
-        }
     }
 
-    fun convertNtoNN(number: Int):String {
-        if(number < 10) {
+    fun convertNtoNN(number: Int): String {
+        if (number < 10) {
             return "0$number"
         }
         return number.toString()
     }
 
     fun checkTimeValid(hourStart: Int, minStart: Int, hourEnd: Int, minEnd: Int): Boolean {
-        if(hourStart > hourEnd)
+        if (hourStart > hourEnd)
             return false;
-        if(hourStart == hourEnd && minStart >= minEnd)
+        if (hourStart == hourEnd && minStart >= minEnd)
             return false;
 
         var minStart = hourStart * 60 + minStart
         var minEnd = hourEnd * 60 + minEnd
 
-        for(timeCheck in khoangThoiGianTrongNgay) {
+        for (timeCheck in khoangThoiGianTrongNgay) {
             var dataCheck = arrayListOf<String>()
             dataCheck = timeCheck.split("-") as ArrayList<String>
-            if(dataCheck[0].toInt() <= minStart && minStart < dataCheck[1].toInt())
+            if (dataCheck[0].toInt() <= minStart && minStart < dataCheck[1].toInt())
                 return false
-            if(dataCheck[0].toInt() < minEnd && minEnd <= dataCheck[1].toInt())
+            if (dataCheck[0].toInt() < minEnd && minEnd <= dataCheck[1].toInt())
                 return false
         }
         return true;
     }
 
     fun hienThiTimeTrongNgay(dayChoose: Int) {
-        var index:Int = 0
+        var index: Int = 0
         keyMorning = arrayListOf<String>()
         keyAfternoon = arrayListOf<String>()
-        for(time in thoiGianRanhList) {
-            if(time.thuTrongTuan == dayChoose) {
+        for (time in thoiGianRanhList) {
+            if (time.thuTrongTuan == dayChoose) {
                 //Thêm các khoảng thời gian đổi ra phút vào list
                 var dataStart = arrayListOf<String>()
                 dataStart = time.gioBatDau?.split(":") as ArrayList<String>
@@ -336,7 +372,7 @@ class DoctorChooseFreeTimeFragment : Fragment(){
                 khoangThoiGianTrongNgay.add("$minStart-$minEnd")
 
                 //Thêm vào list sáng chiều
-                if(dataStart[0].toInt() <= 12) {
+                if (dataStart[0].toInt() <= 12) {
                     morningList.add(time)
                     keyMorning.add(keyList[index])
                 } else {
@@ -354,8 +390,8 @@ class DoctorChooseFreeTimeFragment : Fragment(){
         afternoonTimeView?.adapter = afternoonAdapter
     }
 
-    fun sortTime(type:Int) {
-        if(type == 0) {
+    fun sortTime(type: Int) {
+        if (type == 0) {
             for (i in 0 until thoiGianRanhList.size - 1) {
                 for (j in (i + 1) until thoiGianRanhList.size) {
                     var timeFirst = thoiGianRanhList[i].gioBatDau?.split(":")
@@ -373,7 +409,7 @@ class DoctorChooseFreeTimeFragment : Fragment(){
             }
         }
 
-        if(type == 1) {
+        if (type == 1) {
             for (i in 0 until morningList.size - 1) {
                 for (j in (i + 1) until morningList.size) {
                     var timeFirst = morningList[i].gioBatDau?.split(":")
@@ -391,7 +427,7 @@ class DoctorChooseFreeTimeFragment : Fragment(){
             }
         }
 
-        if(type == 2) {
+        if (type == 2) {
             for (i in 0 until afternoonList.size - 1) {
                 for (j in (i + 1) until afternoonList.size) {
                     var timeFirst = afternoonList[i].gioBatDau?.split(":")
@@ -410,3 +446,4 @@ class DoctorChooseFreeTimeFragment : Fragment(){
         }
     }
 }
+

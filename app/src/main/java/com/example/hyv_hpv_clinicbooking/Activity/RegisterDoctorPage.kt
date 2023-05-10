@@ -80,8 +80,8 @@ class RegisterDoctorPage : AppCompatActivity() {
         phoneET = findViewById(R.id.phoneET)
         addressET = findViewById(R.id.addressET)
         soNamTrongNgheET = findViewById(R.id.soNamTrongNgheET)
-        emailET = findViewById(R.id.emailET)
-        passwordET = findViewById(R.id.passwordET)
+        emailET = findViewById(R.id.oldPasswordET)
+        passwordET = findViewById(R.id.newPasswordET)
         chuyenKhoaET = findViewById(R.id.chuyenKhoaET)
         cccdET = findViewById(R.id.cccdET)
 
@@ -241,11 +241,19 @@ class RegisterDoctorPage : AppCompatActivity() {
                             }
                         }
                     } else {
-                        // Register fail
-                        Toast.makeText(applicationContext
-                            , getString(R.string.toastRegisterFail)
-                            , Toast.LENGTH_SHORT)
-                            .show()
+                        if (password.length < 6) {
+                            Toast.makeText(applicationContext
+                                , "Mật khẩu phải có từ 6 kí tự trở lên"
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        else {
+                            // Register fail
+                            Toast.makeText(applicationContext
+                                , getString(R.string.toastRegisterFail)
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 }
         }

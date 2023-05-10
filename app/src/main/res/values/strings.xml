@@ -32,8 +32,8 @@
     <string name="toastRegisterSuccess">Đăng ký thành công</string>
     <string name="toastRegisterFail">Đăng ký thất bại</string>
     <string name="toastEmptyEditText">Hãy điền vào tất cả ô</string>
-    <string name="toastSendEmailSuccess">Gửi email thành công</string>
-    <string name="toastSendEmailFail">Không thể gửi email</string>
+    <string name="toastSendEmailSuccess">Đã gửi email thay đổi mật\nHãy kiểm tra hộp thư</string>
+    <string name="toastSendEmailFail">Không thể gửi email thay đổi mật khẩu</string>
     <string name="labelForgotPassword">Quên mật khẩu?</string>
     <string name="labelCreateNewAccount">Tạo tài khoản mới</string>
 
