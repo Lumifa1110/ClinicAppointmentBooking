@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Số cuộc hẹn đang cần duyệt: "
+            android:text="Số tài khoản bác sĩ đang cần duyệt: "
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/secondary"/>

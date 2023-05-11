@@ -29,9 +29,9 @@
         <activity
             android:name=".Activity.DoctorHomePage"
             android:exported="false" />
-        <activity
-            android:name=".Activity.AdminAddDoctor"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Activity.AdminAddDoctor"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".Activity.UserOrderPage"
             android:exported="false" />
