@@ -23,7 +23,6 @@ data class BacSi (
     var PassWord: String = "",
     var BiKhoa: Boolean = true,
     var KhungGioLamViec:String = "",
-    var DaDuyet: Boolean = false, //false la chua duoc duyet - true la da duyet
     var Cccd: String = ""
     ): Parcelable {
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -42,7 +41,6 @@ data class BacSi (
         parcel.readString()!!,
         parcel.readBoolean(),
         parcel.readString()!!,
-        parcel.readBoolean(),
         parcel.readString()!!
         )
 
@@ -62,7 +60,6 @@ data class BacSi (
         parcel.writeString(PassWord)
         parcel.writeBoolean(BiKhoa)
         parcel.writeString(KhungGioLamViec)
-        parcel.writeBoolean(DaDuyet)
         parcel.writeString(Cccd)
     }
 

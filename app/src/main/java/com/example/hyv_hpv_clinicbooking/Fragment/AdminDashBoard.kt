@@ -470,15 +470,14 @@ class AdminDashBoard : Fragment() {
     }
 
     fun readApprovalFromRealtimeDB() {
-        val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("BacSi")
+        val databaseRef = FirebaseDatabase.getInstance().getReference("BacSiChoDuyet")
         databaseRef.addValueEventListener( object: ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 approvalList.clear()
                 for (snapshot in dataSnapshot.children) {
                     val bacSi = snapshot.getValue(BacSi::class.java)
-                    if(bacSi?.DaDuyet == false)
-                        approvalList.add(bacSi!!)
+                    approvalList.add(bacSi!!)
                 }
                 approvalAdapter.notifyDataSetChanged()
             }

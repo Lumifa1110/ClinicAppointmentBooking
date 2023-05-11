@@ -115,7 +115,8 @@ class DoctorDetailKiemDuyet : AppCompatActivity() {
         //xu li nut duyet
         duyetBTN?.setOnClickListener {
             database = Firebase.database.getReference("Users").child("BacSi")
-            database.child(maAccountCanDuyet!!).child("daDuyet").setValue(true)
+            database.child(maAccountCanDuyet!!).setValue(doctorCanDuyet)
+            database.child(maAccountCanDuyet!!).removeValue()
 
             val intent = Intent(this, AdminHomePage::class.java)
             intent.putExtra("loadfragment", "dashboard")
@@ -125,7 +126,7 @@ class DoctorDetailKiemDuyet : AppCompatActivity() {
         //xu li nut khong duyet
         khongDuyetBTN?.setOnClickListener {
             //xoa tai khoan bac si khoi db
-            database = Firebase.database.getReference("Users").child("BacSi")
+            database = Firebase.database.getReference("BacSiChoDuyet")
             database.child(maAccountCanDuyet!!).removeValue()
 
             //xoa anh khoi firebase storage

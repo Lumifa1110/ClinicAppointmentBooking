@@ -249,11 +249,14 @@ class RegisterDoctorPage : AppCompatActivity() {
                                         val bacSi: BacSi = BacSi(
                                             "", chuyenKhoa, 0, soNamTrongNghe!!.toInt(), name,
                                             phone, 0, address, 0, email, "", password,
-                                            false, "4 Giờ - 16 Giờ", false, cccd
+                                            false, "4 Giờ - 16 Giờ", cccd
                                         )
 
                                         bacSi.MaBacSi = key!!
-                                        userDB.child("BacSi").child(key).setValue(bacSi)
+
+                                        userDB = Firebase.database.getReference("BacSiChoDuyet")
+                                        userDB.child(key).setValue(bacSi)
+
                                         // Move to Login page
                                         val intent = Intent(this, LoginPage::class.java)
                                         startActivity(intent)
