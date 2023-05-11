@@ -505,10 +505,8 @@ class AdminDashBoard : Fragment() {
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                bacsiDuyet = snapshot.child("BacSi").children
-                    .filter { it.child("daDuyet").getValue(Boolean::class.java) == true }.count().toLong()
-                bacsiChuaDuyet = snapshot.child("BacSi").children
-                    .filter { it.child("daDuyet").getValue(Boolean::class.java) == false }.count().toLong()
+                bacsiDuyet = snapshot.child("BacSi").childrenCount
+                bacsiChuaDuyet = snapshot.child("BacSiChoDuyet").childrenCount
                 benhnhanCount = snapshot.child("BenhNhan").childrenCount
                 totalCount = bacsiDuyet + benhnhanCount
                 countAll!!.setText(totalCount.toString())
