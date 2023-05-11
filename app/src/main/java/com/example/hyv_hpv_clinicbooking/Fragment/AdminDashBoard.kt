@@ -1,8 +1,6 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
 import BenhNhan
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,8 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailKiemDuyet
-import com.example.hyv_hpv_clinicbooking.Adapter.ApproveAdapter
+import com.example.hyv_hpv_clinicbooking.Adapter.DoctorWaitListAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.MedicineAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.SpecializeAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
@@ -33,28 +30,32 @@ import com.google.firebase.ktx.Firebase
 class AdminDashBoard : Fragment() {
     private var medicineList = ArrayList<Thuoc>()
     private var specializeList = ArrayList<ChuyenKhoa>()
-    private var approveList = ArrayList<BacSi>()
+    private var waitList = ArrayList<BacSi>()
 
     lateinit var medicineAdapter: MedicineAdapter
     lateinit var specializeAdapter: SpecializeAdapter
-    lateinit var approveAdapter: ApproveAdapter
+    lateinit var waitListAdapter: DoctorWaitListAdapter
 
     lateinit var searchMedicine: SearchView
     lateinit var searchSpecialize: SearchView
+    lateinit var searchDoctor: SearchView
 
     private lateinit var database : DatabaseReference
 
 //    private lateinit var auth  : FirebaseAuth
     private var tabHost: TabHost? = null
+
     private var addMedicine: ImageButton? = null
     private var addSpecialize: ImageButton? = null
+
     private var medicineRV: RecyclerView? = null
     private var specializeRV: RecyclerView? = null
-    private var approvalRV: RecyclerView? = null
+    private var approvalRV : RecyclerView? = null
 
     private var countMedicine: TextView? = null
     private var countSpecialize: TextView? = null
     private var countAll: TextView? = null
+    private var countWaitDoctor: TextView? = null
     private var countDoctor: TextView? = null
     private var countPatient: TextView? = null
 
@@ -95,6 +96,7 @@ class AdminDashBoard : Fragment() {
         countMedicine = view.findViewById(R.id.countMedicine)
         countSpecialize = view.findViewById(R.id.countSpec)
         countAll = view.findViewById(R.id.countAll)
+        countWaitDoctor = view.findViewById(R.id.countWaitDoc)
         countDoctor = view.findViewById(R.id.countDoc)
         countPatient = view.findViewById(R.id.countPat)
 
@@ -124,6 +126,17 @@ class AdminDashBoard : Fragment() {
             }
         })
 
+        searchDoctor = view.findViewById(R.id.searchWaitDoc)
+        searchDoctor.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterWait(newText)
+                return true
+            }
+        })
+
         addMedicine = view.findViewById(R.id.addMedicine)
         addMedicine!!.setOnClickListener {
             Toast.makeText(requireContext(), "Add Medicine", Toast.LENGTH_SHORT).show()
@@ -142,8 +155,7 @@ class AdminDashBoard : Fragment() {
     private fun re_create() {
         readMedicineFromRealtimeDB()
         readSpecializeFromRealtimeDB()
-        readApprovedListFromRealtimeDB()
-
+        readDoctorFromRealtimeDB()
         getAmountDoctorAndPatient()
         displayRecyclerView()
     }
@@ -154,16 +166,15 @@ class AdminDashBoard : Fragment() {
 
         medicineAdapter = MedicineAdapter(requireContext(), medicineList)
         specializeAdapter = SpecializeAdapter(requireContext(), specializeList)
-        approveAdapter = ApproveAdapter(requireContext(), approveList)
+        waitListAdapter = DoctorWaitListAdapter(requireContext(), waitList)
 
         medicineRV!!.adapter = medicineAdapter
         specializeRV!!.adapter = specializeAdapter
-        approvalRV!!.adapter = approveAdapter
+        approvalRV!!.adapter = waitListAdapter
 
-        approveAdapter.onItemClick = { bacSi, index ->
-            val intent = Intent(context, DoctorDetailKiemDuyet::class.java)
-//            intent.putExtra("bacSi_info", bacSi)
-            startActivity(intent)
+        // Khi nhấn vài 1 item trong hàng chờ duyệt
+        waitListAdapter.onItemClick = { index ->
+            Toast.makeText(requireContext(), "Xac nhan " + waitList[index].HoTen, Toast.LENGTH_SHORT).show()
         }
 
         // Edit và Delete với 1 thuốc
@@ -466,40 +477,38 @@ class AdminDashBoard : Fragment() {
             }
         })
     }
-
-    fun readApprovedListFromRealtimeDB() {
+    fun readDoctorFromRealtimeDB() {
         val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("BacSi")
         databaseRef.addValueEventListener( object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                approveList.clear()
+                waitList.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val bacSi = snapshot.getValue(BacSi::class.java)
-                    if(bacSi?.DaDuyet == false)
-                        approveList.add(bacSi)
+                    val bacsi = snapshot.getValue(BacSi::class.java)
+                    if (!bacsi!!.DaDuyet) waitList.add(bacsi!!)
                 }
-//                countApprove!!.setText(approveList.size.toString())
-//                approveList.notifyDataSetChanged()
+                waitListAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
     }
-
-
     fun getAmountDoctorAndPatient() {
-        var bacsiCount: Long = 0
+        var bacsiDuyet: Long = 0
+        var bacsiChuaDuyet: Long = 0
         var benhnhanCount: Long = 0
         var totalCount: Long = 0
         val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                bacsiCount = snapshot.child("BacSi").childrenCount
+                bacsiDuyet = snapshot.child("BacSi").children.filter { it.child("daDuyet").getValue(Boolean::class.java) == true }.count().toLong()
+                bacsiChuaDuyet = snapshot.child("BacSi").children.filter { it.child("daDuyet").getValue(Boolean::class.java) == false }.count().toLong()
                 benhnhanCount = snapshot.child("BenhNhan").childrenCount
-                totalCount = bacsiCount + benhnhanCount
+                totalCount = bacsiDuyet + benhnhanCount
                 countAll!!.setText(totalCount.toString())
-                countDoctor!!.setText(bacsiCount.toString())
+                countWaitDoctor!!.setText(bacsiChuaDuyet.toString())
+                countDoctor!!.setText(bacsiDuyet.toString())
                 countPatient!!.setText(benhnhanCount.toString())
             }
             override fun onCancelled(error: DatabaseError) {
@@ -537,6 +546,22 @@ class AdminDashBoard : Fragment() {
         } else {
             // at last we are passing that filtered list to our adapter class.
             specializeAdapter.filter(filteredlist)
+        }
+    }
+    private fun filterWait(text: String?) {
+        val filteredlist: ArrayList<BacSi> = ArrayList()
+        for (item in waitList) {
+            if (item.HoTen!!.toLowerCase().contains(text!!.toLowerCase())) {
+                // if the item is matched we are adding it to our filtered list.
+                filteredlist.add(item)
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            // if no item is added in filtered list we are displaying a toast message as no data found.
+            Toast.makeText(requireActivity(), "No Data Found..", Toast.LENGTH_SHORT).show()
+        } else {
+            // at last we are passing that filtered list to our adapter class.
+            waitListAdapter.filter(filteredlist)
         }
     }
 }

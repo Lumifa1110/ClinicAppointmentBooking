@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
@@ -20,16 +21,18 @@ class RegisterPage : AppCompatActivity() {
     private lateinit var nameET : EditText
     private lateinit var passwordET : EditText
     private lateinit var registerBtn : Button
+    private lateinit var registerDoctorBtn : TextView
 
     private lateinit var userDB : DatabaseReference
     private lateinit var auth  : FirebaseAuth
 
     private fun initWidgets() {
         phoneET = findViewById(R.id.phoneET)
-        emailET = findViewById(R.id.emailET)
+        emailET = findViewById(R.id.oldPasswordET)
         nameET = findViewById(R.id.nameET)
-        passwordET = findViewById(R.id.passwordET)
+        passwordET = findViewById(R.id.newPasswordET)
         registerBtn = findViewById(R.id.registerBtn)
+        registerDoctorBtn = findViewById(R.id.registerDoctorBTN)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +50,10 @@ class RegisterPage : AppCompatActivity() {
         registerBtn.setOnClickListener {
             onClickRegisterEmailPassword()
         }
+        registerDoctorBtn.setOnClickListener {
+            val intent = Intent(this, RegisterDoctorPage::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun onClickRegisterEmailPassword() {
@@ -63,42 +70,54 @@ class RegisterPage : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // create User
-                        val key: String? = userDB.push().key
-                        val user = BenhNhan(
-                            MaBenhNhan = key!!,
-                            HoTen = name,
-                            SoDienThoai = phone,
-                            Email = email,
-                            PassWord = password
-                        )
-                        // update User profile in database
-                        userDB.child(role).child(key).setValue(user).addOnCompleteListener {
-                            if (task.isSuccessful) {
-                                // Register success
-                                Toast.makeText(applicationContext
-                                    , getString(R.string.toastRegisterSuccess)
-                                    , Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                            else {
-                                // Register fail
-                                Toast.makeText(applicationContext
-                                    , getString(R.string.toastRegisterFail)
-                                    , Toast.LENGTH_SHORT)
-                                    .show()
+                        auth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) { task2 ->
+                            if (task2.isSuccessful) {
+                                // create User
+                                val key: String? = userDB.push().key
+                                val user = BenhNhan(
+                                    MaBenhNhan = key!!,
+                                    HoTen = name,
+                                    SoDienThoai = phone,
+                                    Email = email,
+                                    PassWord = password
+                                )
+                                // update User profile in database
+                                userDB.child(role).child(key).setValue(user).addOnCompleteListener {
+                                    if (task.isSuccessful) {
+                                        // Register success
+                                        Toast.makeText(applicationContext
+                                            , getString(R.string.toastRegisterSuccess)
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                    else {
+                                        // Register fail
+                                        Toast.makeText(applicationContext
+                                            , getString(R.string.toastRegisterFail)
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                }
+                                // Move to Login page
+                                val intent = Intent(this, LoginPage::class.java)
+                                startActivity(intent)
+                                finish()
                             }
                         }
-                        // Move to Login page
-                        val intent = Intent(this, LoginPage::class.java)
-                        startActivity(intent)
-                        finish()
                     } else {
-                        // Register fail
-                        Toast.makeText(applicationContext
-                            , getString(R.string.toastRegisterFail)
-                            , Toast.LENGTH_SHORT)
-                            .show()
+                        if (password.length < 6) {
+                            Toast.makeText(applicationContext
+                                , "Mật khẩu phải có từ 6 kí tự trở lên"
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        else {
+                            // Register fail
+                            Toast.makeText(applicationContext
+                                , getString(R.string.toastRegisterFail)
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 }
         }

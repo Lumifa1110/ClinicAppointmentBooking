@@ -81,6 +81,8 @@ class UserOrderPage : AppCompatActivity() {
     var dayChoose:Int = 0
     var dateChoose:String ?= null
     var maTaiKhoan:String?= null
+    var hoTenTaiKhoan: String ?= ""
+
     //Khai báo context
     var ctx: Context?= null
 
@@ -308,7 +310,7 @@ class UserOrderPage : AppCompatActivity() {
                             cuocHenList.add(newAppointment)
                             cuocHenDB.child(key!!).setValue(newAppointment)
 
-                            createNotification(newAppointment)
+                            writeThongBaoFromRealtimeDB(newAppointment)
 
                         } else {
                             showDialogAnnouce("OOP!! LỖI", "Đặt lịch hẹn không thành công. Đã có người đặt lịch này trước bạn. Hãy đặt lịch khác nhé")
@@ -339,7 +341,7 @@ class UserOrderPage : AppCompatActivity() {
                         cuocHenList.add(newAppointment)
                         cuocHenDB.child(key!!).setValue(newAppointment)
 
-                        createNotification(newAppointment)
+                        writeThongBaoFromRealtimeDB(newAppointment)
 
                         customDialog?.dismiss()
                     }
@@ -565,6 +567,8 @@ class UserOrderPage : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
+                    val benhNhan = it.getValue(BacSi::class.java)
+                    hoTenTaiKhoan = benhNhan?.HoTen ?: ""
                 }
             }
 
@@ -572,14 +576,15 @@ class UserOrderPage : AppCompatActivity() {
         })
     }
 
-    private fun createNotification(cuochen: CuocHen) {
+    fun writeThongBaoFromRealtimeDB(cuocHen: CuocHen) {
         val key : String? = thongbaoDB.push().key
         val newNotification = ThongBao(
-            MaCuocHen = cuochen.MaCuocHen,
-            MaBenhNhan = cuochen.MaBenhNhan,
-            MaBacSi = cuochen.MaBacSi,
-            NoiDung = "${cuochen.Ngay}, ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
-        )
-        thongbaoDB.child(key!!).setValue(newNotification)
+            TenTaiKhoan = hoTenTaiKhoan!!,
+            MaTaiKhoan = cuocHen.MaBacSi,
+            Ngay = cuocHen.Ngay,
+            GioBatDau = cuocHen.GioBatDau,
+            GioKetThuc = cuocHen.GioKetThuc,
+            NoiDung= "đặt cuộc hẹn")
+        thongbaoDB.child("BacSi").child(key!!).setValue(newNotification)
     }
 }

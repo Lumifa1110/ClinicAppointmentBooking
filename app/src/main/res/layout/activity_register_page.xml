@@ -46,7 +46,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/passwordET"
+            android:id="@+id/newPasswordET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="20sp"
@@ -75,7 +75,7 @@
 
 
         <EditText
-            android:id="@+id/emailET"
+            android:id="@+id/oldPasswordET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="20sp"
@@ -99,7 +99,7 @@
             android:text="Đăng Ký"
             android:textColor="#ffffff"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/emailET" />
+            app:layout_constraintTop_toBottomOf="@+id/oldPasswordET" />
     </LinearLayout>
 
     <LinearLayout
@@ -114,10 +114,12 @@
             android:layout_height="wrap_content"
             android:text="Bạn muốn đăng kí tài khoản bác sĩ? " />
         <TextView
-            android:id="@+id/dangNhap"
+            android:id="@+id/registerDoctorBTN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đăng Ký"
+            android:clickable="true"
+            android:focusable="true"
             android:textStyle="bold"
             android:textColor="#444EFF"/>
     </LinearLayout>

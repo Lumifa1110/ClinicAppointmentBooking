@@ -22,6 +22,8 @@ import com.example.hyv_hpv_clinicbooking.Adapter.HistoryAppoinmentAdapter
 import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.*
 import com.example.hyv_hpv_clinicbooking.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -40,21 +42,23 @@ class UserAppoinmentManagement() : Fragment() {
     var recyclerView3: RecyclerView?= null
     var adapter3: HistoryAppoinmentAdapter?= null
     var quantityTV3: TextView?= null
-    private var appoinmentList = ArrayList<CuocHen>()
 
-    private var timeList = ArrayList<ThoiGian>()
+    private var appoinmentList = ArrayList<CuocHen>()
     private var doctorList = ArrayList<BacSi>()
-    private var prescriptionList = ArrayList<KeDon>()
 
     private var unapprovedList = ArrayList<CuocHen>()
     private var approvedList = ArrayList<CuocHen>()
     private var historyAppoinmentList = ArrayList<CuocHen>()
-    private lateinit var database : DatabaseReference
 
     private var emptyTV1: TextView ?= null
     private var emptyTV2: TextView ?= null
     private var emptyTV3: TextView ?= null
-    private var context:Context ?= null
+    var ctx: Context?= null
+
+    private lateinit var auth  : FirebaseAuth
+    private lateinit var database : DatabaseReference
+    var maTaiKhoan:String?= null
+    var hoTenTaiKhoan: String ?= ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,18 +71,18 @@ class UserAppoinmentManagement() : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        displayView()
+        database = Firebase.database.reference
+        auth = FirebaseAuth.getInstance()
+        getBenhNhanKey(auth.currentUser!!)
+        appoinmentList.clear()
+        doctorList.clear()
     }
 
     private fun displayView() {
-        database = Firebase.database.reference
-        appoinmentList.clear()
-        doctorList.clear()
-        timeList.clear()
-        prescriptionList.clear()
         readAppointmentFromRealtimeDB() {list1, list2 ->
-            appoinmentList = list1
+            appoinmentList = list1.distinctBy { it.MaCuocHen } as ArrayList<CuocHen>
             doctorList = list2
+
             val sortedAppointments = appoinmentList.sortedWith(compareBy(
                 { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(it.Ngay) },
                 { SimpleDateFormat("HH:mm", Locale.getDefault()).parse(it.GioBatDau) }
@@ -92,6 +96,7 @@ class UserAppoinmentManagement() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ctx = view.context
         tabHost = view.findViewById(R.id.tabHost)
         tabHost?.setup()
         var tabSpec : TabHost.TabSpec? = null
@@ -131,6 +136,7 @@ class UserAppoinmentManagement() : Fragment() {
         //tab1
         unapprovedList = appoinmentList.filter { it.MaTrangThai == 0 } as ArrayList<CuocHen>
         if(unapprovedList.size > 0) {
+
             emptyTV1?.visibility = View.GONE
             recyclerView1?.visibility = View.VISIBLE
             quantityTV1?.setText(unapprovedList.size.toString())
@@ -182,7 +188,7 @@ class UserAppoinmentManagement() : Fragment() {
             recyclerView3?.adapter = adapter3
 
             adapter3?.onItemClick = { index ->
-                val intent = Intent(requireContext(), PrescriptionActivity::class.java)
+                val intent = Intent(ctx, PrescriptionActivity::class.java)
                 intent.putExtra("people", "patient")
                 for(doctor in doctorList) {
                     if(historyAppoinmentList[index].MaBacSi == doctor.MaBacSi) {
@@ -201,30 +207,36 @@ class UserAppoinmentManagement() : Fragment() {
     }
 
     private fun showAlertDialog(index: Int, type: Int) {
-        val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        val alertDialog: AlertDialog.Builder = AlertDialog.Builder(ctx!!)
         alertDialog.setTitle("Hủy cuộc hẹn")
         alertDialog.setMessage("Bạn có muốn hủy cuộc hẹn này không?")
         alertDialog.setPositiveButton(
             "Có"
         ) { _, _ ->
-            Toast.makeText(requireContext(), "Cuộc hẹn đã hủy", Toast.LENGTH_LONG).show()
+            Toast.makeText(ctx, "Cuộc hẹn đã hủy", Toast.LENGTH_LONG).show()
             if(type == 0) {
-                appoinmentList.forEachIndexed { i, value ->
-                    if (value.MaCuocHen == unapprovedList[index].MaCuocHen) {
+                for(appoiment in appoinmentList) {
+                    if (appoiment.MaCuocHen == unapprovedList[index].MaCuocHen) {
+                        Log.w("ltphihung",unapprovedList[index].MaCuocHen )
                         unapprovedList.removeAt(index)
                         adapter1?.notifyDataSetChanged()
                         quantityTV1?.setText(unapprovedList.size.toString())
-                        updateThoiGianRanhFromRealtimeDB(value.MaCuocHen, value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
-
+                        updateThoiGianRanhFromRealtimeDB(appoiment.MaCuocHen, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioKetThuc)
+                        val key = database.push().key
+                        writeThongBaoFromRealtimeDB(key!!, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioBatDau, "từ chối cuộc hẹn")
+                        break
                     }
                 }
             } else {
-                appoinmentList.forEachIndexed { i, value ->
-                    if (value.MaCuocHen == approvedList[index].MaCuocHen) {
+                for(appoiment in appoinmentList) {
+                    if (appoiment.MaCuocHen == approvedList[index].MaCuocHen) {
                         approvedList.removeAt(index)
                         adapter2?.notifyDataSetChanged()
                         quantityTV2?.setText(approvedList.size.toString())
-                        updateThoiGianRanhFromRealtimeDB(value.MaCuocHen, value.MaBacSi, value.Ngay, value.GioBatDau, value.GioKetThuc)
+                        updateThoiGianRanhFromRealtimeDB(appoiment.MaCuocHen, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioKetThuc)
+                        val key = database.push().key
+                        writeThongBaoFromRealtimeDB(key!!, appoiment.MaBacSi, appoiment.Ngay, appoiment.GioBatDau, appoiment.GioBatDau, "từ chối cuộc hẹn")
+                        break
                     }
                 }
             }
@@ -255,32 +267,43 @@ class UserAppoinmentManagement() : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
                     val appointment = snapshot.getValue(CuocHen::class.java)
-                    if(appointment!!.MaBenhNhan.equals("-NUGq3NRrFTwUKz84O6P")) {
+                    if(appointment!!.MaBenhNhan.equals(maTaiKhoan)) {
                         if(appointment.Ngay == null || appointment.Ngay =="null" || appointment.GioBatDau == null || appointment.GioBatDau == "null" || appointment.GioKetThuc == null || appointment.GioKetThuc == "null") {
                             deleteAppoinmentFromRealtimeDB(appointment.MaCuocHen)
                         }
                         else {
-                            val myDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(appointment!!.Ngay)
-                            if (myDate.compareTo(currentDate) > 0) {
-                                // myDate lớn hơn ngày hiện tại
-                                appointmentList.add(appointment!!)
-                                readDoctorFromRealtimeDB(appointment.MaBacSi) { doctors ->
-                                    doctorList.addAll(doctors)
-                                    // Invoke the callback function with the retrieved data
-                                    callback(appointmentList, doctorList)
-                                }
-                            } else if (myDate.compareTo(currentDate) == 0) {
-                                // myDate bằng ngày hiện tại
-                                appointmentList.add(appointment!!)
-                                readDoctorFromRealtimeDB(appointment.MaBacSi) { doctors ->
-                                    doctorList.addAll(doctors)
-                                    // Invoke the callback function with the retrieved data
-                                    callback(appointmentList, doctorList)
-                                }
-                            } else {
-                                // myDate nhỏ hơn ngày hiện tại
-                                deleteAppoinmentFromRealtimeDB(appointment.MaCuocHen)
-                            }
+                           if(appointment.MaTrangThai == 2) {
+                               appointmentList.add(appointment!!)
+                               readDoctorFromRealtimeDB(appointment.MaBacSi) { doctors ->
+                                   doctorList.addAll(doctors)
+                                   // Invoke the callback function with the retrieved data
+                                   callback(appointmentList, doctorList)
+                               }
+                           } else {
+                               val myDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(appointment!!.Ngay)
+
+                               if (myDate.compareTo(currentDate) > 0) {
+                                   // myDate lớn hơn ngày hiện tại
+                                   appointmentList.add(appointment!!)
+                                   readDoctorFromRealtimeDB(appointment.MaBacSi) { doctors ->
+                                       doctorList.addAll(doctors)
+                                       // Invoke the callback function with the retrieved data
+                                       callback(appointmentList, doctorList)
+                                   }
+                               } else if (myDate.compareTo(currentDate) == 0) {
+                                   // myDate bằng ngày hiện tại
+//                                   Thời gian bắt đầu nhỏ hơn thời gian hiện tại khoảng 1 tiếng
+                                   appointmentList.add(appointment!!)
+                                   readDoctorFromRealtimeDB(appointment.MaBacSi) { doctors ->
+                                       doctorList.addAll(doctors)
+                                       // Invoke the callback function with the retrieved data
+                                       callback(appointmentList, doctorList)
+                                   }
+                               } else {
+                                   // myDate nhỏ hơn ngày hiện tại
+                                   deleteAppoinmentFromRealtimeDB(appointment.MaCuocHen)
+                               }
+                           }
                         }
                     }
 
@@ -315,14 +338,46 @@ class UserAppoinmentManagement() : Fragment() {
             })
     }
 
+    fun writeThongBaoFromRealtimeDB(key: String, maBacSi: String, ngay: String, gioBatDau: String, gioKetThuc: String, noiDung: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("ThongBao")
+        val user = ThongBao(
+            MaTaiKhoan = maBacSi,
+            TenTaiKhoan = hoTenTaiKhoan!!,
+            Ngay = ngay,
+            GioBatDau = gioBatDau,
+            GioKetThuc = gioKetThuc,
+            NoiDung= noiDung)
+        databaseRef.child("BacSi").child(key).setValue(user)
+    }
+
     fun deleteAppoinmentFromRealtimeDB(key: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("CuocHen")
         // Assuming "key" is the key of the node you want to delete
         databaseRef.child(key).removeValue().addOnSuccessListener {
-            Toast.makeText(requireContext(), "Cuộc hẹn đã xóa", Toast.LENGTH_LONG).show()
+            Toast.makeText(ctx, "Cuộc hẹn đã xóa", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             // There was an error deleting the node
         }
+    }
+
+    private fun getBenhNhanKey(user: FirebaseUser) {
+        val userDB = Firebase.database.getReference("Users")
+
+        val query = userDB.child("BenhNhan")
+            .orderByChild("email")
+            .equalTo(user.email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach { it ->
+                    maTaiKhoan = it.key!!
+                    val benhNhan = it.getValue(BacSi::class.java)
+                    hoTenTaiKhoan = benhNhan?.HoTen ?: ""
+                }
+                displayView()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
     fun updateThoiGianRanhFromRealtimeDB(maCuocHen:String, maBacSi: String, ngayThang: String, gioBatDau: String, gioKetThuc: String ) {

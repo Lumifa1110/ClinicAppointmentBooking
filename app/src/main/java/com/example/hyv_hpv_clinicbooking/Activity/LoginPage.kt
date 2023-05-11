@@ -44,8 +44,8 @@ class LoginPage : AppCompatActivity() {
     private lateinit var googleSignInClient : GoogleSignInClient
 
     private fun initWidgets() {
-        emailET = findViewById(R.id.emailET)
-        passwordET = findViewById(R.id.passwordET)
+        emailET = findViewById(R.id.oldPasswordET)
+        passwordET = findViewById(R.id.newPasswordET)
         loginBTN = findViewById(R.id.loginBTN)
         dangKi = findViewById(R.id.dangKi)
         resetPasswordBTN = findViewById(R.id.resetPasswordBTN)
@@ -101,16 +101,30 @@ class LoginPage : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Login success
+                        if (auth.currentUser!!.isEmailVerified) {
+                            // Login success
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.toastLoginSuccess),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            // Get User role and Switch to Homepage
+                            getUserRole(auth.currentUser!!)
+                        }
+                        else {
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.toastLoginNotVerified),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    else {
                         Toast.makeText(
                             applicationContext,
-                            getString(R.string.toastLoginSuccess),
+                            getString(R.string.toastLoginFail),
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
-                        // Get User role and Switch to Homepage
-                        val user = auth.currentUser
-                        getUserRole(user!!)
+                        ).show()
                     }
                 }
         }
@@ -133,7 +147,7 @@ class LoginPage : AppCompatActivity() {
         val email = emailET.text.toString()
         if (email == "") {
             Toast.makeText(applicationContext
-                , getString(R.string.toastEmptyEditText)
+                , "Hãy điền Email cần được đổi mật khẩu"
                 , Toast.LENGTH_SHORT)
                 .show()
         }

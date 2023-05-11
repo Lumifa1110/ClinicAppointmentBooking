@@ -26,9 +26,9 @@ import com.google.firebase.database.ValueEventListener
 
 class DoctorManagement : Fragment() {
     lateinit var searchView: SearchView
-    lateinit var recyclerView: RecyclerView
+    private var recyclerView: RecyclerView? = null
     lateinit var adapter: DoctorListAdapter_Admin
-    lateinit var doctorList: ArrayList<BacSi>
+    private var doctorList = ArrayList<BacSi>()
 
     override fun onStart() {
         super.onStart()
@@ -124,12 +124,6 @@ class DoctorManagement : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.DoctorView)
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        var data = Data()
-        doctorList = data.generateDoctorData()
-        adapter = DoctorListAdapter_Admin(requireContext(), doctorList)
-        recyclerView.adapter = adapter
-
         searchView = view.findViewById(R.id.searchDoctor)
         searchView!!.queryHint = "Tìm kiếm bác sĩ"
         searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -141,12 +135,6 @@ class DoctorManagement : Fragment() {
                 // Handle search query text changes
                 filter(newText)
                 return true
-            }
-        })
-        adapter.setOnItemClickListener(object: DoctorListAdapter_Admin.OnItemClickListener {
-            override fun onDeleteClick(doctor: BacSi) {
-                doctorList.remove(doctor)
-                adapter.notifyDataSetChanged()
             }
         })
     }
@@ -173,8 +161,8 @@ class DoctorManagement : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 doctorList.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val benhnhan = snapshot.getValue(BacSi::class.java)
-                    doctorList.add(benhnhan!!)
+                    val bacsi = snapshot.getValue(BacSi::class.java)
+                    if (bacsi!!.DaDuyet) doctorList.add(bacsi!!)
                 }
                 adapter.notifyDataSetChanged()
             }

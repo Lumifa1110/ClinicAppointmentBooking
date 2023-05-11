@@ -138,9 +138,7 @@ class PatientManagement : Fragment() {
                 return true
             }
         })
-
     }
-
     private fun filter(text: String?) {
         val filteredlist: ArrayList<BenhNhan> = ArrayList()
         for (item in patientList) {
