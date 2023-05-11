@@ -4,12 +4,14 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.*
+import com.example.hyv_hpv_clinicbooking.Adapter.ChooseTimeAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
@@ -80,8 +82,8 @@ class RegisterDoctorPage : AppCompatActivity() {
         phoneET = findViewById(R.id.phoneET)
         addressET = findViewById(R.id.addressET)
         soNamTrongNgheET = findViewById(R.id.soNamTrongNgheET)
-        emailET = findViewById(R.id.oldPasswordET)
-        passwordET = findViewById(R.id.newPasswordET)
+        emailET = findViewById(R.id.emailET)
+        passwordET = findViewById(R.id.passwordET)
         chuyenKhoaET = findViewById(R.id.chuyenKhoaET)
         cccdET = findViewById(R.id.cccdET)
 
@@ -144,7 +146,8 @@ class RegisterDoctorPage : AppCompatActivity() {
 
         //Lưu dữ liệu
         registerBTN?.setOnClickListener {
-            println("bat")
+            var check:Boolean = true
+
             val key: String? = userDB.push().key
             val name = nameET?.text.toString()
             val phone = phoneET?.text.toString()
@@ -155,107 +158,128 @@ class RegisterDoctorPage : AppCompatActivity() {
             val email = emailET?.text.toString()
             val password = passwordET?.text.toString()
 
-            //Gán firebase storage, up load anh len firebase storage
-            storage = FirebaseStorage.getInstance();
-            storageReference = storage.reference;
-            if (filePath != null) {
-                val progressDialog = ProgressDialog(ctx)
-                progressDialog.setTitle("Uploading...")
-                progressDialog.show()
-
-                val ref1: StorageReference =
-                    storageReference!!.child("BacSi/" + key + "_CCCD_mat_truoc")
-                ref1.putFile(pathCCCDTruoc!!)
-                    .addOnSuccessListener {
-                        progressDialog.dismiss()
-                    }
-                    .addOnFailureListener { e ->
-                        progressDialog.dismiss()
-                        Toast.makeText(ctx, "Failed " + e.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    .addOnProgressListener { taskSnapshot ->
-                        val progress =
-                            100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                                .totalByteCount
-                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-                    }
-
-                val ref2: StorageReference =
-                    storageReference!!.child("BacSi/" + key + "_CCCD_mat_sau")
-                ref2.putFile(pathCCCDSau!!)
-                    .addOnSuccessListener {
-                        progressDialog.dismiss()
-                    }
-                    .addOnFailureListener { e ->
-                        progressDialog.dismiss()
-                        Toast.makeText(ctx, "Failed " + e.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    .addOnProgressListener { taskSnapshot ->
-                        val progress =
-                            100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                                .totalByteCount
-                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-                    }
-
-                val ref3: StorageReference =
-                    storageReference!!.child("BacSi/" + key + "_giay_phep")
-                ref3.putFile(pathGiayPhep!!)
-                    .addOnSuccessListener {
-                        progressDialog.dismiss()
-                    }
-                    .addOnFailureListener { e ->
-                        progressDialog.dismiss()
-                        Toast.makeText(ctx, "Failed " + e.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    .addOnProgressListener { taskSnapshot ->
-                        val progress =
-                            100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                                .totalByteCount
-                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-                    }
+            if((name.isEmpty() || phone.isEmpty()) || (address.isEmpty() || soNamTrongNghe.isEmpty())) {
+                showDialogError("Đăng Ký Thất Bại", "Vui lòng điền đầy đủ thông tin")
+                check = false
             }
 
-            // Init Firebase Authentication
-            auth = FirebaseAuth.getInstance()
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        auth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) { task2 ->
-                            if (task2.isSuccessful) {
-                                // create User
-                                val bacSi: BacSi = BacSi(
-                                    "", chuyenKhoa, 0, 0, name,
-                                    phone, 0, address, 0, email, "", "1234",
-                                    false, "16 gio", false
-                                )
+            else if((chuyenKhoa.isEmpty() || cccd.isEmpty()) || (email.isEmpty()|| password.isEmpty())) {
+                showDialogError("Đăng Ký Thất Bại", "Vui lòng điền đầy đủ thông tin")
+                check = false
+            }
 
-                                bacSi.MaBacSi = key!!
-                                userDB.child("BacSi").child(key).setValue(bacSi)
-                                // Move to Login page
-                                val intent = Intent(this, LoginPage::class.java)
-                                startActivity(intent)
-                                finish()
+            else if((pathCCCDTruoc == null || pathCCCDSau == null) || pathGiayPhep == null) {
+                showDialogError("Đăng Ký Thất Bại", "Vui lòng điền đầy đủ thông tin")
+                check = false
+            }
+
+            if(check) {
+                //Gán firebase storage, up load anh len firebase storage
+                storage = FirebaseStorage.getInstance();
+                storageReference = storage.reference;
+                if (filePath != null) {
+                    val progressDialog = ProgressDialog(ctx)
+                    progressDialog.setTitle("Uploading...")
+                    progressDialog.show()
+
+                    val ref1: StorageReference =
+                        storageReference!!.child("BacSi/" + key + "_CCCD_mat_truoc")
+                    ref1.putFile(pathCCCDTruoc!!)
+                        .addOnSuccessListener {
+                            progressDialog.dismiss()
+                        }
+                        .addOnFailureListener { e ->
+                            progressDialog.dismiss()
+                            Toast.makeText(ctx, "Failed " + e.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        .addOnProgressListener { taskSnapshot ->
+                            val progress =
+                                100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                                    .totalByteCount
+                            progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+                        }
+
+                    val ref2: StorageReference =
+                        storageReference!!.child("BacSi/" + key + "_CCCD_mat_sau")
+                    ref2.putFile(pathCCCDSau!!)
+                        .addOnSuccessListener {
+                            progressDialog.dismiss()
+                        }
+                        .addOnFailureListener { e ->
+                            progressDialog.dismiss()
+                            Toast.makeText(ctx, "Failed " + e.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        .addOnProgressListener { taskSnapshot ->
+                            val progress =
+                                100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                                    .totalByteCount
+                            progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+                        }
+
+                    val ref3: StorageReference =
+                        storageReference!!.child("BacSi/" + key + "_giay_phep")
+                    ref3.putFile(pathGiayPhep!!)
+                        .addOnSuccessListener {
+                            progressDialog.dismiss()
+                        }
+                        .addOnFailureListener { e ->
+                            progressDialog.dismiss()
+                            Toast.makeText(ctx, "Failed " + e.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        .addOnProgressListener { taskSnapshot ->
+                            val progress =
+                                100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                                    .totalByteCount
+                            progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+                        }
+                }
+
+                // Init Firebase Authentication
+                auth = FirebaseAuth.getInstance()
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            auth.currentUser!!.sendEmailVerification()
+                                .addOnCompleteListener(this) { task2 ->
+                                    if (task2.isSuccessful) {
+                                        // create User
+                                        val bacSi: BacSi = BacSi(
+                                            "", chuyenKhoa, 0, soNamTrongNghe!!.toInt(), name,
+                                            phone, 0, address, 0, email, "", password,
+                                            false, "4 Giờ - 16 Giờ", false, cccd
+                                        )
+
+                                        bacSi.MaBacSi = key!!
+                                        userDB.child("BacSi").child(key).setValue(bacSi)
+                                        // Move to Login page
+                                        val intent = Intent(this, LoginPage::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                }
+                        } else {
+                            if (password.length < 8) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Mật khẩu phải có từ 6 kí tự trở lên",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            } else {
+                                // Register fail
+                                Toast.makeText(
+                                    applicationContext,
+                                    getString(R.string.toastRegisterFail),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
                             }
                         }
-                    } else {
-                        if (password.length < 6) {
-                            Toast.makeText(applicationContext
-                                , "Mật khẩu phải có từ 6 kí tự trở lên"
-                                , Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                        else {
-                            // Register fail
-                            Toast.makeText(applicationContext
-                                , getString(R.string.toastRegisterFail)
-                                , Toast.LENGTH_SHORT)
-                                .show()
-                        }
                     }
-                }
+            }
         }
     }
 
@@ -324,6 +348,34 @@ class RegisterDoctorPage : AppCompatActivity() {
             }
         })
 
+        builder.setView(view_dialog)
+        customDialog = builder.create()
+        customDialog?.show()
+    }
+
+    fun showDialogError(title: String, content: String) {
+        var customDialog:AlertDialog ?=null
+        val builder = AlertDialog.Builder(this)
+        //Hiển thị dialog để chọn time
+        var view_dialog: View =
+            this.layoutInflater.inflate(R.layout.dialog_announce_order, null)
+
+        //khai bao bien
+        var _msgContent: TextView = view_dialog.findViewById(R.id.content)
+        var _msgTitle: TextView = view_dialog.findViewById(R.id.title)
+        var _closeBTN:Button = view_dialog.findViewById(R.id.closeBTN)
+
+        //setText
+        _msgContent.text = content
+        _msgTitle.text = title
+        _msgTitle.setBackgroundColor(Color.parseColor("#FF3E3E"));
+
+        //Xu ly nut dong
+        _closeBTN.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View) {
+                customDialog?.dismiss()
+            }
+        })
         builder.setView(view_dialog)
         customDialog = builder.create()
         customDialog?.show()
