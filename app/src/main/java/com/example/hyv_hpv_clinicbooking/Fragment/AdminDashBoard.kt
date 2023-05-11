@@ -1,6 +1,8 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
 import BenhNhan
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +14,8 @@ import androidx.cardview.widget.CardView
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailKiemDuyet
+import com.example.hyv_hpv_clinicbooking.Adapter.ApproveAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.MedicineAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.SpecializeAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
@@ -29,9 +33,11 @@ import com.google.firebase.ktx.Firebase
 class AdminDashBoard : Fragment() {
     private var medicineList = ArrayList<Thuoc>()
     private var specializeList = ArrayList<ChuyenKhoa>()
+    private var approveList = ArrayList<BacSi>()
 
     lateinit var medicineAdapter: MedicineAdapter
     lateinit var specializeAdapter: SpecializeAdapter
+    lateinit var approveAdapter: ApproveAdapter
 
     lateinit var searchMedicine: SearchView
     lateinit var searchSpecialize: SearchView
@@ -44,6 +50,7 @@ class AdminDashBoard : Fragment() {
     private var addSpecialize: ImageButton? = null
     private var medicineRV: RecyclerView? = null
     private var specializeRV: RecyclerView? = null
+    private var approvalRV: RecyclerView? = null
 
     private var countMedicine: TextView? = null
     private var countSpecialize: TextView? = null
@@ -93,6 +100,7 @@ class AdminDashBoard : Fragment() {
 
         medicineRV = view.findViewById(R.id.medicineRV)
         specializeRV = view.findViewById(R.id.specializeRV)
+        approvalRV = view.findViewById(R.id.approvalRV)
 
         searchMedicine = view.findViewById(R.id.searchMed)
         searchMedicine.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -134,18 +142,29 @@ class AdminDashBoard : Fragment() {
     private fun re_create() {
         readMedicineFromRealtimeDB()
         readSpecializeFromRealtimeDB()
+        readApprovedListFromRealtimeDB()
+
         getAmountDoctorAndPatient()
         displayRecyclerView()
     }
     private fun displayRecyclerView() {
         medicineRV!!.layoutManager = LinearLayoutManager(requireContext())
         specializeRV!!.layoutManager = LinearLayoutManager(requireContext())
+        approvalRV!!.layoutManager = LinearLayoutManager(requireContext())
 
         medicineAdapter = MedicineAdapter(requireContext(), medicineList)
         specializeAdapter = SpecializeAdapter(requireContext(), specializeList)
+        approveAdapter = ApproveAdapter(requireContext(), approveList)
 
         medicineRV!!.adapter = medicineAdapter
         specializeRV!!.adapter = specializeAdapter
+        approvalRV!!.adapter = approveAdapter
+
+        approveAdapter.onItemClick = { bacSi, index ->
+            val intent = Intent(context, DoctorDetailKiemDuyet::class.java)
+//            intent.putExtra("bacSi_info", bacSi)
+            startActivity(intent)
+        }
 
         // Edit và Delete với 1 thuốc
         medicineAdapter.setOnItemClickListener(object : MedicineAdapter.OnItemClickListener{
@@ -447,6 +466,27 @@ class AdminDashBoard : Fragment() {
             }
         })
     }
+
+    fun readApprovedListFromRealtimeDB() {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("BacSi")
+        databaseRef.addValueEventListener( object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                approveList.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val bacSi = snapshot.getValue(BacSi::class.java)
+                    if(bacSi?.DaDuyet == false)
+                        approveList.add(bacSi)
+                }
+//                countApprove!!.setText(approveList.size.toString())
+//                approveList.notifyDataSetChanged()
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+
     fun getAmountDoctorAndPatient() {
         var bacsiCount: Long = 0
         var benhnhanCount: Long = 0
