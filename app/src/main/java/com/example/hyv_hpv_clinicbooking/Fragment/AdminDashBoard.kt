@@ -78,6 +78,7 @@ class AdminDashBoard : Fragment() {
         tabHost!!.setup()
         var tabSpec: TabHost.TabSpec? = null
 
+
         tabSpec = tabHost!!.newTabSpec("statistic")
         tabSpec.setContent(R.id.fragment_admin_statistic)
         tabSpec.setIndicator("Thống kê", null)
@@ -97,6 +98,21 @@ class AdminDashBoard : Fragment() {
         tabSpec.setContent(R.id.fragment_admin_specialize)
         tabSpec.setIndicator("Chuyên khoa", null)
         tabHost!!.addTab(tabSpec)
+
+        val tabCur = tabHost!!.currentTab
+        val tabViewCur = tabHost!!.tabWidget.getChildAt(tabCur)
+        tabViewCur.setBackgroundResource(R.drawable.navbar_rounded)
+
+        tabHost!!.setOnTabChangedListener { tabId ->
+            for (i in 0 until tabHost!!.tabWidget.childCount) {
+                val tabView = tabHost!!.tabWidget.getChildAt(i)
+                if (i == tabHost!!.currentTab) {
+                    tabView.setBackgroundResource(R.drawable.navbar_rounded)
+                } else {
+                    tabView.setBackgroundResource(R.color.background_color)
+                }
+            }
+        }
 
         countMedicine = view.findViewById(R.id.countMedicine)
         countSpecialize = view.findViewById(R.id.countSpec)

@@ -35,7 +35,7 @@ class DoctorManagement : Fragment() {
         display()
     }
     private fun display() {
-//        readDoctorFromRealtimeDB()
+        readDoctorFromRealtimeDB()
         displayRecyclerView()
     }
     private fun displayRecyclerView() {
@@ -155,20 +155,20 @@ class DoctorManagement : Fragment() {
             adapter.filterList(filteredlist)
         }
     }
-//    fun readDoctorFromRealtimeDB() {
-//        val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("BacSi")
-//        databaseRef.addValueEventListener( object: ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                doctorList.clear()
-//                for (snapshot in dataSnapshot.children) {
-//                    val bacsi = snapshot.getValue(BacSi::class.java)
-//                    if (bacsi!!.DaDuyet) doctorList.add(bacsi!!)
-//                }
-//                adapter.notifyDataSetChanged()
-//            }
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//        })
-//    }
+    fun readDoctorFromRealtimeDB() {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child("BacSi")
+        databaseRef.addValueEventListener( object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                doctorList.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val bacsi = snapshot.getValue(BacSi::class.java)
+                    doctorList.add(bacsi!!)
+                }
+                adapter.notifyDataSetChanged()
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 }

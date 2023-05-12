@@ -7,9 +7,11 @@
 <!--                android:bottomRightRadius="42dp"/>-->
             <gradient
                 android:startColor="@color/primary"
-                android:endColor="#00B140"
+                android:centerColor="#7EF691"
+                android:endColor="@color/secondary"
                 android:type="linear"
-                android:angle="90"/>
+                android:centerY="0.15"
+                android:angle="45"/>
         </shape>
     </item>
 </selector>
