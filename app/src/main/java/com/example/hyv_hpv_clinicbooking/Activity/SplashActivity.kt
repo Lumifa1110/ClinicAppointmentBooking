@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var database : DatabaseReference
     private lateinit var auth  : FirebaseAuth
 
-    private val roles = arrayOf<String>("BenhNhan", "BacSi")
+    private val roles = arrayOf<String>("BenhNhan", "BacSi", "Admin")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

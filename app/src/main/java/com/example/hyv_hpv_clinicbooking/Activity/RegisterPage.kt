@@ -1,5 +1,6 @@
 package com.example.hyv_hpv_clinicbooking.Activity
 
+import Admin
 import BenhNhan
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -83,6 +84,69 @@ class RegisterPage : AppCompatActivity() {
                                 )
                                 // update User profile in database
                                 userDB.child(role).child(key).setValue(user).addOnCompleteListener {
+                                    if (task.isSuccessful) {
+                                        // Register success
+                                        Toast.makeText(applicationContext
+                                            , getString(R.string.toastRegisterSuccess)
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                    else {
+                                        // Register fail
+                                        Toast.makeText(applicationContext
+                                            , getString(R.string.toastRegisterFail)
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                }
+                                // Move to Login page
+                                val intent = Intent(this, LoginPage::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
+                    } else {
+                        if (password.length < 6) {
+                            Toast.makeText(applicationContext
+                                , "Mật khẩu phải có từ 6 kí tự trở lên"
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        else {
+                            // Register fail
+                            Toast.makeText(applicationContext
+                                , getString(R.string.toastRegisterFail)
+                                , Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun onClickRegisterEmailPasswordAdmin() {
+        if (!editTextIsEmpty()) {
+            // Get EditText input
+            val name = nameET.text.toString()
+            val email = emailET.text.toString()
+            val phone = phoneET.text.toString()
+            val password = passwordET.text.toString()
+            val role : String = "Admin"
+
+            // Init Firebase Authentication
+            auth = FirebaseAuth.getInstance()
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        auth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) { task2 ->
+                            if (task2.isSuccessful) {
+                                // create User
+                                val key: String? = userDB.push().key
+                                val user = Admin(
+                                    Email = email,
+                                )
+                                // update User profile in database
+                                userDB.child(role).child(key!!).setValue(user).addOnCompleteListener {
                                     if (task.isSuccessful) {
                                         // Register success
                                         Toast.makeText(applicationContext

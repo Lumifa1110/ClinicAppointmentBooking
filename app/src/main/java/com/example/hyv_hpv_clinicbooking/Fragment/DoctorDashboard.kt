@@ -1,17 +1,20 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
+import BenhNhan
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.hyv_hpv_clinicbooking.Activity.NotificationPage
-import com.example.hyv_hpv_clinicbooking.Model.BacSi
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Adapter.UpcomingAppointmentAdapter
+import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.ThongBao
+import com.example.hyv_hpv_clinicbooking.Model.UpcomingAppointmentData
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -24,12 +27,22 @@ import java.util.*
 class DoctorDashboard : Fragment() {
 
     private lateinit var notificationBTN : ImageView
+    private lateinit var upcomingAppointmentHeader : LinearLayout
+    private lateinit var upcomingAppointmentRV : RecyclerView
+
+    private lateinit var upcomingAppointmentAdapter: UpcomingAppointmentAdapter
+
     var ctx: Context?= null
 
     private lateinit var database : DatabaseReference
     private lateinit var auth  : FirebaseAuth
+    private lateinit var userDB : DatabaseReference
+    private lateinit var cuochenDB : DatabaseReference
+
     var maTaiKhoan:String?= null
     var hoTenTaiKhoan: String ?= ""
+
+    private var upcomingAppointmentList = ArrayList<UpcomingAppointmentData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,29 +57,97 @@ class DoctorDashboard : Fragment() {
         ctx = view.context
         database = Firebase.database.reference
         auth = FirebaseAuth.getInstance()
+        userDB = Firebase.database.getReference("Users")
+        cuochenDB = Firebase.database.getReference("CuocHen")
 
-        val userDB = Firebase.database.getReference("Users")
-        val query = userDB.child("BacSi")
+        initWidgets(view)
+
+        val queryBacSiKey = userDB.child("BacSi")
             .orderByChild("email")
             .equalTo(auth.currentUser!!.email)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
+        queryBacSiKey.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
-                    val benhNhan = it.getValue(BacSi::class.java)
-                    hoTenTaiKhoan = benhNhan?.HoTen ?: ""
-                }
-                initWidgets(view)
-                initListeners()
+                    val queryCuocHen = cuochenDB.orderByChild("maBacSi").equalTo(maTaiKhoan)
+                    queryCuocHen.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                dataSnapshot.children.forEach { it ->
+                                    val currentDate = Calendar.getInstance().apply {
+                                        time = Date()
+                                        set(Calendar.HOUR_OF_DAY, 0)
+                                        set(Calendar.MINUTE, 0)
+                                        set(Calendar.SECOND, 0)
+                                        set(Calendar.MILLISECOND, 0)
+                                    }.time
+                                    val cuochen = it.getValue(CuocHen::class.java)
+                                    val myDate =
+                                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(cuochen!!.Ngay)
+                                    if (myDate!!.compareTo(currentDate) == 0) {
+                                        val ngay = "Ngày: ${cuochen.Ngay}"
+                                        val thoigian =
+                                            "Thời gian: ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
+                                        val queryPatientInfo = userDB.child("BenhNhan")
+                                            .orderByChild("maBenhNhan")
+                                            .equalTo(cuochen.MaBenhNhan)
+                                        queryPatientInfo.addListenerForSingleValueEvent(object :
+                                            ValueEventListener {
+                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                dataSnapshot.children.forEach { it ->
+                                                    val benhnhan = it.getValue(BenhNhan::class.java)
+                                                    val hotenbenhnhan =
+                                                        "Bệnh nhân ${benhnhan!!.HoTen}"
+                                                    val tenchuyenkhoa = ""
+                                                    val upcomingAppointmentData =
+                                                        UpcomingAppointmentData(
+                                                            HoTen = hotenbenhnhan,
+                                                            TenChuyenKhoa = tenchuyenkhoa,
+                                                            Ngay = ngay,
+                                                            ThoiGian = thoigian
+                                                        )
+                                                    upcomingAppointmentList.add(
+                                                        upcomingAppointmentData
+                                                    )
+                                                }
+                                                displayUpcomingAppointmentList()
+                                            }
 
+                                            override fun onCancelled(databaseError: DatabaseError) {}
+                                        })
+                                    }
+                                    else {
+                                        upcomingAppointmentHeader.visibility = View.GONE
+                                        upcomingAppointmentRV.visibility = View.GONE
+                                    }
+                                }
+                            }
+                            else {
+                                upcomingAppointmentHeader.visibility = View.GONE
+                                upcomingAppointmentRV.visibility = View.GONE
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
+    private fun displayUpcomingAppointmentList() {
+        upcomingAppointmentAdapter = UpcomingAppointmentAdapter(upcomingAppointmentList)
+        upcomingAppointmentRV.layoutManager = LinearLayoutManager(context)
+
+        upcomingAppointmentRV.adapter = upcomingAppointmentAdapter
+    }
+
     private fun initWidgets(view: View) {
         notificationBTN = view.findViewById(R.id.notificationBTN)
+        upcomingAppointmentHeader = view.findViewById(R.id.upcomingAppointmentHeader)
+        upcomingAppointmentRV = view.findViewById(R.id.upcomingAppointmentRV)
     }
 
     private fun initListeners() {

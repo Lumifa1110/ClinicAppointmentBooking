@@ -36,7 +36,7 @@ class LoginPage : AppCompatActivity() {
     private lateinit var loginGoogleBTN: ImageButton
     private lateinit var loginFacebookBTN: ImageButton
 
-    private val roles = arrayOf<String>("BenhNhan", "BacSi")
+    private val roles = arrayOf<String>("BenhNhan", "BacSi", "Admin")
 
     // Firebase
     private lateinit var userDB : DatabaseReference
