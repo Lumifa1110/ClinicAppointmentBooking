@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Adapter.BestDoctorAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.UpcomingAppointmentAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.CuocHen
@@ -25,6 +26,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class UserHomeFragment : Fragment() {
@@ -33,8 +35,10 @@ class UserHomeFragment : Fragment() {
     private lateinit var notificationCounter : TextView
     private lateinit var upcomingAppointmentHeader : LinearLayout
     private lateinit var upcomingAppointmentRV : RecyclerView
+    private lateinit var bestDoctorRV : RecyclerView
 
     private lateinit var upcomingAppointmentAdapter: UpcomingAppointmentAdapter
+    private lateinit var bestDoctorAdapter: BestDoctorAdapter
 
     var ctx: Context?= null
 
@@ -48,6 +52,7 @@ class UserHomeFragment : Fragment() {
     var hoTenTaiKhoan: String ?= ""
 
     private var upcomingAppointmentList = ArrayList<UpcomingAppointmentData>()
+    private var bestDoctorList = ArrayList<BacSi>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +72,9 @@ class UserHomeFragment : Fragment() {
         thongBaoDB = Firebase.database.getReference("ThongBao")
 
         initWidgets(view)
+
+        upcomingAppointmentList.clear()
+        bestDoctorList.clear()
 
         val queryBenhNhanKey = userDB.child("BenhNhan")
             .orderByChild("email")
@@ -139,6 +147,19 @@ class UserHomeFragment : Fragment() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+
+        val queryBestDoctor = userDB.child("BacSi")
+        queryBestDoctor.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach { it ->
+                    val bacsi = it.getValue(BacSi::class.java)
+                    bestDoctorList.add(bacsi!!)
+                }
+                displayBestDoctorList()
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun displayUpcomingAppointmentList() {
@@ -148,11 +169,19 @@ class UserHomeFragment : Fragment() {
         upcomingAppointmentRV.adapter = upcomingAppointmentAdapter
     }
 
+    private fun displayBestDoctorList() {
+        bestDoctorAdapter = BestDoctorAdapter(bestDoctorList)
+        bestDoctorRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        bestDoctorRV.adapter = bestDoctorAdapter
+    }
+
     private fun initWidgets(view: View) {
         notificationBTN = view.findViewById(R.id.notificationBTN)
         notificationCounter = view.findViewById(R.id.notificationCounter)
         upcomingAppointmentHeader = view.findViewById(R.id.upcomingAppointmentHeader)
         upcomingAppointmentRV = view.findViewById(R.id.upcomingAppointmentRV)
+        bestDoctorRV = view.findViewById(R.id.bestDoctorRV)
     }
 
     private fun initListeners() {

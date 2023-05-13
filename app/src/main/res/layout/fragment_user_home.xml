@@ -200,6 +200,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -230,6 +231,49 @@
             -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upcomingAppointmentRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:textColor="#000000"/>
+
+            <!--
+                Đề xuất bác sĩ nhiều người đăng ký nhất
+            -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Đề xuất bác sĩ"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_weight="4"
+                    android:clickable="true"
+                    android:text="@string/labelSeeAll"
+                    android:textColor="@color/primary_color"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!--
+                Thẻ Bac si
+            -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bestDoctorRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

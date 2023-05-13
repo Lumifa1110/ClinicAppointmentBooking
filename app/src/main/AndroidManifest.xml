@@ -125,6 +125,9 @@
         <activity
             android:name=".Activity.DoctorPrescriptionInforPage"
             android:exported="false" />
+        <activity
+            android:name=".Activity.DoctorDetailKiemDuyet"
+            android:exported="false" />
 
 
         <!-- Chưa thể xác định -->

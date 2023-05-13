@@ -116,7 +116,7 @@ class DoctorDetailKiemDuyet : AppCompatActivity() {
         duyetBTN?.setOnClickListener {
             database = Firebase.database.getReference("Users").child("BacSi")
             database.child(maAccountCanDuyet!!).setValue(doctorCanDuyet)
-            database.child(maAccountCanDuyet!!).removeValue()
+            Firebase.database.getReference("BacSiChoDuyet").child(maAccountCanDuyet!!).removeValue()
 
             val intent = Intent(this, AdminHomePage::class.java)
             intent.putExtra("loadfragment", "dashboard")
