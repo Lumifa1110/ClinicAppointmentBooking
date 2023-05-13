@@ -504,6 +504,7 @@ class AdminDashBoard : Fragment() {
                     approvalList.add(bacSi!!)
                 }
                 bacsiCanDuyet!!.setText(approvalList.size.toString())
+                countApproval!!.setText(approvalList.size.toString())
                 approvalAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
@@ -514,7 +515,6 @@ class AdminDashBoard : Fragment() {
 
     fun getAmountDoctorAndPatient() {
         var bacsiDuyet: Long = 0
-        var bacsiChuaDuyet: Long = 0
         var benhnhanCount: Long = 0
         var totalCount: Long = 0
         val databaseRef = FirebaseDatabase.getInstance().getReference("Users")
@@ -522,11 +522,10 @@ class AdminDashBoard : Fragment() {
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 bacsiDuyet = snapshot.child("BacSi").childrenCount
-                bacsiChuaDuyet = snapshot.child("BacSiChoDuyet").childrenCount
                 benhnhanCount = snapshot.child("BenhNhan").childrenCount
                 totalCount = bacsiDuyet + benhnhanCount
                 countAll!!.setText(totalCount.toString())
-                countApproval!!.setText(bacsiChuaDuyet.toString())
+//                countApproval!!.setText(bacsiChuaDuyet.toString())
                 countDoctor!!.setText(bacsiDuyet.toString())
                 countPatient!!.setText(benhnhanCount.toString())
             }
