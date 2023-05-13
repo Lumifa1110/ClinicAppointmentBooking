@@ -244,63 +244,71 @@
             android:background="@drawable/box_white"
             android:orientation="horizontal">
             <TextView
-                android:textSize="14sp"
-                android:layout_width="42dp"
+                android:textSize="12sp"
+                android:layout_width="36dp"
                 android:layout_height="42dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="#1F892F"
+                android:textColor="#1F836F"
                 android:text="Thứ\nHai"/>
             <TextView
-                android:textSize="14sp"
-                android:layout_width="42dp"
+                android:textSize="12sp"
+                android:layout_width="36dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="#1F892F"
-                android:layout_height="42dp"
+                android:layout_height="36dp"
                 android:text="Thứ\nBa"/>
             <TextView
-                android:textSize="14sp"
-                android:layout_width="42dp"
+                android:textSize="12sp"
+                android:layout_width="36dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="#1F892F"
-                android:layout_height="42dp"
+                android:layout_height="36dp"
                 android:text="Thứ\nTư"/>
             <TextView
-                android:textSize="14sp"
-                android:layout_width="42dp"
+                android:textSize="12sp"
+                android:layout_width="36dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="#1F892F"
-                android:layout_height="42dp"
+                android:layout_height="36dp"
                 android:text="Thứ\nNăm"/>
             <TextView
-                android:textSize="14sp"
-                android:layout_width="42dp"
+                android:textSize="12sp"
+                android:layout_width="36dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="#1F892F"
-                android:layout_height="42dp"
+                android:layout_height="36dp"
                 android:text="Thứ\nSáu"/>
             <TextView
-                android:textSize="14sp"
-                android:layout_width="42dp"
+                android:textSize="12sp"
+                android:layout_width="36dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="#1F892F"
-                android:layout_height="42dp"
+                android:layout_height="36dp"
                 android:text="Thứ\nBảy"/>
+            <TextView
+                android:textSize="12sp"
+                android:layout_width="36dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#1F892F"
+                android:layout_height="36dp"
+                android:text="Chủ\nNhật"/>
         </LinearLayout>
 
         <TextView
             android:id="@+id/timeLamViec"
-            android:textSize="14sp"
-            android:paddingHorizontal="5dp"
+            android:textSize="12sp"
+            android:paddingHorizontal="4dp"
             android:layout_width="match_parent"
             android:textColor="@color/white"
             android:gravity="center"
-            android:layout_height="42dp"
+            android:layout_height="36dp"
             android:text="8 Giờ - 4 Giờ"
             android:textStyle="bold" />
     </LinearLayout>

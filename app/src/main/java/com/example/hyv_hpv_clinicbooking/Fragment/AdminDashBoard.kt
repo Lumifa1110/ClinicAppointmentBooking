@@ -19,8 +19,10 @@ import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailPage
 import com.example.hyv_hpv_clinicbooking.Adapter.ApproveAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.MedicineAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.SpecializeAdapter
+import com.example.hyv_hpv_clinicbooking.Adapter.UnitAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.ChuyenKhoa
+import com.example.hyv_hpv_clinicbooking.Model.DonVi
 import com.example.hyv_hpv_clinicbooking.Model.Thuoc
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.DataSnapshot
@@ -35,14 +37,17 @@ class AdminDashBoard : Fragment() {
     private var medicineList = ArrayList<Thuoc>()
     private var specializeList = ArrayList<ChuyenKhoa>()
     private var approvalList = ArrayList<BacSi>()
+    private var unitList = ArrayList<DonVi>()
 
     lateinit var medicineAdapter: MedicineAdapter
     lateinit var specializeAdapter: SpecializeAdapter
     lateinit var approvalAdapter: ApproveAdapter
+    lateinit var unitAdapter: UnitAdapter
 
 
     lateinit var searchMedicine: SearchView
     lateinit var searchSpecialize: SearchView
+    lateinit var searchUnit: SearchView
 
     private lateinit var database : DatabaseReference
 
@@ -50,9 +55,12 @@ class AdminDashBoard : Fragment() {
     private var tabHost: TabHost? = null
     private var addMedicine: ImageButton? = null
     private var addSpecialize: ImageButton? = null
+    private var addUnit: ImageButton? = null
+
     private var medicineRV: RecyclerView? = null
     private var specializeRV: RecyclerView? = null
     private var approvalRV: RecyclerView? = null
+    private var unitRV: RecyclerView? = null
 
     private var countMedicine: TextView? = null
     private var countSpecialize: TextView? = null
@@ -99,6 +107,11 @@ class AdminDashBoard : Fragment() {
         tabSpec.setIndicator("Chuyên khoa", null)
         tabHost!!.addTab(tabSpec)
 
+        tabSpec = tabHost!!.newTabSpec("unit")
+        tabSpec.setContent(R.id.fragment_admin_unit)
+        tabSpec.setIndicator("Đơn vị", null)
+        tabHost!!.addTab(tabSpec)
+
         val tabCur = tabHost!!.currentTab
         val tabViewCur = tabHost!!.tabWidget.getChildAt(tabCur)
         tabViewCur.setBackgroundResource(R.drawable.navbar_rounded)
@@ -125,6 +138,7 @@ class AdminDashBoard : Fragment() {
         medicineRV = view.findViewById(R.id.medicineRV)
         specializeRV = view.findViewById(R.id.specializeRV)
         approvalRV = view.findViewById(R.id.approvalRV)
+        unitRV = view.findViewById(R.id.unitRV)
 
         searchMedicine = view.findViewById(R.id.searchMed)
         searchMedicine.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -148,6 +162,17 @@ class AdminDashBoard : Fragment() {
             }
         })
 
+        searchUnit = view.findViewById(R.id.searchUnit)
+        searchUnit.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterUnit(newText)
+                return true
+            }
+        })
+
         addMedicine = view.findViewById(R.id.addMedicine)
         addMedicine!!.setOnClickListener {
             Toast.makeText(requireContext(), "Add Medicine", Toast.LENGTH_SHORT).show()
@@ -161,12 +186,19 @@ class AdminDashBoard : Fragment() {
             re_create()
         }
 
+        addUnit = view.findViewById(R.id.addUnit)
+        addUnit!!.setOnClickListener {
+            showAddUnitDialog()
+            re_create()
+        }
+
         return view
     }
     private fun re_create() {
         readMedicineFromRealtimeDB()
         readSpecializeFromRealtimeDB()
         readApprovalFromRealtimeDB()
+        readUnitFromRealtimeDB()
         getAmountDoctorAndPatient()
         displayRecyclerView()
     }
@@ -174,14 +206,17 @@ class AdminDashBoard : Fragment() {
         medicineRV!!.layoutManager = LinearLayoutManager(context)
         specializeRV!!.layoutManager = LinearLayoutManager(context)
         approvalRV!!.layoutManager = LinearLayoutManager(context)
+        unitRV!!.layoutManager = LinearLayoutManager(context)
 
         medicineAdapter = MedicineAdapter(requireContext(), medicineList)
         specializeAdapter = SpecializeAdapter(requireContext(), specializeList)
         approvalAdapter = ApproveAdapter(requireContext(), approvalList)
+        unitAdapter = UnitAdapter(requireContext(), unitList)
 
         medicineRV!!.adapter = medicineAdapter
         specializeRV!!.adapter = specializeAdapter
         approvalRV!!.adapter = approvalAdapter
+        unitRV!!.adapter = unitAdapter
 
         //Kiểm duyệt
         approvalAdapter.onItemClick = { bacSi, index ->
@@ -288,7 +323,103 @@ class AdminDashBoard : Fragment() {
             }
         })
 
-        // Edit và Delete với 1 chuyên khoa
+        // Edit và Delete với 1 đơn vị
+        unitAdapter.setOnItemClickListener(object : UnitAdapter.OnItemClickListener{
+            override fun onDeleteClick(unit: DonVi) {
+                super.onDeleteClick(unit)
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Cảnh báo")
+                    .setMessage("Bạn có chắc chắn muốn xoá ?")
+                    .setPositiveButton("Xác nhận") { dialog, which ->
+                        // Xoá medicine trong Firebase
+                        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("DonVi")
+                        val query = databaseRef.orderByChild("tenDonVi")
+                            .equalTo(unit.tenDonVi)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for (data in snapshot.children) {
+                                    data.ref.removeValue()
+                                }
+                                Toast.makeText(requireContext(), "Đã xoá " + unit.tenDonVi, Toast.LENGTH_SHORT).show()
+                                unitAdapter.notifyDataSetChanged()
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                // Handle error
+                            }
+                        })
+                    }
+                    .setNegativeButton("Huỷ") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                val alert: AlertDialog = builder.create()
+                alert.setCanceledOnTouchOutside(false)
+                alert.show()
+            }
+
+            override fun onEditClick(unit: DonVi) {
+                super.onEditClick(unit)
+                // Tạo 1 dialog hiện tên đơn vị trên EditText
+                val builder = AlertDialog.Builder(requireContext())
+                val dialogLayout = layoutInflater.inflate(R.layout.dialog_add_unit, null)
+                val nameET = dialogLayout.findViewById<EditText>(R.id.nameUnit)
+                nameET.setText(unit.tenDonVi)
+
+                builder.setView(dialogLayout)
+                    .setPositiveButton("Thay đổi") { dialog, which ->
+                        val databaseRef = FirebaseDatabase.getInstance()
+                            .getReference("DanhSach")
+                            .child("DonVi")
+                        // Tìm chuyên khoa bằng tên chuyên khoa cũ/ chưa cập nhật
+                        val query = databaseRef.orderByChild("tenDonVi")
+                            .equalTo(unit.tenDonVi)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    val newType = nameET.text.toString().trim()
+                                    val updateUnit = DonVi(newType)
+                                    var key: String? = null
+                                    if (newType.isNotEmpty()){
+                                        val queryCheck = databaseRef.orderByChild("tenDonVi")
+                                            .equalTo(updateUnit.tenDonVi)
+                                        queryCheck.addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(subSnapshot: DataSnapshot) {
+                                                if (subSnapshot.exists()){
+                                                    Toast.makeText(requireContext(), "Đơn vị đã tồn tại", Toast.LENGTH_SHORT).show()
+                                                } else {
+                                                    // Cập nhật khi tên của chuyên khoa mới cập nhật không có tồn tại trong database
+                                                    for (data in snapshot.children) {
+                                                        key = data.key.toString()
+                                                    }
+                                                    databaseRef.child(key!!).child("tenDonVi").setValue(newType)
+                                                }
+                                            }
+                                            override fun onCancelled(subError: DatabaseError) {
+                                                TODO("Not yet implemented")
+                                            }
+                                        })
+                                        re_create()
+                                        Toast.makeText(requireContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(requireContext(), "Đơn vị không để trống", Toast.LENGTH_SHORT).show()
+                                    }
+                                } else {
+                                    Toast.makeText(requireContext(), "Đơn vị không tồn tại", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+                    }
+                    .setNegativeButton("Huỷ") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                val alert: AlertDialog = builder.create()
+                alert.setCanceledOnTouchOutside(false)
+                alert.show()
+            }
+        })
+
         specializeAdapter.setOnItemClickListener(object : SpecializeAdapter.OnItemClickListener{
             override fun onDeleteClick(specialize: ChuyenKhoa) {
                 super.onDeleteClick(specialize)
@@ -384,6 +515,8 @@ class AdminDashBoard : Fragment() {
             }
         })
     }
+
+
     private fun showAddMedicineDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val dialogLayout = layoutInflater.inflate(R.layout.dialog_add_medicine, null)
@@ -456,6 +589,44 @@ class AdminDashBoard : Fragment() {
         alert.setCanceledOnTouchOutside(false)
         alert.show()
     }
+
+    private fun showAddUnitDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val dialogLayout = layoutInflater.inflate(R.layout.dialog_add_unit, null)
+        val nameET = dialogLayout.findViewById<EditText>(R.id.nameUnit)
+        database = Firebase.database.getReference("DanhSach").child("DonVi")
+        builder.setView(dialogLayout)
+        builder.setPositiveButton("Thêm đơn vị") { dialog, which ->
+            val newType = nameET.text.toString().trim()
+            val newUnit = DonVi(newType)
+            if (newType.isNotEmpty()) {
+                // Perform the action of adding the new type and description here
+                val query = database.orderByChild("tenDonVi").equalTo(newUnit.tenDonVi)
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()){
+                            Toast.makeText(requireContext(), "Đơn vị đã tồn tại", Toast.LENGTH_SHORT).show()
+                        } else {
+                            database.push().setValue(newUnit)
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+                Toast.makeText(requireContext(), "Đơn vị mới: $newType", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Tên đơn vị để trống", Toast.LENGTH_SHORT).show()
+            }
+        }
+        builder.setNegativeButton("Huỷ bỏ") { dialog, which ->
+            dialog.dismiss()
+        }
+        val alert: AlertDialog = builder.create()
+        alert.setCanceledOnTouchOutside(false)
+        alert.show()
+    }
+
     fun readMedicineFromRealtimeDB() {
         val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("Thuoc")
         databaseRef.addValueEventListener( object: ValueEventListener {
@@ -474,6 +645,7 @@ class AdminDashBoard : Fragment() {
             }
         })
     }
+
     fun readSpecializeFromRealtimeDB() {
         val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("ChuyenKhoa")
         databaseRef.addValueEventListener( object: ValueEventListener {
@@ -486,6 +658,24 @@ class AdminDashBoard : Fragment() {
                 }
                 countSpecialize!!.setText(specializeList.size.toString())
                 specializeAdapter.notifyDataSetChanged()
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    fun readUnitFromRealtimeDB() {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("DonVi")
+        databaseRef.addValueEventListener( object: ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                unitList.clear()
+                for (snapshot in snapshot.children) {
+                    val donVi = snapshot.getValue(DonVi::class.java)
+                    unitList.add(donVi!!)
+                }
+                unitAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -564,6 +754,23 @@ class AdminDashBoard : Fragment() {
         } else {
             // at last we are passing that filtered list to our adapter class.
             specializeAdapter.filter(filteredlist)
+        }
+    }
+
+    private fun filterUnit(text: String?) {
+        val filteredlist: ArrayList<DonVi> = ArrayList()
+        for (item in unitList) {
+            if (item.tenDonVi!!.toLowerCase().contains(text!!.toLowerCase())) {
+                // if the item is matched we are adding it to our filtered list.
+                filteredlist.add(item)
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            // if no item is added in filtered list we are displaying a toast message as no data found.
+            Toast.makeText(requireActivity(), "No Data Found..", Toast.LENGTH_SHORT).show()
+        } else {
+            // at last we are passing that filtered list to our adapter class.
+            unitAdapter.filter(filteredlist)
         }
     }
 }

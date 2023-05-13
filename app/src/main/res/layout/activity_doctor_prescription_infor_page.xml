@@ -95,6 +95,8 @@
                 android:layout_marginBottom="10sp"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/custom_et"
+                android:inputType="number"
+                android:digits="0123456789"
                 android:padding="10dp"
                 android:textSize="14sp"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -163,7 +165,8 @@
         android:paddingBottom="15dp"
         android:text="Delete"
         android:background="@drawable/wrapper_rounded_primary"
-
+        android:backgroundTint="#e55200"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -179,6 +182,7 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/wrapper_rounded_primary"
         android:text="Save"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/deleteBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -76,8 +76,8 @@ class DoctorDetailPage : AppCompatActivity() {
                 Log.d("Test", " Failed!")
             }
 
-        var ìnforList = generateInforData() //implemened below
-        adapter = DoctorDetailAdapter(this, ìnforList)
+        var inforList = generateInforData() //implemened below
+        adapter = DoctorDetailAdapter(this, inforList)
         grid.adapter = adapter
         grid.setOnItemClickListener { adapterView, view, i, l ->
             view.isEnabled = false
@@ -109,7 +109,7 @@ class DoctorDetailPage : AppCompatActivity() {
         infor = Infor()
         infor.title = "Kinh nghiệm"
         infor.amount = doctor?.SoNamTrongNghe.toString()
-        infor.icon = R.drawable.year
+        infor.icon = R.drawable.calendar
         result.add(infor)
 
         infor = Infor()

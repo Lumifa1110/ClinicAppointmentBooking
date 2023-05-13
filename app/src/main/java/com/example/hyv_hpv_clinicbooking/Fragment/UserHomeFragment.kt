@@ -83,6 +83,8 @@ class UserHomeFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
+                    val benhNhan = it.getValue(BacSi::class.java)
+                    hoTenTaiKhoan = benhNhan?.HoTen ?: ""
                     val queryThongBaoCount = thongBaoDB.child("BenhNhan")
                         .orderByChild("maTaiKhoan")
                         .equalTo(maTaiKhoan)
@@ -143,8 +145,9 @@ class UserHomeFragment : Fragment() {
                         override fun onCancelled(databaseError: DatabaseError) {}
                     })
                 }
+                initWidgets(view)
+                initListeners()
             }
-
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
@@ -199,6 +202,7 @@ class UserHomeFragment : Fragment() {
             this.layoutInflater.inflate(R.layout.dialog_notification, null)
 
         //khai bao bien
+        var empty:TextView = view_dialog.findViewById(R.id.empty)
         var thongBaoList = view_dialog.findViewById<ListView>(R.id.thongBaoList)
         var _closeBTN: Button = view_dialog.findViewById(R.id.closeBTN)
         var _clearBTN: Button = view_dialog.findViewById(R.id.clearBTN)
@@ -235,26 +239,33 @@ class UserHomeFragment : Fragment() {
                     }
                 }
 
-                val arrayAdapter: ArrayAdapter<*>
-                arrayAdapter = ArrayAdapter(requireContext()!!, android.R.layout.simple_list_item_1, notificationTextList)
-                thongBaoList.adapter = arrayAdapter
-
-                thongBaoList.setOnItemClickListener { parent, view, position, id ->
-                    deleteNotificationFromRealtimeDB(keyList[position])
-                    notificationTextList.removeAt(position)
-                    keyList.removeAt(position)
-                    arrayAdapter.notifyDataSetChanged()
-//                    customDialog?.dismiss()
+                if(notificationTextList.size == 0) {
+                    empty.visibility = View.VISIBLE
+                    thongBaoList.visibility = View.GONE
+                    _clearBTN.visibility = View.GONE
                 }
+                else {
+                    val arrayAdapter: ArrayAdapter<*>
+                    arrayAdapter = ArrayAdapter(requireContext()!!, android.R.layout.simple_list_item_1, notificationTextList)
+                    thongBaoList.adapter = arrayAdapter
 
-                _clearBTN.setOnClickListener {
-                    for (key in keyList) {
-                        deleteNotificationFromRealtimeDB(key)
+                    thongBaoList.setOnItemClickListener { parent, view, position, id ->
+                        deleteNotificationFromRealtimeDB(keyList[position])
+                        notificationTextList.removeAt(position)
+                        keyList.removeAt(position)
+                        arrayAdapter.notifyDataSetChanged()
+//                    customDialog?.dismiss()
                     }
-                    notificationTextList.clear()
-                    keyList.clear()
-                    arrayAdapter.notifyDataSetChanged()
-                    customDialog?.dismiss()
+
+                    _clearBTN.setOnClickListener {
+                        for (key in keyList) {
+                            deleteNotificationFromRealtimeDB(key)
+                        }
+                        notificationTextList.clear()
+                        keyList.clear()
+                        arrayAdapter.notifyDataSetChanged()
+                        customDialog?.dismiss()
+                    }
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
