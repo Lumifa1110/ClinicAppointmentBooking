@@ -102,14 +102,63 @@ class LoginPage : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         if (auth.currentUser!!.isEmailVerified) {
-                            // Login success
-                            Toast.makeText(
-                                applicationContext,
-                                getString(R.string.toastLoginSuccess),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            // Get User role and Switch to Homepage
-                            getUserRole(auth.currentUser!!)
+                            val queryBacSiChoDuyet = Firebase.database.getReference("BacSiChoDuyet")
+                                .orderByChild("email")
+                                .equalTo(email)
+                            queryBacSiChoDuyet.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        Toast.makeText(applicationContext
+                                            , "Tài khoản bác sĩ đang chờ được duyệt"
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                    else {
+                                        val queryBacSiBiKhoa = userDB.child("BacSi")
+                                            .orderByChild("email")
+                                            .equalTo(email)
+                                        queryBacSiBiKhoa.addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                if (dataSnapshot.exists()) {
+                                                    dataSnapshot.children.forEach { it ->
+                                                        val bacsi = it.getValue(BacSi::class.java)
+                                                        if (bacsi!!.BiKhoa) {
+                                                            Toast.makeText(applicationContext
+                                                                , "Tài khoản bác sĩ đang bị khóa"
+                                                                , Toast.LENGTH_SHORT)
+                                                                .show()
+                                                        }
+                                                        else {
+                                                            // Login success
+                                                            Toast.makeText(
+                                                                applicationContext,
+                                                                getString(R.string.toastLoginSuccess),
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            // Get User role and Switch to Homepage
+                                                            startHomePage("BacSi")
+                                                        }
+                                                    }
+                                                }
+                                                else {
+                                                    // Login success
+                                                    Toast.makeText(
+                                                        applicationContext,
+                                                        getString(R.string.toastLoginSuccess),
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                    // Get User role and Switch to Homepage
+                                                    getUserRole(auth.currentUser!!)
+                                                }
+                                            }
+
+                                            override fun onCancelled(databaseError: DatabaseError) {}
+                                        })
+                                    }
+                                }
+
+                                override fun onCancelled(databaseError: DatabaseError) {}
+                            })
                         }
                         else {
                             Toast.makeText(
@@ -179,6 +228,24 @@ class LoginPage : AppCompatActivity() {
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
         }
+    }
+
+    private fun doctorIsCertified(email: String) {
+        val query = Firebase.database.getReference("BacSiChoChuyet")
+            .orderByChild("email")
+            .equalTo(email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Toast.makeText(applicationContext
+                        , "Tài khoản bác sĩ đang chờ được duyệt"
+                        , Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
     private fun startHomePage(role: String) {

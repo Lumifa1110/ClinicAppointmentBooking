@@ -168,10 +168,10 @@ class RegisterDoctorPage : AppCompatActivity() {
                 check = false
             }
 
-            else if((pathCCCDTruoc == null || pathCCCDSau == null) || pathGiayPhep == null) {
-                showDialogError("Đăng Ký Thất Bại", "Vui lòng điền đầy đủ thông tin")
-                check = false
-            }
+//            else if((pathCCCDTruoc == null || pathCCCDSau == null) || pathGiayPhep == null) {
+//                showDialogError("Đăng Ký Thất Bại", "Vui lòng điền đầy đủ thông tin")
+//                check = false
+//            }
 
             if(check) {
                 //Gán firebase storage, up load anh len firebase storage
