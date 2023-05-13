@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Adapter.UpcomingAppointmentAdapter
+import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.CuocHen
 import com.example.hyv_hpv_clinicbooking.Model.ThongBao
 import com.example.hyv_hpv_clinicbooking.Model.UpcomingAppointmentData
@@ -64,8 +65,6 @@ class DoctorDashboard : Fragment() {
         cuochenDB = Firebase.database.getReference("CuocHen")
         thongBaoDB = Firebase.database.getReference("ThongBao")
 
-        initWidgets(view)
-
         val queryBacSiKey = userDB.child("BacSi")
             .orderByChild("email")
             .equalTo(auth.currentUser!!.email)
@@ -73,6 +72,8 @@ class DoctorDashboard : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
+                    val bacsi = it.getValue(BacSi::class.java)
+                    hoTenTaiKhoan = bacsi?.HoTen ?: ""
                     val queryThongBaoCount = thongBaoDB.child("BacSi")
                         .orderByChild("maTaiKhoan")
                         .equalTo(maTaiKhoan)
@@ -152,6 +153,8 @@ class DoctorDashboard : Fragment() {
                         override fun onCancelled(databaseError: DatabaseError) {}
                     })
                 }
+                initWidgets(view)
+                initListeners()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -186,6 +189,7 @@ class DoctorDashboard : Fragment() {
             this.layoutInflater.inflate(R.layout.dialog_notification, null)
 
         //khai bao bien
+        var empty:TextView = view_dialog.findViewById(R.id.empty)
         var thongBaoList = view_dialog.findViewById<ListView>(R.id.thongBaoList)
         var _closeBTN: Button = view_dialog.findViewById(R.id.closeBTN)
         var _clearBTN: Button = view_dialog.findViewById(R.id.clearBTN)
@@ -224,27 +228,36 @@ class DoctorDashboard : Fragment() {
                     }
 
                 }
-
-                val arrayAdapter: ArrayAdapter<*>
-                arrayAdapter = ArrayAdapter(requireContext()!!, android.R.layout.simple_list_item_1, notificationTextList)
-                thongBaoList.adapter = arrayAdapter
-
-                thongBaoList.setOnItemClickListener { parent, view, position, id ->
-                    deleteNotificationFromRealtimeDB(keyList[position])
-                    notificationTextList.removeAt(position)
-                    keyList.removeAt(position)
-                    arrayAdapter.notifyDataSetChanged()
-//                    customDialog?.dismiss()
+                if(notificationTextList.size == 0) {
+                    empty.visibility = View.VISIBLE
+                    thongBaoList.visibility = View.GONE
+                    _clearBTN.visibility = View.GONE
                 }
+                else {
+                    empty.visibility = View.GONE
+                    thongBaoList.visibility = View.VISIBLE
+                    _clearBTN.visibility = View.VISIBLE
+                    val arrayAdapter: ArrayAdapter<*>
+                    arrayAdapter = ArrayAdapter(ctx!!!!, android.R.layout.simple_list_item_1, notificationTextList)
+                    thongBaoList.adapter = arrayAdapter
 
-                _clearBTN.setOnClickListener {
-                    for (key in keyList) {
-                        deleteNotificationFromRealtimeDB(key)
+                    thongBaoList.setOnItemClickListener { parent, view, position, id ->
+                        deleteNotificationFromRealtimeDB(keyList[position])
+                        notificationTextList.removeAt(position)
+                        keyList.removeAt(position)
+                        arrayAdapter.notifyDataSetChanged()
+//                    customDialog?.dismiss()
                     }
-                    notificationTextList.clear()
-                    keyList.clear()
-                    arrayAdapter.notifyDataSetChanged()
-                    customDialog?.dismiss()
+
+                    _clearBTN.setOnClickListener {
+                        for (key in keyList) {
+                            deleteNotificationFromRealtimeDB(key)
+                        }
+                        notificationTextList.clear()
+                        keyList.clear()
+                        arrayAdapter.notifyDataSetChanged()
+                        customDialog?.dismiss()
+                    }
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
