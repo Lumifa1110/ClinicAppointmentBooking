@@ -54,15 +54,35 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/notificationBTN"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical|end"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:clickable="true"
-                android:contentDescription="@string/description"
-                android:src="@drawable/bell"
-                android:focusable="true" />
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/bell_white"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/notificationCounter"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/badge"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+            </FrameLayout>
+
         </LinearLayout>
 
         <!--
@@ -102,52 +122,52 @@
         <!--
             Thanh tìm kiếm
         -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-20dp"
-            android:layout_marginEnd="-20dp">
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="-20dp"-->
+<!--            android:layout_marginEnd="-20dp">-->
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="27dp"
-                android:layout_gravity="bottom"
-                android:background="#FFF"
-                android:contentDescription="@string/description" />
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="27dp"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:background="#FFF"-->
+<!--                android:contentDescription="@string/description" />-->
 
-            <LinearLayout
-                android:id="@+id/searchBarLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/rounded_edittext"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/searchBarLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:background="@drawable/rounded_edittext"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingLeft="10dp"-->
+<!--                android:paddingRight="10dp">-->
 
-                <ImageView
-                    android:id="@+id/iconSearch"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:padding="3dp"
-                    android:src="@mipmap/icon_search" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/iconSearch"-->
+<!--                    android:layout_width="34dp"-->
+<!--                    android:layout_height="34dp"-->
+<!--                    android:padding="3dp"-->
+<!--                    android:src="@mipmap/icon_search" />-->
 
-                <EditText
-                    android:id="@+id/searchDoctor"
-                    android:layout_width="0dp"
-                    android:layout_height="54dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="Tìm kiếm bác sĩ"
-                    android:inputType="textPersonName"
-                    android:textSize="18sp"
-                    tools:layout_editor_absoluteX="38dp"
-                    tools:layout_editor_absoluteY="126dp" />
-            </LinearLayout>
-        </FrameLayout>
+<!--                <EditText-->
+<!--                    android:id="@+id/searchDoctor"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="54dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@null"-->
+<!--                    android:ems="10"-->
+<!--                    android:hint="Tìm kiếm bác sĩ"-->
+<!--                    android:inputType="textPersonName"-->
+<!--                    android:textSize="18sp"-->
+<!--                    tools:layout_editor_absoluteX="38dp"-->
+<!--                    tools:layout_editor_absoluteY="126dp" />-->
+<!--            </LinearLayout>-->
+<!--        </FrameLayout>-->
     </LinearLayout>
 
     <!--

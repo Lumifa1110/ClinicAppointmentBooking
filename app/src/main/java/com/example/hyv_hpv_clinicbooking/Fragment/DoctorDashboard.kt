@@ -26,7 +26,8 @@ import java.util.*
 
 class DoctorDashboard : Fragment() {
 
-    private lateinit var notificationBTN : ImageView
+    private lateinit var notificationBTN : FrameLayout
+    private lateinit var notificationCounter : TextView
     private lateinit var upcomingAppointmentHeader : LinearLayout
     private lateinit var upcomingAppointmentRV : RecyclerView
 
@@ -38,6 +39,8 @@ class DoctorDashboard : Fragment() {
     private lateinit var auth  : FirebaseAuth
     private lateinit var userDB : DatabaseReference
     private lateinit var cuochenDB : DatabaseReference
+    private lateinit var thongBaoDB : DatabaseReference
+
 
     var maTaiKhoan:String?= null
     var hoTenTaiKhoan: String ?= ""
@@ -59,6 +62,7 @@ class DoctorDashboard : Fragment() {
         auth = FirebaseAuth.getInstance()
         userDB = Firebase.database.getReference("Users")
         cuochenDB = Firebase.database.getReference("CuocHen")
+        thongBaoDB = Firebase.database.getReference("ThongBao")
 
         initWidgets(view)
 
@@ -69,6 +73,23 @@ class DoctorDashboard : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
+                    val queryThongBaoCount = thongBaoDB.child("BacSi")
+                        .orderByChild("maTaiKhoan")
+                        .equalTo(maTaiKhoan)
+                    queryThongBaoCount.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val thongBaoCount = snapshot.childrenCount
+                            if (thongBaoCount == 0.toLong()) {
+                                notificationCounter.visibility = View.GONE
+                            }
+                            else {
+                                notificationCounter.visibility = View.VISIBLE
+                                notificationCounter.text = thongBaoCount.toString()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
                     val queryCuocHen = cuochenDB.orderByChild("maBacSi").equalTo(maTaiKhoan)
                     queryCuocHen.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -146,6 +167,7 @@ class DoctorDashboard : Fragment() {
 
     private fun initWidgets(view: View) {
         notificationBTN = view.findViewById(R.id.notificationBTN)
+        notificationCounter = view.findViewById(R.id.notificationCounter)
         upcomingAppointmentHeader = view.findViewById(R.id.upcomingAppointmentHeader)
         upcomingAppointmentRV = view.findViewById(R.id.upcomingAppointmentRV)
     }
@@ -180,7 +202,6 @@ class DoctorDashboard : Fragment() {
             set(Calendar.MILLISECOND, 0)
         }.time
 
-        var thongBaoDB = Firebase.database.getReference("ThongBao")
         thongBaoDB.child("BacSi").orderByChild("maTaiKhoan").equalTo(maTaiKhoan).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
