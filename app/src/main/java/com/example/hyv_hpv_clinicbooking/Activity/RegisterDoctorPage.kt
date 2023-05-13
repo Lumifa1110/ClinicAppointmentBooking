@@ -9,6 +9,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.view.View
 import android.widget.*
 import com.example.hyv_hpv_clinicbooking.Adapter.ChooseTimeAdapter
@@ -35,6 +36,7 @@ class RegisterDoctorPage : AppCompatActivity() {
     var passwordET:EditText?= null
     var chuyenKhoaET:EditText?= null
     var cccdET:EditText?= null
+    var showPasswordBTN: ImageButton? = null
 
     //Khai bao anh chung thuc
     var cccd_truoc_TV:ImageView?= null
@@ -98,6 +100,7 @@ class RegisterDoctorPage : AppCompatActivity() {
         giayPhepBTN = findViewById(R.id.giayPhepBTN)
         registerBTN = findViewById(R.id.registerBtn)
         backBTN = findViewById(R.id.backBTN)
+        showPasswordBTN = findViewById(R.id.showPassword)
 
         //xu li nut upload anh
         cccdTruocBTN?.setOnClickListener {
@@ -142,6 +145,23 @@ class RegisterDoctorPage : AppCompatActivity() {
         //Xử lí chọn chuyên khoa
         chuyenKhoaET?.setOnClickListener {
             showDialogChuyenKhoa()
+        }
+
+        showPasswordBTN?.setOnClickListener {
+            val isPasswordVisible = passwordET?.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+
+            if (isPasswordVisible) {
+                // Nếu mật khẩu đã được hiển thị, chuyển về chế độ ẩn
+                passwordET?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                showPasswordBTN?.setImageResource(R.drawable.invisible)
+            } else {
+                // Nếu mật khẩu đã bị ẩn, chuyển sang chế độ hiển thị
+                passwordET?.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                showPasswordBTN?.setImageResource(R.drawable.view)
+            }
+
+            // Đặt lại con trỏ văn bản vào cuối
+            passwordET?.setSelection(passwordET?.text!!.length)
         }
 
         //Lưu dữ liệu

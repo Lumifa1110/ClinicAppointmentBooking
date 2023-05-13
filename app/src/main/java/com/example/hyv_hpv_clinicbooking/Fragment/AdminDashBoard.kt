@@ -2,8 +2,10 @@ package com.example.hyv_hpv_clinicbooking.Fragment
 
 import BenhNhan
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +34,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 class AdminDashBoard : Fragment() {
     private var medicineList = ArrayList<Thuoc>()
@@ -56,6 +65,7 @@ class AdminDashBoard : Fragment() {
     private var addMedicine: ImageButton? = null
     private var addSpecialize: ImageButton? = null
     private var addUnit: ImageButton? = null
+    private var resetMedicine: ImageButton? = null
 
     private var medicineRV: RecyclerView? = null
     private var specializeRV: RecyclerView? = null
@@ -69,7 +79,6 @@ class AdminDashBoard : Fragment() {
     private var bacsiCanDuyet: TextView? = null
     private var countDoctor: TextView? = null
     private var countPatient: TextView? = null
-
 
 
     override fun onStart() {
@@ -177,6 +186,13 @@ class AdminDashBoard : Fragment() {
         addMedicine!!.setOnClickListener {
             Toast.makeText(requireContext(), "Add Medicine", Toast.LENGTH_SHORT).show()
             showAddMedicineDialog()
+            re_create()
+        }
+
+        resetMedicine = view.findViewById(R.id.resetMedicine)
+        resetMedicine!!.setOnClickListener {
+//            Toast.makeText(requireContext(), "Reset Medicine", Toast.LENGTH_SHORT).show()
+            showResetMedicineDialog()
             re_create()
         }
 
@@ -425,7 +441,7 @@ class AdminDashBoard : Fragment() {
                 super.onDeleteClick(specialize)
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("Cảnh báo")
-                    .setMessage("Bạn có chắc chắn muốn xoá ?")
+                    .setMessage("Bạn có muốn cập nhật lại danh sách thuốc ?")
                     .setPositiveButton("Xác nhận") { dialog, which ->
                         // Xoá medicine trong Firebase
                         val databaseRef = FirebaseDatabase.getInstance().getReference("DanhSach").child("ChuyenKhoa")
@@ -516,6 +532,79 @@ class AdminDashBoard : Fragment() {
         })
     }
 
+
+    private fun showResetMedicineDialog() {
+        val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext()!!)
+        alertDialog.setTitle("Hủy cuộc hẹn")
+        alertDialog.setMessage("Bạn có muốn hủy cuộc hẹn này không?")
+        alertDialog.setPositiveButton(
+            "Có"
+        ) { _, _ ->
+            val thuocRef = Firebase.database.getReference("DanhSach").child("Thuoc")
+            thuocRef.removeValue()
+                .addOnSuccessListener {
+                    // Delete successful
+                    val dialog = ProgressDialog(requireContext())
+                    dialog.setCancelable(false)
+                    dialog.show()
+
+                    val apiInterface = ApiInterface.create().getPrescriptionNames()
+                    apiInterface.enqueue(object : Callback<PrescriptionResponse> {
+                        override fun onResponse(call: Call<PrescriptionResponse>, response: Response<PrescriptionResponse>) {
+                            dialog.dismiss()
+                            if (response.isSuccessful) {
+                                val prescriptionResponse = response.body()
+                                if (prescriptionResponse != null) {
+                                    val prescriptionList = prescriptionResponse.results
+                                    for (prescription in prescriptionList) {
+                                        val genericName = prescription.generic_name
+//                                    Log.i("nlhdung", genericName)
+                                        database = Firebase.database.getReference("DanhSach").child("Thuoc")
+                                        val newMedicine = Thuoc(genericName)
+                                        if (genericName.isNotEmpty()) {
+                                            val query = database.orderByChild("tenThuoc").equalTo(newMedicine.tenThuoc)
+                                            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                                                override fun onDataChange(snapshot: DataSnapshot) {
+                                                    if (snapshot.exists()){
+                                                        Toast.makeText(requireContext(), "Thuốc đã tồn tại", Toast.LENGTH_SHORT).show()
+                                                    } else {
+                                                        database.push().setValue(newMedicine)
+                                                    }
+                                                }
+                                                override fun onCancelled(error: DatabaseError) {
+                                                    TODO("Not yet implemented")
+                                                }
+                                            })
+                                        } else {
+
+                                        }
+                                    }
+                                }
+                            } else {
+                                Log.i("nlhdung", "Response unsuccessful")
+                            }
+                        }
+                        override fun onFailure(call: Call<PrescriptionResponse>, t: Throwable) {
+                            dialog.dismiss()
+                            Log.i("nlhdung", "onFailure: ${t.message}")
+                        }
+                    })
+                }
+                .addOnFailureListener {
+                    // Handle any errors
+                }
+            Toast.makeText(requireContext(), "Cập nhật lại danh sách thuốc thành công!", Toast.LENGTH_LONG).show()
+
+        }
+        alertDialog.setNegativeButton(
+            "Không"
+        ) { _, _ ->
+
+        }
+        val alert: AlertDialog = alertDialog.create()
+        alert.setCanceledOnTouchOutside(false)
+        alert.show()
+    }
 
     private fun showAddMedicineDialog() {
         val builder = AlertDialog.Builder(requireContext())
@@ -771,6 +860,28 @@ class AdminDashBoard : Fragment() {
         } else {
             // at last we are passing that filtered list to our adapter class.
             unitAdapter.filter(filteredlist)
+        }
+    }
+}
+
+
+data class PrescriptionInfo(val generic_name: String)
+data class PrescriptionResponse(val results: List<PrescriptionInfo>)
+
+interface ApiInterface {
+    @GET("drug/ndc.json?search=finished:true&limit=100")
+    fun getPrescriptionNames(): Call<PrescriptionResponse>
+
+    companion object {
+        private const val BASE_URL = "https://api.fda.gov/"
+
+        fun create(): ApiInterface {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            return retrofit.create(ApiInterface::class.java)
         }
     }
 }

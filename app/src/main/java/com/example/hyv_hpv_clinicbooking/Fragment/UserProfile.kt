@@ -116,18 +116,34 @@ class UserProfile : Fragment() {
             }
 
         //lấy dữ liệu của người dùng hiện tại
-        getUserProfile(auth.currentUser!!)
+        val query = userDB.child("BenhNhan")
+            .orderByChild("email")
+            .equalTo(auth.currentUser!!.email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach { it ->
+                    val benhNhan = it.getValue(BenhNhan::class.java) as BenhNhan
+                    maBenhNhan = benhNhan.MaBenhNhan
+                    hoTen = benhNhan.HoTen
+                    email = benhNhan.Email
+                    soDienThoai = benhNhan.SoDienThoai
+                    accountCurrent = benhNhan
+                }
+                nameTV?.text = hoTen
+                phoneTV?.text = "Số điện thoại: $soDienThoai"
+                emailTV?.text = "Email: $email"
 
-        nameTV?.text = hoTen
-        phoneTV?.text = "Số điện thoại: $soDienThoai"
-        emailTV?.text = "Email: $email"
+                editBTN?.setOnClickListener {
+                    val intent = Intent(requireContext(), EditProfilePage::class.java)
+                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
+                    intent.putExtra("taiKhoan", accountCurrent)
+                    startActivity(intent)
+                }
+            }
 
-        editBTN?.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfilePage::class.java)
-            intent.putExtra("loaiTaiKhoan", "BenhNhan")
-            intent.putExtra("taiKhoan", accountCurrent)
-            startActivity(intent)
-        }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
 
         changePasswordBTN?.setOnClickListener {
             val intent = Intent(requireContext(), ChangePasswordPage::class.java)
@@ -160,22 +176,5 @@ class UserProfile : Fragment() {
         }
     }
 
-    private fun getUserProfile(user: FirebaseUser) {
-        val query = userDB.child("BenhNhan")
-            .orderByChild("email")
-            .equalTo(user.email)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.forEach { it ->
-                    val benhNhan = it.getValue(BenhNhan::class.java) as BenhNhan
-                    maBenhNhan = benhNhan.MaBenhNhan
-                    hoTen = benhNhan.HoTen
-                    email = benhNhan.Email
-                    soDienThoai = benhNhan.SoDienThoai
-                }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
 }
