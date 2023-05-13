@@ -88,34 +88,34 @@ class DoctorProfile : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         //maBacSi hiện tại
-        maBacSi = "-NUGq3OnCBW17tiSzuyZ";
 
         //lấy Avatar từ firebase storage
         storage = FirebaseStorage.getInstance();
         storageReference = storage.reference;
-        var ref: StorageReference = storageReference!!.child("BacSi/" + maBacSi)
 
-        ref.downloadUrl
-            .addOnSuccessListener { uri ->
-                Picasso.get().load(uri).into(avatar);
-                Log.d("Test", " Success!")
-            }
-            .addOnFailureListener {
-                Log.d("Test", " Failed!")
-            }
 
         //lấy dữ liệu của bác sĩ hiện tại
         val queryRef: Query = database
-            .orderByChild("maBacSi")
-            .equalTo(maBacSi)
+            .orderByChild("email")
+            .equalTo(auth.currentUser!!.email)
 
         queryRef.addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (child in dataSnapshot.children) {
                     accountCurrent = child.getValue(BacSi::class.java)
+                    maBacSi = accountCurrent!!.MaBacSi
                 }
+                var ref: StorageReference = storageReference!!.child("BacSi/" + maBacSi)
 
+                ref.downloadUrl
+                    .addOnSuccessListener { uri ->
+                        Picasso.get().load(uri).into(avatar);
+                        Log.d("Test", " Success!")
+                    }
+                    .addOnFailureListener {
+                        Log.d("Test", " Failed!")
+                    }
                 nameTV?.text = accountCurrent?.HoTen
                 phoneTV?.text = "Số điện thoại: " + accountCurrent?.SoDienThoai
                 addressTV?.text = "Địa chỉ: " + accountCurrent?.DiaChi

@@ -99,21 +99,10 @@ class UserProfile : Fragment() {
         database = Firebase.database.getReference("Users").child("BenhNhan")
 
         //Mã bệnh nhân hiện tại
-        maBenhNhan = "-NUGq3NRrFTwUKz84O6P";
+//        maBenhNhan = "-NUGq3NRrFTwUKz84O6P";
 
         //lấy Avatar từ firebase storage
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.reference;
-        var ref: StorageReference = storageReference!!.child("BenhNhan/" + maBenhNhan)
 
-        ref.downloadUrl
-            .addOnSuccessListener { uri ->
-                Picasso.get().load(uri).into(avatar);
-                Log.d("Test", " Success!")
-            }
-            .addOnFailureListener {
-                Log.d("Test", " Failed!")
-            }
 
         //lấy dữ liệu của người dùng hiện tại
         val query = userDB.child("BenhNhan")
@@ -132,6 +121,19 @@ class UserProfile : Fragment() {
                 nameTV?.text = hoTen
                 phoneTV?.text = "Số điện thoại: $soDienThoai"
                 emailTV?.text = "Email: $email"
+
+                storage = FirebaseStorage.getInstance();
+                storageReference = storage.reference;
+                var ref: StorageReference = storageReference!!.child("BenhNhan/" + maBenhNhan)
+
+                ref.downloadUrl
+                    .addOnSuccessListener { uri ->
+                        Picasso.get().load(uri).into(avatar);
+                        Log.d("Test", " Success!")
+                    }
+                    .addOnFailureListener {
+                        Log.d("Test", " Failed!")
+                    }
 
                 editBTN?.setOnClickListener {
                     val intent = Intent(requireContext(), EditProfilePage::class.java)

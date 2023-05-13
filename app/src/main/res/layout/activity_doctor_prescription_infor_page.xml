@@ -61,8 +61,9 @@
             android:text="Tên thuốc"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10sp"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:textStyle="bold"
+            android:layout_marginBottom="6dp"
             android:textSize="18dp"/>
 
         <AutoCompleteTextView
@@ -72,9 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10sp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="6dp"
             android:completionThreshold="3"
-            android:padding="10dp"
+            android:padding="8dp"
             android:textSize="18dp" />
 
 
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="Số lượng"
             android:layout_marginHorizontal="10sp"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             android:textSize="18dp"/>
 
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:text="Đơn vị"
                 android:layout_marginHorizontal="10sp"
-                android:textColor="@color/primary_color"
+                android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
 
@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             android:text="Cách sử dụng"
             android:layout_marginHorizontal="10sp"
-            android:textColor="@color/primary_color"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             android:textSize="18dp"/>
 

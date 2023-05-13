@@ -103,6 +103,7 @@ class DoctorListFragment : Fragment() {
 
     private fun displayRecyclerView() {
         recyclerView.setHasFixedSize(true)
+        mList = ArrayList<BacSi>(mList.sortedByDescending { it.SLBenhNhan })
         quantityDoctorTV?.setText(mList.size.toString())
 
         adapter = DoctorListAdapter(mList)
@@ -124,7 +125,9 @@ class DoctorListFragment : Fragment() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (snapshot in dataSnapshot.children) {
                         val doctor = snapshot.getValue(BacSi::class.java)
-                        mList.add(doctor!!)
+                        if(!doctor!!.BiKhoa) {
+                            mList.add(doctor!!)
+                        }
                     }
                     // TODO: Do something with the lichHenKhamList
                     displayRecyclerView()
