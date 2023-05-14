@@ -170,6 +170,19 @@
         app:layout_constraintBaseline_toBottomOf="parent"
         android:layout_marginTop="10dp"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/empty"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Không tìm thấy bác sĩ"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

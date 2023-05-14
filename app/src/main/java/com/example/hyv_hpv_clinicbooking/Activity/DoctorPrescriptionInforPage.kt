@@ -26,6 +26,7 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
     var adapterSearch: ArrayAdapter<String>? = null
     val donThuocList = ArrayList<String>()
     val donviList = ArrayList<String>()
+    private lateinit var backBTN: ImageButton
 
     override fun onStart() {
         super.onStart()
@@ -45,6 +46,7 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
         saveBtn = findViewById(R.id.saveBtn)
         using = findViewById(R.id.using)
         scrollView = findViewById(R.id.scrollView)
+        backBTN = findViewById(R.id.back_button)
     }
 
     private fun main() {
@@ -133,6 +135,12 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
             }
             replyIntent.putExtra("new_donThuoc", new_donThuoc)
             setResult(Activity.RESULT_OK, replyIntent)
+            finish()
+        }
+        backBTN.setOnClickListener {
+            // Move to Login page
+            val intent = Intent(this, DoctorPrescriptionPage::class.java)
+            startActivity(intent)
             finish()
         }
     }

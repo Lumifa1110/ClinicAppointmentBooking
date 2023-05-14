@@ -124,8 +124,6 @@ class UserAppoinmentManagement() : Fragment() {
         quantityTV3 = view.findViewById(R.id.quantity3)
         recyclerView3 = view.findViewById(R.id.recyclerView3)
         emptyTV3 = view.findViewById(R.id.emptyTV3)
-
-
     }
 
     private fun displayRecyclerView() {
