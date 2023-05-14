@@ -4,6 +4,7 @@ import BenhNhan
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,6 +36,7 @@ class LoginPage : AppCompatActivity() {
     private lateinit var createNewAccountBTN: TextView
     private lateinit var loginGoogleBTN: ImageButton
     private lateinit var loginFacebookBTN: ImageButton
+    private lateinit var showPasswordBTN: ImageButton
 
     private val roles = arrayOf<String>("BenhNhan", "BacSi", "Admin")
 
@@ -52,6 +54,7 @@ class LoginPage : AppCompatActivity() {
         createNewAccountBTN = findViewById(R.id.createNewAccountBTN)
         loginGoogleBTN = findViewById(R.id.googleButton)
         loginFacebookBTN = findViewById(R.id.facebookButton)
+        showPasswordBTN = findViewById(R.id.showPassword)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +92,22 @@ class LoginPage : AppCompatActivity() {
         }
         loginGoogleBTN.setOnClickListener {
             loginGoogle()
+        }
+        showPasswordBTN.setOnClickListener {
+            val isPasswordVisible = passwordET.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+
+            if (isPasswordVisible) {
+                // Nếu mật khẩu đã được hiển thị, chuyển về chế độ ẩn
+                passwordET.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                showPasswordBTN.setImageResource(R.drawable.invisible)
+            } else {
+                // Nếu mật khẩu đã bị ẩn, chuyển sang chế độ hiển thị
+                passwordET.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                showPasswordBTN.setImageResource(R.drawable.view)
+            }
+
+            // Đặt lại con trỏ văn bản vào cuối
+            passwordET.setSelection(passwordET.text.length)
         }
     }
 

@@ -99,35 +99,53 @@ class UserProfile : Fragment() {
         database = Firebase.database.getReference("Users").child("BenhNhan")
 
         //Mã bệnh nhân hiện tại
-        maBenhNhan = "-NUGq3NRrFTwUKz84O6P";
+//        maBenhNhan = "-NUGq3NRrFTwUKz84O6P";
 
         //lấy Avatar từ firebase storage
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.reference;
-        var ref: StorageReference = storageReference!!.child("BenhNhan/" + maBenhNhan)
 
-        ref.downloadUrl
-            .addOnSuccessListener { uri ->
-                Picasso.get().load(uri).into(avatar);
-                Log.d("Test", " Success!")
-            }
-            .addOnFailureListener {
-                Log.d("Test", " Failed!")
-            }
 
         //lấy dữ liệu của người dùng hiện tại
-        getUserProfile(auth.currentUser!!)
+        val query = userDB.child("BenhNhan")
+            .orderByChild("email")
+            .equalTo(auth.currentUser!!.email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach { it ->
+                    val benhNhan = it.getValue(BenhNhan::class.java) as BenhNhan
+                    maBenhNhan = benhNhan.MaBenhNhan
+                    hoTen = benhNhan.HoTen
+                    email = benhNhan.Email
+                    soDienThoai = benhNhan.SoDienThoai
+                    accountCurrent = benhNhan
+                }
+                nameTV?.text = hoTen
+                phoneTV?.text = "Số điện thoại: $soDienThoai"
+                emailTV?.text = "Email: $email"
 
-        nameTV?.text = hoTen
-        phoneTV?.text = "Số điện thoại: $soDienThoai"
-        emailTV?.text = "Email: $email"
+                storage = FirebaseStorage.getInstance();
+                storageReference = storage.reference;
+                var ref: StorageReference = storageReference!!.child("BenhNhan/" + maBenhNhan)
 
-        editBTN?.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfilePage::class.java)
-            intent.putExtra("loaiTaiKhoan", "BenhNhan")
-            intent.putExtra("taiKhoan", accountCurrent)
-            startActivity(intent)
-        }
+                ref.downloadUrl
+                    .addOnSuccessListener { uri ->
+                        Picasso.get().load(uri).into(avatar);
+                        Log.d("Test", " Success!")
+                    }
+                    .addOnFailureListener {
+                        Log.d("Test", " Failed!")
+                    }
+
+                editBTN?.setOnClickListener {
+                    val intent = Intent(requireContext(), EditProfilePage::class.java)
+                    intent.putExtra("loaiTaiKhoan", "BenhNhan")
+                    intent.putExtra("taiKhoan", accountCurrent)
+                    startActivity(intent)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
 
         changePasswordBTN?.setOnClickListener {
             val intent = Intent(requireContext(), ChangePasswordPage::class.java)
@@ -160,22 +178,5 @@ class UserProfile : Fragment() {
         }
     }
 
-    private fun getUserProfile(user: FirebaseUser) {
-        val query = userDB.child("BenhNhan")
-            .orderByChild("email")
-            .equalTo(user.email)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.forEach { it ->
-                    val benhNhan = it.getValue(BenhNhan::class.java) as BenhNhan
-                    maBenhNhan = benhNhan.MaBenhNhan
-                    hoTen = benhNhan.HoTen
-                    email = benhNhan.Email
-                    soDienThoai = benhNhan.SoDienThoai
-                }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
 }

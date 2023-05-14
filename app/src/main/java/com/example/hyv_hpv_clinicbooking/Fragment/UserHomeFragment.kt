@@ -110,30 +110,32 @@ class UserHomeFragment : Fragment() {
                                 upcomingAppointmentRV.visibility = View.VISIBLE
                                 dataSnapshot.children.forEach { it ->
                                     val cuochen = it.getValue(CuocHen::class.java)
-                                    val ngay = "Ngày: ${cuochen!!.Ngay}"
-                                    val thoigian = "Thời gian: ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
-                                    val queryDoctorInfo = userDB.child("BacSi")
-                                        .orderByChild("maBacSi")
-                                        .equalTo(cuochen.MaBacSi)
-                                    queryDoctorInfo.addListenerForSingleValueEvent(object : ValueEventListener {
-                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                            dataSnapshot.children.forEach { it ->
-                                                val bacsi = it.getValue(BacSi::class.java)
-                                                val hotenbacsi = "Bác sĩ ${bacsi!!.HoTen}"
-                                                val tenchuyenkhoa = "Chuyên khoa: ${bacsi.TenChuyenKhoa}"
-                                                val upcomingAppointmentData = UpcomingAppointmentData(
-                                                    HoTen = hotenbacsi,
-                                                    TenChuyenKhoa = tenchuyenkhoa,
-                                                    Ngay = ngay,
-                                                    ThoiGian = thoigian
-                                                )
-                                                upcomingAppointmentList.add(upcomingAppointmentData)
+                                    if(cuochen!!.MaTrangThai == 1) {
+                                        val ngay = "Ngày: ${cuochen!!.Ngay}"
+                                        val thoigian = "Thời gian: ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
+                                        val queryDoctorInfo = userDB.child("BacSi")
+                                            .orderByChild("maBacSi")
+                                            .equalTo(cuochen.MaBacSi)
+                                        queryDoctorInfo.addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                dataSnapshot.children.forEach { it ->
+                                                    val bacsi = it.getValue(BacSi::class.java)
+                                                    val hotenbacsi = "Bác sĩ ${bacsi!!.HoTen}"
+                                                    val tenchuyenkhoa = "Chuyên khoa: ${bacsi.TenChuyenKhoa}"
+                                                    val upcomingAppointmentData = UpcomingAppointmentData(
+                                                        HoTen = hotenbacsi,
+                                                        TenChuyenKhoa = tenchuyenkhoa,
+                                                        Ngay = ngay,
+                                                        ThoiGian = thoigian
+                                                    )
+                                                    upcomingAppointmentList.add(upcomingAppointmentData)
+                                                }
+                                                displayUpcomingAppointmentList()
                                             }
-                                            displayUpcomingAppointmentList()
-                                        }
 
-                                        override fun onCancelled(databaseError: DatabaseError) {}
-                                    })
+                                            override fun onCancelled(databaseError: DatabaseError) {}
+                                        })
+                                    }
                                 }
                             }
                             else {

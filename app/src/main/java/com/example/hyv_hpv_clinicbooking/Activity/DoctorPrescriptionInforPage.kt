@@ -141,7 +141,7 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
                     val donViSnapshot = dataSnapshot.child("DonVi")
                     for (donVi in donViSnapshot.children) {
                         val key = donVi.key
-                        val donVi = donVi.child("TenDonVi").getValue(String::class.java)
+                        val donVi = donVi.child("tenDonVi").getValue(String::class.java)
                         donviList.add(donVi!!)
                     }
                 }

@@ -5,10 +5,8 @@ import BenhNhan
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.text.InputType
+import android.widget.*
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -23,6 +21,7 @@ class RegisterPage : AppCompatActivity() {
     private lateinit var passwordET : EditText
     private lateinit var registerBtn : Button
     private lateinit var registerDoctorBtn : TextView
+    private lateinit var showPasswordBTN: ImageButton
 
     private lateinit var userDB : DatabaseReference
     private lateinit var auth  : FirebaseAuth
@@ -34,6 +33,7 @@ class RegisterPage : AppCompatActivity() {
         passwordET = findViewById(R.id.newPasswordET)
         registerBtn = findViewById(R.id.registerBtn)
         registerDoctorBtn = findViewById(R.id.registerDoctorBTN)
+        showPasswordBTN = findViewById(R.id.showPassword)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +48,22 @@ class RegisterPage : AppCompatActivity() {
     }
 
     private fun initListener() {
+        showPasswordBTN.setOnClickListener {
+            val isPasswordVisible = passwordET.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+
+            if (isPasswordVisible) {
+                // Nếu mật khẩu đã được hiển thị, chuyển về chế độ ẩn
+                passwordET.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                showPasswordBTN.setImageResource(R.drawable.invisible)
+            } else {
+                // Nếu mật khẩu đã bị ẩn, chuyển sang chế độ hiển thị
+                passwordET.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                showPasswordBTN.setImageResource(R.drawable.view)
+            }
+
+            // Đặt lại con trỏ văn bản vào cuối
+            passwordET.setSelection(passwordET.text.length)
+        }
         registerBtn.setOnClickListener {
             onClickRegisterEmailPassword()
         }

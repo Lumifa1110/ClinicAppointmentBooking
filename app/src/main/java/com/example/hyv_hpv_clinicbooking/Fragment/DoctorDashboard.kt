@@ -104,43 +104,45 @@ class DoctorDashboard : Fragment() {
                                         set(Calendar.MILLISECOND, 0)
                                     }.time
                                     val cuochen = it.getValue(CuocHen::class.java)
-                                    val myDate =
-                                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(cuochen!!.Ngay)
-                                    if (myDate!!.compareTo(currentDate) == 0) {
-                                        val ngay = "Ngày: ${cuochen.Ngay}"
-                                        val thoigian =
-                                            "Thời gian: ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
-                                        val queryPatientInfo = userDB.child("BenhNhan")
-                                            .orderByChild("maBenhNhan")
-                                            .equalTo(cuochen.MaBenhNhan)
-                                        queryPatientInfo.addListenerForSingleValueEvent(object :
-                                            ValueEventListener {
-                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                                dataSnapshot.children.forEach { it ->
-                                                    val benhnhan = it.getValue(BenhNhan::class.java)
-                                                    val hotenbenhnhan =
-                                                        "Bệnh nhân ${benhnhan!!.HoTen}"
-                                                    val tenchuyenkhoa = ""
-                                                    val upcomingAppointmentData =
-                                                        UpcomingAppointmentData(
-                                                            HoTen = hotenbenhnhan,
-                                                            TenChuyenKhoa = tenchuyenkhoa,
-                                                            Ngay = ngay,
-                                                            ThoiGian = thoigian
+                                    if(cuochen!!.MaTrangThai == 1) {
+                                        val myDate =
+                                            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(cuochen!!.Ngay)
+                                        if (myDate!!.compareTo(currentDate) == 0) {
+                                            val ngay = "Ngày: ${cuochen.Ngay}"
+                                            val thoigian =
+                                                "Thời gian: ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
+                                            val queryPatientInfo = userDB.child("BenhNhan")
+                                                .orderByChild("maBenhNhan")
+                                                .equalTo(cuochen.MaBenhNhan)
+                                            queryPatientInfo.addListenerForSingleValueEvent(object :
+                                                ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                    dataSnapshot.children.forEach { it ->
+                                                        val benhnhan = it.getValue(BenhNhan::class.java)
+                                                        val hotenbenhnhan =
+                                                            "Bệnh nhân ${benhnhan!!.HoTen}"
+                                                        val tenchuyenkhoa = ""
+                                                        val upcomingAppointmentData =
+                                                            UpcomingAppointmentData(
+                                                                HoTen = hotenbenhnhan,
+                                                                TenChuyenKhoa = tenchuyenkhoa,
+                                                                Ngay = ngay,
+                                                                ThoiGian = thoigian
+                                                            )
+                                                        upcomingAppointmentList.add(
+                                                            upcomingAppointmentData
                                                         )
-                                                    upcomingAppointmentList.add(
-                                                        upcomingAppointmentData
-                                                    )
+                                                    }
+                                                    displayUpcomingAppointmentList()
                                                 }
-                                                displayUpcomingAppointmentList()
-                                            }
 
-                                            override fun onCancelled(databaseError: DatabaseError) {}
-                                        })
-                                    }
-                                    else {
-                                        upcomingAppointmentHeader.visibility = View.GONE
-                                        upcomingAppointmentRV.visibility = View.GONE
+                                                override fun onCancelled(databaseError: DatabaseError) {}
+                                            })
+                                        }
+                                        else {
+                                            upcomingAppointmentHeader.visibility = View.GONE
+                                            upcomingAppointmentRV.visibility = View.GONE
+                                        }
                                     }
                                 }
                             }

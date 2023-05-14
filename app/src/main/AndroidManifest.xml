@@ -115,6 +115,7 @@
         <!-- bác sĩ kê đơn thuốc -->
         <activity
             android:name=".Activity.DoctorPrescriptionPage"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
 
