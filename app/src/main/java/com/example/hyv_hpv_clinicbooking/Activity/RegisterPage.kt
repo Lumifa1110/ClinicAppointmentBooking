@@ -87,7 +87,7 @@ class RegisterPage : AppCompatActivity() {
                                     if (task.isSuccessful) {
                                         // Register success
                                         Toast.makeText(applicationContext
-                                            , getString(R.string.toastRegisterSuccess)
+                                            , "Đăng ký bệnh nhân thành công\nVui lòng chứng thực email"
                                             , Toast.LENGTH_SHORT)
                                             .show()
                                     }
@@ -150,7 +150,7 @@ class RegisterPage : AppCompatActivity() {
                                     if (task.isSuccessful) {
                                         // Register success
                                         Toast.makeText(applicationContext
-                                            , getString(R.string.toastRegisterSuccess)
+                                            , "Đăng ký Admin thành công\nVui lòng chứng thực email"
                                             , Toast.LENGTH_SHORT)
                                             .show()
                                     }
