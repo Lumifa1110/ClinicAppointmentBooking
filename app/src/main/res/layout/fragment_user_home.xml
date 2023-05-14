@@ -226,6 +226,16 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/upcomingAppointmentEmptyTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:text="Không có cuộc hẹn sắp tới"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="14sp" />
+
             <!--
                 Thẻ Cuộc hẹn sắp tới
             -->
@@ -268,6 +278,16 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/bestDoctorEmptyTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:text="Không có bác sĩ"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="14sp" />
 
             <!--
                 Thẻ Bac si

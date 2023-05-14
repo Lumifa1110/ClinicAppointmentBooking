@@ -35,7 +35,9 @@ class UserHomeFragment : Fragment() {
     private lateinit var notificationCounter : TextView
     private lateinit var upcomingAppointmentHeader : LinearLayout
     private lateinit var upcomingAppointmentRV : RecyclerView
+    private lateinit var upcomingAppointmentEmptyTV: TextView
     private lateinit var bestDoctorRV : RecyclerView
+    private lateinit var bestDoctorEmptyTV: TextView
 
     private lateinit var upcomingAppointmentAdapter: UpcomingAppointmentAdapter
     private lateinit var bestDoctorAdapter: BestDoctorAdapter
@@ -62,20 +64,10 @@ class UserHomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_user_home, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        ctx = view.context
-        database = Firebase.database.reference
-        auth = FirebaseAuth.getInstance()
-        userDB = Firebase.database.getReference("Users")
-        cuochenDB = Firebase.database.getReference("CuocHen")
-        thongBaoDB = Firebase.database.getReference("ThongBao")
-
-        initWidgets(view)
-
+    override fun onStart() {
+        super.onStart()
         upcomingAppointmentList.clear()
         bestDoctorList.clear()
-
         val queryBenhNhanKey = userDB.child("BenhNhan")
             .orderByChild("email")
             .equalTo(auth.currentUser!!.email)
@@ -105,8 +97,10 @@ class UserHomeFragment : Fragment() {
                     val queryCuocHen = cuochenDB.orderByChild("maBenhNhan").equalTo(maTaiKhoan)
                     queryCuocHen.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                            upcomingAppointmentList.clear()
                             if (dataSnapshot.exists()) {
-                                upcomingAppointmentHeader.visibility = View.VISIBLE
+//                                upcomingAppointmentHeader.visibility = View.VISIBLE
+                                upcomingAppointmentEmptyTV.visibility = View.GONE
                                 upcomingAppointmentRV.visibility = View.VISIBLE
                                 dataSnapshot.children.forEach { it ->
                                     val cuochen = it.getValue(CuocHen::class.java)
@@ -139,7 +133,8 @@ class UserHomeFragment : Fragment() {
                                 }
                             }
                             else {
-                                upcomingAppointmentHeader.visibility = View.GONE
+//                                upcomingAppointmentHeader.visibility = View.GONE
+                                upcomingAppointmentEmptyTV.visibility = View.VISIBLE
                                 upcomingAppointmentRV.visibility = View.GONE
                             }
                         }
@@ -147,8 +142,6 @@ class UserHomeFragment : Fragment() {
                         override fun onCancelled(databaseError: DatabaseError) {}
                     })
                 }
-                initWidgets(view)
-                initListeners()
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         })
@@ -156,15 +149,34 @@ class UserHomeFragment : Fragment() {
         val queryBestDoctor = userDB.child("BacSi")
         queryBestDoctor.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.forEach { it ->
-                    val bacsi = it.getValue(BacSi::class.java)
-                    bestDoctorList.add(bacsi!!)
+                if (dataSnapshot.exists()) {
+                    bestDoctorEmptyTV.visibility = View.GONE
+                    dataSnapshot.children.forEach { it ->
+                        val bacsi = it.getValue(BacSi::class.java)
+                        bestDoctorList.add(bacsi!!)
+                    }
+                    displayBestDoctorList()
                 }
-                displayBestDoctorList()
+                else {
+                    bestDoctorEmptyTV.visibility = View.VISIBLE
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ctx = view.context
+        database = Firebase.database.reference
+        auth = FirebaseAuth.getInstance()
+        userDB = Firebase.database.getReference("Users")
+        cuochenDB = Firebase.database.getReference("CuocHen")
+        thongBaoDB = Firebase.database.getReference("ThongBao")
+
+        initWidgets(view)
+        initListeners()
     }
 
     private fun displayUpcomingAppointmentList() {
@@ -186,7 +198,9 @@ class UserHomeFragment : Fragment() {
         notificationCounter = view.findViewById(R.id.notificationCounter)
         upcomingAppointmentHeader = view.findViewById(R.id.upcomingAppointmentHeader)
         upcomingAppointmentRV = view.findViewById(R.id.upcomingAppointmentRV)
+        upcomingAppointmentEmptyTV = view.findViewById(R.id.upcomingAppointmentEmptyTV)
         bestDoctorRV = view.findViewById(R.id.bestDoctorRV)
+        bestDoctorEmptyTV = view.findViewById(R.id.bestDoctorEmptyTV)
     }
 
     private fun initListeners() {

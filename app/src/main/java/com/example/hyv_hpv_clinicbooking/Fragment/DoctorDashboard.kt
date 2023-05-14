@@ -31,6 +31,7 @@ class DoctorDashboard : Fragment() {
     private lateinit var notificationCounter : TextView
     private lateinit var upcomingAppointmentHeader : LinearLayout
     private lateinit var upcomingAppointmentRV : RecyclerView
+    private lateinit var upcomingAppointmentEmptyTV: TextView
 
     private lateinit var upcomingAppointmentAdapter: UpcomingAppointmentAdapter
 
@@ -95,6 +96,7 @@ class DoctorDashboard : Fragment() {
                     queryCuocHen.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             if (dataSnapshot.exists()) {
+                                upcomingAppointmentEmptyTV.visibility = View.GONE
                                 dataSnapshot.children.forEach { it ->
                                     val currentDate = Calendar.getInstance().apply {
                                         time = Date()
@@ -147,7 +149,8 @@ class DoctorDashboard : Fragment() {
                                 }
                             }
                             else {
-                                upcomingAppointmentHeader.visibility = View.GONE
+                                upcomingAppointmentEmptyTV.visibility = View.VISIBLE
+//                                upcomingAppointmentHeader.visibility = View.GONE
                                 upcomingAppointmentRV.visibility = View.GONE
                             }
                         }
@@ -175,6 +178,7 @@ class DoctorDashboard : Fragment() {
         notificationCounter = view.findViewById(R.id.notificationCounter)
         upcomingAppointmentHeader = view.findViewById(R.id.upcomingAppointmentHeader)
         upcomingAppointmentRV = view.findViewById(R.id.upcomingAppointmentRV)
+        upcomingAppointmentEmptyTV = view.findViewById(R.id.upcomingAppointmentEmptyTV)
     }
 
     private fun initListeners() {
