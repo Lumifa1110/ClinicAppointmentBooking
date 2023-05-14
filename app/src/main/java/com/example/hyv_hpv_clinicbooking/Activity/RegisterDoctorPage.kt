@@ -277,6 +277,12 @@ class RegisterDoctorPage : AppCompatActivity() {
                                         userDB = Firebase.database.getReference("BacSiChoDuyet")
                                         userDB.child(key).setValue(bacSi)
 
+                                        // Register success
+                                        Toast.makeText(applicationContext
+                                            , "Đăng ký bác sĩ thành công\nVui lòng chứng thực email và chờ được duyệt"
+                                            , Toast.LENGTH_SHORT)
+                                            .show()
+
                                         // Move to Login page
                                         val intent = Intent(this, LoginPage::class.java)
                                         startActivity(intent)

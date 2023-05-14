@@ -349,64 +349,14 @@ class LoginPage : AppCompatActivity() {
 
                     override fun onCancelled(databaseError: DatabaseError) {}
                 })
-                // Kiểm tra nếu tài khoản là Bác sĩ chưa chưa duyệt hoặc bị khóa
-                val queryBacSiChoDuyet = Firebase.database.getReference("BacSiChoDuyet")
-                    .orderByChild("email")
-                    .equalTo(auth.currentUser!!.email)
-                queryBacSiChoDuyet.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            Toast.makeText(applicationContext
-                                , "Tài khoản bác sĩ đang chờ được duyệt"
-                                , Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                        else {
-                            val queryBacSiBiKhoa = userDB.child("BacSi")
-                                .orderByChild("email")
-                                .equalTo(auth.currentUser!!.email)
-                            queryBacSiBiKhoa.addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        dataSnapshot.children.forEach { it ->
-                                            val bacsi = it.getValue(BacSi::class.java)
-                                            if (bacsi!!.BiKhoa) {
-                                                Toast.makeText(applicationContext
-                                                    , "Tài khoản bác sĩ đang bị khóa"
-                                                    , Toast.LENGTH_SHORT)
-                                                    .show()
-                                            }
-                                            else {
-                                                // Login success
-                                                Toast.makeText(
-                                                    applicationContext,
-                                                    getString(R.string.toastLoginSuccess),
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                // Get User role and Switch to Homepage
-                                                startHomePage("BacSi")
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        // Login success
-                                        Toast.makeText(
-                                            applicationContext,
-                                            getString(R.string.toastLoginSuccess),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        // Get User role and Switch to Homepage
-                                        getUserRole(auth.currentUser!!)
-                                    }
-                                }
-
-                                override fun onCancelled(databaseError: DatabaseError) {}
-                            })
-                        }
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {}
-                })
+                // Login success
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.toastLoginSuccess),
+                    Toast.LENGTH_SHORT
+                ).show()
+                // Get User role and Switch to Homepage
+                getUserRole(auth.currentUser!!)
             } else {
                 // Register fail
                 Toast.makeText(applicationContext
