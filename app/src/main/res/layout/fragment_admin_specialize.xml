@@ -31,6 +31,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:layout_constraintRight_toRightOf="parent"
+            android:backgroundTint="@color/primary"
+            app:tint="@color/white"
             app:layout_constraintLeft_toRightOf="@+id/searchSpec"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

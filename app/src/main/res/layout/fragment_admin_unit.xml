@@ -31,6 +31,8 @@
             android:src="@drawable/add_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:backgroundTint="@color/primary"
+            app:tint="@color/white"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/searchUnit"
             app:layout_constraintTop_toTopOf="parent"

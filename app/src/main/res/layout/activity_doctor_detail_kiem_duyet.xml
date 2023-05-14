@@ -57,21 +57,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15sp"
                 android:layout_marginTop="15sp"
-                android:background="@drawable/wrapper_box_white"
+                android:background="@drawable/box_white"
                 android:orientation="vertical">
 
                 <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/gradient_bg">
+                android:background="@drawable/wrapper_top_gradient">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="19sp"
                     android:textStyle="bold"
+                    android:layout_marginLeft="10sp"
                     android:textColor="@color/white"
-                    android:padding="3sp"
+                    android:padding="5sp"
                     android:text="Thông tin cá nhân"/>
 <!--                <TextView-->
 <!--                    android:layout_width="wrap_content"-->
@@ -87,7 +88,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10sp"
+                android:layout_marginTop="5sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/username"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,6 +117,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/email_blue"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,6 +144,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/phone_blue"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,6 +172,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/card"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -166,6 +200,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/appoinment"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -186,6 +228,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/major_admin"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -207,6 +257,14 @@
                 android:layout_marginHorizontal="10sp"
                 android:layout_marginBottom="5sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/address"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -228,20 +286,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15sp"
                 android:layout_marginTop="15sp"
-                android:background="@drawable/wrapper_box_white"
+                android:background="@drawable/box_white"
                 android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/wrapper_top_gradient"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="19sp"
-                    android:padding="3sp"
-
+                    android:padding="5sp"
+                    android:layout_marginLeft="10sp"
                     android:textStyle="bold"
-                    android:background="@drawable/gradient_bg"
                     android:textColor="@color/white"
                     android:text="Chứng chỉ"/>
             </LinearLayout>

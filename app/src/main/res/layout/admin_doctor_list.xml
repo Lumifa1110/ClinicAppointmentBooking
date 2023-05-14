@@ -19,18 +19,39 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/userAvatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/description"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:src="@drawable/avatar" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/description"
+                android:scaleType="centerCrop"
+                android:src="@color/secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userAvatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="5sp"
+                android:layout_marginLeft="5sp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_doctor_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:layout_width="210sp"
+            android:layout_width="200sp"
             android:layout_height="120sp"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
@@ -47,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ID: "
-                    android:textColor="@color/black"
+                    android:textColor="#1D792C"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/userID"
@@ -66,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Bác sĩ: "
-                    android:textColor="@color/black"
+                    android:textColor="#1D792C"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/userName"
@@ -85,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chuyên khoa: "
-                    android:textColor="@color/black"
+                    android:textColor="#1D792C"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/userSpecial"
@@ -104,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Liên hệ: "
-                    android:textColor="@color/black"
+                    android:textColor="#1D792C"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/userContact"
