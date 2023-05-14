@@ -35,7 +35,7 @@ class DoctorListFragment : Fragment() {
     private var specializeDoctorTV: TextView ?= null
     private lateinit var database : DatabaseReference
     var size: Int = 0
-
+    var ctx: Context ?= null
 
     //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -57,6 +57,7 @@ class DoctorListFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ctx = view.context
         recyclerView = view.findViewById(R.id.recyclerView)
         searchView = view.findViewById(R.id.searchView)
         quantityDoctorTV = view.findViewById(R.id.quantityDoctorTV)
@@ -92,7 +93,7 @@ class DoctorListFragment : Fragment() {
                 }
             }
             if (filteredList.isEmpty()) {
-                Toast.makeText(context, "No Data found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx!!, "No Data found", Toast.LENGTH_SHORT).show()
             } else {
                 adapter.setFilteredList(filteredList)
             }
@@ -107,11 +108,11 @@ class DoctorListFragment : Fragment() {
         quantityDoctorTV?.setText(mList.size.toString())
 
         adapter = DoctorListAdapter(mList)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = LinearLayoutManager(ctx)
 
         recyclerView.adapter = adapter
         adapter?.onItemClick = { index ->
-            val intent = Intent(context, DoctorDetailPage::class.java)
+            val intent = Intent(ctx, DoctorDetailPage::class.java)
             intent.putExtra("doctor", mList[index])
             startActivity(intent)
         }
@@ -145,7 +146,9 @@ class DoctorListFragment : Fragment() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (snapshot in dataSnapshot.children) {
                         val doctor = snapshot.getValue(BacSi::class.java)
-                        mList.add(doctor!!)
+                        if(!doctor!!.BiKhoa) {
+                            mList.add(doctor!!)
+                        }
                     }
                     // TODO: Do something with the lichHenKhamList
                     displayRecyclerView()
@@ -161,7 +164,7 @@ class DoctorListFragment : Fragment() {
 
     fun showDialogChuyenKhoa() {
         var customDialog: AlertDialog?=null
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(ctx)
         //Hiển thị dialog để chọn time
         var view_dialog: View =
             this.layoutInflater.inflate(R.layout.dialog_chuyenkhoa, null)
@@ -186,7 +189,7 @@ class DoctorListFragment : Fragment() {
                 }
 
                 val arrayAdapter: ArrayAdapter<*>
-                arrayAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, chuyenKhoa)
+                arrayAdapter = ArrayAdapter(ctx!!, android.R.layout.simple_list_item_1, chuyenKhoa)
                 chuyenKhoaList.adapter = arrayAdapter
 
                 chuyenKhoaList.setOnItemClickListener { parent, view, position, id ->

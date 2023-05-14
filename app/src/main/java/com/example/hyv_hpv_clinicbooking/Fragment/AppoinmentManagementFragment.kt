@@ -498,7 +498,7 @@ class AppoinmentManagementFragment : Fragment() {
                 if (resultCode == Activity.RESULT_OK) {
                     val key_appoinment = data?.getStringExtra("key_appoinment")
                     val appoinment = data?.getParcelableExtra<CuocHen>("appoinment") as CuocHen
-                    updateKeDon(key_appoinment!!, 2,  appoinment.ChuanDoan, appoinment.LoiDan, appoinment.DonThuoc)
+                    updateKeDon(key_appoinment!!, 2,  appoinment.ChuanDoan, appoinment.DonThuoc, appoinment.LoiDan)
                     val key = database.push().key
                     writeThongBaoFromRealtimeDB(key!!, appoinment.MaBenhNhan, appoinment.Ngay, appoinment.GioBatDau, appoinment.GioBatDau, "kê đơn cho cuộc hẹn")
                     updateSLBenhNhan(maTaiKhoan!!)

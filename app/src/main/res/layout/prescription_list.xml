@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="4dp"
+            android:layout_marginHorizontal="6dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/wrapper_rounded_blue_sky">
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/blue_sky"
+                android:textColor="@color/black"
                 android:background="@drawable/box_white"
                 android:text="1 Lọ"
                 android:textSize="14sp" />
@@ -52,11 +52,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="6dp"
             android:paddingVertical="6dp"
             android:paddingHorizontal="10dp"
             android:orientation="vertical"
-            android:background="@drawable/wrapper_rounded_white_30">
+            android:background="@drawable/wrapper_rounded_box_white">
 
             <TextView
                 android:layout_marginTop="2dp"
@@ -66,7 +66,7 @@
                 android:text="Cách dùng: Nhỏ thuốc ngày 4 lần Sáng - Trưa - Chiều - Tối, mỗi lần 1 giọt"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textColor="@color/black"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

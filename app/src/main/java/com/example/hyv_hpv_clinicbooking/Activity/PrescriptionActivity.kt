@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
@@ -62,22 +63,18 @@ class PrescriptionActivity : AppCompatActivity() {
         timeTV?.setText(appoinment.GioBatDau)
         chuandoanTV?.setText(appoinment.ChuanDoan)
         loidanTV?.setText(appoinment.LoiDan)
-
         if(appoinment.DonThuoc != "") {
             val medicines = appoinment.DonThuoc.split("\n").toTypedArray()
-            for(medicine in medicines) {
-                var item = medicine.split(";").toTypedArray()
-                var donthuoc = DonThuoc()
-                donthuoc.TenThuoc = item[0]
-                if (item[1] == "") {
-                    donthuoc.SoLuong = 0
+            for (medicine in medicines) {
+                val item = medicine.split(";").toTypedArray()
+                if (item.size >= 4) {
+                    val donthuoc = DonThuoc()
+                    donthuoc.TenThuoc = item[0].trim()
+                    donthuoc.SoLuong = item[1].toIntOrNull() ?: 0
+                    donthuoc.DonVi = item[2].trim()
+                    donthuoc.CachDung = item[3].trim()
+                    mList.add(donthuoc)
                 }
-                else {
-                    donthuoc.SoLuong = item[1].toInt()
-                }
-                donthuoc.DonVi = item[2]
-                donthuoc.CachDung = item[3]
-                mList.add(donthuoc)
             }
         }
 

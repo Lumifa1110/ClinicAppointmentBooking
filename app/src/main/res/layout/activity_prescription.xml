@@ -69,7 +69,7 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/primary"
+            android:textColor="@color/secondary"
             android:text="Phạm Trần Minh Ngọc"
             android:textSize="14sp"
             android:background="@drawable/box_white"
@@ -104,7 +104,7 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/primary"
+            android:textColor="@color/secondary"
             android:text="08 giờ 30 phút"
             android:textSize="14sp"
             android:background="@drawable/box_white"
@@ -135,13 +135,13 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            app:tint="@color/primary"
-            android:src="@drawable/prescription"/>
+            app:tint="@color/secondary"
+            android:src="@drawable/analytics"/>
         <TextView
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary"
+            android:textColor="@color/secondary"
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="Chuẩn đoán" />
@@ -157,7 +157,8 @@
         android:text=""
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/box_white"
-        android:textColor="@color/primary"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/chuandoanTitle"
         android:layout_marginTop="6dp"/>
 
@@ -174,24 +175,24 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:src="@drawable/prescription"
-            app:tint="@color/primary" />
+            android:src="@drawable/drugs"
+            app:tint="@color/secondary" />
 
         <TextView
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary"
+            android:textColor="@color/secondary"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="Thuốc điều trị:" />
+            android:text="Thuốc điều trị" />
     </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="320dp"
         app:layout_constraintTop_toBottomOf="@id/prescriptionTitle"
         android:layout_marginTop="10dp"
         />
@@ -208,42 +209,30 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            app:tint="@color/primary"
-            android:src="@drawable/prescription"/>
+            app:tint="@color/secondary"
+            android:src="@drawable/advice"/>
         <TextView
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary"
+            android:textColor="@color/secondary"
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="Lời dặn" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/doctorNote"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+    <TextView
         app:layout_constraintTop_toBottomOf="@id/noteTitle"
         android:layout_marginTop="4dp"
         android:paddingHorizontal="10dp"
         android:paddingVertical="2dp"
         android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:textSize="14sp"
+        android:layout_height="40dp"
         android:gravity="center_vertical"
+        android:id="@+id/loidanTV"
+        android:textStyle="bold"
         android:background="@drawable/box_white"
-        >
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="14sp"
-                android:gravity="center_vertical"
-                android:id="@+id/loidanTV"
-                android:layout_height="wrap_content"
-                android:textColor="@color/blue_sky"/>
-        </ScrollView>
-    </LinearLayout>
+        android:textColor="@color/black"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.core.view.isVisible
 import com.example.hyv_hpv_clinicbooking.R
@@ -16,6 +17,7 @@ import com.google.firebase.database.*
 
 class DoctorPrescriptionInforPage : AppCompatActivity() {
     var name: AutoCompleteTextView? = null
+    private lateinit var scrollView: ScrollView
     var quantity: EditText? = null
     var donvi: Spinner? = null
     var using: EditText? = null
@@ -42,6 +44,7 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
         deleteBtn = findViewById(R.id.deleteBtn)
         saveBtn = findViewById(R.id.saveBtn)
         using = findViewById(R.id.using)
+        scrollView = findViewById(R.id.scrollView)
     }
 
     private fun main() {
@@ -76,6 +79,7 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                scrollToView(name!!)
             }
         })
 
@@ -95,6 +99,7 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 donViItem = donviList[p2]
+                scrollToView(donvi!!)
             }
         }
 
@@ -162,4 +167,18 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
             }
         })
     }
+
+    private fun scrollToView(view: View) {
+        // Add an OnGlobalLayoutListener to the ScrollView
+        scrollView.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                // Scroll to the desired view
+                scrollView.scrollTo(0, view.bottom)
+                // Remove the listener to avoid multiple scrolls
+                scrollView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
 }
