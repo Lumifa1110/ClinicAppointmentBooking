@@ -10,21 +10,21 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/white"
+        android:background="@drawable/box_white"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/nameTV"
             android:layout_width="match_parent"
-            android:background="@drawable/gradient_bg"
+            android:background="@drawable/wrapper_top_gradient"
             android:scrollHorizontally="true"
             android:layout_height="wrap_content"
             android:paddingVertical="6dp"
-            android:paddingHorizontal="10dp"
+            android:paddingHorizontal="20dp"
             android:layout_gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:text="Bác Sĩ Siêu Cấp Pro"/>
 
@@ -40,6 +40,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/phone_call"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,6 +67,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/email_blue"
+                    app:tint="@color/secondary" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,6 +95,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/major"
+                    app:tint="@color/secondary" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
