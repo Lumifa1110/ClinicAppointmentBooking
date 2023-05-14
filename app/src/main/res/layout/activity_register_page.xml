@@ -152,6 +152,7 @@
         android:layout_marginTop="10dp"
         android:background="@null"
         android:scaleType="fitXY"
+        app:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_left"

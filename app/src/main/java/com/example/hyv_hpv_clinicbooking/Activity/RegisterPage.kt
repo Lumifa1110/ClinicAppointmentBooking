@@ -22,7 +22,7 @@ class RegisterPage : AppCompatActivity() {
     private lateinit var registerBtn : Button
     private lateinit var registerDoctorBtn : TextView
     private lateinit var showPasswordBTN: ImageButton
-
+    private lateinit var backBTN: ImageButton
     private lateinit var userDB : DatabaseReference
     private lateinit var auth  : FirebaseAuth
 
@@ -34,6 +34,7 @@ class RegisterPage : AppCompatActivity() {
         registerBtn = findViewById(R.id.registerBtn)
         registerDoctorBtn = findViewById(R.id.registerDoctorBTN)
         showPasswordBTN = findViewById(R.id.showPassword)
+        backBTN = findViewById(R.id.backBTN)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +71,12 @@ class RegisterPage : AppCompatActivity() {
         registerDoctorBtn.setOnClickListener {
             val intent = Intent(this, RegisterDoctorPage::class.java)
             startActivity(intent)
+        }
+        backBTN.setOnClickListener {
+            // Move to Login page
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

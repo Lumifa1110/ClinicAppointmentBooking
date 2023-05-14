@@ -116,6 +116,12 @@ class RegisterDoctorPage : AppCompatActivity() {
                 PICK_IMAGE_REQUEST)
         }
 
+        backBTN?.setOnClickListener {
+            // Move to Login page
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+            finish()
+        }
         cccdSauBTN?.setOnClickListener {
             isClickCCCDTruoc = false
             isClickCCCDSau = true

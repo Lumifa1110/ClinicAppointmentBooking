@@ -32,6 +32,7 @@ class DoctorListFragment : Fragment() {
     private var mList = ArrayList<BacSi>()
     private lateinit var adapter: DoctorListAdapter
     private var quantityDoctorTV: TextView ?= null
+    private var empty: TextView ?= null
     private var specializeDoctorTV: TextView ?= null
     private lateinit var database : DatabaseReference
     var size: Int = 0
@@ -62,6 +63,7 @@ class DoctorListFragment : Fragment() {
         searchView = view.findViewById(R.id.searchView)
         quantityDoctorTV = view.findViewById(R.id.quantityDoctorTV)
         specializeDoctorTV = view.findViewById(R.id.specializeDoctorTV)
+        empty = view.findViewById(R.id.empty)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -104,17 +106,25 @@ class DoctorListFragment : Fragment() {
 
     private fun displayRecyclerView() {
         recyclerView.setHasFixedSize(true)
-        mList = ArrayList<BacSi>(mList.sortedByDescending { it.SLBenhNhan })
-        quantityDoctorTV?.setText(mList.size.toString())
+        if(mList.size == 0) {
+            empty!!.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+        }
+        else {
+            empty!!.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            mList = ArrayList<BacSi>(mList.sortedByDescending { it.SLBenhNhan })
+            quantityDoctorTV?.setText(mList.size.toString())
 
-        adapter = DoctorListAdapter(mList)
-        recyclerView.layoutManager = LinearLayoutManager(ctx)
+            adapter = DoctorListAdapter(mList)
+            recyclerView.layoutManager = LinearLayoutManager(ctx)
 
-        recyclerView.adapter = adapter
-        adapter?.onItemClick = { index ->
-            val intent = Intent(ctx, DoctorDetailPage::class.java)
-            intent.putExtra("doctor", mList[index])
-            startActivity(intent)
+            recyclerView.adapter = adapter
+            adapter?.onItemClick = { index ->
+                val intent = Intent(ctx, DoctorDetailPage::class.java)
+                intent.putExtra("doctor", mList[index])
+                startActivity(intent)
+            }
         }
     }
 
