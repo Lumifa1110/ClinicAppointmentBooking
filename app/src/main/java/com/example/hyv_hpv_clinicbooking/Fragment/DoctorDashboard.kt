@@ -4,6 +4,7 @@ import BenhNhan
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +36,8 @@ class DoctorDashboard : Fragment() {
     private lateinit var upcomingAppointmentHeader : LinearLayout
     private lateinit var upcomingAppointmentRV : RecyclerView
     private lateinit var upcomingAppointmentEmptyTV: TextView
+    private lateinit var userGreeting2: TextView
+    private lateinit var userAvatar: ImageView
 
     private lateinit var upcomingAppointmentAdapter: UpcomingAppointmentAdapter
 
@@ -42,8 +48,10 @@ class DoctorDashboard : Fragment() {
     private lateinit var userDB : DatabaseReference
     private lateinit var cuochenDB : DatabaseReference
     private lateinit var thongBaoDB : DatabaseReference
+    //Khai báo firebase storage để lấy ảnh
+    lateinit var storage: FirebaseStorage
 
-
+    var storageReference: StorageReference? = null
     var maTaiKhoan:String?= null
     var hoTenTaiKhoan: String ?= ""
 
@@ -75,6 +83,19 @@ class DoctorDashboard : Fragment() {
                     maTaiKhoan = it.key!!
                     val bacsi = it.getValue(BacSi::class.java)
                     hoTenTaiKhoan = bacsi?.HoTen ?: ""
+                    storage = FirebaseStorage.getInstance();
+                    storageReference = storage.reference;
+
+                    var ref: StorageReference = storageReference!!.child("BacSi/" + maTaiKhoan)
+
+                    ref.downloadUrl
+                        .addOnSuccessListener { uri ->
+                            Picasso.get().load(uri).into(userAvatar);
+                            Log.d("Test", " Success!")
+                        }
+                        .addOnFailureListener {
+                            Log.d("Test", " Failed!")
+                        }
                     val queryThongBaoCount = thongBaoDB.child("BacSi")
                         .orderByChild("maTaiKhoan")
                         .equalTo(maTaiKhoan)
@@ -179,9 +200,12 @@ class DoctorDashboard : Fragment() {
         upcomingAppointmentHeader = view.findViewById(R.id.upcomingAppointmentHeader)
         upcomingAppointmentRV = view.findViewById(R.id.upcomingAppointmentRV)
         upcomingAppointmentEmptyTV = view.findViewById(R.id.upcomingAppointmentEmptyTV)
+        userGreeting2 = view.findViewById(R.id.userGreeting2)
+        userAvatar = view.findViewById(R.id.userAvatar)
     }
 
     private fun initListeners() {
+        userGreeting2.setText("Bác sĩ " + hoTenTaiKhoan)
         notificationBTN.setOnClickListener {
             showDialogChuyenKhoa()
         }

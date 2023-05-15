@@ -96,10 +96,11 @@ class EditProfilePage : AppCompatActivity() {
         //Lấy loại tài khoản
         val loaiTaiKhoan = intent.getStringExtra("loaiTaiKhoan")
         if(loaiTaiKhoan == "BacSi") {
-            maTaiKhoan = "-NUGq3OnCBW17tiSzuyZ";
+//            maTaiKhoan = "-NUGq3OnCBW17tiSzuyZ";
 
             //Gán các thông tin hiện tại
             taiKhoanBS = intent.getParcelableExtra("taiKhoan")!!
+            maTaiKhoan = taiKhoanBS?.MaBacSi
             nameET?.setText(taiKhoanBS?.HoTen)
             phoneET?.setText(taiKhoanBS?.SoDienThoai)
             addressET?.setText(taiKhoanBS?.DiaChi)
@@ -121,10 +122,10 @@ class EditProfilePage : AppCompatActivity() {
         }
 
         if(loaiTaiKhoan == "BenhNhan") {
-            maTaiKhoan = "-NUGq3NRrFTwUKz84O6P"
-
+//            maTaiKhoan = "-NUGq3NRrFTwUKz84O6P"
             //Gán các thông tin hiện tại
             taiKhoanBN = intent.getParcelableExtra("taiKhoan")!!
+            maTaiKhoan = taiKhoanBN?.MaBenhNhan
             nameET?.setText(taiKhoanBN?.HoTen)
             phoneET?.setText(taiKhoanBN?.SoDienThoai)
             emailET?.setText(taiKhoanBN?.Email)

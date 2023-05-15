@@ -257,6 +257,8 @@ class AdminDashBoard : Fragment() {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 for (data in snapshot.children) {
                                     data.ref.removeValue()
+                                    searchMedicine.setQuery("", false)
+                                    searchMedicine.clearFocus()
                                 }
                                 Toast.makeText(requireContext(), "Đã xoá " + medicine.tenThuoc, Toast.LENGTH_SHORT).show()
                                 medicineAdapter.notifyDataSetChanged()
@@ -355,6 +357,8 @@ class AdminDashBoard : Fragment() {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 for (data in snapshot.children) {
                                     data.ref.removeValue()
+                                    searchUnit.setQuery("", false)
+                                    searchUnit.clearFocus()
                                 }
                                 Toast.makeText(requireContext(), "Đã xoá " + unit.tenDonVi, Toast.LENGTH_SHORT).show()
                                 unitAdapter.notifyDataSetChanged()
@@ -451,6 +455,8 @@ class AdminDashBoard : Fragment() {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 for (data in snapshot.children) {
                                     data.ref.removeValue()
+                                    searchSpecialize.setQuery("", false)
+                                    searchSpecialize.clearFocus()
                                 }
                                 Toast.makeText(requireContext(), "Đã xoá " + specialize.tenChuyenKhoa, Toast.LENGTH_SHORT).show()
                                 specializeAdapter.notifyDataSetChanged()

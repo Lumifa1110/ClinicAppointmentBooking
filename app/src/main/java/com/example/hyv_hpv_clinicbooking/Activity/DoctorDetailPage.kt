@@ -31,6 +31,7 @@ class DoctorDetailPage : AppCompatActivity() {
     var phoneTV: TextView?= null
     var backBtn: ImageButton ?= null
     var oderBtn: Button ?= null
+    var descriptionTV: TextView ?= null
 
     //Khai báo firebase storage để lấy ảnh
     lateinit var storage: FirebaseStorage
@@ -51,6 +52,7 @@ class DoctorDetailPage : AppCompatActivity() {
         backBtn = findViewById(R.id.back_button)
         oderBtn = findViewById(R.id.oderBtn)
         timeLamViecTV = findViewById(R.id.timeLamViec)
+        descriptionTV = findViewById(R.id.timeLamViec)
 
         doctor = intent.getParcelableExtra<BacSi>("doctor") as BacSi
         maBacSi = doctor?.MaBacSi
@@ -61,7 +63,7 @@ class DoctorDetailPage : AppCompatActivity() {
         addressTV?.setText("Địa chỉ: "+ doctor?.DiaChi)
         phoneTV?.setText("Liên hệ: " + doctor?.SoDienThoai)
         timeLamViecTV?.setText(doctor?.KhungGioLamViec)
-
+        descriptionTV?.setText(doctor?.Mota)
         //set avatar
         storage = FirebaseStorage.getInstance();
         storageReference = storage.reference;

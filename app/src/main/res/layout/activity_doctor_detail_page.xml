@@ -123,14 +123,14 @@
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:layout_marginEnd="4dp"
-                    app:tint="@color/black" />
+                    app:tint="@color/primary" />
                 <TextView
                     android:id="@+id/doctorSpecialist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chuyên khoa: Nha sĩ"
                     android:textSize="14sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
             </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -144,10 +144,10 @@
                     android:padding="2dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/location"
-                    app:tint="@color/black"
-                    android:layout_marginTop="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:tint="@color/primary" />
                 <TextView
                     android:id="@+id/doctorAddress"
                     android:layout_width="match_parent"
@@ -168,14 +168,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:padding="2dp"
-                    android:scaleType="fitXY"
+                    android:layout_width="16dp"
+                    android:layout_height="19dp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="6dp"
+                    android:padding="2dp"
+                    android:scaleType="fitXY"
                     android:src="@drawable/contact"
-                    app:tint="@color/black" />
+                    app:tint="@color/primary" />
                 <TextView
                     android:textSize="14sp"
                     android:id="@+id/doctorPhone"
@@ -349,17 +349,19 @@
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/box_date"
         >
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            >
+            android:scrollbars="none">
+
             <TextView
-                android:textSize="14sp"
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Nha sĩ là chuyên gia trong việc chăm sóc răng miệng và hệ thống răng. Họ có thể thực hiện các dịch vụ từ chẩn đoán các vấn đề răng miệng đến các phương pháp điều trị như sửa chữa răng, tẩy trắng răng. Nha sĩ cần có trình độ chuyên môn cao và kỹ năng tay nghề tốt để thực hiện các thủ tục liên quan đến răng miệng."
                 android:textColor="@color/black"
-                android:text="Nha sĩ là chuyên gia trong việc chăm sóc răng miệng và hệ thống răng. Họ có thể thực hiện các dịch vụ từ chẩn đoán các vấn đề răng miệng đến các phương pháp điều trị như sửa chữa răng, tẩy trắng răng. Nha sĩ cần có trình độ chuyên môn cao và kỹ năng tay nghề tốt để thực hiện các thủ tục liên quan đến răng miệng."/>
+                android:textSize="14sp" />
         </ScrollView>
     </LinearLayout>
 

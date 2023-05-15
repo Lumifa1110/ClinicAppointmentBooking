@@ -2,7 +2,9 @@ package com.example.hyv_hpv_clinicbooking.Fragment
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailPage
 import com.example.hyv_hpv_clinicbooking.Adapter.BestDoctorAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.UpcomingAppointmentAdapter
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
@@ -24,6 +27,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -38,6 +44,8 @@ class UserHomeFragment : Fragment() {
     private lateinit var upcomingAppointmentEmptyTV: TextView
     private lateinit var bestDoctorRV : RecyclerView
     private lateinit var bestDoctorEmptyTV: TextView
+    private lateinit var userGreeting2: TextView
+    private lateinit var userAvatar: ImageView
 
     private lateinit var upcomingAppointmentAdapter: UpcomingAppointmentAdapter
     private lateinit var bestDoctorAdapter: BestDoctorAdapter
@@ -49,6 +57,9 @@ class UserHomeFragment : Fragment() {
     private lateinit var userDB : DatabaseReference
     private lateinit var cuochenDB : DatabaseReference
     private lateinit var thongBaoDB : DatabaseReference
+    //Khai báo firebase storage để lấy ảnh
+    lateinit var storage: FirebaseStorage
+    var storageReference: StorageReference? = null
 
     var maTaiKhoan:String?= null
     var hoTenTaiKhoan: String ?= ""
@@ -77,6 +88,19 @@ class UserHomeFragment : Fragment() {
                     maTaiKhoan = it.key!!
                     val benhNhan = it.getValue(BacSi::class.java)
                     hoTenTaiKhoan = benhNhan?.HoTen ?: ""
+                    storage = FirebaseStorage.getInstance();
+                    storageReference = storage.reference;
+
+                    var ref: StorageReference = storageReference!!.child("BenhNhan/" + maTaiKhoan)
+
+                    ref.downloadUrl
+                        .addOnSuccessListener { uri ->
+                            Picasso.get().load(uri).into(userAvatar);
+                            Log.d("Test", " Success!")
+                        }
+                        .addOnFailureListener {
+                            Log.d("Test", " Failed!")
+                        }
                     val queryThongBaoCount = thongBaoDB.child("BenhNhan")
                         .orderByChild("maTaiKhoan")
                         .equalTo(maTaiKhoan)
@@ -191,6 +215,11 @@ class UserHomeFragment : Fragment() {
         bestDoctorRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         bestDoctorRV.adapter = bestDoctorAdapter
+        bestDoctorAdapter?.onItemClick = { index ->
+            val intent = Intent(ctx, DoctorDetailPage::class.java)
+            intent.putExtra("doctor", bestDoctorList[index])
+            startActivity(intent)
+        }
     }
 
     private fun initWidgets(view: View) {
@@ -201,9 +230,12 @@ class UserHomeFragment : Fragment() {
         upcomingAppointmentEmptyTV = view.findViewById(R.id.upcomingAppointmentEmptyTV)
         bestDoctorRV = view.findViewById(R.id.bestDoctorRV)
         bestDoctorEmptyTV = view.findViewById(R.id.bestDoctorEmptyTV)
+        userGreeting2 = view.findViewById(R.id.userGreeting2)
+        userAvatar = view.findViewById(R.id.userAvatar)
     }
 
     private fun initListeners() {
+        userGreeting2.setText("Chào "+ hoTenTaiKhoan+ ", bạn thế nào?")
         notificationBTN.setOnClickListener {
             showDialogChuyenKhoa()
         }

@@ -2,6 +2,7 @@ package com.example.hyv_hpv_clinicbooking.Fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -69,6 +70,7 @@ class DoctorChooseFreeTimeFragment : Fragment() {
     var addBTN: Button? = null
     var cancelBTN: Button? = null
     var customDialog: AlertDialog? = null
+    var ctx: Context?= null
 
     //Khai báo database
     private lateinit var database: DatabaseReference
@@ -89,6 +91,7 @@ class DoctorChooseFreeTimeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ctx = view.context
         customListView = view.findViewById(R.id.dayRV)
         morningTimeView = view.findViewById<GridView>(R.id.morningGV)
         afternoonTimeView = view.findViewById<GridView>(R.id.afternoonGV)
@@ -172,7 +175,7 @@ class DoctorChooseFreeTimeFragment : Fragment() {
                         adapter = DayAdapter(dayList)
                         customListView!!.adapter = adapter
                         val layoutManager =
-                            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                            LinearLayoutManager(ctx!!, LinearLayoutManager.HORIZONTAL, false)
                         customListView!!.layoutManager = layoutManager
                         adapter?.notifyDataSetChanged()
 
@@ -212,7 +215,7 @@ class DoctorChooseFreeTimeFragment : Fragment() {
                             hienThiTimeTrongNgay(dayChoose)
                         }
                         addTimeBTN?.setOnClickListener {
-                            val builder = AlertDialog.Builder(requireContext())
+                            val builder = AlertDialog.Builder(ctx!!)
                             //Hiển thị dialog để chọn time
                             var view_dialog: View =
                                 requireActivity().layoutInflater.inflate(R.layout.dialog_picktime, null)
@@ -252,7 +255,7 @@ class DoctorChooseFreeTimeFragment : Fragment() {
                                             keyMorning.add(key)
                                             sortTime(1)
                                             timeAdapter = TimeAdapter(
-                                                requireContext(),
+                                                ctx!!,
                                                 morningList,
                                                 database,
                                                 keyMorning
@@ -263,7 +266,7 @@ class DoctorChooseFreeTimeFragment : Fragment() {
                                             keyAfternoon.add(key)
                                             sortTime(2)
                                             afternoonAdapter = TimeAdapter(
-                                                requireContext(),
+                                                ctx!!,
                                                 afternoonList,
                                                 database,
                                                 keyAfternoon
@@ -383,10 +386,10 @@ class DoctorChooseFreeTimeFragment : Fragment() {
             index += 1
         }
 
-        timeAdapter = TimeAdapter(requireContext(), morningList, database, keyMorning)
+        timeAdapter = TimeAdapter(ctx!!, morningList, database, keyMorning)
         morningTimeView?.adapter = timeAdapter
 
-        afternoonAdapter = TimeAdapter(requireContext(), afternoonList, database, keyAfternoon)
+        afternoonAdapter = TimeAdapter(ctx!!, afternoonList, database, keyAfternoon)
         afternoonTimeView?.adapter = afternoonAdapter
     }
 

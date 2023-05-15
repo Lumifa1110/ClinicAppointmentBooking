@@ -5,13 +5,14 @@
         android:title="@string/labelHome"
         android:icon="@drawable/home"/>
     <item
+        android:id="@+id/doctorSchedule"
+        android:title="@string/labelScheduled"
+        android:icon="@drawable/calendar_icon"/>
+    <item
         android:id="@+id/doctorAppoinment"
         android:title="@string/labelAppoinmentList"
         android:icon="@drawable/history"/>
-    <item
-        android:id="@+id/doctorSchedule"
-        android:title="@string/labelScheduled"
-        android:icon="@drawable/search"/>
+
     <item
         android:id="@+id/doctorProfile"
         android:title="@string/labelUserProfile"

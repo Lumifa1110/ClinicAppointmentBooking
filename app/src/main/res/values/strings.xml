@@ -15,8 +15,8 @@
     <string name="labelSchedule">LỊCH TRÌNH</string>
     <string name="labelPrescription">ĐIỀU TRỊ</string>
     <string name="labelHistory">LỊCH SỬ</string>
-    <string name="labelAppointmentHistory">CUỘC HẸN ĐÃ ĐẶT</string>
-    <string name="labelUserProfile">THÔNG TIN CÁ NHÂN</string>
+    <string name="labelAppointmentHistory">CUỘC HẸN</string>
+    <string name="labelUserProfile">THÔNG TIN</string>
     <string name="labelOncomingAppointment">Cuộc hẹn sắp tới</string>
     <string name="labelLastestAppointment">Cuộc hẹn vừa kết thúc</string>
     <string name="labelTopDoctor">Bác sĩ ưu tú</string>
