@@ -4,10 +4,12 @@ import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.RequiresApi
+import com.example.hyv_hpv_clinicbooking.R
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class UpcomingAppointmentData (
+    var MaTaiKhoan: Int = R.drawable.default_avatar,
     var HoTen: String = "",
     var TenChuyenKhoa: String = "",
     var Ngay: String = "",
@@ -15,6 +17,7 @@ data class UpcomingAppointmentData (
 ): Parcelable {
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
+        parcel.readInt()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -23,6 +26,7 @@ data class UpcomingAppointmentData (
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(MaTaiKhoan)
         parcel.writeString(HoTen)
         parcel.writeString(TenChuyenKhoa)
         parcel.writeString(Ngay)

@@ -149,7 +149,10 @@ class EditProfilePage : AppCompatActivity() {
                 avatar = findViewById(R.id.avatar)
                 Picasso.get().load(uri).into(avatar);
                 Log.d("Test", " Success!")
-            }.addOnFailureListener { Log.d("Test", " Failed!") }
+            }.addOnFailureListener {
+                Log.d("Test", " Failed!")
+                avatar?.setImageResource(R.drawable.default_avatar)
+            }
         }
 
         if (loaiTaiKhoan == "adminBacSi") {

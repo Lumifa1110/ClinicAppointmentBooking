@@ -211,6 +211,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:background="@null"
+        app:tint="@color/white"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -52,10 +52,9 @@ class PrescriptionActivity : AppCompatActivity() {
         val appoinment = intent.getParcelableExtra<CuocHen>("appoinment") as CuocHen
 
         if (people.equals("patient")) {
-            peopleTV?.setText("Bệnh nhân")
-
-        } else {
             peopleTV?.setText("Bác sĩ")
+        } else {
+            peopleTV?.setText("Bệnh nhân")
         }
 
         nameTV?.setText(name)

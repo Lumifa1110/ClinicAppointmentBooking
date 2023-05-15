@@ -52,7 +52,7 @@ class DoctorDetailPage : AppCompatActivity() {
         backBtn = findViewById(R.id.back_button)
         oderBtn = findViewById(R.id.oderBtn)
         timeLamViecTV = findViewById(R.id.timeLamViec)
-        descriptionTV = findViewById(R.id.timeLamViec)
+        descriptionTV = findViewById(R.id.description)
 
         doctor = intent.getParcelableExtra<BacSi>("doctor") as BacSi
         maBacSi = doctor?.MaBacSi

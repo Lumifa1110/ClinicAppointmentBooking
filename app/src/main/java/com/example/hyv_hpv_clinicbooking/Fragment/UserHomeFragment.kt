@@ -1,5 +1,6 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
+import BenhNhan
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -87,7 +88,7 @@ class UserHomeFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach { it ->
                     maTaiKhoan = it.key!!
-                    val benhNhan = it.getValue(BacSi::class.java)
+                    val benhNhan = it.getValue(BenhNhan::class.java)
                     hoTenTaiKhoan = benhNhan?.HoTen ?: ""
                     storage = FirebaseStorage.getInstance();
                     storageReference = storage.reference;
@@ -103,6 +104,7 @@ class UserHomeFragment : Fragment() {
                         }
                         .addOnFailureListener {
                             Log.d("Test", " Failed!")
+                            userAvatar?.setImageResource(R.drawable.default_avatar)
                         }
                     val queryThongBaoCount = thongBaoDB.child("BenhNhan")
                         .orderByChild("maTaiKhoan")

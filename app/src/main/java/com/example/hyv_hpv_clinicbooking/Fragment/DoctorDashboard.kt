@@ -89,6 +89,7 @@ class DoctorDashboard : Fragment() {
                         }
                         .addOnFailureListener {
                             Log.d("Test", " Failed!")
+                            userAvatar?.setImageResource(R.drawable.default_avatar)
                         }
                     val queryThongBaoCount = thongBaoDB.child("BacSi")
                         .orderByChild("maTaiKhoan")
