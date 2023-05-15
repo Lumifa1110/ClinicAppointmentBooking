@@ -65,15 +65,9 @@ class DoctorDashboard : Fragment() {
         return inflater.inflate(R.layout.fragment_doctor_dashboard, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        ctx = view.context
-        database = Firebase.database.reference
-        auth = FirebaseAuth.getInstance()
-        userDB = Firebase.database.getReference("Users")
-        cuochenDB = Firebase.database.getReference("CuocHen")
-        thongBaoDB = Firebase.database.getReference("ThongBao")
-
+    override fun onStart() {
+        super.onStart()
+        upcomingAppointmentList.clear()
         val queryBacSiKey = userDB.child("BacSi")
             .orderByChild("email")
             .equalTo(auth.currentUser!!.email)
@@ -178,12 +172,22 @@ class DoctorDashboard : Fragment() {
                         override fun onCancelled(databaseError: DatabaseError) {}
                     })
                 }
-                initWidgets(view)
-                initListeners()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initWidgets(view)
+        initListeners()
+        ctx = view.context
+        database = Firebase.database.reference
+        auth = FirebaseAuth.getInstance()
+        userDB = Firebase.database.getReference("Users")
+        cuochenDB = Firebase.database.getReference("CuocHen")
+        thongBaoDB = Firebase.database.getReference("ThongBao")
     }
 
     private fun displayUpcomingAppointmentList() {
