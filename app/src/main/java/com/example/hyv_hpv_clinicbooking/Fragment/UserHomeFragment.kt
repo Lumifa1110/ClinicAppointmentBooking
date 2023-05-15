@@ -37,6 +37,7 @@ import kotlin.collections.ArrayList
 
 class UserHomeFragment : Fragment() {
 
+    private lateinit var userGreetingTV : TextView
     private lateinit var notificationBTN : FrameLayout
     private lateinit var notificationCounter : TextView
     private lateinit var upcomingAppointmentHeader : LinearLayout
@@ -90,6 +91,8 @@ class UserHomeFragment : Fragment() {
                     hoTenTaiKhoan = benhNhan?.HoTen ?: ""
                     storage = FirebaseStorage.getInstance();
                     storageReference = storage.reference;
+
+                    userGreetingTV.text = "Chào ${hoTenTaiKhoan}, bạn cảm thấy thế nào?"
 
                     var ref: StorageReference = storageReference!!.child("BenhNhan/" + maTaiKhoan)
 
@@ -223,6 +226,7 @@ class UserHomeFragment : Fragment() {
     }
 
     private fun initWidgets(view: View) {
+        userGreetingTV = view.findViewById(R.id.userGreeting2)
         notificationBTN = view.findViewById(R.id.notificationBTN)
         notificationCounter = view.findViewById(R.id.notificationCounter)
         upcomingAppointmentHeader = view.findViewById(R.id.upcomingAppointmentHeader)

@@ -21,7 +21,7 @@ data class BacSi (
     var Email: String = "",
     var Mota: String = "",
     var PassWord: String = "",
-    var BiKhoa: Boolean = true,
+    var BiKhoa: Boolean = false,
     var KhungGioLamViec:String = "",
     var Cccd: String = ""
     ): Parcelable {

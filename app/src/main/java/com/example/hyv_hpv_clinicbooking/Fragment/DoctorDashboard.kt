@@ -156,15 +156,14 @@ class DoctorDashboard : Fragment() {
                                                             upcomingAppointmentData
                                                         )
                                                     }
+                                                    if (upcomingAppointmentList.isEmpty()) {
+                                                        upcomingAppointmentEmptyTV.visibility = View.VISIBLE
+                                                    }
                                                     displayUpcomingAppointmentList()
                                                 }
 
                                                 override fun onCancelled(databaseError: DatabaseError) {}
                                             })
-                                        }
-                                        else {
-                                            upcomingAppointmentHeader.visibility = View.GONE
-                                            upcomingAppointmentRV.visibility = View.GONE
                                         }
                                     }
                                 }

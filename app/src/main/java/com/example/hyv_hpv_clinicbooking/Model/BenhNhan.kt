@@ -12,7 +12,7 @@ data class BenhNhan (
     var Email: String = "",
     var PassWord: String = "",
     var Image: Int = R.drawable.avatar,
-    var BiKhoa: Boolean = true
+    var BiKhoa: Boolean = false
     ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,

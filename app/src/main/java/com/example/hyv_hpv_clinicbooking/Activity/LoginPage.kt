@@ -121,18 +121,20 @@ class LoginPage : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         if (auth.currentUser!!.isEmailVerified) {
-                            // Kiểm tra nếu tài khoản là Bác sĩ chưa chưa duyệt hoặc bị khóa
+                            // Kiểm tra nếu tài khoản là Bác sĩ chưa được duyệt
                             val queryBacSiChoDuyet = Firebase.database.getReference("BacSiChoDuyet")
                                 .orderByChild("email")
                                 .equalTo(email)
                             queryBacSiChoDuyet.addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    // Là Bác sĩ chưa được duyệt
                                     if (dataSnapshot.exists()) {
                                         Toast.makeText(applicationContext
                                             , "Tài khoản bác sĩ đang chờ được duyệt"
                                             , Toast.LENGTH_SHORT)
                                             .show()
                                     }
+                                    // Kiểm tra nếu tài khoản là Bác sĩ đang bị khóa
                                     else {
                                         val queryBacSiBiKhoa = userDB.child("BacSi")
                                             .orderByChild("email")
@@ -142,12 +144,14 @@ class LoginPage : AppCompatActivity() {
                                                 if (dataSnapshot.exists()) {
                                                     dataSnapshot.children.forEach { it ->
                                                         val bacsi = it.getValue(BacSi::class.java)
+                                                        // là Bác sĩ đang bị khóa
                                                         if (bacsi!!.BiKhoa) {
                                                             Toast.makeText(applicationContext
                                                                 , "Tài khoản bác sĩ đang bị khóa"
                                                                 , Toast.LENGTH_SHORT)
                                                                 .show()
                                                         }
+                                                        // là Bác sĩ được đăng nhập
                                                         else {
                                                             // Login success
                                                             Toast.makeText(
@@ -160,15 +164,41 @@ class LoginPage : AppCompatActivity() {
                                                         }
                                                     }
                                                 }
+                                                // Kiểm tra là Bệnh nhân đang bị khóa
                                                 else {
-                                                    // Login success
-                                                    Toast.makeText(
-                                                        applicationContext,
-                                                        getString(R.string.toastLoginSuccess),
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                    // Get User role and Switch to Homepage
-                                                    getUserRole(auth.currentUser!!)
+                                                    val queryBenhNhanBiKhoa = userDB.child("BenhNhan")
+                                                        .orderByChild("email")
+                                                        .equalTo(email)
+                                                    queryBenhNhanBiKhoa.addListenerForSingleValueEvent(object : ValueEventListener {
+                                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                            if (dataSnapshot.exists()) {
+                                                                dataSnapshot.children.forEach { it ->
+                                                                    val benhnhan =
+                                                                        it.getValue(BenhNhan::class.java)
+                                                                    // là Bệnh nhân đang bị khóa
+                                                                    if (benhnhan!!.BiKhoa) {
+                                                                        Toast.makeText(
+                                                                            applicationContext,
+                                                                            "Tài khoản bệnh nhân đang bị khóa",
+                                                                            Toast.LENGTH_SHORT
+                                                                        ).show()
+                                                                    // là Bệnh nhân hoặc Admin được đăng nhập
+                                                                    } else {
+                                                                        // Login success
+                                                                        Toast.makeText(
+                                                                            applicationContext,
+                                                                            getString(R.string.toastLoginSuccess),
+                                                                            Toast.LENGTH_SHORT
+                                                                        ).show()
+                                                                        // Get User role and Switch to Homepage
+                                                                        getUserRole(auth.currentUser!!)
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        override fun onCancelled(databaseError: DatabaseError) {}
+                                                    })
                                                 }
                                             }
 
@@ -335,16 +365,38 @@ class LoginPage : AppCompatActivity() {
                                 }
                             }
                         }
-                        else {
-                            // Login success
-                            Toast.makeText(
-                                applicationContext,
-                                getString(R.string.toastLoginSuccess),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            // Switch to Homepage
-                            startHomePage("BenhNhan")
-                        }
+                        val queryBenhNhanBiKhoa = userDB.child("BenhNhan")
+                            .orderByChild("email")
+                            .equalTo(auth.currentUser!!.email)
+                        queryBenhNhanBiKhoa.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    dataSnapshot.children.forEach { it ->
+                                        val benhnhan = it.getValue(BenhNhan::class.java)
+                                        // là Bệnh nhân đang bị khóa
+                                        if (benhnhan!!.BiKhoa) {
+                                            Toast.makeText(
+                                                applicationContext,
+                                                "Tài khoản bệnh nhân đang bị khóa",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            // là Bệnh nhân được đăng nhập
+                                        } else {
+                                            // Login success
+                                            Toast.makeText(
+                                                applicationContext,
+                                                getString(R.string.toastLoginSuccess),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            // Get User role and Switch to Homepage
+                                            getUserRole(auth.currentUser!!)
+                                        }
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {}
+                        })
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {}
