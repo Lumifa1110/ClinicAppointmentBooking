@@ -14,26 +14,44 @@
         android:background="@drawable/wrapper_rounded_primary"
         android:orientation="vertical"
         android:paddingStart="10dp"
-        android:paddingTop="8dp"
+        android:paddingTop="15dp"
         android:paddingEnd="10dp"
         android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/doctorAvatar"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
+<!--        <ImageView-->
+<!--            android:id="@+id/doctorAvatar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="120dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:contentDescription="@string/description"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/avatar" />-->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/avatarCardView"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_gravity="center"
-            android:contentDescription="@string/description"
-            android:scaleType="centerCrop"
-            android:src="@drawable/avatar" />
+            android:orientation="vertical"
+            app:cardCornerRadius="250dp">
+
+            <ImageView
+                android:id="@+id/userAvatar"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_avatar" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/doctorName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text=""
@@ -44,7 +62,7 @@
         <TextView
             android:id="@+id/doctorSpecialist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_marginTop="2dp"
             android:gravity="center"
             android:text=""
