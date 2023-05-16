@@ -359,7 +359,7 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nha sĩ là chuyên gia trong việc chăm sóc răng miệng và hệ thống răng. Họ có thể thực hiện các dịch vụ từ chẩn đoán các vấn đề răng miệng đến các phương pháp điều trị như sửa chữa răng, tẩy trắng răng. Nha sĩ cần có trình độ chuyên môn cao và kỹ năng tay nghề tốt để thực hiện các thủ tục liên quan đến răng miệng."
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </ScrollView>

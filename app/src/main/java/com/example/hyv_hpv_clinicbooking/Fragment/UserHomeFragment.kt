@@ -238,8 +238,8 @@ class UserHomeFragment : Fragment() {
     }
 
     private fun displayBestDoctorList() {
-        bestDoctorList
-        bestDoctorAdapter = BestDoctorAdapter(bestDoctorList)
+        bestDoctorList  = ArrayList<BacSi>(bestDoctorList.sortedByDescending { it.SLBenhNhan })
+        bestDoctorAdapter = BestDoctorAdapter(bestDoctorList.subList(0, 5))
         bestDoctorRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         bestDoctorRV.adapter = bestDoctorAdapter
