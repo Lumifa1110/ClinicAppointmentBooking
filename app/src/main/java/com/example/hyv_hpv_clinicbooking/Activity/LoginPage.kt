@@ -51,9 +51,7 @@ class LoginPage : AppCompatActivity() {
         loginBTN = findViewById(R.id.loginBTN)
         dangKi = findViewById(R.id.dangKi)
         resetPasswordBTN = findViewById(R.id.resetPasswordBTN)
-        createNewAccountBTN = findViewById(R.id.createNewAccountBTN)
         loginGoogleBTN = findViewById(R.id.googleButton)
-        loginFacebookBTN = findViewById(R.id.facebookButton)
         showPasswordBTN = findViewById(R.id.showPassword)
     }
 
@@ -87,9 +85,7 @@ class LoginPage : AppCompatActivity() {
         resetPasswordBTN.setOnClickListener {
             resetPassword()
         }
-        createNewAccountBTN.setOnClickListener {
-            createNewAccount()
-        }
+
         loginGoogleBTN.setOnClickListener {
             loginGoogle()
         }
