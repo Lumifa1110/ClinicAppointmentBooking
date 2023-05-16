@@ -116,22 +116,14 @@
                 android:id="@+id/resetPasswordBTN"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/labelForgotPassword"
-                android:textSize="15sp" />
+                android:textAlignment="textEnd"
+                android:textSize="15sp"
+                tools:ignore="TouchTargetSizeCheck" />
 
-            <TextView
-                android:id="@+id/createNewAccountBTN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/labelCreateNewAccount"
-                android:textSize="15sp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -167,16 +159,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
-
-        <ImageButton
-            android:id="@+id/facebookButton"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:layout_marginRight="10sp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/facebook"
-            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/googleButton"
