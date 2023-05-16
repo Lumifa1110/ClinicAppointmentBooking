@@ -156,7 +156,7 @@
                 android:layout_marginHorizontal="20sp"
                 android:background="@drawable/custom_et"
                 android:layout_marginTop="15sp"
-                android:drawableLeft="@drawable/phone_call"
+                android:drawableLeft="@drawable/cccd"
                 android:drawablePadding="10dp"
                 android:hint="Căn cước công dân"
                 android:padding="10dp"
