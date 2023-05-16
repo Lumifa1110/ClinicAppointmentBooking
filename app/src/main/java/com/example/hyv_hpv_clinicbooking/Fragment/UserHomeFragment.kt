@@ -146,6 +146,7 @@ class UserHomeFragment : Fragment() {
                                                     val hotenbacsi = "Bác sĩ ${bacsi!!.HoTen}"
                                                     val tenchuyenkhoa = "Chuyên khoa: ${bacsi.TenChuyenKhoa}"
                                                     val upcomingAppointmentData = UpcomingAppointmentData(
+                                                        MaTaiKhoan = bacsi!!.MaBacSi,
                                                         HoTen = hotenbacsi,
                                                         TenChuyenKhoa = tenchuyenkhoa,
                                                         Ngay = ngay,
@@ -209,7 +210,7 @@ class UserHomeFragment : Fragment() {
     }
 
     private fun displayUpcomingAppointmentList() {
-        upcomingAppointmentAdapter = UpcomingAppointmentAdapter(upcomingAppointmentList)
+        upcomingAppointmentAdapter = UpcomingAppointmentAdapter(upcomingAppointmentList, 0)
         upcomingAppointmentRV.layoutManager = LinearLayoutManager(context)
 
         upcomingAppointmentRV.adapter = upcomingAppointmentAdapter

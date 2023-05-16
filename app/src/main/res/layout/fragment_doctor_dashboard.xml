@@ -46,7 +46,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/description"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/avatar" />
+                    android:src="@drawable/avatar_doctor_default" />
             </androidx.cardview.widget.CardView>
 
             <View
