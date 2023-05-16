@@ -9,15 +9,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UpcomingAppointmentData (
-    var MaTaiKhoan: Int = R.drawable.default_avatar,
+    var MaTaiKhoan: String = "",
     var HoTen: String = "",
+    var SoDienThoai: String = "",
     var TenChuyenKhoa: String = "",
     var Ngay: String = "",
     var ThoiGian: String = "",
 ): Parcelable {
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
-        parcel.readInt()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -26,7 +28,8 @@ data class UpcomingAppointmentData (
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(MaTaiKhoan)
+        parcel.writeString(MaTaiKhoan)
+        parcel.writeString(SoDienThoai)
         parcel.writeString(HoTen)
         parcel.writeString(TenChuyenKhoa)
         parcel.writeString(Ngay)

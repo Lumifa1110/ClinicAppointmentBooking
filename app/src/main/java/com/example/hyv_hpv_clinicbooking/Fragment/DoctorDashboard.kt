@@ -139,11 +139,12 @@ class DoctorDashboard : Fragment() {
                                                         val benhnhan = it.getValue(BenhNhan::class.java)
                                                         val hotenbenhnhan =
                                                             "Bệnh nhân ${benhnhan!!.HoTen}"
-                                                        val tenchuyenkhoa = ""
+                                                        val sdt = "Số điện thoại: ${benhnhan!!.SoDienThoai}"
                                                         val upcomingAppointmentData =
                                                             UpcomingAppointmentData(
+                                                                MaTaiKhoan = benhnhan!!.MaBenhNhan,
                                                                 HoTen = hotenbenhnhan,
-                                                                TenChuyenKhoa = tenchuyenkhoa,
+                                                                SoDienThoai = sdt,
                                                                 Ngay = ngay,
                                                                 ThoiGian = thoigian
                                                             )
@@ -159,6 +160,10 @@ class DoctorDashboard : Fragment() {
 
                                                 override fun onCancelled(databaseError: DatabaseError) {}
                                             })
+                                        }
+                                        else {
+                                            upcomingAppointmentEmptyTV.visibility = View.VISIBLE
+                                            upcomingAppointmentRV.visibility = View.GONE
                                         }
                                     }
                                 }
@@ -192,7 +197,7 @@ class DoctorDashboard : Fragment() {
     }
 
     private fun displayUpcomingAppointmentList() {
-        upcomingAppointmentAdapter = UpcomingAppointmentAdapter(upcomingAppointmentList)
+        upcomingAppointmentAdapter = UpcomingAppointmentAdapter(upcomingAppointmentList, 1)
         upcomingAppointmentRV.layoutManager = LinearLayoutManager(context)
 
         upcomingAppointmentRV.adapter = upcomingAppointmentAdapter
