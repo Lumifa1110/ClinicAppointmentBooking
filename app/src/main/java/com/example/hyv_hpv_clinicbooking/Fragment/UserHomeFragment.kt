@@ -123,6 +123,13 @@ class UserHomeFragment : Fragment() {
 
                         override fun onCancelled(error: DatabaseError) {}
                     })
+                    val currentDate = Calendar.getInstance().apply {
+                        time = Date()
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }.time
                     val queryCuocHen = cuochenDB.orderByChild("maBenhNhan").equalTo(maTaiKhoan)
                     queryCuocHen.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -133,32 +140,46 @@ class UserHomeFragment : Fragment() {
                                 upcomingAppointmentRV.visibility = View.VISIBLE
                                 dataSnapshot.children.forEach { it ->
                                     val cuochen = it.getValue(CuocHen::class.java)
-                                    if(cuochen!!.MaTrangThai == 1) {
-                                        val ngay = "Ngày: ${cuochen!!.Ngay}"
-                                        val thoigian = "Thời gian: ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
-                                        val queryDoctorInfo = userDB.child("BacSi")
-                                            .orderByChild("maBacSi")
-                                            .equalTo(cuochen.MaBacSi)
-                                        queryDoctorInfo.addListenerForSingleValueEvent(object : ValueEventListener {
-                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                                dataSnapshot.children.forEach { it ->
-                                                    val bacsi = it.getValue(BacSi::class.java)
-                                                    val hotenbacsi = "Bác sĩ ${bacsi!!.HoTen}"
-                                                    val tenchuyenkhoa = "Chuyên khoa: ${bacsi.TenChuyenKhoa}"
-                                                    val upcomingAppointmentData = UpcomingAppointmentData(
-                                                        MaTaiKhoan = bacsi!!.MaBacSi,
-                                                        HoTen = hotenbacsi,
-                                                        TenChuyenKhoa = tenchuyenkhoa,
-                                                        Ngay = ngay,
-                                                        ThoiGian = thoigian
-                                                    )
-                                                    upcomingAppointmentList.add(upcomingAppointmentData)
-                                                }
-                                                displayUpcomingAppointmentList()
-                                            }
+                                    val myDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(cuochen!!.Ngay)
 
-                                            override fun onCancelled(databaseError: DatabaseError) {}
-                                        })
+                                    if (myDate.compareTo(currentDate) >= 0) {
+                                        if (cuochen!!.MaTrangThai == 1) {
+                                            val ngay = "Ngày: ${cuochen!!.Ngay}"
+                                            val thoigian =
+                                                "Thời gian: ${cuochen.GioBatDau} - ${cuochen.GioKetThuc}"
+                                            val queryDoctorInfo = userDB.child("BacSi")
+                                                .orderByChild("maBacSi")
+                                                .equalTo(cuochen.MaBacSi)
+                                            queryDoctorInfo.addListenerForSingleValueEvent(object :
+                                                ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                    dataSnapshot.children.forEach { it ->
+                                                        val bacsi = it.getValue(BacSi::class.java)
+                                                        val hotenbacsi = "Bác sĩ ${bacsi!!.HoTen}"
+                                                        val tenchuyenkhoa =
+                                                            "Chuyên khoa: ${bacsi.TenChuyenKhoa}"
+                                                        val upcomingAppointmentData =
+                                                            UpcomingAppointmentData(
+                                                                MaTaiKhoan = bacsi!!.MaBacSi,
+                                                                HoTen = hotenbacsi,
+                                                                TenChuyenKhoa = tenchuyenkhoa,
+                                                                Ngay = ngay,
+                                                                ThoiGian = thoigian
+                                                            )
+                                                        upcomingAppointmentList.add(
+                                                            upcomingAppointmentData
+                                                        )
+                                                    }
+                                                    displayUpcomingAppointmentList()
+                                                }
+
+                                                override fun onCancelled(databaseError: DatabaseError) {}
+                                            })
+                                        }
+                                    }
+                                    else {
+                                        upcomingAppointmentEmptyTV.visibility = View.VISIBLE
+                                        upcomingAppointmentRV.visibility = View.GONE
                                     }
                                 }
                             }
@@ -217,6 +238,7 @@ class UserHomeFragment : Fragment() {
     }
 
     private fun displayBestDoctorList() {
+        bestDoctorList
         bestDoctorAdapter = BestDoctorAdapter(bestDoctorList)
         bestDoctorRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 

@@ -161,6 +161,10 @@ class DoctorDashboard : Fragment() {
                                                 override fun onCancelled(databaseError: DatabaseError) {}
                                             })
                                         }
+                                        else {
+                                            upcomingAppointmentEmptyTV.visibility = View.VISIBLE
+                                            upcomingAppointmentRV.visibility = View.GONE
+                                        }
                                     }
                                 }
                             }

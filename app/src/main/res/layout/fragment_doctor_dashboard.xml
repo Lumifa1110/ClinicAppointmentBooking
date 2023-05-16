@@ -157,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/labelOncomingAppointment"
+                    android:text="Cuộc hẹn trong ngày"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -170,7 +170,7 @@
                     android:layout_weight="4"
                     android:clickable="true"
                     android:text="@string/labelSeeAll"
-                    android:textColor="@color/primary_color"
+                    android:textColor="@color/primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
