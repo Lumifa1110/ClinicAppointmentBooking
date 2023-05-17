@@ -180,6 +180,7 @@ class LoginPage : AppCompatActivity() {
                                                                         ).show()
                                                                     // là Bệnh nhân hoặc Admin được đăng nhập
                                                                     } else {
+                                                                        println("huhuhu")
                                                                         // Login success
                                                                         Toast.makeText(
                                                                             applicationContext,
@@ -190,6 +191,8 @@ class LoginPage : AppCompatActivity() {
                                                                         getUserRole(auth.currentUser!!)
                                                                     }
                                                                 }
+                                                            } else {
+                                                                getUserRole(auth.currentUser!!)
                                                             }
                                                         }
 
