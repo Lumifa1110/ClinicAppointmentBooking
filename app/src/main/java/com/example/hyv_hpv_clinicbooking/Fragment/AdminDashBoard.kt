@@ -541,8 +541,8 @@ class AdminDashBoard : Fragment() {
 
     private fun showResetMedicineDialog() {
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext()!!)
-        alertDialog.setTitle("Hủy cuộc hẹn")
-        alertDialog.setMessage("Bạn có muốn hủy cuộc hẹn này không?")
+        alertDialog.setTitle("Tải lại Nhà Thuốc")
+        alertDialog.setMessage("Bạn có muốn tải lại Nhà Thuốc này không?")
         alertDialog.setPositiveButton(
             "Có"
         ) { _, _ ->
