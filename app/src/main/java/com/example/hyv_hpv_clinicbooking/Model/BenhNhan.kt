@@ -10,14 +10,12 @@ data class BenhNhan (
     var HoTen: String = "",
     var SoDienThoai: String = "",
     var Email: String = "",
-    var PassWord: String = "",
     var Image: Int = R.drawable.avatar,
     var BiKhoa: Boolean = false
     ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readInt()!!,
-        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -30,7 +28,6 @@ data class BenhNhan (
         parcel.writeString(HoTen)
         parcel.writeString(SoDienThoai)
         parcel.writeString(Email)
-        parcel.writeString(PassWord)
         parcel.writeInt(Image)
     }
 

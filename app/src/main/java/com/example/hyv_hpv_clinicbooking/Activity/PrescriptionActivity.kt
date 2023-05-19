@@ -5,18 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.PrescriptionAdapter
-import com.example.hyv_hpv_clinicbooking.Data
-import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.Model.CuocHen
-import com.example.hyv_hpv_clinicbooking.Model.KeDon
 import com.example.hyv_hpv_clinicbooking.R
 import kotlinx.serialization.Serializable
 

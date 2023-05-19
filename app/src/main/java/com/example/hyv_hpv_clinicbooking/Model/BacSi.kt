@@ -20,7 +20,6 @@ data class BacSi (
     var Image:Int = R.drawable.avatar,
     var Email: String = "",
     var Mota: String = "",
-    var PassWord: String = "",
     var BiKhoa: Boolean = false,
     var KhungGioLamViec:String = "",
     var Cccd: String = ""
@@ -36,7 +35,6 @@ data class BacSi (
         parcel.readInt()!!,
         parcel.readString()!!,
         parcel.readInt()!!,
-        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readBoolean(),
@@ -57,7 +55,6 @@ data class BacSi (
         parcel.writeInt(Image)
         parcel.writeString(Email)
         parcel.writeString(Mota)
-        parcel.writeString(PassWord)
         parcel.writeBoolean(BiKhoa)
         parcel.writeString(KhungGioLamViec)
         parcel.writeString(Cccd)

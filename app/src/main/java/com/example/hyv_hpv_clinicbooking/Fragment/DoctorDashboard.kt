@@ -56,6 +56,8 @@ class DoctorDashboard : Fragment() {
     var hoTenTaiKhoan: String ?= ""
 
     private var upcomingAppointmentList = ArrayList<UpcomingAppointmentData>()
+    var notificationTextList = arrayListOf<String>()
+    var keyList = arrayListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +70,9 @@ class DoctorDashboard : Fragment() {
     override fun onStart() {
         super.onStart()
         upcomingAppointmentList.clear()
+        notificationTextList.clear()
+        keyList.clear()
+
         val queryBacSiKey = userDB.child("BacSi")
             .orderByChild("email")
             .equalTo(auth.currentUser!!.email)
@@ -91,23 +96,50 @@ class DoctorDashboard : Fragment() {
                             Log.d("Test", " Failed!")
                             userAvatar?.setImageResource(R.drawable.default_avatar)
                         }
-                    val queryThongBaoCount = thongBaoDB.child("BacSi")
-                        .orderByChild("maTaiKhoan")
-                        .equalTo(maTaiKhoan)
-                    queryThongBaoCount.addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            val thongBaoCount = snapshot.childrenCount
-                            if (thongBaoCount == 0.toLong()) {
+
+                    val currentDate = Calendar.getInstance().apply {
+                        time = Date()
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }.time
+
+                    thongBaoDB.child("BacSi").orderByChild("maTaiKhoan").equalTo(maTaiKhoan).addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (snapshot in dataSnapshot.children) {
+                                val key = snapshot.key
+                                val thongBao = snapshot.getValue(ThongBao::class.java)
+                                val myDate =
+                                    SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(thongBao!!.Ngay)
+                                if (myDate.compareTo(currentDate) > 0) {
+                                    val thongBao = snapshot.getValue(ThongBao::class.java)
+                                    val text = "Bệnh nhân ${thongBao!!.TenTaiKhoan} ${thongBao.NoiDung} \nKhung giờ: ${thongBao.GioBatDau} - ${thongBao.GioKetThuc}, ${thongBao.Ngay}"
+                                    notificationTextList.add(text)
+                                    keyList.add(key!!)
+                                } else if (myDate.compareTo(currentDate) == 0) {
+                                    val thongBao = snapshot.getValue(ThongBao::class.java)
+                                    val text = "Bệnh nhân ${thongBao!!.TenTaiKhoan} ${thongBao.NoiDung} \nKhung giờ: ${thongBao.GioBatDau} - ${thongBao.GioKetThuc}, ${thongBao.Ngay}"
+                                    notificationTextList.add(text)
+                                    keyList.add(key!!)
+                                } else {
+                                    deleteNotificationFromRealtimeDB(key!!)
+                                }
+
+                            }
+                            if(notificationTextList.size == 0) {
                                 notificationCounter.visibility = View.GONE
                             }
                             else {
                                 notificationCounter.visibility = View.VISIBLE
-                                notificationCounter.text = thongBaoCount.toString()
+                                notificationCounter.text = notificationTextList.size.toString()
                             }
                         }
-
-                        override fun onCancelled(error: DatabaseError) {}
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Handle errors here
+                        }
                     })
+
                     val queryCuocHen = cuochenDB.orderByChild("maBacSi").equalTo(maTaiKhoan)
                     queryCuocHen.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -178,6 +210,7 @@ class DoctorDashboard : Fragment() {
                         override fun onCancelled(databaseError: DatabaseError) {}
                     })
                 }
+                initListeners()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -187,7 +220,6 @@ class DoctorDashboard : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initWidgets(view)
-        initListeners()
         ctx = view.context
         database = Firebase.database.reference
         auth = FirebaseAuth.getInstance()
@@ -234,75 +266,54 @@ class DoctorDashboard : Fragment() {
         var _clearBTN: Button = view_dialog.findViewById(R.id.clearBTN)
 
         //Goi db de co list chuyenkhoa
-        var notificationTextList = arrayListOf<String>()
-        var keyList = arrayListOf<String>()
 
-        val currentDate = Calendar.getInstance().apply {
-            time = Date()
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.time
+        if(notificationTextList.size == 0) {
+            empty.visibility = View.VISIBLE
+            thongBaoList.visibility = View.GONE
+            _clearBTN.visibility = View.GONE
+            notificationCounter.visibility = View.GONE
+        }
+        else {
+            empty.visibility = View.GONE
+            thongBaoList.visibility = View.VISIBLE
+            _clearBTN.visibility = View.VISIBLE
+            notificationCounter.visibility = View.VISIBLE
+            notificationCounter.text = notificationTextList.size.toString()
 
-        thongBaoDB.child("BacSi").orderByChild("maTaiKhoan").equalTo(maTaiKhoan).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (snapshot in dataSnapshot.children) {
-                    val key = snapshot.key
-                    val thongBao = snapshot.getValue(ThongBao::class.java)
-                    val myDate =
-                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(thongBao!!.Ngay)
-                    if (myDate.compareTo(currentDate) > 0) {
-                        val thongBao = snapshot.getValue(ThongBao::class.java)
-                        val text = "Bệnh nhân ${thongBao!!.TenTaiKhoan} ${thongBao.NoiDung} \nKhung giờ: ${thongBao.GioBatDau} - ${thongBao.GioKetThuc}, ${thongBao.Ngay}"
-                        notificationTextList.add(text)
-                        keyList.add(key!!)
-                    } else if (myDate.compareTo(currentDate) == 0) {
-                        val thongBao = snapshot.getValue(ThongBao::class.java)
-                        val text = "Bệnh nhân ${thongBao!!.TenTaiKhoan} ${thongBao.NoiDung} \nKhung giờ: ${thongBao.GioBatDau} - ${thongBao.GioKetThuc}, ${thongBao.Ngay}"
-                        notificationTextList.add(text)
-                        keyList.add(key!!)
-                    } else {
-                        deleteNotificationFromRealtimeDB(key!!)
-                    }
+            val arrayAdapter: ArrayAdapter<*>
+            arrayAdapter =
+                ArrayAdapter(ctx!!!!, android.R.layout.simple_list_item_1, notificationTextList)
+            thongBaoList.adapter = arrayAdapter
 
-                }
-                if(notificationTextList.size == 0) {
+            thongBaoList.setOnItemClickListener { parent, view, position, id ->
+                deleteNotificationFromRealtimeDB(keyList[position])
+                notificationTextList.removeAt(position)
+                keyList.removeAt(position)
+                arrayAdapter.notifyDataSetChanged()
+                if (notificationTextList.size == 0) {
+                    notificationCounter.visibility = View.GONE
                     empty.visibility = View.VISIBLE
-                    thongBaoList.visibility = View.GONE
                     _clearBTN.visibility = View.GONE
+                    thongBaoList.visibility = View.GONE
+                } else {
+                    notificationCounter.text = notificationTextList.size.toString()
                 }
-                else {
-                    empty.visibility = View.GONE
-                    thongBaoList.visibility = View.VISIBLE
-                    _clearBTN.visibility = View.VISIBLE
-                    val arrayAdapter: ArrayAdapter<*>
-                    arrayAdapter = ArrayAdapter(ctx!!!!, android.R.layout.simple_list_item_1, notificationTextList)
-                    thongBaoList.adapter = arrayAdapter
-
-                    thongBaoList.setOnItemClickListener { parent, view, position, id ->
-                        deleteNotificationFromRealtimeDB(keyList[position])
-                        notificationTextList.removeAt(position)
-                        keyList.removeAt(position)
-                        arrayAdapter.notifyDataSetChanged()
 //                    customDialog?.dismiss()
-                    }
+            }
 
-                    _clearBTN.setOnClickListener {
-                        for (key in keyList) {
-                            deleteNotificationFromRealtimeDB(key)
-                        }
-                        notificationTextList.clear()
-                        keyList.clear()
-                        arrayAdapter.notifyDataSetChanged()
-                        customDialog?.dismiss()
-                    }
+            _clearBTN.setOnClickListener {
+                for (key in keyList) {
+                    deleteNotificationFromRealtimeDB(key)
                 }
+                notificationTextList.clear()
+                notificationCounter.visibility = View.GONE
+                thongBaoList.visibility = View.GONE
+                empty.visibility = View.VISIBLE
+                keyList.clear()
+                arrayAdapter.notifyDataSetChanged()
+                customDialog?.dismiss()
             }
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle errors here
-            }
-        })
+        }
 
         //Xu li nut close
         _closeBTN.setOnClickListener {

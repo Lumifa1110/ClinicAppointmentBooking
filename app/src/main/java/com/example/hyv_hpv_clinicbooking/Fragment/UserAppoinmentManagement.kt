@@ -16,10 +16,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hyv_hpv_clinicbooking.Activity.DoctorPrescriptionPage
 import com.example.hyv_hpv_clinicbooking.Activity.PrescriptionActivity
 import com.example.hyv_hpv_clinicbooking.Adapter.HistoryAppoinmentAdapter
-import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.*
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.auth.FirebaseAuth

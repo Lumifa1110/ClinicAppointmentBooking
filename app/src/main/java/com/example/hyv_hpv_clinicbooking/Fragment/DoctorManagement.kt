@@ -1,21 +1,14 @@
 package com.example.hyv_hpv_clinicbooking.Fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hyv_hpv_clinicbooking.Activity.EditProfilePage
-import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter_Admin
-import com.example.hyv_hpv_clinicbooking.Adapter.PatientListAdapter
-import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.DataSnapshot

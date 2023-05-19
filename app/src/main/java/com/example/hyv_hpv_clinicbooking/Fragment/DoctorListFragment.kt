@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyv_hpv_clinicbooking.Activity.DoctorDetailPage
 import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
-import com.example.hyv_hpv_clinicbooking.Data
 import com.example.hyv_hpv_clinicbooking.Model.BacSi
-import com.example.hyv_hpv_clinicbooking.Model.LichHenKham
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
@@ -106,6 +104,7 @@ class DoctorListFragment : Fragment() {
 
     private fun displayRecyclerView() {
         recyclerView.setHasFixedSize(true)
+        quantityDoctorTV?.setText(mList.size.toString())
         if(mList.size == 0) {
             empty!!.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE

@@ -9,12 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter
-import com.example.hyv_hpv_clinicbooking.Adapter.DoctorListAdapter_Admin
 import com.example.hyv_hpv_clinicbooking.Adapter.PatientListAdapter
-import com.example.hyv_hpv_clinicbooking.Data
-import com.example.hyv_hpv_clinicbooking.Model.BacSi
-import com.example.hyv_hpv_clinicbooking.Model.ChuyenKhoa
 import com.example.hyv_hpv_clinicbooking.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

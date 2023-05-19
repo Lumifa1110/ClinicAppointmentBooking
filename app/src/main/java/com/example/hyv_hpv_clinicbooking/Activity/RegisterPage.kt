@@ -103,7 +103,7 @@ class RegisterPage : AppCompatActivity() {
                                     HoTen = name,
                                     SoDienThoai = phone,
                                     Email = email,
-                                    PassWord = password
+//                                    PassWord = password
                                 )
                                 // update User profile in database
                                 userDB.child(role).child(key).setValue(user).addOnCompleteListener {

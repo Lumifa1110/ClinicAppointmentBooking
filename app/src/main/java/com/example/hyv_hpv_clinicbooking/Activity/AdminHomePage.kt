@@ -25,7 +25,7 @@ class AdminHomePage : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         bottomNavBar = findViewById(R.id.adminNavBar) as BottomNavigationView
-//        supportFragmentManager.beginTransaction().replace(R.id.container, adminDashBoard).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.container, adminDashBoard).commit()
         selectedFragmentTag = intent.getStringExtra("loadfragment")
         when (selectedFragmentTag) {
             "dashboard" -> {

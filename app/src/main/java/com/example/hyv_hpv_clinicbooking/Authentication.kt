@@ -37,7 +37,6 @@ class AuthenticationHelper
                                 HoTen = name,
                                 SoDienThoai = phone,
                                 Email = email,
-                                PassWord = password
                             )
                             // Write User to database
                             userDB.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {
@@ -56,7 +55,6 @@ class AuthenticationHelper
                                 HoTen = name,
                                 SoDienThoai = phone,
                                 Email = email,
-                                PassWord = password
                             )
                             // Write User to database
                             userDB.child(role).child(auth.currentUser!!.uid).setValue(user).addOnCompleteListener {

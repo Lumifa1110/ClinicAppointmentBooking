@@ -274,7 +274,7 @@ class RegisterDoctorPage : AppCompatActivity() {
                                         // create User
                                         val bacSi: BacSi = BacSi(
                                             "", chuyenKhoa, 0, soNamTrongNghe!!.toInt(), name,
-                                            phone, 0, address, 0, email, "", password,
+                                            phone, 0, address, 0, email, "",
                                             false, "4 Giờ - 16 Giờ", cccd
                                         )
 

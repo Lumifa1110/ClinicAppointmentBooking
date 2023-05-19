@@ -139,8 +139,8 @@ class DoctorPrescriptionInforPage : AppCompatActivity() {
         }
         backBTN.setOnClickListener {
             // Move to Login page
-            val intent = Intent(this, DoctorPrescriptionPage::class.java)
-            startActivity(intent)
+            val replyIntent = Intent()
+            setResult(Activity.RESULT_CANCELED, replyIntent)
             finish()
         }
     }
